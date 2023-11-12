@@ -1,0 +1,11 @@
+{
+    "User": true,
+    "Settings": true,
+    "Employee": true,
+    "Dashboards": true,
+    "Inventory": true,
+    "Contact": true,
+    "Sales": true,
+    "Invoicing": true,
+    "Accounting": true
+}

@@ -1,0 +1,23 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@popperjs/core": "^2.11.6",
+        "autoprefixer": "^9.8.8",
+        "axios": "^1.1.2",
+        "bootstrap": "^5.3.1",
+        "laravel-vite-plugin": "^0.8.0",
+        "postcss": "^7.0.39",
+        "sass": "^1.56.1",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
+        "vite": "^4.4.9"
+    },
+    "dependencies": {
+        "bootstrap-icons": "^1.10.5",
+        "yarn": "^1.22.19"
+    }
+}

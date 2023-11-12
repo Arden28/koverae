@@ -1,0 +1,1125 @@
+
+        /* User avatar */
+        .k-user-avatar{
+            background-image: url('../images/people/person_2.png');
+        }
+
+        /**
+            Breadcumb
+        **/
+        .k_control_panel_main{
+            font-size: 14px;
+            line-height: 17px;
+            text-decoration: none solid rgb(55, 65, 81);
+            word-spacing: 0px;
+            height: 34px;
+            width: auto;
+            min-width: auto;
+            /* background-color: #ffffff; */
+            margin: 8px 16px 16px 16px;
+            /* border: 1px solid #DAD8DD; */
+        }
+        /* .k_form_button_create{
+            padding: -5px -10px -5px -10px;
+            margin: 5px 10px 5px 10px;
+            min-height: auto;
+            min-width: auto;
+        } */
+        .k_control_panel_main .k_control_panel_breadcumbs{
+            width: 400px;
+            min-height: auto;
+            min-width: 200;
+        }
+        .k_control_panel_breadcumbs .breadcumb{
+            font-size: 14px;
+            line-height: 21px;
+            font-weight: 600;
+            display: flex;
+            margin: 0 0 0 10px ;
+        }
+        .breadcumb a{
+            text-decoration: none;
+        }
+        .k_control_panel_breadcumbs .bread{
+            width: 118px;
+            margin: 0 -10px 0 0;
+        }
+        .k_searchview{
+            height: 34px;
+            width: 383px;
+            /* text-align: center; */
+            min-height: auto;
+            border-top: 1px solid #DAD8DD;
+            border-bottom: 1px solid #DAD8DD;
+            border-left: 1px solid #DAD8DD;
+            padding: 4px 10px 4px 10px;
+            position: relative;
+        }
+
+        .k_searchview .k_searchview_dropdown_toggle{
+            background-color: #E7E9ED;
+            height: 34px;
+            width: 38px;
+            border: 1px solid #DAD8DD;
+            text-align: right;
+            padding: 10px 10px 5px 10px;
+        }
+
+        .k_control_panel_navigation{
+            height: 32px;
+            width: 400px;
+            min-width: auto;
+            display: flex;
+        }
+
+        .k_control_panel_navigation .k_pager{
+            white-space: nowrap;
+            width: 128px;
+            min-width: auto;
+            min-height: auto;
+        }
+
+        .k_pager .btn-group{
+            height: 32px;
+            width: 63px;
+            min-height: auto;
+            min-width: auto;
+            white-space: nowrap;
+        }
+        /* .k_pager .btn-group button{
+            width: 45%;
+        } */
+
+        .k_control_panel_navigation .k_cp_switch_buttons{
+            white-space: nowrap;
+            /* width: 128px; */
+            min-width: auto;
+            min-height: auto;
+        }
+        .k_cp_switch_buttons .k-paginate-arrow{
+            height: 32px;
+            width: 35px;
+            border: 1px solid #DAD8DD;
+            margin: 0 0 0 1px;
+            padding: 5px 10px 5px 10px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .k_cp_switch_buttons .k_switch_view{
+            height: 32px;
+            width: 35px;
+            border: 1px solid #DAD8DD;
+            margin: 0 0 0 1px;
+            padding: 5px 10px 5px 10px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .k_cp_switch_buttons .k_switch_view.active{
+            background-color: #3d6a6b;
+        }
+
+        /* INPUT */
+
+        /* Select Auto-completion */
+        .k_select::before{
+            content: '\25BC'; /* Unicode character for a down arrow (▼) */
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+/* Settings */
+        /* Input */
+        .k_input{
+            font-size: 14px;
+            line-height: 21px;
+            text-decoration: none solid rgb(0, 0, 0);
+            white-space: nowrap;
+            word-spacing: 0px;
+            height: 23px;
+            width: 330px;
+            border-top: 0px solid #CCCCCC;
+            border-bottom: 0px solid #CCCCCC;
+            border-right: 0px solid #CCCCCC;
+            border-left: 0px solid #CCCCCC;
+            /* margin: 8px 0 0 0; */
+            padding: 1px 0 0 0;
+            min-width: auto;
+            min-height: auto;
+        }
+        .textearea{
+            height: 185px;
+            min-height: 150px;
+            resize: none;
+            white-space:pre-wrap;
+            display: inline-flex;
+        }
+        .k-autocomplete-input{
+            padding: 1px 10px 0 0;
+        }
+        @media screen and (max-width: 760)  {
+            .k_input{
+                border-bottom: 0px solid #CCCCCC;
+            }
+            .k_input:hover{
+                outline: none;
+            }
+        }
+        .k_input:hover{
+          outline: none;
+          border-bottom: 1px solid #CCCCCC;
+        }
+        .k_input:focus{
+          outline: none;
+          border-bottom: 1px solid #CCCCCC;
+        }
+
+        /* Search Input */
+        .k_searchview_input{
+            font-size: 14px;
+            line-height: 21px;
+            text-decoration: none solid rgb(0, 0, 0);
+            white-space: nowrap;
+            word-spacing: 0px;
+            height:25px;
+            width: 310px;
+            border-top: 0px solid #CCCCCC;
+            border-bottom: 0px solid #CCCCCC;
+            border-right: 0px solid #CCCCCC;
+            border-left: 0px solid #CCCCCC;
+            color: #374151;
+            /* margin: 8px 0 0 0; */
+            padding: 1px 2px 1px 2px;
+            min-width: auto;
+            min-height: auto;
+            display: block;
+        }
+        .k_searchview_input:hover{
+          outline: none;
+        }
+        .k_searchview_input:focus{
+          outline: none;
+        }
+        .settings_box{
+            font-size: 14.5px;
+            line-height: 21px;
+            text-decoration: none solid rgb(55, 65, 81);
+            word-spacing: 0px;
+            margin: 0 0 20px 0;
+        }
+        .k_setting_box {
+            width: 472px;
+            margin: 8px 0 8px 0;
+            padding: 0 16px 0 16px;
+            min-height: auto;
+            min-width: auto;
+            max-width: 100%;
+            position: relative;
+        }
+        .k_setting_box .k_setting_left_pane{
+            float: left;
+            display: block;
+            height: 28px;
+            width: 24px;
+        }
+        .k_setting_left_pane .k_field_widget{
+            height: 23px;
+            width: 21px;
+            margin: 0 0 5px 0;
+            display: inline-block;
+        }
+        .k_setting_left_pane .k_field_widget .k-checkbox{
+            height: 21px;
+            width: 21px;
+            margin: 0 0 2px 0;
+            padding: 0 0 0 21px;
+            min-height: 21px;
+        }
+        .k-checkbox input{
+            margin: 4px 00 -21px;
+        }
+        .k_setting_box .k_setting_right_pane{
+            width: 416px;
+            border-left: 1px solid #D8DADD;
+            margin: 0 0 0 24px;
+            padding: 0 0 0 11px;
+            display: block;
+        }
+        .k_setting_right_pane .mt16{
+            width: 404px;
+            margin: 16px 0 0 0;
+        }
+        .module-nav{
+            width: 80%;
+            overflow-y: auto;
+        }
+
+        /* Optional: Adjust other styles as needed */
+        .module-nav ul {
+            padding: 0;
+            list-style: none;
+            white-space: nowrap; /* Prevent line breaks */
+        }
+
+        .module-nav li {
+            display: inline-block;
+            margin-right: 5px; /* Add margin between items */
+        }
+        /* Width and color of the scrollbar track */
+        .module-nav::-webkit-scrollbar {
+            width: 5px;
+            height: 2px;
+        }
+
+        .module-nav::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        /* Color of the scrollbar thumb (the draggable part) */
+        .module-nav::-webkit-scrollbar-thumb {
+            background-color: #e7e7e7;
+            border-radius: 10px;
+        }
+
+        /* On hover, make the scrollbar thumb darker */
+        .module-nav::-webkit-scrollbar-thumb:hover {
+            background-color: #c7c7c7;
+        }
+
+        /* Employee Detail */
+        .k_form_sheet_bg{
+            font-size: 14px;
+            line-height: 21px;
+            text-decoration: none solid rgb(55, 65, 81);
+            word-spacing: 0px;
+            padding: 16px 16px 16px 16px;
+            max-height: auto;
+            min-height: auto;
+        }
+        @media(max-width: 760px){
+            .k_form_sheet_bg{
+                border: 0px solid #ffffff;
+                margin: -16px -16px -16px -16px;
+            }
+        }
+        .k_form_sheet{
+            background-color: #ffffff;
+            background-position: 0% 0%;
+            color: black;
+            max-height: auto;
+            max-width: auto;
+            min-width: auto;
+            border: 1px solid #D8DADD;
+            /* padding: 20px 20px 20px 20px; */
+            padding: 24px 24px 24px 24px;
+            position: relative;
+        }
+
+        /* Ribbon */
+        .k-folded-ribbon {
+            height: 50px;
+            --f: 5px; /* control the folded part*/
+            --r: 25px; /* control the ribbon shape */
+            --t: 35px; /* the top offset */
+
+            position: absolute;
+            inset: var(--t) calc(-1*var(--f)) auto auto;
+            padding: 10px 10px var(--f) calc(10px + var(--r));
+            clip-path:
+            polygon(0 0,100% 0,100% calc(100% - var(--f)),calc(100% - var(--f)) 100%,
+                calc(100% - var(--f)) calc(100% - var(--f)),0 calc(100% - var(--f)),
+                var(--r) calc(50% - var(--f)/2));
+            background: #4BB543; /* #4BB543: success #FF7F50: pending */
+            box-shadow: 0 calc(-1*var(--f)) 0 inset #0005;
+        }
+        .k-folded-ribbon.success{
+            background: #4BB543; /* #4BB543: success #FF7F50: pending */
+        }
+
+        .k-folded-ribbon.pending{
+            background: #FF7F50; /* #4BB543: success #FF7F50: pending */
+        }
+
+        .k-folded-ribbon .word{
+            font-size: 24px;
+            color: white;
+            padding: 0 10px 10px 0;
+        }
+
+
+
+
+        @media(max-width: 760px){
+            .k_form_sheet{
+                border: 0px solid #D8DADD;
+                padding: 10px -24px -24px 10px;
+            }
+        }
+        .k_form_statbar{
+            background-color: #f1f5f9;
+            /* margin: 0 0 8px 0; */
+            position: relative;
+   flex-wrap: wrap;
+   justify-content: center;
+   align-items: center;
+        }
+        .k_form_statsbar{
+            margin: 0 auto;
+            background-color: #f1f5f9;
+            position: relative;
+        }
+        .k_statsbar_buttons{
+            width: 50%; /* Can be in percentage also. */
+            height: 31px;
+            min-width: auto;
+            min-height: auto;
+            margin: 0 auto;
+            position: relative;
+        }
+        .ke_stat_button{
+            height: 33px;
+            width: 105px;
+            min-height: auto;
+            min-width: 105px;
+            width: auto;
+            padding: 0 0 0 10px;
+            background-color: #E7E9ED;
+        }
+        @media (max-width: 1092px) {
+            #employee{
+                display: none;
+            }
+            .employee{
+                display: flex;
+            }
+        }
+        @media (max-width: 873px) {
+            #purchase{
+                display: none;
+            }
+            .purchase{
+                display: flex;
+            }
+        }
+        .ke_stat_button.list{
+            background-color: #fff;
+            cursor: pointer;
+            /* padding: 5px 0 5px 0; */
+            margin-top: 5px;
+        }
+        .ke_stat_button.list:hover{
+            background-color: #E7E9ED;
+        }
+
+
+        .ke_stat_button .k_button_icon{
+            font-size: 21px;
+            line-height: 21px;
+            height: 27px;
+            width: 27px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .ke_stat_button .k_stat_text{
+            font-size: 12px;
+            line-height: 15px;
+            text-align: left;
+            vertical-align: top;
+            white-space: nowrap;
+            height: 15px;
+            width: 49px;
+            min-height: auto;
+            min-width: 100%;
+        }
+        .ke_stat_button .k_stat_info{
+            font-size: 12px;
+            line-height: 12px;
+            text-align: left;
+            height: 12px;
+            width: 49px;
+            min-height: auto;
+            /* min-width: 100%; */
+            display: flex;
+        }
+
+        .k_form_statusbar{
+            background-color: #f1f5f9;
+            margin: 0 0 8px 0;
+            position: relative;
+        }
+        .k_statusbar_buttons{
+            height: 31px;
+            min-width: auto;
+            min-height: auto;
+        }
+        .k_statusbar_buttons .btn-group {
+            display: none; /* Hide the div on desktop */
+        }
+        .k_statusbar_buttons button{
+            background-color: #D8DADD;
+            color: #1F2937;
+            padding: 5px 10px 5px 10px;
+        }
+        .k_statusbar_buttons button.primary{
+            background-color: #000;
+            color: #D8DADD;
+        }
+
+        .k_statusbar_buttons_arrow{
+            height: 31px;
+            min-width: auto;
+            min-height: auto;
+        }
+        .k_statusbar_buttons_arrow .k_arrow_button{
+            background-color: #E7E9ED;
+            height: 32px;
+            /* width: 77px; */
+            border: 1px solid #E7E9ED;
+            padding: 5px 10px 5px 21px;
+            min-height: auto;
+            min-width: auto;
+            max-width: auto;
+        }
+        .k_statusbar_buttons_arrow .k_arrow_button.current{
+            background-color: #d7f3f5;
+            height: 32px;
+            /* width: 77px; */
+            border: 1px solid #017E84;
+            padding: 5px 10px 5px 16px;
+        }
+
+        .k_employee_avatar{
+            height: 128px;
+            width: 90px;
+            min-height: auto;
+            max-width: 100%;
+            min-width: auto;
+            position: relative;
+            top: 0px;
+            bottom: 0px;
+            right: 0px;
+            float: right;
+        }
+        .k_employee_avatar img{
+            height: 90px;
+            width: 90px;
+            border: 1px solid #D8DADD;
+            max-height: 90px;
+            max-width: 90px;
+            display: inline;
+        }
+        .select-file{
+            height: 34px;
+            width: 90px;
+            top: 56px;
+            display: flex;
+            visibility: hidden;
+        }
+        .k_employee_avatar:hover .select-file {
+            /* Make it visible or opaque on hover */
+            visibility: visible;
+            /* opacity: 1; */
+        }
+        .k_select_file_button{
+            background-color: #E7E9ED;
+            height: 26px;
+            width: 26px;
+            margin: 4px 4px 4px 4px;
+            padding: 4px 4px 4px 4px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .k_select_file_button:hover{
+            background-color: #D8DADD;
+        }
+        /* Radio list invoice */
+        .radio-horizontal-list{
+            padding: 0 0 10px 0;
+        }
+        /* Horizontal asset */
+        .k_horizontal_asset{
+            height: 23px;
+            width: auto;
+            min-width: 300px;
+            min-height: auto;
+            min-width: auto;
+            display: flex;
+        }
+        .k_horizontal_asset .k_radio_item{
+            height: 21px;
+            width: auto;
+            min-width: 81px;
+            margin: 0 10px 2px 0;
+            padding: 0 0 0 22px;
+            min-height: 21px;
+            min-width: auto;
+        }
+        .form-check i{
+            height: 14px;
+            width: 14px;
+            margin: 4px 0 0 -21px;
+            cursor: pointer;
+        }
+        .form-check .k_horizontal_span{
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 21px;
+            cursor: pointer;
+        }
+        /* Contact */
+        .k_horizontal{
+            height: 23px;
+            width: 185px;
+            min-height: auto;
+            min-width: auto;
+            display: flex;
+        }
+        .k_horizontal .k_radio_item{
+            height: 21px;
+            width: 81px;
+            margin: 0 10px 2px 0;
+            padding: 0 0 0 22px;
+            min-height: 21px;
+            min-width: auto;
+        }
+        .k_radio_item .k_radio_input{
+            height: 14px;
+            width: 14px;
+            margin: 4px 0 0 -21px;
+            cursor: pointer;
+        }
+        .k_radio_item .k_form_label{
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 21px;
+            cursor: pointer;
+        }
+
+        /* Special */
+
+        .ke_title{
+            padding: 0 8px 0 0;
+            min-height: auto;
+            max-width: 75%;
+            min-width: auto;
+        }
+        #new-title{
+            font-size: 35px;
+            line-height: 38px;
+            font-weight: 500;
+            height: 52px;
+            width: 100%;
+            max-width: 100%;
+        }
+        /* Update icone */
+        #new-title button{
+            padding: 8px 8px 8px 8px;
+            /* max-height: 22px; */
+            /* width: 100%; */
+        }
+        #new-title button i{
+            font-size: 14px;
+            height: 20px;
+            width: 15px;
+        }
+        @media(max-width: 560px){
+            #new-title{
+                font-size: 28px;
+                line-height: 31px;
+                height: 39px;
+            }
+        }
+        #name_k{
+            font-size: 33px;
+            line-height: 38px;
+            height: 52px;
+            width: 100%;
+            max-width: 100%;
+            color: #111827;
+            padding: 1px 0 1px 0;
+        }
+        #job_title{
+            font-size: 18px;
+            line-height: 21px;
+            height: 32px;
+            padding: 1px 0 1px 0;
+        }
+        @media(max-width: 700px){
+            #name_k{
+                font-size: 31px;
+                line-height: 39px;
+                height: 42px;
+            }
+            #job_title{
+                font-size: 17px;
+                line-height: 24px;
+                height: 27px;
+            }
+        }
+        @media(max-width: 490px){
+            .k_form_sheet{
+                padding: 16px 16px 16px 16px;
+                margin: -16px -16px -16px -16px;
+            }
+            .k_statusbar_buttons #top-button {
+                display: none; /* Hide the buttons on mobile */
+            }
+            .k_statusbar_buttons .btn-group {
+                display: block;
+                padding: 0 19px 19px 0;
+                margin: 5px 0 0 0;
+            }
+            .ke_title{
+                width: 60%;
+            }
+            #name_k{
+                font-size: 21px;
+                line-height: 29px;
+                height: 32px;
+            }
+            #job_title{
+                font-size: 17px;
+                line-height: 24px;
+                height: 27px;
+            }
+            .k_notebokk_headers{
+                width: 100%;
+                overflow-x: auto;
+            }
+            .k_notebokk_headers .nav .nav-link{
+                font-size: 12px;
+                line-height: 18px;
+            }
+        }
+
+        /* Kanban View */
+        .k_kanban_view{
+            min-width: auto;
+            min-height: auto;
+            display: block;
+        }
+        .k_kanban_view .k_x2m_control_panel{
+            height: 32px;
+            max-width: auto;
+            min-height: auto;
+            min-width: auto;
+            margin: 0 0 24px 0;
+            display: flex;
+        }
+        .k_kanban_view .k_kanban_renderer{
+            height: 95px;
+            min-width: auto;
+            border-top: 1px solid #ffffff;
+            min-height: 100%;
+            display: flex;
+
+        }
+        .k_kanban_renderer .k_kanban_card{
+            height: 81px;
+            width: 380px;
+            border: 1px solid #D8DADD;
+            padding: 8px 8px 8px 8px;
+            margin-right: 5px;
+            min-height: auto;
+            min-width: auto;
+            cursor: pointer;
+        }
+        .k_kanban_card .k_kanban_card_content{
+            height: 31px;
+            width: 372px;
+            display: flex;
+        }
+        .k_kanban_card_content .k_kanban_image{
+            height: 64px;
+            width: 64px;
+            position: relative;
+        }
+        .k_kanban_card_content .k_kanban_details{
+            height: 64px;
+            width: 291px;
+            margin: 0 0 0 16px;
+            min-height: auto;
+        }
+        .k_kanban_details .k_kanban_record_title{
+            font-size: 16px;
+            line-height: 23px;
+            height: 23px;
+            min-height: auto;
+            min-width: auto;
+            display: block;
+        }
+        @media (max-width: 760px) {
+            .k_kanban_view .k_x2m_control_panel button{
+                width: 100%;
+                padding: 5px 10px 5px 10px;
+            }
+            .k_kanban_renderer .k_kanban_card{
+                padding: 8px 16px 8px 16px;
+                width: 100%;
+            }
+        }
+        @media only screen and (max-device-width: 851px) {
+            .k_kanban_renderer .k_kanban_card{
+                padding: 8px 16px 8px 16px;
+                margin: 0 0 5px 0;
+                width: 100%;
+            }
+        }
+
+        .k_inner_group{
+            margin: 0 0 8px 0;
+            /* padding: 0 16px 0 16px; */
+            min-height: auto;
+            max-width: 100%;
+            min-height: auto;
+            max-height: auto;
+        }
+        .k_group{
+            margin: 0 -16px 0 -16px;
+            display: flex;
+            clear: both;
+        }
+        .k_row_readonly{
+            height: 28px;
+            width: 512px;
+            margin: 0 -2px 0 -2px;
+            min-width: 50px;
+            display: flex;
+        }
+
+        .k_wrap_label{
+            height: 28px;
+            width: 115px;
+            min-height: auto;
+            min-width: auto;
+            max-width: auto;
+            display: block;
+        }
+        .k_form_label{
+            font-weight: 500;
+
+        }
+        .k_wrap_input{
+            height: 28px;
+            /* width: 512px; */
+            margin: -1px 0 0 0;
+            min-height: auto;
+            min-width: auto;
+            display: flex;
+            /* margin: 8px 0 0 0; */
+        }
+        .k_wrap_input .k_input{
+            width: 100%;
+            /* padding: 1px 0 1px 0; */
+        }
+        /* TABS */
+        .k_notebokk_headers{
+            height: 38px;
+            width: 100%;
+            margin: 0 -24px 0 -24px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .k_notebokk_headers .nav{
+            border-bottom: 1px solid #D8DADD;
+            padding: 0 24px 0 24px;
+        }
+        .k_notebokk_headers .nav .nav-item{
+            width: auto;
+        }
+        .k_notebokk_headers .nav .nav-link{
+            border: 1px solid #D8DADD;
+        }
+        .k_notebokk_headers .nav .active{
+            background-color: #ffffff;
+            border-left: 1px solid #111827;
+            border-top: 1px solid #01eeffb0;
+            border-bottom: 1px solid #ffffff;
+            border-right: 1px solid #D8DADD;
+            margin: 0 0 -1px 0;
+            padding: 8px 16px 8px 16px;
+        }
+        .tab-pane {
+            display: none;
+            padding: 16px 0 16px 0;
+            height: auto;
+            min-height: 185px;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        .k_horizontal_separator{
+            font-size: 14px;
+            line-height: 21px;
+            font-weight: 700;
+            margin: 24px 0 16px 0;
+            border-bottom: 1px solid #D8DADD;
+        }
+        .k_field_work_permit_upload{
+            height: 23px;
+            margin: 0 0 5px 0;
+            display: inline-block;
+        }
+        .k_field_work_permit_upload .k_select_field_button{
+            height: 22px;
+            padding: 0 10px 0 10px;
+        }
+        .k_row button:focus{
+            outline: none;
+        }
+
+    /* TABLE */
+    .k_field_list_row{
+        border-bottom: 1px solid #D8DADD;
+    }
+    .k_field_list .k_input{
+        width: 100%;
+    }.container {
+        position: relative;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+      }
+
+      #searchResults {
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ccc;
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      #searchResults ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      #searchResults ul li {
+        padding: 10px;
+        cursor: pointer;
+      }
+
+      #searchResults ul li:hover {
+        background-color: #f0f0f0;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+    .k_input_searchbox{
+        width: 100%;
+        height: 100px;
+        background-color: #f1f5f9;
+        margin: 5px 0 0 0;
+        display: flex;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+
+    }
+    .k_input:hover .k_input_searchbox{
+        display: flex;
+    }
+
+    #note_0{
+        height: 90px;
+        width: 800px;
+        min-width: auto;
+        min-height: auto;
+        padding: 4px 40px 4px 40px;
+    }
+
+    .k_subtotal_footer{
+        height: 37px;
+        width: 130px;
+        border-top: 1px solid #D8DADD;
+        margin: 15px 0 8px 274px;
+        padding: 0 16px 0 16px;
+        min-height: auto;
+        max-width: 100%;
+        min-width: auto;
+    }
+
+    /* AUTH PAGE */
+
+        /* Auth */
+        .page-content{
+            font-size: 14px;
+            line-height: 22px;
+            text-decoration: none solid rgb(52, 58, 64);
+            word-spacing: 0px;
+            background-attachment: fixed;
+            background-image: url('../images/background/bg-3.jpg');
+            background-repeat: no-repeat;
+            height: 100%;
+            /* width: auto; */
+            /* min-height: 642px; */
+            min-width: auto;
+        }
+
+        .k_website_login{
+            height: 512px;
+            width: 350px;
+            border: 1px solid #ffffff;
+            margin: 48px 457px 0 457px;
+            padding: 0 0 10px 0;
+            min-height: auto;
+            max-width: 350px;
+        }
+
+        .k_website_login .k_logo{
+            /* background-color: #ffffff; */
+            background-image: url('../images/logo/logo-1.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 50px;
+            width: 100px;
+            margin: 24px 127px 0 127px;
+            min-height: auto;
+            min-width: auto;
+            position: relative;
+        }
+
+        .k_website_login .card-body{
+            /* height: 451px; */
+            width: 348px;
+            padding: 15px 15px 15px 15px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .k-alert{
+            font-size: 12px;
+            line-height: 19px;
+            text-decoration: none solid rgb(14, 97, 110);
+            text-align: center;
+            word-spacing: 0px;
+            background-color: #D1ECF1;
+            color: #0E6163;
+            height: 87px;
+            width: 318.667px;
+            border: 1px solid #B9E3EA;
+            margin: 0 0 16px 0;
+            padding: 16px 16px 16px 16px;
+            position: relative;
+        }
+
+        .k_login_form{
+            height: 314px;
+            width: 318px;
+            border-top: 1px solid #E9ECEF;
+            margin: 15px 0 0 0;
+            padding: 10px 0 0 0;
+            max-width: 400px;
+        }
+
+        .k_login_form .field-login{
+            height: 66px;
+            width: 318px;
+            margin: 0 0 16px 0;
+        }
+
+        .k_login_form .field-password{
+            height: 88px;
+            width: 318px;
+            padding: 8px 0 8px 0;
+            display: block;
+        }
+
+        .field-password #password{
+            /* width: 280px; */
+            padding: 6px 12px 6px 12px;
+            min-height: auto;
+            position: relative;
+        }
+
+        .field-password .btn{
+            height: 34px;
+            width: 39px;
+            margin: 0 0 0 -1px;
+            padding: 6px 12px 6px 12px;
+            background-color: #B9E3EA;
+            min-height: auto;
+            min-width: auto;
+        }
+        .k_login_buttons {
+            height: 132px;
+            width: 318px;
+            margin: 0 0 4px 0;
+            padding: 16px 0 0 0;
+            display: flex; /* Use flex display */
+            justify-content: space-between; /* Align items to the left and right */
+            align-items: center; /* Vertically center items */
+        }
+
+        .k_login_buttons .btn {
+            height: 34px;
+            width: 318px;
+            margin: 5px 0 0 0;
+            padding: 6px 12px 6px 12px;
+            min-height: auto;
+            min-width: auto;
+            display: block;
+            z-index: 1;
+        }
+
+        .links-container {
+            display: flex; /* Use flex display */
+            justify-content: space-between; /* Align items to the left and right */
+        }
+
+        .k_login_buttons .login-link,
+        .k_login_buttons .reset-link {
+            font-weight: 600;
+            text-decoration: none solid rgb(0, 54, 56);
+            text-align: center;
+            height: 42px;
+            width: 152px;
+            margin: 10px 0 0 0;
+            min-height: auto;
+            cursor: pointer;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1270px) {
+            /* Adjust the max-width and other values as needed */
+
+            .k_website_login {
+                width: 80%; /* Make the container width responsive */
+                margin: 48px auto 0 auto; /* Center the container horizontally */
+            }
+
+            .k_login_form,
+            .card-body {
+                width: 100%; /* Make form and card body width responsive */
+            }
+
+            .k_logo {
+                margin: 24px auto 0 auto; /* Center the logo */
+            }
+
+            /* Adjust other styles as needed for responsiveness */
+
+            .k_login_buttons .btn {
+                width: 100%; /* Make button width responsive */
+            }
+
+            .k_login_buttons .login-link,
+            .k_login_buttons .reset-link {
+                width: 90%; /* Make link width responsive */
+                margin: 10px 0; /* Adjust margin for spacing */
+            }
+        }
+        /* For Tablet */
+
+    /*********
+    MAIN PAGE
+    *********/
+
