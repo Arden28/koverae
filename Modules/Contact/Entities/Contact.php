@@ -3,6 +3,7 @@
 namespace Modules\Contact\Entities;
 
 use App\Models\Company\Company;
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,9 +13,17 @@ use Modules\Contact\Entities\Localization\Country;
 
 class Contact extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $guarded = [];
+
+    /* --- Searchable field --- */
+
+    protected $searchable = [
+        'name',
+        'email',
+        'phone',
+    ];
 
     /**
      * The attributes that should be casted to native types.

@@ -64,6 +64,59 @@
             text-align: right;
             padding: 10px 10px 5px 10px;
         }
+        /* Checked Actions */
+        .k_control_panel_main .k-action-bar{
+            height: 34px;
+            width: 482px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .k_control_panel_main .k-action-bar .list-group-item{
+            font-size: 14px;
+            line-height: 14px;
+            text-decoration: none solid rgb(1, 126, 132);
+            background-color: #B9E3EA;
+            height: 32px;
+            width: 148px;
+            border: 1px solid #017E84;
+            padding: 0 0 0 16px;
+            min-height: auto;
+            min-width: auto;
+            position: relative;
+        }
+        .k-action-bar .k_list_unselect_all{
+            height: 22px;
+            width: 32px;
+            border: 0px solid #fff;
+            padding: 0 10px 0 10px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .k-action-bar .k_list_unselect_all i{
+            font-size: 14px;
+            line-height: 21px;
+            font-weight: 500;
+            text-align: center;
+            vertical-align: middle;
+            word-spacing: 0px;
+        }
+        .k-action-bar .dropdown .btn-secondary{
+            font-size: 14px;
+            line-height: 21px;
+            font-weight: 500;
+            text-align: center;
+            vertical-align: middle;
+            word-spacing: 0px;
+            background-color: #8b8d8f;
+            height: 32px;
+            width: 140px;
+            border: 1px solid #D8DADD;
+            padding: 5px 10px 5px 10px;
+            min-height: auto;
+            min-width: auto;
+
+        }
+
 
         .k_control_panel_navigation{
             height: 32px;
@@ -130,6 +183,18 @@
             pointer-events: none;
         }
 /* Settings */
+
+        .cart_qty_btn{
+            font-size: 14px;
+            line-height: 21px;
+            text-decoration: none solid rgb(0, 0, 0);
+            white-space: nowrap;
+            word-spacing: 0px;
+            height: 23px;
+            height: 23px;
+            background-color: #3d6a6b;
+            /* color: #3d6a6b; */
+        }
         /* Input */
         .k_input{
             font-size: 14px;
@@ -151,10 +216,21 @@
         .textearea{
             height: 185px;
             min-height: 150px;
+            max-height: auto;
             resize: none;
             white-space:pre-wrap;
             display: inline-flex;
         }
+        #term{
+            height: 65px;
+            min-height: 40px;
+            max-height: auto;
+            margin: 0 0 0 16px;
+        }
+        #reminder_date_before_receipt_0{
+            width: 140px;
+        }
+
         .k-autocomplete-input{
             padding: 1px 10px 0 0;
         }
@@ -201,6 +277,8 @@
         .k_searchview_input:focus{
           outline: none;
         }
+        /* Checked actions */
+
         .settings_box{
             font-size: 14.5px;
             line-height: 21px;
@@ -287,6 +365,277 @@
         .module-nav::-webkit-scrollbar-thumb:hover {
             background-color: #c7c7c7;
         }
+
+        .k-row{
+            font-size: 14px;
+            line-height: 21px;
+            text-decoration: none solid rgb(55, 65, 81);
+            word-spacing: 0px;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+        }
+        .settings_tab{
+            background-color: #F9FAFB;
+            height: 100%;
+            width: 15%;
+            min-height: auto;
+            min-width: auto;
+            /* margin: 0 0 0 10px; */
+            position: relative;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            display: block;
+            border-right: 1px solid #D8DADD;
+            /* Hide the scrollbar for this section */
+            overflow: hidden;
+            position: sticky;
+        }
+        .settings_tab .tab{
+            /* font-size: 21px; */
+            line-height: 40px;
+            text-decoration: none solid rgb(17, 24, 39);
+            white-space: nowrap;
+            height: 40px;
+            width: 100%;
+            min-height: auto;
+            min-width: auto;
+            /* max-width: 100%; */
+            padding: 0 32px 0 16px;
+            display: flex;
+        }
+        .settings_tab .tab.selected{
+            background-color: #E6F2F3;
+            border-left: 2px solid #017E84;
+        }
+        .settings_tab .tab .icon{
+            /* background-image: url('assets/images/apps/pos.png'); */
+            height: 40px;
+            width: 23px;
+            margin: 0 10px 0 0;
+            padding: 5px 0 5px 0;
+            min-height: auto;
+            min-width: 23px;
+            display: block;
+        }
+        .settings_tab .tab .icon img{
+            height: 23px;
+            width: 23px;
+        }
+        .settings_tab .tab .app_name{
+            font-size: 13px;
+            line-height: 40px;
+            height: 40px;
+            /* width: 95px; */
+            min-height: auto;
+            min-width: auto;
+            display: block;
+        }
+
+        .settings{
+            background-color: #fff;
+            height: 100%;
+            width: 100%;
+            min-height: auto;
+            min-width: auto;
+            /* margin: 0 0 0 10px; */
+            position: relative;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            display: block;
+            /* Enable vertical scrolling for this section */
+            overflow-y: auto;
+        }
+        .settings .app_settings_block{
+            display: block;
+        }
+        .app_settings_block .setting_block{
+            min-height: auto;
+            min-width: auto;
+        }
+        .setting_block h2{
+            background-color: #E7E9ED;
+            font-size: 15px;
+            line-height: 18px;
+            font-weight: 500;
+            height: 40px;
+            padding: 11px 16px 1px 32px;
+            display: block;
+        }
+        .setting_block .k_settings_container{
+            height: auto;
+            max-width: 992px;
+            margin: 16px 0 24px 0;
+            padding: 0 16px 0 32px;
+            display: flex;
+        }
+        .k_settings_container .k_settings_box{
+            height: auto;
+            width: 472px;
+            margin: 8px 0 8px 0;
+            padding: 0 16px 0 16px;
+            min-height: auto;
+            max-width: 100%;
+            min-width: auto;
+            position: relative;
+        }
+        .k_settings_box .k_setting_right_pane{
+            height: auto;
+            width: 416px;
+            border-left: 1px solid #D8DADD;
+            margin: 0 0 0 24px;
+            padding: 0 0 0 12px;
+            display: block;
+        }
+        .k_setting_right_pane a{
+            text-decoration: none solid #e0eaeb;
+            color: #017E84;
+        }
+        .k_setting_right_pane a:hover{
+            text-decoration: none solid #e0eaeb;
+            color: #017E84;
+        }
+        /* Tags */
+        .k_web_settings_users{
+            font-size: 13.3px;
+            font-weight: 500;
+            line-height: 14.63px;
+            text-align: center;
+            white-space: nowrap;
+            word-spacing: 0px;
+            background-color: #fff;
+            color: #036d73;
+            border: 1px solid #017E84;
+            /* border-color: #017E84; */
+            height: 22px;
+            width: auto;
+            /* min-width: 100px; */
+            padding: 3px 11px 3px 11px;
+            margin: 0 0 4px 0;
+            display: inline-block;
+        }
+        .k_web_settings_users .cancelled_icon{
+            font-size: 13.3px;
+            font-weight: 500;
+            line-height: 14.63px;
+            height: 22px;
+        }
+
+        .k_setting_right_pane .k_form_label{
+            height: 21px;
+            margin: 0 0 16px 0;
+        }
+        .k_user_emails{
+            margin: 8px 0 0 0;
+        }
+        .k_setting_right_pane .k_web_settings_invite{
+            height: 32px;
+            width: 58px;
+        }
+        .k_setting_right_pane input[type=submit]{
+            background-color: #017E84;
+        }
+
+        .k_settings_box .k_setting_left_pane{
+            height: 28px;
+            width: 24px;
+            float: left;
+            display: block;
+        }
+        .k_setting_left_pane .k_field_widget{
+            height: 23px;
+            width: 21px;
+            margin: 0 0 5px 0;
+            display: inline-block;
+        }
+        .k_field_widget .k-checkbox{
+            height: 21px;
+            width: 21px;
+            margin: 0 0 2px 0;
+            padding: 0 0 0 21px;
+            min-height: 21px;
+        }
+        .k-checkbox .form-check-input{
+            height: 14px;
+            width: 14px;
+            border: 1px solid #017E84;
+            margin: 4px 0 0 -21px;
+        }
+        .k-checkbox .form-check-input:focus{
+          outline: none;
+        }
+        .btn-primary{
+            background-color: #0E6163;
+        }
+        .btn-primary:hover{
+            background-color: #017E84;
+        }
+        .btn-primary::after{
+            background-color: #017E84;
+        }
+        .k_setting_right_pane i{
+            font-size: 18px;
+            height: 18px;
+            width: 19px;
+        }
+        .k_setting_right_pane .k_field_integer{
+            font-weight: 500;
+            line-height: 21px;
+            height: 21px;
+            width: 21px;
+            margin: 0 0 5px 0;
+            padding: 0 0 0 16px;
+            display: inline-block;
+        }
+        /* K_doc_link */
+        .k_doc_link{
+            font-size: 14px;
+            line-height: 21px;
+            font-weight: 500;
+            text-decoration: none solid #e0eaeb;
+        }
+        .k_doc_link i{
+            color: #0E6163;
+        }
+        .k_doc_link:hover{
+            text-decoration: none solid rgb(1, 88, 92);
+        }
+        .btn-link{
+            font-weight: 500;
+            text-decoration: none solid rgb(1, 88, 92);
+            color: #017E84;
+            height: 22px;
+        }
+        .btn-link:hover{
+            text-decoration: none solid rgb(1, 88, 92);
+            color: #017E84;
+        }
+
+        .k_setting_right_pane .k_web_settings_access_rights{
+            font-weight: 500;
+            text-decoration: none solid rgb(1, 88, 92);
+            color: #017E84;
+        }
+        .k_web_settings_access_rights:focus{
+            outline: none;
+        }
+        .k_setting_right_pane .k_web_settings_access_rights .k_button_icon{
+            margin: 0 4px 0 0;
+            height: 20px;
+        }
+        .k_setting_right_pane .k_field_radio{
+            height: 23px;
+            margin: 10px 0 0 0;
+            display: inline-flex;
+        }
+        .k_setting_right_pane .k_field_radio .k_horizontal .k_radio_item .k_form_label{
+            font-weight: 400;
+        }
+
 
         /* Employee Detail */
         .k_form_sheet_bg{
@@ -870,6 +1219,8 @@
             outline: none;
         }
 
+    /* Settings */
+
     /* TABLE */
     .k_field_list_row{
         border-bottom: 1px solid #D8DADD;
@@ -945,6 +1296,23 @@
         padding: 0 16px 0 16px;
         min-height: auto;
         max-width: 100%;
+        min-width: auto;
+    }
+
+    /* k_kanban_renderer */
+    .k_kanban_renderer{
+        height: 529px;
+        max-height: auto;
+        min-height: auto;
+        padding: 8px 8px 8px 8px;
+    }
+    .k_kanban_renderer .ke_kanban_color_0{
+        height: 137px;
+        width: 257px;
+        max-width: auto;
+        border: 1px solid #DAD8DD;
+        padding: 8px 16px 8px 16px;
+        min-height: auto;
         min-width: auto;
     }
 

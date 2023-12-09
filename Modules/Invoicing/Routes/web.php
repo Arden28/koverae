@@ -12,5 +12,5 @@
 */
 
 Route::prefix('invoicing')->group(function() {
-    Route::get('/', 'InvoicingController@index');
+    // Route::get('/', 'InvoicingController@index');
 });

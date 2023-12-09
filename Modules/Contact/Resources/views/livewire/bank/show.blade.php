@@ -1,5 +1,5 @@
 <div>
-    @section('title', __('Nouvelle Banque'))
+    @section('title', $bank->name)
 
     <div class="k_form_sheet_bg">
         <form wire:submit.prevent="updateBank({{ $bank->id }})">
@@ -59,7 +59,7 @@
                                 @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
-                        
+
                         <div class="d-flex" style="margin-bottom: 8px;">
                             <!-- BIC / SWIFT -->
                             <div class="k_cell k_wrap_label flex-grow-1 flex-grow-1 text-break text-900">
@@ -128,7 +128,7 @@
                                 @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
-                        
+
                             <div class="d-flex" style="margin-bottom: 8px;">
                                 <!-- Tel -->
                                 <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
@@ -156,7 +156,7 @@
                                     @error('website') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
-                            
+
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ namespace App\Models\Module;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Team\Team;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Dashboards\Entities\AppDashboard;
 
 class Module extends Model
@@ -26,6 +27,10 @@ class Module extends Model
     ];
 
 
+    public function scopeFindBySlug(Builder $query, $slug)
+    {
+        return $query->where('slug', $slug);
+    }
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'installed_modules', 'module_slug', 'team_id');

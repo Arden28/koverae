@@ -109,7 +109,7 @@
         <div class="k_inner_group col-lg-8">
             <div class="k_cell flex-grow-0 flex-sm-grow-0">
                 <div class="note-editable" id="note_1">
-                    <textarea wire:model="term" style="width: 75%; padding-left: 5px; padding-top:10px;" id="" cols="30" rows="10" class="k_input textearea" placeholder="Termes & conditions">
+                    <textarea wire:model="term" id="term" style="width: 75%; padding-left: 5px; padding-top:10px;" id="" cols="30" rows="5" class="k_input textearea" placeholder="Termes & conditions">
                         {!! $term !!}
                     </textarea>
                 </div>

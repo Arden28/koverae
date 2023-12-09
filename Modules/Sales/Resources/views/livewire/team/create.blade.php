@@ -2,43 +2,43 @@
 
     @section('title', __('Nouvelle équipe'))
 
-    <div class="k_form_sheet_bg">
+    {{-- <div class="k_form_sheet_bg">
         <!-- Notify -->
         <x-notify::notify />
+        <!-- Status bar -->
+        <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
+
+            <div id="statusbar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
+
+                <button type="button" wire:click="new()" id="top-button" class="btn btn-primary">
+                    <span>
+                        {{ __('Nouveau') }}
+                    </span>
+                </button>
+
+                <button type="submit" wire:target="storeTeam()" id="top-button" class="btn btn-primary">
+                    <span>
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        {{ __('Enregistrer') }}
+                    </span>
+                </button>
+
+                <!-- Dropdown button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                    </button>
+                    <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">{{ __('Nouveau') }}</a></li>
+                    <li><a class="dropdown-item" href="#">{{ __('Enregistrer') }}</a></li>
+                    <!--<li><hr class="dropdown-divider"></li>-->
+                    </ul>
+                </div>
+            </div>
+
+        </div>
         <form wire:submit.prevent="storeTeam()">
             @csrf
-            <!-- Status bar -->
-            <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
-
-                <div id="statusbar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
-
-                    <button type="button" wire:click="new()" id="top-button" class="btn btn-primary">
-                        <span>
-                            {{ __('Nouveau') }}
-                        </span>
-                    </button>
-
-                    <button type="submit" wire:target="storeTeam()" id="top-button" class="btn btn-primary">
-                        <span>
-                            <i class="bi bi-cloud-arrow-up"></i>
-                            {{ __('Enregistrer') }}
-                        </span>
-                    </button>
-
-                    <!-- Dropdown button -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Action
-                        </button>
-                        <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">{{ __('Nouveau') }}</a></li>
-                        <li><a class="dropdown-item" href="#">{{ __('Enregistrer') }}</a></li>
-                        <!--<li><hr class="dropdown-divider"></li>-->
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
             <!-- Sheet Card -->
             <div class="k_form_sheet position-relative">
                 <div class="row justify-content-between position-relative w-100 m-0 mb-2">
@@ -172,5 +172,6 @@
             </div>
         </form>
 
-    </div>
+    </div> --}}
+    <livewire:sales::form.sales-team-form />
 </div>

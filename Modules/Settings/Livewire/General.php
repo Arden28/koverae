@@ -11,6 +11,17 @@ use Illuminate\Http\Request;
 
 class General extends Component
 {
+    // Invite User
+    public $friends_emails;
+    // Unit of measure
+    public $weight, $volume;
+
+    // Email Digest
+    public $digest_available, $digest, $digest_models;
+
+    // Permissions
+    public $kover_portal, $kover_portal_type, $can_reset_password, $has_all_rights_access, $can_import_from_xls;
+
     public $app_id;
     public function editCompany(){
         return redirect()->toRoute('settings.edit-company', navigate: true);

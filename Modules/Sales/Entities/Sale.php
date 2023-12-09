@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Invoicing\Entities\Customer\Invoice;
+use Modules\Sales\Entities\Quotation\Quotation;
+use App\Models\Company\Company;
 
 class Sale extends Model
 {
@@ -23,6 +25,20 @@ class Sale extends Model
     public function scopeIsCompany(Builder $query, $company_id)
     {
         return $query->where('company_id', $company_id);
+    }
+
+    public function company() {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
+    public function scopeIsQuotation(Builder $query, $quotation_id)
+    {
+        return $query->where('quotation_id', $quotation_id);
+    }
+
+    // Get seller
+    public function quotation() {
+        return $this->belongsTo(Quotation::class, 'quotation_id', 'id');
     }
 
     // public function scopeHasInvoices(Builder $query)
@@ -47,8 +63,8 @@ class Sale extends Model
     }
 
     // Get Quotation's details
-    public function invoices() {
-        return $this->hasMany(Invoice::class, 'sale_id', 'id');
+    public function invoice() {
+        return $this->hasOne(Invoice::class, 'sale_id', 'id');
     }
 
     public static function boot() {

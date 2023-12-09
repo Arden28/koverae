@@ -10,7 +10,7 @@
             <div id="statusbar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
 
                 @if($status <> 'canceled')
-                @if($sale->invoices()->count() == 0)
+                @if($sale->invoice == null)
                 <button type="button" wire:click.prevent="createInvoice({{ $sale->id }})" class="btn btn-primary primary">
                     <span>
                         {{ __('Créer une facture') }}
@@ -18,7 +18,7 @@
                 </button>
                 @endif
 
-                <button type="button" wire:click="justSendQT()" id="top-button" class="btn btn-secondary {{ $sale->invoices()->count() >= 1 ? 'primary' : '' }}">
+                <button type="button" wire:click="justSendQT()" id="top-button" class="btn btn-secondary {{ $sale->invoice ? 'primary' : '' }}">
                     <span>
                         {{ __('Envoyer par email') }}
                     </span>
@@ -109,12 +109,21 @@
 
                     <!-- Sale's assets -->
                     <div class="k_horizontal_asset">
-                        @if(count($invoices) >= 1)
+                        @if($sale->invoice)
                         <!-- Invoice -->
                         <div class="form-check k_radio_item">
-                            <i class="k_button_icon bi bi-pencil-square"></i>
-                            <a style="text-decoration: none;" wire:navigate href="{{ route('sales.invoices.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'invoice' => $sale->invoices()->first()->id]) }}">
+                            <i class="k_button_icon bi bi-receipt"></i>
+                            <a style="text-decoration: none;" wire:navigate href="{{ route('sales.invoices.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'invoice' => $sale->invoice->id]) }}">
                                 <span class="k_horizontal_span">{{ __('Factures') }} (1)</span>
+                            </a>
+                        </div>
+                        @endif
+                        @if($sale->quotation)
+                        <!-- Invoice -->
+                        <div class="form-check k_radio_item">
+                            <i class="k_button_icon bi bi-newspaper"></i>
+                            <a style="text-decoration: none;" wire:navigate href="{{ route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $sale->quotation_id ]) }}">
+                                <span class="k_horizontal_span">{{ __('Devis') }} (1)</span>
                             </a>
                         </div>
                         @endif
@@ -133,16 +142,25 @@
                                     <i class="bi bi-gear-fill fa-xs"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" wire:confirm="hello"><i class="bi bi-copy"></i>{{ __('Dupliquer') }}</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> {{ __('Supprimer') }}</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item cursor-pointer">
+                                        <i class="bi bi-printer"></i> {{ __('Imprimer') }}</a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item cursor-pointer" wire:click.prevent="duplicateSale({{ $sale->id }})" wire:target="duplicateSale({{ $sale->id }})" wire:confirm="Êtes-vous sûr de vouloir dupliquer cette vente ?"><i class="bi bi-copy"></i>{{ __('Dupliquer') }}</a></li>
+                                <li>
+                                    <a class="dropdown-item cursor-pointer" wire:click.prevent="deleteSale({{ $sale->id }})" wire:target="deleteSale({{ $sale->id }})" wire:confirm="Êtes-vous sûr de vouloir supprimer cette vente ?" >
+                                    <i class="bi bi-trash"></i> {{ __('Supprimer') }}
+                                    </a>
+                                </li>
+                                @if(isset($sale->invoice->payment_status) != 'Paid')
                                 <li><a class="dropdown-item" href="#">{{ __('Générer un lien de paiement') }}</a></li>
+                                @endif
                                 <li><a class="dropdown-item" href="#">{{ __('Partager') }}</a></li>
                                 <li><a class="dropdown-item" href="#">{{ __('Changer de client') }}</a></li>
                                 </ul>
                             </div>
                             <div wire:dirty>
-                                <button type="button" wire:click="updateSale({{ $sale->id }})" wire:target="updateSale({{ $sale->id }})" title="Sauvegarder les changements...."><i class="bi bi-cloud-arrow-up-fill fa-xs"></i></button>
+                                <button type="submit" wire:target="updateSale({{ $sale->id }})" title="Sauvegarder les changements...."><i class="bi bi-cloud-arrow-up-fill fa-xs"></i></button>
                             </div>
 
                         </h1>
@@ -191,7 +209,7 @@
                             </div>
                             <!-- Input Form -->
                             <div class="k_cell k_wrap_input flex-grow-1">
-                                <input type="date" wire:model="date" class="k_input" id="date_0">
+                                <input type="datetime-local" wire:model="date" class="k_input" id="date_0">
                                 @error('date') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -261,51 +279,60 @@
                                 </div>
 
                                 <!-- Sales Team -->
-                                <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
-                                    <label class="k_form_label">
-                                        {{ __('Equipe commerciale') }} :
-                                    </label>
-                                </div>
-                                <!-- Input Form -->
-                                <div class="k_cell k_wrap_input flex-grow-1">
-                                    <select wire:model="sales_team" class="k_input" id="sales_team_1">
-                                        @foreach ($sales_teams as $t)
-                                        <option value="{{ $t->id }}" {{ $t->id == $sales_team ? 'selected' : '' }}>
-                                            {{ $t->name }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                    @error('sales_team') <span class="text-danger">{{ $message }}</span> @enderror
+                                <div class="d-flex" style="margin-bottom: 8px;">
+                                    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
+                                        <label class="k_form_label">
+                                            {{ __("Equipe Commerciale") }} :
+                                        </label>
+                                    </div>
+                                    <!-- Input Form -->
+                                    <div class="k_cell k_wrap_input flex-grow-1">
+                                        <select wire:model="sales_team" class="k_input" id="sales_team_1">
+                                            <option></option>
+                                            @foreach($teams as $t)
+                                                <option value="{{ $t->id }}">
+                                                    {{ $t->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('sales_team') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
 
                                 <!-- Seller -->
-                                <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
-                                    <label class="k_form_label">
-                                        {{ __('Commercial(e)') }} :
-                                    </label>
-                                </div>
-                                <!-- Input Form -->
-                                <div class="k_cell k_wrap_input flex-grow-1">
-                                    <select wire:model="seller" class="k_input" id="seller_1">
-                                        <option value="{{ Auth::user()->id }}">
-                                            {{ Auth::user()->name }}
-                                        </option>
-                                    </select>
-                                    @error('seller') <span class="text-danger">{{ $message }}</span> @enderror
+                                <div class="d-flex" style="margin-bottom: 8px;">
+                                    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
+                                        <label class="k_form_label">
+                                            {{ __("Commercial(e)") }} :
+                                        </label>
+                                    </div>
+                                    <!-- Input Form -->
+                                    <div class="k_cell k_wrap_input flex-grow-1">
+                                        <select wire:model="seller" class="k_input" id="seller_1">
+                                            @foreach($people as $seller)
+                                                <option value="{{ $seller->id }}">
+                                                    {{ $seller->user->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('seller') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
 
-                                <!-- Sales Team -->
-                                <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
-                                    <label class="k_form_label">
-                                        {{ __('Tags') }} :
-                                    </label>
-                                </div>
-                                <!-- Input Form -->
-                                <div class="k_cell k_wrap_input flex-grow-1">
-                                    <select wire:model="tags" class="k_input" id="tags_id_1">
-                                        <option></option>
-                                    </select>
-                                    @error('tags') <span class="text-danger">{{ $message }}</span> @enderror
+                                <!-- Tags -->
+                                <div class="d-flex" style="margin-bottom: 8px;">
+                                    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
+                                        <label class="k_form_label">
+                                            {{ __("Etiquettes") }} :
+                                        </label>
+                                    </div>
+                                    <!-- Input Form -->
+                                    <div class="k_cell k_wrap_input flex-grow-1">
+                                        <select wire:model="tags" class="k_input" id="tags_id_1">
+                                            <option></option>
+                                        </select>
+                                        @error('tags') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
 
                             </div>
@@ -319,36 +346,58 @@
                                 </div>
 
                                 <!-- Delivery policies -->
-                                <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
-                                    <label class="k_form_label">
-                                        {{ __('Politique de livraison') }} :
-                                    </label>
-                                </div>
-                                <!-- Input Form -->
-                                <div class="k_cell k_wrap_input flex-grow-1">
-                                    <select wire:model="shipping_policy" class="k_input" id="seller_1">
-                                        <option value="as_soon_as_possible">
-                                            {{ __('Lorsque tous les produits sont prêts') }}
-                                        </option>
-                                        <option value="after_done">
-                                            {{ __('Dès que possible') }}
-                                        </option>
-                                    </select>
-                                    @error('shipping_policy') <span class="text-danger">{{ $message }}</span> @enderror
+                                <div class="d-flex" style="margin-bottom: 8px;">
+                                    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
+                                        <label class="k_form_label">
+                                            {{ __("Politique de livraison") }} :
+                                        </label>
+                                    </div>
+                                    <!-- Input Form -->
+                                    <div class="k_cell k_wrap_input flex-grow-1">
+                                        <select wire:model="shipping_policy" class="k_input" id="seller_1">
+                                            <option value="as_soon_as_possible">
+                                                {{ __('Lorsque tous les produits sont prêts') }}
+                                            </option>
+                                            <option value="after_done">
+                                                {{ __('Dès que possible') }}
+                                            </option>
+                                        </select>
+                                        @error('shipping_policy') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
 
                                 <!-- Delivery date -->
-                                <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
-                                    <label class="k_form_label">
-                                        {{ __('Date de livraison') }} :
-                                    </label>
-                                </div>
-                                <!-- Input Form -->
-                                <div class="k_cell k_wrap_input flex-grow-1">
-                                    <input wire:model="shipping_date" type="date" class="k_input" id="shipping_date_1" />
-                                    @error('shipping_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                <div class="d-flex" style="margin-bottom: 8px;">
+                                    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
+                                        <label class="k_form_label">
+                                            {{ __("Date de livraison") }} :
+                                        </label>
+                                    </div>
+                                    <!-- Input Form -->
+                                    <div class="k_cell k_wrap_input flex-grow-1">
+                                        <input wire:model="shipping_date" type="date" class="k_input" id="shipping_date_1" />
+                                        @error('shipping_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
                                 </div>
 
+                                <!-- Shipping status -->
+                                <div class="d-flex" style="margin-bottom: 8px;">
+                                    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
+                                        <label class="k_form_label">
+                                            {{ __("Status de la Livraison") }} :
+                                        </label>
+                                    </div>
+                                    <!-- Input Form -->
+                                    <div class="k_cell k_wrap_input flex-grow-1">
+                                        <select wire:model="shipping_status" class="k-autocomplete-input-0 k_input" id="company_id_0">
+                                            <option value=""></option>
+                                            <option value="Pending">{{ __('En attente') }}</option>
+                                            <option value="Shipped">{{ __('Livrée') }}</option>
+                                            <option value="Completed">{{ __('Complétée') }}</option>
+                                        </select>
+                                        @error('shipping_status') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

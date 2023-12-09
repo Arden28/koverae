@@ -25,7 +25,7 @@ class Lists extends Component
 
     public function render()
     {
-        $quotations = Quotation::isCompany(current_company()->id)->isActive()->paginate($this->show);
+        $quotations = Quotation::isCompany(current_company()->id)->isActive()->orderBy('id', 'DESC')->paginate($this->show);
         return view('sales::livewire.quotation.lists', compact('quotations'))
         ->extends('layouts.master');
         // ->section('content');

@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Accounting\Entities\Journal;
 use Modules\Sales\Entities\Sale;
+use Modules\Sales\Entities\SalesPerson;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class Show extends Component
 {
@@ -126,9 +130,10 @@ class Show extends Component
     public function render()
     {
         $contacts = Contact::isCompany(current_company()->id)->get();
+        $sales_people = SalesPerson::isCompany(current_company()->id)->get();
         $sales_teams = SalesTeam::isCompany(current_company()->id)->get();
         $journals = Journal::isCompany(current_company()->id)->get();
-        return view('sales::livewire.sale.invoice.show', compact('contacts', 'sales_teams', 'journals'))
+        return view('sales::livewire.sale.invoice.show', compact('contacts', 'sales_teams', 'journals', 'sales_people'))
         ->extends('layouts.master')
         ->section('content');
     }
@@ -259,8 +264,8 @@ class Show extends Component
 
         $invoice->update([
             'payment_status' => $payment_status,
-            'paid_amount' => ($invoice->paid_amount + $this->amount) * 100,
-            'due_amount' => $due_amount,
+            'paid_amount' => ($invoice->paid_amount + $payment->amount) / 100,
+            'due_amount' => ($due_amount / 100),
         ]);
 
         return $this->redirect(route('sales.invoices.show', ['subdomain' => current_company()->domain_name, 'sale' => $invoice->sale_id, 'invoice' => $invoice->id]), navigate:true);
@@ -280,4 +285,52 @@ class Show extends Component
 
         return $this->redirect(route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id]), navigate:true);
     }
+
+    // Print Invoice
+    public function print(Invoice $invoice){
+
+        try {
+
+            if (!$invoice) {
+                throw new \Exception('Invoice not found');
+            }
+
+            $customer = Contact::findOrFail($invoice->customer_id);
+            $seller = SalesPerson::findOrFail($invoice->seller->id);
+            $company = current_company();
+
+            $pdf = Pdf::loadView('sales::print-invoice', [
+                'invoice' => $invoice,
+                'customer' => $customer,
+                'seller' => $seller,
+                'company' => $company
+            ])->setPaper('a4');
+
+            // // Store the pdf generated
+            // $folderPath = "companies/{$company->name}/files/invoices";
+            // $filePath = "$folderPath/$invoice->id.pdf";
+
+            // // Check if the file already exists
+            // if (Storage::exists($filePath)) {
+            //     // Delete the existing file
+            //     Storage::delete($filePath);
+            // }
+
+            // // Ensure the directory exists, create it if not
+            // Storage::makeDirectory($folderPath);
+
+            // // Save the PDF to the storage
+            // Storage::put($filePath, $pdf->output());
+
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->output(); // Echo download contents directly...
+            }, 'Facture - ' . str_replace('/', '_', $invoice->reference) . '.pdf'); //replace / by _
+
+            // return response($utf8Output)->download('invoice-' . $invoice->reference . '.pdf');
+        } catch (\Exception $e) {
+            Log::error('Error generating invoice PDF: ' . $e->getMessage());
+            return response()->json(['error' => 'Unable to generate PDF'], 500);
+        }
+    }
+
 }

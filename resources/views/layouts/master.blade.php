@@ -48,6 +48,9 @@
         <!-- Inventory -->
         @elseif(request()->routeIs('inventory.*'))
             @include('inventory::layouts.navbar-menu')
+        <!-- Purhase -->
+        @elseif(request()->routeIs('purchases.*'))
+            @include('purchase::layouts.navbar-menu')
         @else
             @include('layouts.navbar-menu')
         @endif
@@ -61,8 +64,8 @@
             <!-- Page body -->
             @yield('content')
 
-            {{-- Footer --}}
-            <footer class="footer footer-transparent d-print-none">
+            <!-- Footer -->
+            {{-- <footer class="footer footer-transparent d-print-none">
                 <div class="container-xl">
                   <div class="row text-center align-items-center flex-row-reverse">
                     <div class="col-lg-auto ms-lg-auto">
@@ -87,7 +90,7 @@
                     </div>
                   </div>
                 </div>
-            </footer>
+            </footer> --}}
         </div>
 
     </div>

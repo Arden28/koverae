@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class CompanyInvitation extends Model
 {
@@ -14,15 +15,15 @@ class CompanyInvitation extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'team_id',
-        'company_id',
-        'email',
-        'role',
-        'token'
-    ];
+    protected $guarded = [];
 
     protected $dates = ['expire_at'];
+
+    public function scopeIsCompany(Builder $query, $company_id)
+    {
+        return $query->where('company_id', $company_id);
+    }
+
 
     public function hasExpired()
     {

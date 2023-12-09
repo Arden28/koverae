@@ -26,7 +26,7 @@ class SalesTeam extends Model
     }
 
     public function leader() {
-        return $this->belongsTo(User::class, 'team_leader_id', 'id');
+        return $this->belongsTo(SalesPerson::class, 'team_leader_id', 'id');
     }
 
 

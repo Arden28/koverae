@@ -39,5 +39,6 @@ class QuotationDetails extends Model
 
     public function getProductTaxAmountAttribute($value) {
         return $value / 100;
-    }}
+    }
+}
 

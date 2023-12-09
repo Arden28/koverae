@@ -212,6 +212,14 @@ class ProductCart extends Component
         session()->flash('discount_message' . $product_id, 'Discount added to the product!');
     }
 
+    public function setPrice($product){
+        if($this->cart_instance == 'request-quotation' || $this->cart_instance == 'purchase-order'){
+            return $product['product_cost'];
+        }else{
+            return $product['product_price'];
+        }
+    }
+
     public function calculate($product) {
         $price = 0;
         $unit_price = 0;
@@ -220,23 +228,23 @@ class ProductCart extends Component
         $sub_total = 0;
 
         if ($product['product_tax_type'] == 1) {
-            $price = $product['product_price'] + ($product['product_price'] * ($product['product_order_tax'])) / 100;
-            $unit_price = $product['product_price'] / 100;
-            $untaxed_amount = $product['product_price'] / 100;
-            $product_tax = $product['product_price'] * ($product['product_order_tax']) / 100;
-            $sub_total = $product['product_price'] + ($product['product_price'] * ($product['product_order_tax'])) / 100;
+            $price = $this->setPrice($product) + ($this->setPrice($product) * ($product['product_order_tax'])) / 100;
+            $unit_price = $this->setPrice($product) / 100;
+            $untaxed_amount = $this->setPrice($product) / 100;
+            $product_tax = $this->setPrice($product) * ($product['product_order_tax']) / 100;
+            $sub_total = $this->setPrice($product) + ($this->setPrice($product) * ($product['product_order_tax'])) / 100;
         } elseif ($product['product_tax_type'] == 2) {
-            $unit_price = $product['product_price'] / 100;
-            $price = $product['product_price'] / 100;
-            $product_tax = $product['product_price'] * ($product['product_order_tax']) / 100;
+            $unit_price = $this->setPrice($product) / 100;
+            $price = $this->setPrice($product) / 100;
+            $product_tax = $this->setPrice($product) * ($product['product_order_tax']) / 100;
             $untaxed_amount = $price - $product_tax / 100;
-            $sub_total = $product['product_price'] / 100;
+            $sub_total = $this->setPrice($product) / 100;
         } else {
-            $price = $product['product_price'] / 100;
-            $unit_price = $product['product_price'] / 100;
+            $price = $this->setPrice($product) / 100;
+            $unit_price = $this->setPrice($product) / 100;
             $product_tax = 0.00 / 100;
             $untaxed_amount = 0.00 / 100;
-            $sub_total = $product['product_price'] / 100;
+            $sub_total = $this->setPrice($product) / 100;
         }
 
         return ['price' => $price, 'unit_price' => $unit_price, 'product_tax' => $product_tax, 'untaxed_amount' =>$untaxed_amount, 'sub_total' => $sub_total];

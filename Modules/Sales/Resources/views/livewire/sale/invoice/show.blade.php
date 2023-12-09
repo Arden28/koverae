@@ -1,4 +1,5 @@
 <div>
+    @section('title', $invoice->reference)
     <!-- Notify -->
     @include('notify::components.notify')
     <div class="k_form_sheet_bg">
@@ -61,11 +62,11 @@
                     </button>
                     <ul class="dropdown-menu">
                     @if($status <> 'canceled')
-                        <li><a class="dropdown-item" href="#">{{ __('Créer une facture') }}</a></li>
+                        <li><a class="dropdown-item" wire:click.prevent="confirm({{ $invoice->id }})" wire:target="confirm({{ $invoice->id }})" >{{ __('Confirmer') }}</a></li>
                         <li><a class="dropdown-item" href="#">{{ __('Envoyer par email') }}</a></li>
                         <li><a class="dropdown-item" href="#">{{ __('Aperçu') }}</a></li>
                         @if($status == 'sent')
-                        <li><a class="dropdown-item" href="#">{{ __('Annuler') }}</a></li>
+                        <li><a class="dropdown-item" wire:click.prevent="canceled({{ $invoice->id }})" wire:target="canceled({{ $invoice->id }})" >{{ __('Annuler') }}</a></li>
                         @endif
                     @else
                         <li><a class="dropdown-item" href="#">{{ __('Définir sur devis') }}</a></li>
@@ -135,16 +136,20 @@
 
                             <!-- Special buttons -->
                             <div class="btn-group">
-                                <button type="button" class="" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button type="button" class="" wire:loading.remove data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-gear-fill fa-xs"></i>
                                 </button>
+                                <button type="button" wire:loading>
+                                    ...
+                                </button>
                                 <ul class="dropdown-menu">
-                                {{-- <li><a class="dropdown-item" href="#"><i class="bi bi-copy"></i>{{ __('Dupliquer') }}</a></li> --}}
+                                <li><a class="dropdown-item cursor-pointer" wire:click="print({{ $invoice->id }})"><i class="bi bi-printer"></i> Imprimer</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-copy-paste"></i>{{ __('Dupliquer') }}</a></li>
                                 <li>
-                                    <a class="dropdown-item"
-                                    wire:click="delete({{ $invoice->id }})"
-                                    wire:confirm.prompt="Are you sure you want to delete this post?"
-                                 href="#"><i class="bi bi-trash"></i> {{ __('Supprimer') }}</a>
+                                    <a class="dropdown-item" wire:click="delete({{ $invoice->id }})" wire:target="delete({{ $invoice->id }})" wire:confirm="Êtes-vous sûr de vouloir supprimer la facture {{ $invoice->reference }}" href="#">
+                                        <i class="bi bi-trash"></i> {{ __('Supprimer') }}
+                                    </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">{{ __('Générer un lien de paiement') }}</a></li>
@@ -213,9 +218,10 @@
                             <!-- Input Form -->
                             <div class="k_cell k_wrap_input flex-grow-1">
                                 @if($status == 'draft')
-                                <input type="datetime-local" wire:model="date" class="k_input" id="date_0">
+                                <input type="date" wire:model="date" class="k_input" id="date_0">
                                 @else
-                                <span class="cursor-pointer" id="customer_0">{{ \Carbon\Carbon::parse($date)->format('d/m/Y H:i:s') }}</span>
+                                {{-- <span class="cursor-pointer" id="customer_0">{{ \Carbon\Carbon::parse($date)->format('d/m/Y H:i:s') }}</span> --}}
+                                <span class="cursor-pointer" style="color: #017e84; font-weight: 500;" id="date_0">{{ \Carbon\Carbon::parse($date)->isoFormat('Do MMMM YYYY') }}</span>
                                 @endif
                                 @error('date') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
@@ -353,9 +359,11 @@
                                     <!-- Input Form -->
                                     <div class="k_cell k_wrap_input flex-grow-1">
                                         <select wire:model="seller" class="k_input" id="seller_1">
-                                            <option value="{{ Auth::user()->id }}">
-                                                {{ Auth::user()->name }}
+                                            @foreach($sales_people as $seller)
+                                            <option value="{{ $seller->id }}">
+                                                {{ $seller->user->name }}
                                             </option>
+                                            @endforeach
                                         </select>
                                         @error('seller') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
@@ -384,8 +392,12 @@
                                     </div>
                                     <!-- Input Form -->
                                     <div class="k_cell k_wrap_input flex-grow-1">
-                                        <input type="date" wire:model="shipping_date" {{ $status == 'posted' ? 'disabled' : '' }} class="k_input" id="shipping_date_0">
-                                        @error('shipping_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                        @if($status == 'draft')
+                                            <input type="date" wire:model="shipping_date" {{ $status == 'posted' ? 'disabled' : '' }} class="k_input" id="shipping_date_0">
+                                            @error('shipping_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                        @else
+                                            <span class="cursor-pointer" style="color: #017e84; font-weight: 500;" id="shipping_date_0">{{ \Carbon\Carbon::parse($shipping_date)->isoFormat('Do MMMM YYYY') }}</span>
+                                        @endif
                                     </div>
                                 </div>
 

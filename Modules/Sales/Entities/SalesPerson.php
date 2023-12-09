@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Sales\Entities\Sale;
+use App\Models\User;
+use Modules\Contact\Entities\Contact;
 
 class SalesPerson extends Model
 {
@@ -30,6 +32,9 @@ class SalesPerson extends Model
         return $this->belongsTo(SalesTeam::class, 'sales_team_id', 'id');
     }
 
+    public function user() {
+        return $this->belongsTo(Contact::class, 'user_id', 'id');
+    }
     // protected static function newFactory()
     // {
     //     return \Modules\Sales\Database\factories\SalesPersonFactory::new();

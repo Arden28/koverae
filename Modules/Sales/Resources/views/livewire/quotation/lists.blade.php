@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <!-- Notify -->
             @include('notify::components.notify')
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-12">
                   <div class="card">
                     <div class="k_control_panel_main d-flex flex-wrap flex-grow-2 flex-nowrap justify-content-between align-items-start gap-5">
@@ -249,7 +249,8 @@
 
                     </div>
                 </div>
-            </div>
+            </div> --}}
+            <livewire:sales::table.quotations-table />
         </div>
     </div>
 </div>

@@ -6,6 +6,7 @@ use Modules\Settings\Http\Controllers\SettingsController;
 use Modules\Settings\Livewire\General;
 use Modules\Settings\Livewire\GeneralSetting;
 use Modules\Settings\Livewire\Module\Inventory;
+use Modules\Settings\Livewire\User\Lists;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,8 @@ use Modules\Settings\Livewire\Module\Inventory;
 // });
 
 Route::get('/settings', GeneralSetting::class)->name('settings.general');
+
+Route::get('/settings/users', Lists::class)->name('settings.users');
 
 Route::get('/settings/{pageVariable}', Inventory::class);
 

@@ -129,14 +129,13 @@ class Create extends Component
                     'shipping_amount' => 0,
                     'shipping_date' => $this->shipping_date,
                     'shipping_policy' => $this->shipping_policy,
-                    'shipping_status' => $this->shipping_status,
+                    'shipping_status' => 'Pending',
                     'total_amount' => $this->total_amount / 100,
                     'status' => $this->status,
                     'note' => $this->note,
                     'tax_amount' => $this->tax_amount,
                     'discount_amount' => $this->discount_amount,
                 ]);
-                $quotation->save();
 
                 foreach (Cart::instance('quotation')->content() as $cart_item) {
                     QuotationDetails::create([
@@ -154,8 +153,8 @@ class Create extends Component
                     ]);
                 }
 
-                Cart::instance('quotation')->store(Auth::user()->id);
-                // Cart::instance('quotation')->destroy();
+                // Cart::instance('quotation')->store(Auth::user()->id);
+                Cart::instance('quotation')->destroy();
 
                 notify()->success("Nouveau Devis créé !");
 
@@ -206,7 +205,7 @@ class Create extends Component
                 'shipping_amount' => 0,
                 'shipping_date' => $this->shipping_date,
                 'shipping_policy' => $this->shipping_policy,
-                'shipping_status' => $this->shipping_status,
+                'shipping_status' => 'Pending',
                 'total_amount' => $this->total_amount / 100,
                 'paid_amount' => $this->paid_amount / 100,
                 'due_amount' => $this->total_amount / 100, //$due_amount

@@ -18,6 +18,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Employee\Entities\Employee;
 use Modules\Sales\Entities\SalesTeam;
+use Modules\Sales\Entities\SalesPerson;
 
 class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
@@ -116,6 +117,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     public function salesTeams()
     {
         return $this->hasMany(SalesTeam::class, 'team_leader_id', 'id');
+    }
+
+    public function seller() {
+        return $this->hasOne(SalesPerson::class, 'user_id', 'id');
     }
 
 }

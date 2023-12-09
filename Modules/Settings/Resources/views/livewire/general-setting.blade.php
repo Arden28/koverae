@@ -1,22 +1,184 @@
 <div>
     @section('title', 'Paramètres')
 
-    @section('breadcrumb')
-    <div class="page-header d-print-none">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-            <div class="col">
-                <h2 class="page-title">
-                    {{ __('Paramètes Généraux') }}
-                </h2>
-            </div>
-            </div>
-        </div>
-    </div>
+    @section('styles')
+        <style>
+            body {
+                /* Disable the default page scrollbar */
+                overflow: hidden;
+            }
+        </style>
     @endsection
 
-    <!-- Body -->
-    <div class="container-xl">
+        <!-- Settings -->
+        <div class="k-row">
+            <!-- Left Sidebar -->
+            <div class="settings_tab h-100 border-end">
+
+                <!-- Paramètre Généraux -->
+                <div class="tab cursor-pointer {{ $view == 'general' ? 'selected' : '' }}" wire:click.prevent="changePanel('general')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block">
+                        <img src="{{ asset('assets/images/apps/settings.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Paramètre Généraux
+                    </span>
+                </div>
+
+                <!-- Sales -->
+                @if(module('sales'))
+                <div class="tab cursor-pointer {{ $view == 'sales' ? 'selected' : '' }}" wire:click.prevent="changePanel('sales')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="{{ asset('assets/images/apps/sales.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Ventes
+                    </span>
+                </div>
+                @endif
+
+                <!-- Purchase -->
+                @if(module('purchase'))
+                <div class="tab cursor-pointer {{ $view == 'purchase' ? 'selected' : '' }}" wire:click.prevent="changePanel('purchase')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="{{ asset('assets/images/apps/purchase.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Achat
+                    </span>
+                </div>
+                @endif
+
+                <!-- Inventory -->
+                @if(module('inventory'))
+                <div class="tab cursor-pointer {{ $view == 'inventory' ? 'selected' : '' }}" wire:click.prevent="changePanel('inventory')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="{{ asset('assets/images/apps/inventory.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Inventaire
+                    </span>
+                </div>
+                @endif
+
+                <!-- Invoicing -->
+                @if(module('invoicing'))
+                <div class="tab cursor-pointer {{ $view == 'invoicing' ? 'selected' : '' }}" wire:click.prevent="changePanel('invoicing')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="{{ asset('assets/images/apps/invoice.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Facturation
+                    </span>
+                </div>
+                @endif
+
+                {{-- <!-- Project -->
+                @if(module('projects'))
+                <div class="tab cursor-pointer">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Projets
+                    </span>
+                </div>
+                @endif
+
+                <!-- Sign -->
+                @if(module('signature'))
+                <div class="tab cursor-pointer">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Signature
+                    </span>
+                </div>
+                @endif
+
+                <!-- Planning -->
+                @if(module('planning'))
+                <div class="tab cursor-pointer">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Planning
+                    </span>
+                </div>
+                @endif --}}
+
+                <!-- Employee -->
+                @if(module('employee'))
+                <div class="tab cursor-pointer {{ $view == 'employee' ? 'selected' : '' }}" wire:click.prevent="changePanel('employee')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="{{ asset('assets/images/apps/employee.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Personnel
+                    </span>
+                </div>
+                @endif
+
+                <!-- Point Of Sale -->
+                @if(module('pos'))
+                <div class="tab cursor-pointer {{ $view == 'pos' ? 'selected' : '' }}" wire:click.prevent="changePanel('pos')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="{{ asset('assets/images/apps/pos.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        Point de vente
+                    </span>
+                </div>
+                @endif
+
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="settings">
+                <!-- General Settings -->
+
+                @if($view == 'general')
+                    <livewire:settings::module.general />
+                @elseif($view == 'sales')
+                    <livewire:settings::module.sales />
+                @elseif($view == 'purchase')
+                    <livewire:settings::module.purchase />
+                @elseif($view == 'inventory')
+                    <livewire:settings::module.inventory />
+                @elseif($view == 'invoicing')
+
+                @elseif($view == 'employee')
+                    <livewire:settings::module.employee />
+                @elseif($view == 'pos')
+
+                @else
+
+                @endif
+            </div>
+        </div>
+
+
+    {{-- <!-- Body -->
+    <div class="">
         <div class="row">
 
             <!-- Utilisateurs -->
@@ -37,10 +199,6 @@
                                             <div class="input-group d-flex">
                                                 <input type="email" class="k_input k_user_email text-truncate" wire:model="email" placeholder="Saisissez une adresse email" required>
                                                 <div class="input-group-prepend">
-                                                    {{-- <button wire:click="inviteUser" wire:loading.attr="disabled" type="button" class="btn btn-primary flex-shrink-1">
-                                                        <span wire:loading wire:target="inviteUser" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                        <i class="bi bi-person-add"></i> {{ __('Inviter') }}
-                                                    </button> --}}
                                                     <button wire:click="inviteUser" wire:loading.attr="disabled" type="button" class="btn btn-primary flex-shrink-1">
                                                         <i class="bi bi-person-add"></i> {{ __('Inviter') }}
                                                     </button>
@@ -254,6 +412,6 @@
             @endcan
 
         </div>
-    </div>
+    </div> --}}
 
 </div>

@@ -14,6 +14,11 @@ use Modules\Sales\Entities\Sale;
 use Modules\Sales\Entities\SalesDetail;
 use Modules\Contact\Entities\Contact;
 use Livewire\Attributes\On;
+use Modules\Sales\Entities\SalesPerson;
+use Modules\Sales\Entities\SalesTeam;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class Show extends Component
 {
@@ -32,7 +37,7 @@ class Show extends Component
     $tax_percentage = 0,
     $tax_amount = 0,
     $discount_percentage = 0,
-    $discount_amount,
+    $discount_amount = 0,
     $shipping_amount = 0,
     $paid_amount = 0,
     $due_amount = 0,
@@ -59,11 +64,12 @@ class Show extends Component
     $shipping_status,
 
     $tag;
+
     public $qty = 1;
 
     protected $rules = [
         'customer' => 'required',
-        'date' => 'required',
+        // 'date' => 'required',
         'expected_date' => 'nullable',
         'payment_term' => 'required',
         'tax_percentage' => 'nullable|integer|min:0|max:100',
@@ -135,25 +141,28 @@ class Show extends Component
     public function render()
     {
         $contacts = Contact::isCompany(current_company()->id)->get();
-        return view('sales::livewire.quotation.show', compact('contacts'))
+        $sales = Sale::isCompany(current_company()->id)->isQuotation($this->quotation->id)->get();
+        $teams = SalesTeam::isCompany(current_company()->id)->get();
+        $people = SalesPerson::isCompany(current_company()->id)->get();
+        return view('sales::livewire.quotation.show', compact('contacts', 'sales', 'teams', 'people'))
         ->extends('layouts.master')
         ->section('content');
     }
 
     public function updateQT(Quotation $quotation){
 
-            $this->validate();
+            // $this->validate();
 
             DB::transaction(function () use ($quotation) {
-                $cart = Cart::instance('quotation');
-                // Remove any non-numeric characters except the decimal point
-                $this->total_amount = convertToInt($cart->total());
-                $this->tax_amount = convertToInt($cart->tax());
 
-                $quotation = Quotation::create([
+                foreach ($quotation->quotationDetails as $quotation_detail) {
+                    $quotation_detail->delete();
+                }
+
+                $quotation->update([
 
                     // 'company_id' => current_company()->id,
-                    'date' => $this->date,
+                    // 'date' => $this->date,
                     'expected_date' => $this->expected_date,
                     'payment_term' => $this->payment_term,
                     'seller_id' => $this->seller, //customer id
@@ -161,17 +170,22 @@ class Show extends Component
                     'customer_id' => 1, //customer id
                     'tax_percentage' => $this->tax_percentage, //tax percentage
                     'discount_percentage' => $this->discount_percentage, //discount percentage
+                    'discount_amount' => $this->discount_amount ?? 0, //discount percentage
                     'shipping_amount' => $this->shipping_amount,
                     'shipping_date' => $this->shipping_date,
                     'shipping_policy' => $this->shipping_policy,
                     'shipping_status' => $this->shipping_status,
-                    'total_amount' => $this->total_amount / 100,
+                    'total_amount' => convertToInt(Cart::instance('quotation')->total()) / 100,
                     'status' => $this->status,
                     'note' => $this->note,
-                    'tax_amount' => $this->tax_amount,
+                    'tax_amount' => convertToInt(Cart::instance('quotation')->tax()),
                     'discount_amount' => $this->discount_amount,
                 ]);
                 $quotation->save();
+
+                // Remove any non-numeric characters except the decimal point
+                // $this->total_amount = convertToInt($cart->total());
+                // $this->tax_amount = convertToInt($cart->tax());
 
                 foreach (Cart::instance('quotation')->content() as $cart_item) {
                     QuotationDetails::create([
@@ -189,14 +203,22 @@ class Show extends Component
                     ]);
                 }
 
-                Cart::instance('quotation')->store(Auth::user()->id);
-                // Cart::instance('quotation')->destroy();
+                Cart::instance('quotation')->destroy();
             });
+
+            return $this->redirect(route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id]), navigate:true);
 
         // notify()->success("Votre devis a été créer !");
         // return redirect()->route('sales.quotations.index', ->subdomain' => current_company()->domain_name]);
     }
 
+    // Just send Email
+    public function justSendQT(Quotation $quotation){
+
+        $quotation->update([
+            'status' => 'send',
+        ]);
+    }
 
     // Confirm the quotation and create a sale
     public function confirm(Quotation $quotation){
@@ -269,7 +291,8 @@ class Show extends Component
                 'note' => $quotation->note,
                 'tax_amount' => $quotation->tax_amount == null ? 0 : $quotation->tax_amount * 100,
                 'discount_amount' => 0,
-                'seller_id' => $quotation->seller,
+                'seller_id' => $quotation->seller->id,
+                'sales_team_id' => $quotation->seller->sales_team_id, //customer id
                 'quotation_id' => $quotation->id,
             ]);
             $sale->save();
@@ -345,6 +368,55 @@ class Show extends Component
 
         $this->status = $quotation->status;
         // $this->dispatch('canceledQuotation', $quotation);
+    }
+
+    // Print Quotation
+    public function print(Quotation $quotation){
+
+        // $quotation = Quotation::findOrFail($this->quotation->id);
+        try {
+            // $quotation = Quotation::find(38);
+
+            if (!$quotation) {
+                throw new \Exception('Quotation not found');
+            }
+
+            $customer = Contact::findOrFail($quotation->customer_id);
+            $seller = SalesPerson::findOrFail($quotation->seller_id);
+            $company = current_company();
+
+            $pdf = Pdf::loadView('sales::print-quotation', [
+                'quotation' => $quotation,
+                'customer' => $customer,
+                'seller' => $seller,
+                'company' => $company
+            ])->setPaper('a4');
+
+            // $folderPath = "companies/{$company->name}/files/quotations";
+            // $filePath = "$folderPath/{$quotation->reference}.pdf";
+
+            // // Check if the file already exists
+            // if (Storage::exists($filePath)) {
+            //     // Delete the existing file
+            //     Storage::delete($filePath);
+            // }
+
+            // // Ensure the directory exists, create it if not
+            // Storage::makeDirectory($folderPath);
+
+            // // Save the PDF to the storage
+            // Storage::put($filePath, $pdf->output());
+
+
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->output(); // Echo download contents directly...
+            }, 'Devis -' . $quotation->reference . '.pdf');
+
+            // return response($utf8Output)->download('quotation-' . $quotation->reference . '.pdf');
+        } catch (\Exception $e) {
+            Log::error('Error generating quotation PDF: ' . $e->getMessage());
+            return response()->json(['error' => 'Unable to generate PDF'], 500);
+        }
     }
 
 }

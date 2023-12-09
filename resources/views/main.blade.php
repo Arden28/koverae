@@ -12,6 +12,7 @@
     <!-- CoreUI CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <link href="{{ asset('/assets/css/style.css')}}?166828781425" rel="stylesheet"/>
 
     @livewireStyles
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -25,7 +26,7 @@
         <div class="button-navbar">
             <!-- Were buttons -->
             <button id="chatButton" class="dropdown-toggle">
-                <i class="bi bi-envelope">
+                <i class="bi bi-chat-text">
                     <span class="k-notification-badge">3</span>
                 </i>
                 <span class="k-mail-messaging">
@@ -53,7 +54,7 @@
         {{-- <div class="k_home_menu overflow-auto h-100"> --}}
         <div class="container justify-content-center">
 
-                @if(!Auth::user()->hasVerifiedEmail())
+                @if(Auth::user()->hasVerifiedEmail())
                 <div class="database_expiration_panel">
                     <span class="k_instance_register_main">
                         Votre base de données sera désactivée dans 3h. <a href="{{ route('verification.notice') }}">Confirmez votre adresse mail</a>
@@ -81,6 +82,7 @@
                     </div>
                     @endif
                 @endforeach
+
                 <div class="col-3 col-md-2 k_draggable p-1 p-md-2">
                     <a href="" class="k_app k_menuitem d-flex flex-column justify-content-start align-items-center w-100 rounded">
                         <img src="{{ asset('assets/images/apps/todo.png') }}" alt="" class="k_app_icon rounded">

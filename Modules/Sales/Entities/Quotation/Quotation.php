@@ -9,6 +9,7 @@ use Modules\Sales\Entities\Quotation\QuotationDetails;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Sales\Entities\Sale;
+use Modules\Sales\Entities\SalesPerson;
 
 class Quotation extends Model
 {

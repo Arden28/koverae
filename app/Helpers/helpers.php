@@ -58,7 +58,7 @@ if (!function_exists('module')) {
 
         $team = Team::where('id', Auth::user()->team->id)->where('uuid', Auth::user()->team->uuid)->first();
 
-        $module = Module::where('slug', $slug)->first();
+        $module = Module::findBySlug($slug)->first();
 
         if($module->isInstalledBy($team)){
             return $module->isInstalledBy($team);

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 use Modules\Sales\Http\Controllers\QuotationController;
 use Modules\Sales\Http\Controllers\SalesController;
 use Modules\Sales\Http\Controllers\SalesTeamController;
@@ -9,6 +11,7 @@ use Modules\Sales\Livewire\Customer\Lists as CustomerLists;
 use Modules\Sales\Livewire\Quotation\Lists as QuotationLists;
 use Modules\Sales\Livewire\Quotation\Create as QuotationCreate;
 use Modules\Sales\Livewire\Quotation\Show as QuotationShow;
+use Modules\Sales\Entities\Quotation\Quotation;
 // Sale
 use Modules\Sales\Livewire\Sale\Lists as SaleLists;
 use Modules\Sales\Livewire\Sale\Create as SaleCreate;
@@ -17,6 +20,9 @@ use Modules\Sales\Livewire\Sale\Show as SaleShow;
 use Modules\Sales\Livewire\Team\Create as TeamCreate;
 use Modules\Sales\Livewire\Team\Lists as TeamLists;
 use Modules\Sales\Livewire\Sale\Invoice\Show as InvoiceShow;
+
+use Modules\Contact\Entities\Contact;
+use Modules\Sales\Entities\SalesPerson;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +43,33 @@ Route::middleware(['module:sales'])->group(function() {
         // Route::get('sales/{sale}', ['uses' => SaleShow::class, 'as' => 'sales.show']);
 
     Route::get('quotations', QuotationLists::class)->name('sales.quotations.index');
+    //Print Quotation
+    
+    // Route::get('/quotations/pdf/{quotation}', function ($quotation) {
+    //     try {
+    //         $quotation = Quotation::find(38);
+    
+    //         if (!$quotation) {
+    //             throw new \Exception('Quotation not found');
+    //         }
+    
+    //         $customer = Contact::findOrFail($quotation->customer_id);
+    //         $seller = SalesPerson::findOrFail($quotation->seller_id);
+    //         $company = current_company();
+    
+    //         $pdf = Pdf::loadView('sales::print-quotation', [
+    //             'quotation' => $quotation,
+    //             'customer' => $customer,
+    //             'seller' => $seller,
+    //             'company' => $company
+    //         ])->setPaper('a4');
+    
+    //         return $pdf->download('quotation-' . $quotation->reference . '.pdf');
+    //     } catch (\Exception $e) {
+    //         Log::error('Error generating quotation PDF: ' . $e->getMessage());
+    //         return response()->json(['error' => 'Unable to generate PDF'], 500);
+    //     }
+    // })->name('sales.quotations.pdf');
 
     Route::get('sales/teams', TeamLists::class)->name('sales.teams.index');
 

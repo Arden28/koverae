@@ -7,5 +7,7 @@
     "Contact": true,
     "Sales": true,
     "Invoicing": true,
-    "Accounting": true
+    "Accounting": true,
+    "Purchase": true,
+    "App": true
 }

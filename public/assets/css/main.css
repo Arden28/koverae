@@ -27,7 +27,7 @@ body {
     -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
-.k_main_navbar .dropdown-toggle {
+/* .k_main_navbar .dropdown-toggle {
     line-height: 26px;
     text-decoration: none solid rgb(17, 24, 39);
     text-align: center;
@@ -41,7 +41,7 @@ body {
     position: relative;
     /* margin-right: auto; */
     /* transition: background-color 0.3s; */
-}
+} */
 
 .k_main_navbar .dropdown-toggle::after {
     display: none; /* Hide the arrow pseudo-element */
