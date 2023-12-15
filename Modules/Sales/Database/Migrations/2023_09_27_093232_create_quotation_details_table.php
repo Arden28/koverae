@@ -30,7 +30,7 @@ return new class extends Migration
 
             $table->foreign('quotation_id')->references('id')
                 ->on('quotations')->cascadeOnDelete();
-            $table->foreign('product_id')->references('id')->on('products')->nullOnDelete();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
 
             $table->timestamps();
             $table->softDeletes();
