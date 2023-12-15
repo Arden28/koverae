@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PlanTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
         $this->call(SuperUserSeeder::class);
-        $this->call(EmployeeDatabaseSeeder::class);
+        // $this->call(EmployeeDatabaseSeeder::class);
         // $this->call(InventoryDatabaseSeeder::class);
     }
 }
