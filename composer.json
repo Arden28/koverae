@@ -16,7 +16,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/scout": "^10.4",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^3.0",
+        "livewire/livewire": "^3.2",
         "mckenziearts/laravel-notify": "^2.4",
         "mhmiton/laravel-modules-livewire": "^2.1",
         "nativephp/electron": "^0.4.0",
@@ -24,6 +24,7 @@
         "spatie/laravel-medialibrary": "^10.11",
         "spatie/laravel-permission": "^5.10",
         "stripe/stripe-php": "^12.1",
+        "wire-elements/modal": "2.0.9",
         "yajra/laravel-datatables": "10.0",
         "yajra/laravel-datatables-oracle": "10.3.1",
         "yungts97/laravel-user-activity-log": "^1.4"

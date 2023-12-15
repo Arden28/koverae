@@ -18,6 +18,7 @@ use Modules\Sales\Livewire\Sale\Create as SaleCreate;
 use Modules\Sales\Livewire\Sale\Invoice\Edit;
 use Modules\Sales\Livewire\Sale\Show as SaleShow;
 use Modules\Sales\Livewire\Team\Create as TeamCreate;
+use Modules\Sales\Livewire\Team\Show as TeamShow;
 use Modules\Sales\Livewire\Team\Lists as TeamLists;
 use Modules\Sales\Livewire\Sale\Invoice\Show as InvoiceShow;
 
@@ -43,33 +44,6 @@ Route::middleware(['module:sales'])->group(function() {
         // Route::get('sales/{sale}', ['uses' => SaleShow::class, 'as' => 'sales.show']);
 
     Route::get('quotations', QuotationLists::class)->name('sales.quotations.index');
-    //Print Quotation
-    
-    // Route::get('/quotations/pdf/{quotation}', function ($quotation) {
-    //     try {
-    //         $quotation = Quotation::find(38);
-    
-    //         if (!$quotation) {
-    //             throw new \Exception('Quotation not found');
-    //         }
-    
-    //         $customer = Contact::findOrFail($quotation->customer_id);
-    //         $seller = SalesPerson::findOrFail($quotation->seller_id);
-    //         $company = current_company();
-    
-    //         $pdf = Pdf::loadView('sales::print-quotation', [
-    //             'quotation' => $quotation,
-    //             'customer' => $customer,
-    //             'seller' => $seller,
-    //             'company' => $company
-    //         ])->setPaper('a4');
-    
-    //         return $pdf->download('quotation-' . $quotation->reference . '.pdf');
-    //     } catch (\Exception $e) {
-    //         Log::error('Error generating quotation PDF: ' . $e->getMessage());
-    //         return response()->json(['error' => 'Unable to generate PDF'], 500);
-    //     }
-    // })->name('sales.quotations.pdf');
 
     Route::get('sales/teams', TeamLists::class)->name('sales.teams.index');
 
@@ -96,7 +70,7 @@ Route::middleware(['module:sales'])->group(function() {
         // Sales Team
         Route::prefix('teams')->name('teams.')->group(function(){
             Route::get('/create', TeamCreate::class)->name('create');
-            Route::get('/{team}', QuotationShow::class)->name('show');
+            Route::get('/{team}', TeamShow::class)->name('show');
         });
 
         // Route::resource('teams', SalesTeamController::class);

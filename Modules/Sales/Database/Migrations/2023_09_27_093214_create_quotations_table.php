@@ -53,6 +53,8 @@ return new class extends Migration
             $table->string('medium')->nullable();
             $table->string('source')->nullable();
 
+            $table->unsignedBigInteger('email_template_id')->nullable();
+
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();

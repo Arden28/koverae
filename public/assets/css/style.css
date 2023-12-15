@@ -1315,7 +1315,80 @@
         min-height: auto;
         min-width: auto;
     }
+    /* BUTTON */
 
+    /* MODAL */
+
+    .modal-header{
+        height: 57px;
+        width: 100%;
+        border-bottom: 1px solid #D8DADD;
+        padding: 16px 16px 16px 16px;
+        min-height: auto;
+        display: flex;
+    }
+    .modal-header .modal-title{
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 500;
+        min-height: auto;
+        min-width: auto;
+    }
+    .k_form_nosheet{
+        height: auto;
+        width: 100%;
+        padding: 24px 16px 0 16px;
+        max-width: 2600px;
+        display: block;
+    }
+    .modal-footer{
+        height: 65px;
+        height: 57px;
+        width: 100%;
+        border-top: 1px solid #D8DADD;
+        padding: 16px 16px 16px 16px;
+        min-height: auto;
+        display: flex;
+    }
+    .modal-footer footer{
+        height: 32px;
+        width: 100%;
+        margin: 1px 1px 1px 1px;
+        min-height: auto;
+        min-width: auto;
+        display: flex;
+    }
+    .modal-footer footer button{
+        padding: 5px 10px 5px 10px;
+    }
+
+    .koverae-editable-editor{
+        height: 150px;
+        width: 946px;
+        /* border-bottom: 1px solid #D8DADD; */
+        padding: 4px 40px 4px;
+        min-height: 150px;
+        min-width: auto;
+        text-align: left;
+        overflow: auto;
+        max-height: 150px;
+    }
+    .koverae-editable-editor:hover{
+        border-bottom: 1px solid #017E84;
+        outline: none;
+    }
+    .koverae-editable-editor:focus{
+        border-bottom: 1px solid #017E84;
+        outline: none;
+    }
+    /* .k_input:hover{
+      outline: none;
+      border-bottom: 1px solid #CCCCCC;
+    }
+    .k_input:focus{
+      outline: none;
+      border-bottom: 1px solid #CCCCCC;
+    } */
     /* AUTH PAGE */
 
         /* Auth */

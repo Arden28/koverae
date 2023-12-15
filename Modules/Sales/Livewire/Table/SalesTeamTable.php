@@ -38,7 +38,7 @@ class SalesTeamTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('name', 'Nom'),
+            Column::make('name', 'Nom')->component('columns.common.show-title-link'),
             Column::make('email_alias', 'Alias'),
             Column::make('team_leader_id', "Chef d'équipe")->component('columns.common.sales.sales-team-leader'),
             Column::make('invoice_target', 'Objectif de facturation')->component('columns.common.format_currency'),

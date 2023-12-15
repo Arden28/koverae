@@ -61,11 +61,11 @@ class SalesTeamForm extends SimpleForm
     public function inputs() : array
     {
         return  [
-            // make($key, $label, $type, $model, $position, $tab, $group, $placeholder = null)
-            Input::make('name', "Nom de l'équipe", 'text', 'name', 'top-title', 'none', 'none', 'Ex: Equipe Commerciale')->component('inputs.ke-title'),
+            // make($key, $label, $type, $model, $position, $tab, $group, $placeholder = null, $help = null)
+            Input::make('name', "Nom de l'équipe", 'text', 'name', 'top-title', 'none', 'none', 'ex: Equipe Commerciale')->component('inputs.ke-title'),
             Input::make('team_leader_id',"Chef d'équipe", 'select', 'leader', 'left', 'none', 'team')->component('inputs.select.sales.seller'),
-            Input::make('alias_email','Alias', 'text', 'alias', 'left', 'none', 'team')->component('inputs.email-alias'),
-            Input::make('invoice_target','Objectif', 'text', 'invoice_target', 'left', 'none', 'team', "Objectif de revenus pour le mois en cours (total hors taxe des factures confirmées)")->component('inputs.invoice-target'),
+            Input::make('alias_email','Alias', 'text', 'alias', 'left', 'none', 'team', 'none')->component('inputs.email-alias'),
+            Input::make('invoice_target','Objectif', 'text', 'invoice_target', 'left', 'none', 'team', 'none', "Objectif de revenus pour le mois en cours (total hors taxe des factures confirmées)")->component('inputs.invoice-target'),
         ];
     }
 
@@ -127,5 +127,25 @@ class SalesTeamForm extends SimpleForm
 
         notify()->success('message', 'Equipe créée.');
 
+    }
+
+    public function update($team){
+        $this->validate();
+        $team = SalesTeam::find($team);
+
+        $team->update([
+            'company_id' => current_company()->id,
+            'name' => $this->name,
+            'team_leader_id' => $this->leader,
+            'email_alias' => $this->alias.'@'.$this->domain_email,
+            'invoice_target' => $this->invoice_target,
+        ]);
+
+        notify()->success('message', 'Equipe mise à jour.');
+
+    }
+
+    public function new(){
+        return $this->redirect(route('sales.teams.create', ['subdomain' => current_company()->domain_name]), navigate:true);
     }
 }

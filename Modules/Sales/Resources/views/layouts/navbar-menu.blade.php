@@ -77,6 +77,34 @@
                 </div>
             </li>
 
+            <!-- Report -->
+            <li class="nav-item dropdown" data-turbolinks>
+                <a class="btn dropdown-toggle" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                  <span class="nav-link-title">
+                      {{ __('Analyses') }}
+                  </span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-menu-columns">
+                        <!-- Left Side -->
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" wire:navigate href="{{ route('sales.quotations.index', ['subdomain' => current_company()->domain_name]) }}">
+                                {{ __('Ventes') }}
+                            </a>
+                            <a class="dropdown-item" wire:navigate href="{{ route('sales.quotations.index', ['subdomain' => current_company()->domain_name]) }}">
+                                {{ __('Vendeurs') }}
+                            </a>
+                            <a class="dropdown-item" wire:navigate href="{{ route('sales.quotations.index', ['subdomain' => current_company()->domain_name]) }}">
+                                {{ __('Clients') }}
+                            </a>
+                            <a class="dropdown-item" wire:navigate href="{{ route('sales.quotations.index', ['subdomain' => current_company()->domain_name]) }}">
+                                {{ __('Produits') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
             <li class="nav-item dropdown" data-turbolinks>
                 <a class="btn dropdown-toggle" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                   <span class="nav-link-title">

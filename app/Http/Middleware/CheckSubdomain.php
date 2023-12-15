@@ -16,6 +16,8 @@ class CheckSubdomain
      */
     public function handle($request, Closure $next)
     {
+        $coreUrl = env('CORE_URL');
+
         $companies_domains = domains()->toArray(); // Convert the Collection to an array
 
         $session_domain = session('current_subdomain');
@@ -24,7 +26,8 @@ class CheckSubdomain
         $subdomain = explode('.', $host)[0]; // Extract the first part before the first dot
 
         if (!in_array($subdomain, $companies_domains)) {
-            return redirect('http://koverae.test/kokoma?esika='.$host.'&komboyabybd='.$subdomain);
+            return redirect($coreUrl . '/kokoma?esika='.$host.'&komboyabybd='.$subdomain);
+            // return redirect('http://koverae.test/kokoma?esika='.$host.'&komboyabybd='.$subdomain);
             // kokoma = erreur; esika = domaine; komboybd = nom de la base de données
         }
 

@@ -39,6 +39,9 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->text('terms')->nullable();
 
+            // Email
+            $table->unsignedBigInteger('email_template_id')->nullable();
+
             $table->foreign('supplier_id')->references('id')->on('contacts')->cascadeOnDelete();
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->timestamps();

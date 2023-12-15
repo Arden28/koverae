@@ -27,6 +27,7 @@ use Modules\Sales\Entities\SalesPerson;
 use Modules\Sales\Entities\SalesTeam;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class QuotationForm extends BaseForm
 {
@@ -81,10 +82,15 @@ class QuotationForm extends BaseForm
 
     public $sale;
 
+    public $model;
+
 
     public function mount($quotation = null){
         if($quotation){
+
             $this->quotation = $quotation;
+
+            $this->model = $quotation;
 
             $this->sale = $quotation->sale;
 
@@ -216,7 +222,7 @@ class QuotationForm extends BaseForm
 
         $buttons = [
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
-            ActionBarButton::make('send', 'Envoyer par Email', 'storeQT()', 'quotation'),
+            ActionBarButton::make('send', 'Envoyer par Email', "", 'quotation')->component('button.action-bar.send-email'),
             ActionBarButton::make('confirm', 'Confirmer', 'confirmQT()', 'sent')->component('button.action-bar.confirmed-quotation'),
             ActionBarButton::make('preview', 'Aperçu', 'preview()', 'previewed'),
             // Add more buttons as needed
@@ -347,9 +353,25 @@ class QuotationForm extends BaseForm
                 'company' => $company
             ])->setPaper('a4');
 
+            // $folderPath = "companies/{$company->name}/files/quotations";
+            // $filePath = "$folderPath/{$quotation->reference}.pdf";
+
+            // // Check if the file already exists
+            // if (Storage::exists($filePath)) {
+            //     // Delete the existing file
+            //     Storage::delete($filePath);
+            // }
+
+            // // Ensure the directory exists, create it if not
+            // Storage::makeDirectory($folderPath);
+
+            // // Save the PDF to the storage
+            // Storage::put($filePath, $pdf->output());
+
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output(); // Echo download contents directly...
             }, 'Devis -' . $quotation->reference . '.pdf');
+
 
             // return response($utf8Output)->download('quotation-' . $quotation->reference . '.pdf');
         } catch (\Exception $e) {

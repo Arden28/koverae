@@ -18,6 +18,8 @@
     });
 </script>
 
+@livewire('wire-elements-modal')
+
 <script>
     Livewire.hook('request', ({ fail }) => {
         fail(({ status, preventDefault }) => {

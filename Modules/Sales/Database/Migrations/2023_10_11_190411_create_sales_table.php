@@ -58,6 +58,9 @@ return new class extends Migration
             $table->string('medium')->nullable();
             $table->string('source')->nullable();
 
+            // Email
+            $table->unsignedBigInteger('email_template_id')->nullable();
+
             // Quotation
             $table->unsignedBigInteger('quotation_id')->nullable();
 
