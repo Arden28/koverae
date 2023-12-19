@@ -53,6 +53,9 @@ return new class extends Migration
             $table->string('account_payable')->nullable(); //this payment term will be used instead of the defzult payment term
 
             $table->string('note')->nullable();
+            // Type Bool
+            $table->boolean('is_supplier')->default(false);
+            $table->boolean('is_customer')->default(false);
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->timestamps();

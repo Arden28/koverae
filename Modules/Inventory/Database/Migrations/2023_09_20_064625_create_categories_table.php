@@ -19,10 +19,19 @@ return new class extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('category_code')->nullable();
             $table->string('category_name');
+            $table->unsignedBigInteger('force_removal_strategy_id')->nullable();
+            $table->enum('costing_method', ['standard', 'fifo', 'avco']);
+            $table->enum('reserve_packagings', ['only_full', 'partial'])->default('only_full'); //Only Full: When a customer order 2 pallets of 100 units each, and you only have 170 in stock, then only 100 will be reserved. Partial: When a customer order 2 pallets of 100 units each, and you only have 170 in stock, 170 will be reserved
 
-            // $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
+            // Accounting
+            $table->unsignedBigInteger('income_account_id')->nullable();
+            $table->unsignedBigInteger('expense_account_id')->nullable();
+
+
+            $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             // $table->foreign('parent_id')->references('id')->on('categories')->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -33,6 +42,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

@@ -165,7 +165,7 @@
 
                         @if(current_company()->country)
                             <p class="company-country">
-                                {{ __('Adresse') }}: {{ current_company()->country }}
+                                {{ __('Pays') }}: {{ current_company()->country }}
                             </p>
                         @endif
 
@@ -190,6 +190,18 @@
                         @if(current_company()->vat)
                             <p class="company-vat">
                                 {{ __('TVA') }}: {{ current_company()->vat }}
+                            </p>
+                        @endif
+
+                        @if(current_company()->rccm)
+                            <p class="company-rccm">
+                                {{ __('TVA') }}: {{ current_company()->rccm }}
+                            </p>
+                        @endif
+
+                        @if(current_company()->niu)
+                            <p class="company-niu">
+                                {{ __('TVA') }}: {{ current_company()->niu }}
                             </p>
                         @endif
 
@@ -375,7 +387,7 @@
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td class="text-right pl-0">{{ __('Montant dû') }}</td>
                                 <td class="text-right pr-0 total-amount">
-                                    {{ format_currency($invoice->due_amount) }}
+                                    {{ format_currency($invoice->due_amount / 100) }}
                                 </td>
                             </tr>
                             @endif

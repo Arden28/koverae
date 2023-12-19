@@ -1,3 +1,12 @@
 <div>
-    <h3>The <code>Lists</code> livewire component is loaded from the <code>Purchase</code> module.</h3>
+    @section('title', 'Fournisseurs')
+    <div class="page-body d-print-none">
+        <div class="container-fluid">
+            <!-- Notify -->
+            @include('notify::components.notify')
+
+            <livewire:contact::table.suppliers-table />
+
+        </div>
+    </div>
 </div>

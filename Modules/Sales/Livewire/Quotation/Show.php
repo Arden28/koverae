@@ -271,7 +271,7 @@ class Show extends Component
 
                 'company_id'=> Auth::user()->currentCompany->id,
                 // 'date' => $this->date,
-                'date' => now(),
+                'date' => $this->date,
                 // 'reference' => 'PSL',
                 'customer_id' => $quotation->customer_id,
                 // 'customer_name' => Customer::findOrFail($this->customer_id)['customer_name'],

@@ -29,7 +29,7 @@ class InvoicePayment extends Model
 
     public function scopeIsInvoice(Builder $query, $invoice_id)
     {
-        return $query->where('invoice_id', $invoice_id);
+        return $query->where('customer_invoice_id', $invoice_id);
     }
 
 

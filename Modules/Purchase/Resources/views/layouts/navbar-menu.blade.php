@@ -34,7 +34,7 @@
                             <a class="dropdown-item" wire:navigate href="{{ route('purchases.blankets.index', ['subdomain' => current_company()->domain_name]) }}">
                                 {{ __('Contrat-cadres') }}
                             </a>
-                            <a class="dropdown-item" wire:navigate href="{{ route('sales.teams.index', ['subdomain' => current_company()->domain_name]) }}">
+                            <a class="dropdown-item" wire:navigate href="{{ route('purchases.vendors.index', ['subdomain' => current_company()->domain_name]) }}">
                                 {{ __('Fournisseurs') }}
                             </a>
                         </div>

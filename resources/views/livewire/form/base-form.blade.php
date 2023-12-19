@@ -35,6 +35,9 @@
             @csrf
             <!-- Sheet Card -->
             <div class="k_form_sheet position-relative">
+
+                @include('sales::livewire.sale.invoice.partials.payment-status-ribbon')
+
                 <div class="row justify-content-between position-relative w-100 m-0 mb-2">
                     {{-- <span class="k_form_label">
                         Demande de prix
@@ -78,6 +81,7 @@
                                     @endforeach
                                 </ul>
                             </div>
+
                             <div wire:dirty>
                                 <button type="submit" wire:target="{{ $this->form() }}" wire:loading.remove title="Sauvegarder les changements...."><i class="bi bi-cloud-arrow-up-fill fa-xs"></i></button>
                                 <button type="submit" wire:loading class="disabled" title="Sauvegarder les changements....">...</button>
@@ -136,7 +140,7 @@
                     <ul class="nav nav-tabs flex-row flex-nowrap" data-bs-toggle="tabs">
                         @foreach ($this->tabs() as $tab)
                         <li class="nav-item">
-                            <a class="nav-link {{ $tab->key == 'order' || $tab->key == 'purchase' ? 'active' : '' }}" data-bs-toggle="tab" href="#{{ $tab->key }}">{{ $tab->label }}</a>
+                            <a class="nav-link {{ $tab->key == 'order' || $tab->key == 'purchase' || $tab->key == 'invoice' ? 'active' : '' }}" data-bs-toggle="tab" href="#{{ $tab->key }}">{{ $tab->label }}</a>
                         </li>
                         @endforeach
                     </ul>

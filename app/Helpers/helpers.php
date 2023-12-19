@@ -135,6 +135,14 @@ if (!function_exists('make_reference_with_id')) {
     }
 }
 
+if (!function_exists('make_reference_with_month_id')) {
+    function make_reference_with_month_id($prefix, $number, $year, $month) {
+        $padded_text = $prefix . '/'.$year. '/'.$month.'/'. str_pad($number, 5, 0, STR_PAD_LEFT);
+
+        return $padded_text;
+    }
+}
+
 if (!function_exists('array_merge_numeric_values')) {
     function array_merge_numeric_values() {
         $arrays = func_get_args();
@@ -170,3 +178,10 @@ if (!function_exists('convertToInt')) {
         return $value;
     }
 }
+
+// Payment Term
+// if(!function_exists('payment_term')){
+//     function payment_term($type){
+
+//     }
+// }

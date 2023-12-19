@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Inventory\Database\factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
-
 class Product extends Model implements Buyable
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable =  [
     'company_id',

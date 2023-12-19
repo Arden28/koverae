@@ -3,5 +3,5 @@
 
     <!-- Notify -->
     @include('notify::components.notify')
-    <livewire:purchase::order.request.create-form />
+    <livewire:purchase::form.request-quotation-form />
 </div>

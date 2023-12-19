@@ -23,6 +23,12 @@ use Modules\Purchase\Entities\Purchase;
 use Modules\Purchase\Entities\PurchaseDetail;
 use Modules\Purchase\Entities\Request\RequestQuotation;
 use Modules\Purchase\Entities\Request\RequestQuotationDetail;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Modules\Employee\Entities\Employee;
+use Modules\Invoicing\Entities\Vendor\Bill;
+use Modules\Invoicing\Entities\Vendor\BillDetail;
 
 class PurchaseForm extends BaseForm
 {
@@ -32,6 +38,8 @@ class PurchaseForm extends BaseForm
     public $purchase;
 
     public $status = 'purchase_order';
+
+    public $invoice;
 
     public $reference,
     $supplier,
@@ -74,6 +82,8 @@ class PurchaseForm extends BaseForm
             $this->purchase = $purchase;
 
             $this->status = $purchase->status;
+
+            $this->invoice = $purchase->invoice;
 
             $this->reference = $purchase->reference;
             $this->supplier = $purchase->supplier_id;
@@ -195,15 +205,16 @@ class PurchaseForm extends BaseForm
         $status = $this->status;
 
         $buttons = [
-            ActionBarButton::make('invoice', 'Créer une facture fournisseur', 'createInvoice()', 'purchase_order'),
-            ActionBarButton::make('send', 'Envoyer le bon de commande par email', 'sendByEmail()', ''),
+            ActionBarButton::make('reception', 'Recevoir les produits', 'receiveOrder()', 'purchase_order'),
+            ActionBarButton::make('invoice', 'Créer une facture', 'createInvoice()', 'purchase_order')->component('button.action-bar.invoice-button'),
+            ActionBarButton::make('send', 'Envoyer par email', 'sendByEmail()', ''),
             ActionBarButton::make('lock', 'Verouiller', 'lock()', ''),
             ActionBarButton::make('cancel', 'Annuler', 'cancel()', 'cancelled'),
             // Add more buttons as needed
         ];
 
         // Define the custom order of button keys
-        $customOrder = ['invoice', 'send', 'lock']; // Adjust as needed
+        $customOrder = ['reception', 'invoice', 'send', 'lock']; // Adjust as needed
 
         // Change dynamicaly the display order depends on status
         return $this->sortActionButtons($buttons, $customOrder, $status);
@@ -225,7 +236,7 @@ class PurchaseForm extends BaseForm
     public function capsules() : array
     {
         return [
-            // Capsule::make('sale', 'Vente(s)', 'Les ventes générées via le devis.'),
+            Capsule::make('invoice', 'Facture(s)', 'Factures du bon de commande.')->component('capsules.purchase-invoice-capsule'),
             // Add more buttons as needed
         ];
     }
@@ -412,4 +423,92 @@ class PurchaseForm extends BaseForm
         // $this->ask_confirmation == true
     }
 
+    // Create Invoice
+    public function createInvoice(){
+
+        $purchase = $this->purchase;
+
+        $invoice = Bill::create([
+            'company_id' => $purchase->company_id,
+            'purchase_id' => $purchase->id,
+            'supplier_id' => $purchase->supplier_id,
+            'date' => now(),
+            'due_date' => $purchase->expected_date,
+            'payment_term' => $purchase->payment_term,
+            'payment_status' => 'Unpaid',
+            'buyer_id' => $purchase->buyer_id,
+            'total_amount' => $purchase->total_amount * 100,
+            'paid_amount' => $purchase->paid_amount * 100,
+            'due_amount' => $purchase->due_amount * 100,
+            'status' => 'draft',
+            'payment_status' => '',
+            'to_checked' => false,
+        ]);
+        $invoice->save();
+
+        $purchase->update([
+            'invoice_status' => 'invoiced',
+        ]);
+
+        // $invoiceDetails = $invoice->invoiceDetails;
+            $purchase_details = $purchase->purchaseDetails;
+
+        foreach($purchase_details as $detail) {
+            //Create purchase from quotation view without create quotation
+            BillDetail::create([
+                'supplier_bill_id' => $invoice->id,
+                'product_id' => $detail->product_id,
+                'label' => $detail->product_name,
+                'product_name' => $detail->product_name,
+                'quantity' => $detail->quantity,
+                'price' => $detail->price * 100,
+                'unit_price' => $detail->unit_price * 100,
+                'sub_total' => $detail->sub_total * 100,
+                'product_discount_amount' => $detail->product_discount_amount * 100,
+                'product_discount_type' => $detail->product_discount_type,
+                'product_tax_amount' => $detail->product_tax_amount * 100,
+            ]);
+
+        }
+
+        Cart::instance('purchase')->destroy();
+
+        return $this->redirect(route('purchases.invoices.show', ['subdomain' => current_company()->domain_name, 'purchase' => $purchase->id, 'invoice' => $invoice->id]), navigate:true);
+
+    }
+
+
+    // Print Purchase
+    public function print(){
+        try {
+            // $purchase = Quotation::find(38);
+
+            if (!$this->purchase) {
+                throw new \Exception('purchase not found');
+            }
+
+            $purchase = Purchase::findOrFail($this->purchase->id);
+
+            $customer = Contact::findOrFail($purchase->supplier_id);
+            $buyer = Employee::findOrFail($purchase->buyer_id);
+            $company = current_company();
+
+            $pdf = Pdf::loadView('purchase::print-purchase-order', [
+                'purchase' => $purchase,
+                'customer' => $customer,
+                'buyer' => $buyer,
+                'company' => $company
+            ])->setPaper('a4');
+
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->output(); // Echo download contents directly...
+            }, 'Bon de commande fournisseur -' . $purchase->reference . '.pdf');
+
+
+            // return response($utf8Output)->download('purchase-' . $purchase->reference . '.pdf');
+        } catch (\Exception $e) {
+            Log::error('Error generating purchase PDF: ' . $e->getMessage());
+            return response()->json(['error' => 'Unable to generate PDF'], 500);
+        }
+    }
 }

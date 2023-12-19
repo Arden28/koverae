@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 use Modules\Contact\Entities\Vendor\Supplier;
+use Modules\Employee\Entities\Employee;
+use Modules\Invoicing\Entities\Vendor\Bill;
 
 class Purchase extends Model
 {
@@ -45,6 +47,16 @@ class Purchase extends Model
     // Get seller
     public function supplier() {
         return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
+    }
+
+    // Get seller
+    public function buyer() {
+        return $this->belongsTo(Employee::class, 'buyer_id', 'id');
+    }
+
+    // Get Quotation's details
+    public function invoice() {
+        return $this->hasOne(Bill::class, 'purchase_id', 'id');
     }
 
     public static function boot() {

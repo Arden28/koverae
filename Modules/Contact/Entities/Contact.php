@@ -40,6 +40,18 @@ class Contact extends Model
         return $query->where('company_id', $company_id);
     }
 
+    // If the contacts belong to the company
+    public function scopeIsSupplier(Builder $query)
+    {
+        return $query->where('is_supplier', true);
+    }
+
+    // If the contacts belong to the company
+    public function scopeIsCustomer(Builder $query)
+    {
+        return $query->where('is_customer', true);
+    }
+
     // Get Company
     public function company() {
         return $this->belongsTo(Company::class, 'company_id', 'id');

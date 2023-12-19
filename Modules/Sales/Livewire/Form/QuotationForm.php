@@ -23,8 +23,12 @@ use Illuminate\Support\Facades\Gate;
 use Modules\Inventory\Entities\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Modules\Contact\Entities\Contact;
+
+use Modules\Sales\Entities\Sale;
+use Modules\Sales\Entities\SalesDetail;
 use Modules\Sales\Entities\SalesPerson;
 use Modules\Sales\Entities\SalesTeam;
+
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -223,7 +227,7 @@ class QuotationForm extends BaseForm
         $buttons = [
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
             ActionBarButton::make('send', 'Envoyer par Email', "", 'quotation')->component('button.action-bar.send-email'),
-            ActionBarButton::make('confirm', 'Confirmer', 'confirmQT()', 'sent')->component('button.action-bar.confirmed-quotation'),
+            ActionBarButton::make('confirm', 'Confirmer', 'sale()', 'sent')->component('button.action-bar.confirmed-quotation'),
             ActionBarButton::make('preview', 'Aperçu', 'preview()', 'previewed'),
             // Add more buttons as needed
         ];
@@ -327,6 +331,110 @@ class QuotationForm extends BaseForm
             notify()->success("Nouveau Devis créé !");
 
             return $this->redirect(route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id]), navigate:true);
+        });
+
+    }
+
+
+    // Confirm the quotation and create a sale
+    public function confirm(Quotation $quotation){
+        // abort_if(Gate::denies('create_quotation_sales'), 403);
+
+        $quotation->update([
+            'status' => 'sale_order'
+        ]);
+        $this->sale($quotation);
+        // $this->status = 'sale_order';
+    }
+
+    // Confirm the sale from quotation
+    public function sale(){
+
+        // $this->validate();
+
+        DB::transaction(function () {
+            $cart = Cart::instance('quotation');
+
+            // Remove any non-numeric characters except the decimal point
+            $this->total_amount = convertToInt($cart->total());
+            $this->tax_amount = convertToInt($cart->tax());
+
+            $due_amount = $this->total_amount - $this->paid_amount;
+
+            if (isset($this->payment_method)) {
+                // Access the payment_method key
+                $paymentMethod = $this->payment_method;
+            } else {
+                // Set a default value for payment_method
+                $paymentMethod = 'Cash';
+            }
+            if ($due_amount == $this->total_amount) {
+                $payment_status = 'Unpaid';
+            } elseif ($due_amount > 0) {
+                $payment_status = 'Partial';
+            } else {
+                $payment_status = 'Paid';
+            }
+
+
+            $sale = Sale::create([
+
+                'company_id' => current_company()->id,
+                'date' => $this->date,
+                'seller_id' => $this->seller, //customer id
+                'sales_team_id' => $this->sales_team, //customer id
+                'customer_id' => $this->customer, //customer id
+                'tax_percentage' => $this->tax_percentage,
+                'discount_percentage' => $this->discount_percentage,
+                'shipping_amount' => 0,
+                'shipping_date' => $this->shipping_date,
+                'shipping_policy' => $this->shipping_policy,
+                'shipping_status' => 'Pending',
+                'payment_term' => $this->payment_term,
+                'payment_status' => $payment_status,
+                'payment_method' => $paymentMethod,
+                'total_amount' => $this->total_amount / 100,
+                'status' => 'to_invoice',
+                'note' => $this->note,
+                'tax_amount' => $this->tax_amount,
+                'discount_amount' => $this->discount_amount,
+                'quotation_id' => $this->quotation->id ?? null
+            ]);
+
+            foreach (Cart::instance('quotation')->content() as $cart_item) {
+                $sale_details = SalesDetail::create([
+                    'sale_id' => $sale->id,
+                    'product_id' => $cart_item->id,
+                    'product_name' => $cart_item->name,
+                    'product_code' => $cart_item->options->code,
+                    'quantity' => $cart_item->qty,
+                    'price' => $cart_item->price * 100,
+                    'unit_price' => $cart_item->options->unit_price * 100,
+                    'sub_total' => $cart_item->options->sub_total * 100,
+                    'product_discount_amount' => $cart_item->options->product_discount * 100,
+                    'product_discount_type' => $cart_item->options->product_discount_type,
+                    'product_tax_amount' => $cart_item->options->product_tax * 100,
+                ]);
+                $sale_details->save();
+
+                $product = Product::findOrFail($cart_item->id);
+                $product->update([
+                    'product_quantity' => $product->product_quantity - $cart_item->qty
+                ]);
+
+            }
+
+            if($this->quotation){
+                $this->quotation->status = 'sale_order';
+                $this->quotation->save();
+            }
+
+            // Cart::instance('quotation')->store(Auth::user()->id);
+            Cart::instance('quotation')->destroy();
+
+            notify()->success("Nouveau bon de commande créé !");
+
+            return $this->redirect(route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id]), navigate:true);
         });
 
     }

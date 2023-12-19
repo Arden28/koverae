@@ -53,7 +53,7 @@ return new class extends Migration
             $table->string('auto_post')->nullable();
             $table->boolean('to_checked')->defalut(false);
 
-            $table->string('terms')->nullable();;
+            $table->string('terms')->nullable();
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->foreign('sale_id')->references('id')->on('sales')->nullOnDelete();

@@ -1,4 +1,4 @@
-@if($payment_status == 'Paid')
+@if(isset($this->payment_status) && $this->payment_status == 'Paid')
     <div class="box col-9">
         <div class="k-folded-ribbon success">
             <span class="word">
@@ -6,7 +6,7 @@
             </span>
         </div>
     </div>
-@elseif($payment_status == 'Partial')
+@elseif(isset($this->payment_status) && $this->payment_status == 'Partial')
     <div class="box col-9">
         <div class="k-folded-ribbon pending">
             <span class="word">

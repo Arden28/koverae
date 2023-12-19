@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Purchase\Livewire\Invoice\InvoiceShow;
 use Modules\Purchase\Livewire\Order\Request\Lists as RequestQuotation;
 use Modules\Purchase\Livewire\Order\Request\Create as RequestQuotationCreate;
 use Modules\Purchase\Livewire\Order\Request\Show as RequestQuotationShow;
@@ -26,17 +27,21 @@ Route::middleware(['module:purchase'])->group(function() {
     Route::get('purchases', Quotation::class)->name('purchases.index');
     Route::get('purchases/requests', RequestQuotation::class)->name('purchases.requests.index');
 
-    Route::get('purchases/{purchase}', PurchaseShow::class)->name('purchases.show');
+    // BlanketOrder
+    Route::get('purchases/blanket-orders', Blanket::class)->name('purchases.blankets.index');
+    // Vebdors
+    Route::get('purchases/vendors', Vendor::class)->name('purchases.vendors.index');
 
     // RequestQuotation
     Route::prefix('purchases/requests')->name('purchases.requests.')->group(function(){
         Route::get('/create', RequestQuotationCreate::class)->name('create');
         Route::get('/{request}', RequestQuotationShow::class)->name('show');
     });
-    // Route::get('purchases/requests/create', RequestQuotationCreate::class)->name('purchases.requests.create');
 
-    // BlanketOrder
-    Route::get('purchases/blanket-orders', Blanket::class)->name('purchases.blankets.index');
-    // Vebdors
-    Route::get('purchases/vendors', Vendor::class)->name('purchases.vendors.index');
+    Route::prefix('purchases')->name('purchases.')->group(function(){
+        Route::get('/{purchase}/invoices/{invoice}', InvoiceShow::class)->name('invoices.show');
+        Route::get('{purchase}', PurchaseShow::class)->name('show');
+    });
+
+    // Route::get('purchases/requests/create', RequestQuotationCreate::class)->name('purchases.requests.create');
 });
