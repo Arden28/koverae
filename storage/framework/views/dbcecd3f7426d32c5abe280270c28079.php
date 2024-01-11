@@ -25,15 +25,16 @@
     <!-- Input Label -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0  text-break text-900">
         <label class="k_form_label">
-            <?php echo e($value->label); ?>  
+            <?php echo e($value->label); ?>
+
             <!--[if BLOCK]><![endif]--><?php if($value->help): ?>
                 <sup><i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="<?php echo e($value->help); ?>"></i></sup>
-            <?php endif; ?> <!--[if ENDBLOCK]><![endif]--> :
+            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
         </label>
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <input type="<?php echo e($value->type); ?>" wire:model="<?php echo e($value->model); ?>" class="k_input" id="date_0">
+        <input type="<?php echo e($value->type); ?>" wire:model="<?php echo e($value->model); ?>" class="k_input" placeholder="<?php echo e($value->placeholder); ?>" id="date_0">
         <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

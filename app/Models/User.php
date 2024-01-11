@@ -70,6 +70,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
     protected $with = ['media'];
 
+    public function scopeIsCompany(Builder $query, $company_id)
+    {
+        return $query->where('company_id', $company_id);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('avatars')

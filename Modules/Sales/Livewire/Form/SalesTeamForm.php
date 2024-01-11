@@ -81,7 +81,7 @@ class SalesTeamForm extends SimpleForm
     {
         return  [
             // make($key, $label, $tabs = null)
-            Group::make('team',"Détail de l'équipe"),
+            Group::make('team',"Détail de l'équipe", 'none'),
         ];
     }
 

@@ -30,7 +30,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('cart.product-cart', ['cartInstance' => 'request-quotation','data' => $this->request]);
 
-$__html = app('livewire')->mount($__name, $__params, 'LJU99KX', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'Dn5HGRu', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

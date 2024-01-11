@@ -4,9 +4,14 @@
 <script src="<?php echo e(asset('assets/dist/libs/list.js/dist/list.min.js')); ?>?1668287865" ></script>
 <script src="<?php echo e(asset('assets/dist/libs/apexcharts/dist/apexcharts.min.js')); ?>?1668287865" ></script>
 
+<!-- Alpine Plugins -->
+
+<!-- Alpine Core -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 <!-- Tabler Core -->
 <script src="<?php echo e(asset('assets/dist/js/tabler.min.js')); ?>?1668287865" ></script>
-<script src="<?php echo e(asset('assets/dist/js/demo.min.js')); ?>?1668287865" ></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/perfect-scrollbar.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
 <!-- Include jQuery (or your preferred JavaScript library) -->
@@ -24,7 +29,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('wire-elements-modal');
 
-$__html = app('livewire')->mount($__name, $__params, 'DYMusZT', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'iw08fX7', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

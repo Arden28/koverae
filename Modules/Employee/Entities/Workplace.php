@@ -11,7 +11,8 @@ class Workplace extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'icon', 'company_id'];
+    // protected $fillable = ['title', 'icon', 'company_id'];
+    protected $guarded =[];
 
 
     // If the uemployees belong to the company

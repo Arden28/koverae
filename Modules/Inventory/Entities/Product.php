@@ -8,24 +8,12 @@ use Modules\Inventory\Database\factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
+use Modules\Purchase\Entities\PurchaseDetail;
+use Modules\Sales\Entities\SalesDetail;
+
 class Product extends Model implements Buyable
 {
     use HasFactory, SoftDeletes;
-
-    protected $fillable =  [
-    'company_id',
-    'product_name',
-    'product_description',
-    'product_code',
-    'product_barcode_symbology',
-    'product_quantity',
-    'product_cost',
-    'product_price',
-    'product_unit',
-    'product_stock_alert',
-    'product_order_tax',
-    'product_tax_type',
-    'product_note'];
 
     protected $guarded = [];
 
@@ -52,6 +40,15 @@ class Product extends Model implements Buyable
 
     public function getBuyablePrice($options = null) {
         return $this->price;
+    }
+
+    // Get Quotation's details
+    public function bought() {
+        return $this->hasMany(PurchaseDetail::class, 'product_id', 'id');
+    }
+
+    public function sold() {
+        return $this->hasMany(SalesDetail::class, 'product_id', 'id');
     }
 
 }

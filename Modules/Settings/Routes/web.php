@@ -24,10 +24,10 @@ use Modules\Settings\Livewire\User\Lists;
 // });
 // Route::prefix('settings')->group(function() {
 // });
+Route::get('/settings/users', Lists::class)->name('settings.users');
 
 Route::get('/settings', GeneralSetting::class)->name('settings.general');
 
-Route::get('/settings/users', Lists::class)->name('settings.users');
 
 Route::get('/settings/{pageVariable}', Inventory::class);
 

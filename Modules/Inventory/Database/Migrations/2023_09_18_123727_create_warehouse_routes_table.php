@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->boolean('product_category')->default(true);
             $table->boolean('product')->default(true);
-            $table->boolean('warehouse')->default(true);
+            $table->boolean('warehouse')->default(false);
             $table->boolean('sale_order')->default(true);
+            $table->boolean('packaging')->default(false);
             $table->boolean('is_active')->default(true);
             $table->string('warehouses')->nullable();
 

@@ -11,19 +11,35 @@ abstract class SimpleForm extends Component
         return view('livewire.form.template.simple-form');
     }
 
-    public abstract function form() : string;
+    public function form(){
+        return null;
+    }
 
-    public abstract function inputs() : array;
+    public function inputs() : array{
+        return [];
+    }
 
-    public abstract function tabs() : array;
+    public function tabs() : array{
+        return [];
+    }
 
-    public abstract function groups() : array;
+    public function groups() : array{
+        return [];
+    }
 
-    public abstract function actionBarButtons() : array;
+    public function actionBarButtons() : array{
+        return [];
+    }
 
-    public abstract function statusBarButtons();
+    public function statusBarButtons() : array{
+        return [];
+    }
 
-    public abstract function capsules();
+    public function capsules(){
+        return [];
+    }
 
-    public abstract function actionButtons() : array;
+    public function actionButtons() : array{
+        return [];
+    }
 }

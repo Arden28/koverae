@@ -1,4 +1,11 @@
 <div>
+    @section('title', $department->name)
+
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:employee::navbar.control-panel.department-form-panel :department="$department" />
+    @endsection
+
     <div class="k_form_sheet_bg">
         <form wire:submit.prepend="update({{ $department->id }})">
             <!-- Session message -->

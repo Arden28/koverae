@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable();
             $table->string('name');
 
-            $table->foreign('product_id')->references('id')->on('products')->nullOnDelete();
+            $table->foreign('company_id')->references('id')->on('companies')->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

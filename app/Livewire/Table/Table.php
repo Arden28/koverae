@@ -43,7 +43,7 @@ abstract class Table extends Component
     public function data()
     {
         return $this
-            ->query()
+            ->query()->isCompany(current_company()->id)
             ->when($this->sortBy !== '', function ($query) {
                 $query->orderBy($this->sortBy, $this->sortDirection);
             })

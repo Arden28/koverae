@@ -22,8 +22,11 @@ use Modules\Sales\Livewire\Team\Show as TeamShow;
 use Modules\Sales\Livewire\Team\Lists as TeamLists;
 use Modules\Sales\Livewire\Sale\Invoice\Show as InvoiceShow;
 
+use Modules\Sales\Livewire\Product\Lists as ProductLists;
+
 use Modules\Contact\Entities\Contact;
 use Modules\Sales\Entities\SalesPerson;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,13 +45,12 @@ Route::middleware(['module:sales'])->group(function() {
     // Sales
     Route::get('sales', SaleLists::class)->name('sales.index');
         // Route::get('sales/{sale}', ['uses' => SaleShow::class, 'as' => 'sales.show']);
-
     Route::get('quotations', QuotationLists::class)->name('sales.quotations.index');
-
     Route::get('sales/teams', TeamLists::class)->name('sales.teams.index');
-
     // Customers
     Route::get('sales/customers', CustomerLists::class)->name('sales.customers.index');
+    // Product
+    Route::get('products', ProductLists::class)->name('sales.products.index');
 
     Route::prefix('sales')->name('sales.')->group(function(){
 

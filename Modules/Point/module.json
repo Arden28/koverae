@@ -1,0 +1,11 @@
+{
+    "name": "Point",
+    "alias": "point",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Point\\Providers\\PointServiceProvider"
+    ],
+    "files": []
+}

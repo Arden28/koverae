@@ -1,4 +1,11 @@
 <div>
+    @section('title', 'Nouveau département')
+
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:employee::navbar.control-panel.department-form-panel />
+    @endsection
+
     <div class="k_form_sheet_bg">
         <form wire:submit.prevent="store()">
             <!-- Status bar -->

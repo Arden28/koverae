@@ -18,9 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->string('product_name');
+            $table->string('product_reference')->nullable();
 
             $table->enum('product_type', ['storable', 'service', 'consumable', 'booking_fee']); //storable: Stock is managed, consumable: Stock isn't managed, service: non physical product
-            $table->enum('invoicing_policy', ['ordered', 'delivered'])->default('ordered'); //ordered: the products ordered by the customer, delivered: the products delivered to the customer
+            $table->enum('invoicing_policy', ['ordered', 'delivered', 'prepaid'])->default('ordered'); //ordered: the products ordered by the customer, delivered: the products delivered to the customer
 
             $table->unsignedBigInteger('uom_id')->nullable();
             $table->unsignedBigInteger('purchase_uom_id')->nullable();
@@ -64,6 +65,11 @@ return new class extends Migration
                 $table->unsignedBigInteger('expense_account_id')->nullable();
                 $table->unsignedBigInteger('price_difference_account_id')->nullable();
 
+            $table->boolean('can_be_sold')->default(true);
+            $table->boolean('can_be_purchased')->default(true);
+            $table->boolean('can_be_subscribed')->default(false);
+            $table->boolean('can_be_rented')->default(false);
+            $table->enum('status', ['active', 'inactive', 'archived'])->default('active');
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->foreign('category_id')->references('id')->on('categories')->restrictOnDelete();

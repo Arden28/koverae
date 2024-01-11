@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreign('head_id')->references('id')->on('employees')->onDelete('set null');
 
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->string('color')->nullable();
             // $table->foreign('parent_id')->references('id')->on('department')->onDelete('set null');
 
             $table->timestamps();

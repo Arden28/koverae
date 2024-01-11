@@ -17,6 +17,12 @@ class ScrapOrder extends Model
      */
     protected $guarded = [];
 
+    public function scopeIsCompany(Builder $query, $company_id)
+    {
+        return $query->where('company_id', $company_id);
+    }
+
+
     // protected static function newFactory(): ScrapOrderFactory
     // {
     //     //return ScrapOrderFactory::new();

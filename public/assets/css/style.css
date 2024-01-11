@@ -1,7 +1,132 @@
 
+        .kover-navlink:hover{
+            background-color: #E7E9ED;
+        }
+        .kover-navlink:focus{
+            background-color: #E7E9ED;
+        }
+
+        .page-module a span i{
+            display: none;
+        }
+        .page-module a span i:hover{
+            display: flex;
+        }
         /* User avatar */
         .k-user-avatar{
             background-image: url('../images/people/person_2.png');
+        }
+        /* Navbar */
+        .k_control_panel{
+            font-size: 14px;
+            line-height: 21px;
+            text-decoration: none solid rgb(55, 65, 81);
+            word-spacing: 0px;
+            background-color: #ffffff;
+            height: 58px;
+            width: auto;
+            border-bottom: 1px solid #DAD8DD;
+            min-width: auto;
+            min-height: auto;
+            top: 0px;
+
+        }
+        .k_control_panel .k_control_panel_main{
+            height: 34px;
+            width: auto;
+            min-width: auto;
+            margin: 8px 16px 16px 16px;
+        }
+        .k_control_panel .k_control_panel_main .k_control_panel_breadcrumbs{
+            height: 34px;
+            width: 402px;
+            min-height: auto;
+            min-width: 200px;
+        }
+            .k_control_panel_breadcrumbs .k_form_button_create{
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 21px;
+                text-decoration: none solid rgb(55, 65, 81);
+                text-align: center;
+                vertical-align: middle;
+                word-spacing: 0px;
+                color: #0E6163;
+                height: 32px;
+                width: 78px;
+                border: 1px solid #0E6163;
+                padding: 5px 10px 5px 10px;
+            }
+            .k_control_panel_breadcrumbs .k_form_button_create:hover{
+                background-color: #0E6163;
+                color: #fff;
+            }
+            .k_control_panel_breadcrumbs .k_form_button_create:focus{
+                background-color: #0E6163;
+                color: #fff;
+            }
+            .k_control_panel_breadcrumbs span{
+                height: 16px;
+                width: auto;
+                min-height: auto;
+                min-width: auto;
+                display: flex;
+            }
+            .k_control_panel_breadcrumbs a{
+                font-size: 13px;
+                line-height: 16.25px;
+                font-weight: 500;
+                text-decoration: none solid rgb(55, 65, 81);
+                text-align: top;
+                white-space: nowrap;
+                word-spacing: 0px;
+                color: #0E6163;
+                /* order: -1; Set the order to -1 to place it on top */
+            }
+            .k_control_panel_breadcrumbs .k_last_breadcrumb_item{
+                width: auto;
+            }
+            .k_control_panel_breadcrumbs .k_last_breadcrumb_item .k_cp_action_menus {
+                height: 17px;
+                width: 24px;
+                padding: 0 12px 0 0;
+                min-height: auto;
+                min-width: auto;
+            }
+            .k_control_panel_breadcrumbs .k_last_breadcrumb_item .k_cp_action_menus i{
+                font-size: 12px;
+                line-height: 14px;
+                height: 12px;
+                width: 10px;
+                cursor: pointer;
+            }
+            /* Dropdown */
+            .k_control_panel_breadcrumbs .k_last_breadcrumb_item .k_cp_action_menus .k_dropdown_menu{
+                height: auto;
+                width: auto;
+                margin: 4px 0 4px 0;
+                padding: 8px 0 8px 0;
+            }
+            .k_control_panel_breadcrumbs .k_last_breadcrumb_item .k_cp_action_menus .k_dropdown_menu i{
+                margin: 0 4px 0 0;
+            }
+            /* Status Indicator */
+            .k_control_panel_breadcrumbs .k_last_breadcrumb_item .k_form_status_indicator_buttons{
+                height: 18px;
+                width: 54px;
+                min-height: auto;
+                min-width: auto;
+            }
+                /* Status Indicator btn */
+                .k_control_panel_breadcrumbs .k_last_breadcrumb_item .k_form_status_indicator_buttons .btn-light:hover{
+                    background-color: #D8DADD;
+                }
+        .k_control_panel .k_control_panel_main .k_control_panel_navigation{
+            height: 33px;
+            width: 402px;
+            max-width: 402px;
+            min-height: auto;
+            min-width: auto;
         }
 
         /**
@@ -10,7 +135,7 @@
         .k_control_panel_main{
             font-size: 14px;
             line-height: 17px;
-            text-decoration: none solid rgb(55, 65, 81);
+            /* text-decoration: none solid rgb(55, 65, 81); */
             word-spacing: 0px;
             height: 34px;
             width: auto;
@@ -217,9 +342,40 @@
             height: 185px;
             min-height: 150px;
             max-height: auto;
+            width: 100%;
             resize: none;
             white-space:pre-wrap;
             display: inline-flex;
+        }
+        #description{
+            height: 65px;
+            min-height: 40px;
+            /* max-height: auto;
+            margin: 0 0 0 16px; */
+        }
+        #taxes_id{
+            height: 20px;
+            width: 347px;
+            padding: 1px 10px 1px 0;
+            cursor: text;
+        }
+        .k_field_tags{
+            height: 24px;
+            padding: 1px 0 1px 0;
+            width: auto;
+        }
+        /* Tag */
+        .k_tag{
+            background-color: #fff;
+            color: #036d73;
+            border: 1px solid #017E84;
+            padding: 0 0 0 5px;
+        }
+        #taxes_id:hover{
+            border-bottom: 0px solid #CCCCCC;
+        }
+        #taxes_id:focus{
+            border-bottom: 0px solid #CCCCCC;
         }
         #term{
             height: 65px;
@@ -568,6 +724,41 @@
         .k-checkbox .form-check-input:focus{
           outline: none;
         }
+        /* Capsule */
+        #capsule{
+            height: auto;
+            width: auto;
+            border: 1px solid #D8DADD;
+            cursor: pointer;
+            max-width: 200px;
+            min-height: 35px;
+            padding: 0 4px 0 24px;
+        }
+        #capsule a{
+            text-decoration: none solid rgb(1, 126, 132);
+        }
+        #capsule a:hover{
+            color: #000;
+        }
+        /* #capsule a .k_horizontal_span{
+            font-weight: 400;
+        } */
+        #capsule a .stat_value{
+            font-size: 13px;
+            line-height: 14px;
+            font-weight: 500;
+            height: 13px;
+            /* width: 105px; */
+            min-height: auto;
+            /* min-width: 105px; */
+            width: auto;
+            /* padding: 0 0 5px 0; */
+            display: flex;
+        }
+        #capsule:hover{
+            background-color: #E7E9ED;
+        }
+
         .btn-primary{
             background-color: #0E6163;
         }
@@ -840,7 +1031,7 @@
         }
 
         .k_employee_avatar{
-            height: 128px;
+            height: 90px; /* 128px */
             width: 90px;
             min-height: auto;
             max-width: 100%;
@@ -895,6 +1086,9 @@
             min-height: auto;
             min-width: auto;
             display: flex;
+        }
+        #k_horizontal_capsule{
+            height: 45px;
         }
         .k_horizontal_asset .k_radio_item{
             height: 21px;
@@ -1140,15 +1334,19 @@
 
         .k_wrap_label{
             height: 28px;
-            width: 115px;
+            /* width: 115px; */
+            width: auto;
             min-height: auto;
-            min-width: auto;
+            min-width: 115px;
             max-width: auto;
             display: block;
         }
         .k_form_label{
             font-weight: 500;
 
+        }
+        #label-title{
+            font-size: 14px;
         }
         .k_wrap_input{
             height: 28px;
@@ -1201,8 +1399,8 @@
         }
         .k_horizontal_separator{
             font-size: 14px;
-            line-height: 21px;
-            font-weight: 700;
+            line-height: 18px;
+            font-weight: 500;
             margin: 24px 0 16px 0;
             border-bottom: 1px solid #D8DADD;
         }

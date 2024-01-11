@@ -9,19 +9,22 @@ use Modules\Employee\Entities\Employee;
 
 class Show extends Component
 {
-    public $department;
+    public Department $department;
 
     public $name, $manager, $parent, $employees, $departments;
 
     public $deleteId = '';
 
-    public function mount(){
-        $this->name = $this->department->name;
-        $this->manager = $this->department->head_id;
-        $this->parent = $this->department->parent_id;
-        //
-        $this->employees = Employee::isCompany(current_company()->id)->get();
-        $this->departments = Department::isCompany(current_company()->id)->where('id', '<>', $this->department->id)->get();
+    public function mount($department){
+        if($department){
+            $this->name = $this->department->name;
+            $this->manager = $this->department->head_id;
+            $this->parent = $this->department->parent_id;
+            //
+            $this->employees = Employee::isCompany(current_company()->id)->get();
+            $this->departments = Department::isCompany(current_company()->id)->where('id', '<>', $this->department->id)->get();
+        }
+
     }
 
 
@@ -48,7 +51,7 @@ class Show extends Component
     public function render()
     {
         return view('employee::livewire.department.show')
-        ->layout('layouts.master');
+        ->extends('layouts.master');
     }
 
     public function update($department){

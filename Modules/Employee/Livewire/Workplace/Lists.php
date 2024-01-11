@@ -9,6 +9,6 @@ class Lists extends Component
     public function render()
     {
         return view('employee::livewire.workplace.lists')
-        ->layout('layouts.master');
+        ->extends('layouts.master');
     }
 }

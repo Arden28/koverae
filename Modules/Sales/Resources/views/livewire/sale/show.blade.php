@@ -1,6 +1,11 @@
 <div>
     @section('title', $reference)
 
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:sales::navbar.control-panel.sale-form-panel :sale="$sale" />
+    @endsection
+
     <!-- Notify -->
     @include('notify::components.notify')
     <div class="k_form_sheet_bg">

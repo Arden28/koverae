@@ -16,16 +16,28 @@ abstract class BaseForm extends Component
 
     public abstract function inputs() : array;
 
-    public abstract function tabs() : array;
+    public function tabs() : array{
+        return [];
+    }
 
-    public abstract function groups() : array;
+    public function groups() : array{
+        return [];
+    }
 
-    public abstract function actionBarButtons() : array;
+    public function actionBarButtons() : array{
+        return [];
+    }
 
-    public abstract function statusBarButtons();
+    public function statusBarButtons(){
+        return [];
+    }
 
-    public abstract function capsules();
+    public function capsules(){
+        return [];
+    }
 
-    public abstract function actionButtons() : array;
+    public  function actionButtons() : array{
+        return [];
+    }
 
 }

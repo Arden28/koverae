@@ -11,7 +11,8 @@ class JobType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['company_id', 'title'];
+    // protected $fillable = ['company_id', 'title'];
+    protected $guarded = [];
 
     protected static function newFactory()
     {

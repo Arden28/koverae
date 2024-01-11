@@ -30,7 +30,6 @@
 
             </div>
         </div>
-
             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->inputs(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <!--[if BLOCK]><![endif]--><?php if($input->group == $value->key): ?>
                     <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>

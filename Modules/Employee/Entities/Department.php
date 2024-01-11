@@ -13,7 +13,8 @@ class Department extends Model
 
     protected $table = 'departments';
 
-    protected $fillable = ['name', 'description', 'head_id', 'parent_id', 'company_id'];
+    // protected $fillable = ['name', 'description', 'head_id', 'parent_id', 'company_id'];
+    protected $guarded = [];
 
     public function scopeIsCompany(Builder $query, $company_id)
     {

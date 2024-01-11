@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c646e0d2e7a2cbf5cc34951040c63060",
+    "content-hash": "1d01cc2f0f04d8d5e5f5d2472d2c29db",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1597,6 +1597,68 @@
                 }
             ],
             "time": "2023-08-27T10:19:19+00:00"
+        },
+        {
+            "name": "hallindavid/manny",
+            "version": "v1.02",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hallindavid/manny.git",
+                "reference": "c7c6fb8e98c01a80a544047d52ee950f8ba40460"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hallindavid/manny/zipball/c7c6fb8e98c01a80a544047d52ee950f8ba40460",
+                "reference": "c7c6fb8e98c01a80a544047d52ee950f8ba40460",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.1@dev"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Manny": "Manny\\Manny"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Manny\\": "src/Manny"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Hallin",
+                    "email": "hallin.david@gmail.com",
+                    "homepage": "https://davidhallin.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "a package of manipulators that hopefully come in useful for those of us who always forget regex when we need it (manny is short for manipulation)",
+            "keywords": [
+                "format",
+                "formatter",
+                "laravel",
+                "manipulation",
+                "number",
+                "regex",
+                "string",
+                "trim"
+            ],
+            "support": {
+                "issues": "https://github.com/hallindavid/manny/issues",
+                "source": "https://github.com/hallindavid/manny/tree/v1.02"
+            },
+            "time": "2022-12-17T18:11:32+00:00"
         },
         {
             "name": "hardevine/shoppingcart",

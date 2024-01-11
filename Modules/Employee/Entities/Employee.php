@@ -15,7 +15,9 @@ class Employee extends Model
 
     protected $table = 'employees';
 
-    protected $fillable = ['name', 'phone', 'mobile', 'email', 'company_id', 'user_id', 'department_id', 'date_of_hire', 'job_id', 'manager_id', 'street', 'street2', 'city', 'zip', 'state', 'country', 'personal_email', 'personal_phone', 'bank_account_id', 'language', 'marital_status', 'children_no', 'contact_name, contact_phone', 'certificate_level', 'study_field', 'school_study', 'visa_no', 'work_permit_no', 'visa_expiration_date', 'work_permit_expiration_date', 'nationality', 'national_id', 'passport_no', 'gender', 'birthday', 'birth_place', 'country_birth', 'is_resident'];
+    protected $guarded = [];
+    // protected $fillable = ['name', 'phone', 'mobile', 'email', 'company_id', 'user_id', 'department_id', 'date_of_hire', 'job_id', 'manager_id', 'street', 'street2', 'city', 'zip', 'state', 'country', 'personal_email', 'personal_phone', 'bank_account_id', 'language', 'marital_status', 'children_no', 'contact_name, contact_phone', 'certificate_level', 'study_field', 'school_study', 'visa_no', 'work_permit_no', 'visa_expiration_date', 'work_permit_expiration_date', 'nationality', 'national_id', 'passport_no', 'gender', 'birthday', 'birth_place', 'country_birth', 'is_resident'];
+
 
     protected static function newFactory()
     {
@@ -48,6 +50,14 @@ class Employee extends Model
     public function manager()
     {
         return $this->belongsTo(Employee::class, 'manager_id', 'id');
+    }
+
+    /**
+     * Get the manager of the employee.
+     */
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'department_id', 'id');
     }
 
     /**

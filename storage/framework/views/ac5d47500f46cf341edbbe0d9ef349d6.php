@@ -4,6 +4,7 @@
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
 
             <!-- Action Bar -->
+            <!--[if BLOCK]><![endif]--><?php if($this->actionBarButtons()): ?>
             <div id="action-bar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
 
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -25,8 +26,10 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
 
             </div>
+            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
 
             <!-- Status Bar -->
+            <!--[if BLOCK]><![endif]--><?php if($this->statusBarButtons()): ?>
             <div id="status-bar" class="k_statusbar_buttons_arrow d-flex align-items-center align-content-around ">
 
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->statusBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $status_button): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -46,8 +49,8 @@
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
-
             </div>
+            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
         </div>
         <form wire:submit.prevent="<?php echo e($this->form()); ?>">
             <?php echo csrf_field(); ?>
@@ -59,7 +62,7 @@
                 <div class="row justify-content-between position-relative w-100 m-0 mb-2">
                     
                     <!--[if BLOCK]><![endif]--><?php if($this->capsules()): ?>
-                    <div class="k_horizontal_asset">
+                    <div class="k_horizontal_asset" id="k_horizontal_capsule">
                         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->capsules(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $capsule): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $capsule->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>

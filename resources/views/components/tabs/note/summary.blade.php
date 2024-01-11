@@ -4,7 +4,7 @@
 ])
 
     <!-- summary -->
-    <div class="tab-pane" id="{{ $value->key }}">
+    <div class="tab-pane" id="{{ $value->key }}" wire:ignore>
         <div class="row align-items-start">
 
             <!-- Left Side -->

@@ -17,6 +17,16 @@ class Warehouse extends Model
      */
     protected $guarded = [];
 
+    public function scopeIsCompany(Builder $query, $company_id)
+    {
+        return $query->where('company_id', $company_id);
+    }
+
+    public function routes() {
+        return $this->hasMany(WarehouseRoute::class, 'warehouse_id', 'id');
+    }
+
+
 
     // protected static function newFactory(): WarehouseFactory
     // {

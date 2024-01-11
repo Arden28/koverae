@@ -40,10 +40,36 @@
 <?php endif; ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
 
+
+                <div wire:dirty>Modifications non sauvegardés...</div>
                 <!-- Dropdown button -->
                 
 
             </div>
+
+            <!-- Status Bar -->
+            <!--[if BLOCK]><![endif]--><?php if($this->statusBarButtons()): ?>
+            <div id="status-bar" class="k_statusbar_buttons_arrow d-flex align-items-center align-content-around ">
+
+                <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->statusBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $status_button): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $status_button->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('dynamic-component'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\DynamicComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['value' => $status_button,'status' => $status]); ?>
+                 <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
+<?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+            </div>
+            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
 
         </div>
         <form wire:submit.prevent="<?php echo e($this->form()); ?>">
@@ -80,7 +106,8 @@
 
                     <!-- Right Side -->
                     <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->groups(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+                        <!--[if BLOCK]><![endif]--><?php if($group->tab == 'none' || $group->tab = null): ?>
+                            <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $group->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -89,12 +116,13 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['value' => $group]); ?>
-                     <?php echo $__env->renderComponent(); ?>
+                             <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
+                        <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
 
                 </div>
@@ -105,7 +133,7 @@
                     <ul class="nav nav-tabs flex-row flex-nowrap" data-bs-toggle="tabs">
                         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->tabs(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tab): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <li class="nav-item">
-                            <a class="nav-link <?php echo e($tab->key == 'order' || $tab->key == 'purchase' ? 'active' : ''); ?>" data-bs-toggle="tab" href="#<?php echo e($tab->key); ?>"><?php echo e($tab->label); ?></a>
+                            <a class="nav-link <?php echo e($tab->key == 'order' || $tab->key == 'purchase' || $tab->key == 'general' ? 'active' : ''); ?>" data-bs-toggle="tab" href="#<?php echo e($tab->key); ?>"><?php echo e($tab->label); ?></a>
                         </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
                     </ul>

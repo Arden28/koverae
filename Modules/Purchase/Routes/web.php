@@ -8,7 +8,13 @@ use Modules\Purchase\Livewire\Order\Request\Show as RequestQuotationShow;
 use Modules\Purchase\Livewire\Order\Show as PurchaseShow;
 use Modules\Purchase\Livewire\Order\BlanketOrder\Lists as Blanket;
 use Modules\Purchase\Livewire\Order\Lists as Quotation;
-use Modules\Purchase\Livewire\Vendor\Lists as Vendor;
+
+use Modules\Purchase\Livewire\Vendor\Lists as VendorList;
+use Modules\Purchase\Livewire\Vendor\Show as VendorShow;
+use Modules\Purchase\Livewire\Vendor\Create as VendorCreate;
+
+use Modules\Purchase\Livewire\Product\Lists as ProductList;
+use Modules\Purchase\Livewire\Product\CategoryLists as CategoryList;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +35,13 @@ Route::middleware(['module:purchase'])->group(function() {
 
     // BlanketOrder
     Route::get('purchases/blanket-orders', Blanket::class)->name('purchases.blankets.index');
-    // Vebdors
-    Route::get('purchases/vendors', Vendor::class)->name('purchases.vendors.index');
+
+    // Vendors
+    Route::get('purchases/vendors', VendorList::class)->name('purchases.vendors.index');
+
+    // Products
+    Route::get('products', ProductList::class)->name('purchases.products.index');
+    Route::get('product-categories', CategoryList::class)->name('purchases.products.categories.index');
 
     // RequestQuotation
     Route::prefix('purchases/requests')->name('purchases.requests.')->group(function(){
@@ -41,6 +52,11 @@ Route::middleware(['module:purchase'])->group(function() {
     Route::prefix('purchases')->name('purchases.')->group(function(){
         Route::get('/{purchase}/invoices/{invoice}', InvoiceShow::class)->name('invoices.show');
         Route::get('{purchase}', PurchaseShow::class)->name('show');
+    });
+    // RequestQuotation
+    Route::prefix('purchases/vendors')->name('purchases.vendors.')->group(function(){
+        Route::get('/create', VendorCreate::class)->name('create');
+        Route::get('/{vendor}', VendorShow::class)->name('show');
     });
 
     // Route::get('purchases/requests/create', RequestQuotationCreate::class)->name('purchases.requests.create');

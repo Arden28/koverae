@@ -32,8 +32,7 @@ class Lists extends Component
         }
 
         return view('sales::livewire.sale.lists', compact('sales'))
-        ->extends('layouts.master')
-        ->section('content');
+        ->extends('layouts.master');
     }
 
 }

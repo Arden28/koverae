@@ -17,6 +17,8 @@
                 </x-dynamic-component>
                 @endforeach
 
+
+                <div wire:dirty>Modifications non sauvegardés...</div>
                 <!-- Dropdown button -->
                 {{-- <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,6 +32,21 @@
                 </div> --}}
 
             </div>
+
+            <!-- Status Bar -->
+            @if($this->statusBarButtons())
+            <div id="status-bar" class="k_statusbar_buttons_arrow d-flex align-items-center align-content-around ">
+
+                @foreach($this->statusBarButtons() as $status_button)
+                <x-dynamic-component
+                    :component="$status_button->component"
+                    :value="$status_button"
+                    :status="$status"
+                >
+                </x-dynamic-component>
+                @endforeach
+            </div>
+            @endif
 
         </div>
         <form wire:submit.prevent="{{ $this->form() }}">
@@ -56,11 +73,13 @@
 
                     <!-- Right Side -->
                     @foreach($this->groups() as $group)
-                    <x-dynamic-component
-                        :component="$group->component"
-                        :value="$group"
-                    >
-                    </x-dynamic-component>
+                        @if($group->tab == 'none' || $group->tab = null)
+                            <x-dynamic-component
+                                :component="$group->component"
+                                :value="$group"
+                            >
+                            </x-dynamic-component>
+                        @endif
                     @endforeach
 
                 </div>
@@ -71,7 +90,7 @@
                     <ul class="nav nav-tabs flex-row flex-nowrap" data-bs-toggle="tabs">
                         @foreach ($this->tabs() as $tab)
                         <li class="nav-item">
-                            <a class="nav-link {{ $tab->key == 'order' || $tab->key == 'purchase' ? 'active' : '' }}" data-bs-toggle="tab" href="#{{ $tab->key }}">{{ $tab->label }}</a>
+                            <a class="nav-link {{ $tab->key == 'order' || $tab->key == 'purchase' || $tab->key == 'general' ? 'active' : '' }}" data-bs-toggle="tab" href="#{{ $tab->key }}">{{ $tab->label }}</a>
                         </li>
                         @endforeach
                     </ul>

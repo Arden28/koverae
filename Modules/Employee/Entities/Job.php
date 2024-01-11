@@ -12,7 +12,8 @@ class Job extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['company_id', 'department_id', 'job_type_id', 'title', 'description', 'newers'];
+    // protected $fillable = ['company_id', 'department_id', 'job_type_id', 'title', 'description', 'newers'];
+    protected $guarded = [];
 
     protected static function newFactory()
     {

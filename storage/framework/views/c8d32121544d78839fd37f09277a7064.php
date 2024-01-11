@@ -22,7 +22,7 @@
 <?php unset($__defined_vars); ?>
 
     <!-- summary -->
-    <div class="tab-pane" id="<?php echo e($value->key); ?>">
+    <div class="tab-pane" id="<?php echo e($value->key); ?>" wire:ignore>
         <div class="row align-items-start">
 
             <!-- Left Side -->

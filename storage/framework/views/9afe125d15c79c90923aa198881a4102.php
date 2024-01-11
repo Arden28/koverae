@@ -9,7 +9,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('invoicing::form.bill-form', ['purchase' => $purchase,'invoice' => $invoice]);
 
-$__html = app('livewire')->mount($__name, $__params, 'BlqPuMf', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'HHbYOwA', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

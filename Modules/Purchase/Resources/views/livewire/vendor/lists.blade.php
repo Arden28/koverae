@@ -1,12 +1,15 @@
 <div>
     @section('title', 'Fournisseurs')
-    <div class="page-body d-print-none">
-        <div class="container-fluid">
-            <!-- Notify -->
-            @include('notify::components.notify')
 
-            <livewire:contact::table.suppliers-table />
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:purchase::navbar.control-panel.vendor-panel />
+    @endsection
 
-        </div>
+    <div class="w-100 d-print-none">
+        <!-- Notify -->
+        @include('notify::components.notify')
+        <!-- Table -->
+        <livewire:contact::table.suppliers-table />
     </div>
 </div>

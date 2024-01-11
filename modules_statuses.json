@@ -9,5 +9,6 @@
     "Invoicing": true,
     "Accounting": true,
     "Purchase": true,
-    "App": true
+    "App": true,
+    "Point": true
 }

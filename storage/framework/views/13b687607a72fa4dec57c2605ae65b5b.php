@@ -25,10 +25,11 @@
     <!-- Input Label -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0  text-break text-900">
         <label class="k_form_label">
-            <?php echo e($value->label); ?> 
+            <?php echo e($value->label); ?>
+
             <!--[if BLOCK]><![endif]--><?php if($value->help): ?>
                 <sup><i class="bi bi-question-circle-fill text cursor-pointer" style="color: #01585C;" data-toggle="tooltip" data-placement="top" title="<?php echo e($value->help); ?>"></i></sup>
-            <?php endif; ?> <!--[if ENDBLOCK]><![endif]--> :
+            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
         </label>
     </div>
     <!-- Input Form -->

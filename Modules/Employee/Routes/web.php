@@ -5,8 +5,22 @@ use Modules\Employee\Http\Controllers\EmployeeController;
 use Modules\Employee\Http\Controllers\DepartmentController;
 use Modules\Employee\Http\Controllers\JobController;
 use Modules\Employee\Http\Controllers\WorkplaceController;
-use Modules\Employee\Livewire\Employees\Employee as EmployeeEmployee;
+use Modules\Employee\Livewire\Department\Lists as DepartmentLists;
+use Modules\Employee\Livewire\Department\Create as DepartmentCreate;
+use Modules\Employee\Livewire\Department\Show as DepartmentShow;
 
+use Modules\Employee\Livewire\Employees\Employee as EmployeeEmployee;
+use Modules\Employee\Livewire\Employees\Lists as EmployeeLists;
+use Modules\Employee\Livewire\Employees\Create as EmployeeCreate;
+use Modules\Employee\Livewire\Employees\Show as EmployeeShow;
+use Modules\Settings\Livewire\Module\Employee;
+use Modules\Employee\Livewire\Workplace\Lists as WorkplaceLists;
+use Modules\Employee\Livewire\Workplace\Show as WorkplaceShow;
+use Modules\Employee\Livewire\Workplace\Create as WorkplaceCreate;
+
+use Modules\Employee\Livewire\Job\Lists as JobLists;
+use Modules\Employee\Livewire\Job\Create as JobCreate;
+use Modules\Employee\Livewire\Job\Show as JobShow;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,31 +33,32 @@ use Modules\Employee\Livewire\Employees\Employee as EmployeeEmployee;
 */
 
 
-Route::prefix('employee')->middleware(['module:employee'])->name('employee.')->group(function() {
+Route::prefix('employees')->middleware(['module:employee'])->name('employee.')->group(function() {
     // Route::get('/', EmployeeEmployee::class)->name('employee');
 
+    Route::get('/', EmployeeLists::class)->name('index');
+    Route::get('/departments', DepartmentLists::class)->name('department.index');
+    Route::get('/jobs', JobLists::class)->name('jobs.index');
+    Route::get('/workplaces', WorkplaceLists::class)->name('workplaces.index');
+    Route::get('/jobTypes', [WorkplaceController::class, 'index'])->name('jobTypes.index');
+
     // Employees
-    Route::get('/create', [EmployeeController::class, 'create'])->name('create');
-    Route::get('/', [EmployeeController::class, 'index'])->name('index');
-    Route::get('/show', [EmployeeController::class, 'show'])->name('show');
+    Route::get('/create', EmployeeCreate::class)->name('create');
+    Route::get('/{employee}', EmployeeShow::class)->name('show');
 
     // Department
-    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('department.create');
-    Route::get('/departments', [DepartmentController::class, 'index'])->name('department.index');
-    Route::get('/departments/show', [DepartmentController::class, 'show'])->name('department.show');
+    Route::get('/departments/create', DepartmentCreate::class)->name('department.create');
+    Route::get('/departments/{department}', DepartmentShow::class)->name('department.show');
 
     // Workplace
-    Route::get('/workplaces/create', [WorkplaceController::class, 'create'])->name('workplaces.create');
-    Route::get('/workplaces', [WorkplaceController::class, 'index'])->name('workplaces.index');
-    Route::get('/workplaces/show', [WorkplaceController::class, 'show'])->name('workplaces.show');
+    Route::get('/workplaces/create', WorkplaceCreate::class)->name('workplaces.create');
+    Route::get('/workplaces/{workplace}', WorkplaceShow::class)->name('workplaces.show');
 
     // Jobs
-    Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
-    Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
-    Route::get('/jobs/show', [JobController::class, 'show'])->name('jobs.show');
+    Route::get('/jobs/create', JobCreate::class)->name('jobs.create');
+    Route::get('/jobs/{job}', JobShow::class)->name('jobs.show');
 
     // JobTypes
     Route::get('/jobTypes/create', [WorkplaceController::class, 'create'])->name('jobTypes.create');
-    Route::get('/jobTypes', [WorkplaceController::class, 'index'])->name('jobTypes.index');
     Route::get('/jobTypes/show', [WorkplaceController::class, 'show'])->name('jobTypes.show');
 });

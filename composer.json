@@ -10,6 +10,7 @@
         "blade-ui-kit/blade-ui-kit": "^0.4.0",
         "bpuig/laravel-subby": "^7.0",
         "guzzlehttp/guzzle": "^7.2",
+        "hallindavid/manny": "^1.02",
         "hardevine/shoppingcart": "^3.2",
         "kdion4891/laravel-livewire-tables": "^1.6",
         "laravel/framework": "^10.10",
@@ -49,7 +50,8 @@
         },
         "files": [
             "app/Helpers/helpers.php",
-            "Modules/Dashboards/Helpers/helpers.php"
+            "Modules/Dashboards/Helpers/helpers.php",
+            "Modules/Inventory/Helpers/helpers.php"
         ]
     },
     "autoload-dev": {

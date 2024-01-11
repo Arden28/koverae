@@ -1,5 +1,13 @@
 <div>
-    <div class="k_form_sheet_bg">
+    @section('title', 'Nouvel employé')
+
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:employee::navbar.control-panel.employee-form-panel />
+    @endsection
+
+    <livewire:employee::form.employe-form />
+    {{-- <div class="k_form_sheet_bg">
         <!-- Notify -->
         @include('notify::components.notify')
         <form wire:submit.prevent="storeEmp()">
@@ -825,5 +833,5 @@
             </div>
         </form>
 
-    </div>
+    </div> --}}
 </div>

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+{{-- @extends('layouts.master')
 
 @section('title', __('Départements'))
 
@@ -23,4 +23,4 @@
 <div>
     <livewire:employee::department.lists />
 </div>
-@endsection
+@endsection --}}

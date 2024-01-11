@@ -17,6 +17,7 @@
         "vite": "^4.4.9"
     },
     "dependencies": {
+        "@alpinejs/mask": "^3.13.3",
         "bootstrap-icons": "^1.10.5",
         "yarn": "^1.22.19"
     }

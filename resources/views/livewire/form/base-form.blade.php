@@ -4,6 +4,7 @@
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
 
             <!-- Action Bar -->
+            @if($this->actionBarButtons())
             <div id="action-bar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
 
                 @foreach($this->actionBarButtons() as $action)
@@ -16,8 +17,10 @@
                 @endforeach
 
             </div>
+            @endif
 
             <!-- Status Bar -->
+            @if($this->statusBarButtons())
             <div id="status-bar" class="k_statusbar_buttons_arrow d-flex align-items-center align-content-around ">
 
                 @foreach($this->statusBarButtons() as $status_button)
@@ -28,8 +31,8 @@
                 >
                 </x-dynamic-component>
                 @endforeach
-
             </div>
+            @endif
         </div>
         <form wire:submit.prevent="{{ $this->form() }}">
             @csrf
@@ -43,7 +46,7 @@
                         Demande de prix
                     </span> --}}
                     @if($this->capsules())
-                    <div class="k_horizontal_asset">
+                    <div class="k_horizontal_asset" id="k_horizontal_capsule">
                         @foreach($this->capsules() as $capsule)
                         <x-dynamic-component
                             :component="$capsule->component"

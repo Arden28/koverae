@@ -15,9 +15,10 @@
       }
     </style>
     @include('includes.main-css')
-
     @include('includes.main-js')
+
     @livewireStyles
+    @livewireScripts
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
 </head>
 <body>
@@ -28,33 +29,6 @@
       @include('layouts.navbar')
       <!-- Navbar -->
 
-      <!-- Navbar Menu -->
-
-        <!-- Settings -->
-        @if(request()->routeIs('settings.*'))
-            @include('settings::layouts.navbar-menu')
-        <!-- Employee -->
-        @elseif(request()->routeIs('employee*'))
-            @include('employee::layouts.navbar-menu')
-        <!-- Dashboards -->
-        @elseif(request()->routeIs('dashboards.*'))
-            @include('dashboards::layouts.navbar-menu')
-        <!-- Sale -->
-        @elseif(request()->routeIs('sales.*'))
-            @include('sales::layouts.navbar-menu')
-        <!-- Contacts -->
-        @elseif(request()->routeIs('contacts.*'))
-            @include('contact::layouts.navbar-menu')
-        <!-- Inventory -->
-        @elseif(request()->routeIs('inventory.*'))
-            @include('inventory::layouts.navbar-menu')
-        <!-- Purhase -->
-        @elseif(request()->routeIs('purchases.*'))
-            @include('purchase::layouts.navbar-menu')
-        @else
-            @include('layouts.navbar-menu')
-        @endif
-      <!-- Navbar Menu -->
 
         <div class="page-wrapper">
 
@@ -94,7 +68,5 @@
         </div>
 
     </div>
-
-    @livewireScripts
 </body>
 </html>

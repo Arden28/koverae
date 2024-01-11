@@ -1,6 +1,14 @@
 <div>
-    @include('notify::components.notify')
-    <div class="k_form_sheet_bg">
+    @section('title', 'Nouveau Poste')
+
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:employee::navbar.control-panel.job-form-panel />
+    @endsection
+
+    <livewire:employee::form.job-form />
+
+    {{-- <div class="k_form_sheet_bg">
         <!-- Notify -->
         <form wire:submit.prevent="storeJob()">
             @csrf
@@ -166,5 +174,5 @@
             </div>
         </form>
 
-    </div>
+    </div> --}}
 </div>

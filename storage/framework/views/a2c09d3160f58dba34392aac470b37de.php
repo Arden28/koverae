@@ -30,7 +30,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('cart.product-cart', ['cartInstance' => 'purchase','data' => $this->purchase]);
 
-$__html = app('livewire')->mount($__name, $__params, 'ddM3CHG', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'ODoTGO9', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

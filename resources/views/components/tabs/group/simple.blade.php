@@ -11,7 +11,6 @@
                     {{ $value->label }}
             </div>
         </div>
-
             @foreach($this->inputs() as $input)
                 @if($input->group == $value->key)
                     <x-dynamic-component

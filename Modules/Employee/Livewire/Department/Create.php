@@ -20,7 +20,7 @@ class Create extends Component
     public function render()
     {
         return view('employee::livewire.department.create')
-        ->layout('layouts.master');
+        ->extends('layouts.master');
     }
 
     public function store(){

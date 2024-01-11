@@ -8,6 +8,7 @@ use Modules\Purchase\Database\factories\PurchaseDetailFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Inventory\Entities\Product;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class PurchaseDetail extends Model
 {
@@ -26,6 +27,9 @@ class PurchaseDetail extends Model
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
+    public function bought(Builder $query, $product_id) {
+        return $query->where('product_id', $product_id);
+    }
     public function getPriceAttribute($value) {
         return $value / 100;
     }

@@ -2,7 +2,7 @@
     <div class="position-relative">
         <input type="text" wire:model.live="query" id="product_0" class="k_input caret-black dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" placeholder="Tapez pour trouver votre produit">
     </div>
-    <div wire:loading class="card position-absolute mt-1 border-0" style="z-index: 1;left: 0;right: 0; width: 100%;">
+    <div wire:loading class="card position-absolute mt-1 border-0" style="z-index: 1;left: 0;right: 0; width: auto;">
         <div class="card-body shadow">
             <div class="d-flex justify-content-center">
                 <div class="spinner-border text-primary" role="status">
@@ -12,7 +12,7 @@
         </div>
     </div>
     @if(!empty($query))
-        <div wire:click="resetQuery" class="position-fixed w-100 h-100" style="left: 0; top: 0; right: 0; bottom: 0;z-index: 1;"></div>
+        <div wire:click="resetQuery" class=" h-100" style="left: 0; top: 0; right: 0; bottom: 0;z-index: 1;"></div>
         @if($search_results->isNotEmpty())
             <div class="card position-absolute mt-1" style="z-index: 2;left: 0;right: 0;border: 0;">
                 <div class="card-body shadow">

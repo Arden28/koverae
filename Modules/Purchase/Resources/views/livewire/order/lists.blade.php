@@ -1,12 +1,15 @@
 <div>
     @section('title', __('Bon de commande fournisseur'))
 
-    <div class="page-body d-print-none">
-        <div class="container-fluid">
-            <!-- Notify -->
-            @include('notify::components.notify')
-            <!-- Table -->
-            <livewire:purchase::table.purchase-table />
-        </div>
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:purchase::navbar.control-panel.purchase-panel />
+    @endsection
+
+    <div class="w-100 d-print-none">
+        <!-- Notify -->
+        @include('notify::components.notify')
+        <!-- Table -->
+        <livewire:purchase::table.purchase-table />
     </div>
 </div>
