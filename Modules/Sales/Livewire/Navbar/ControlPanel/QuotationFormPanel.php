@@ -8,11 +8,12 @@ class QuotationFormPanel extends ControlPanel
 {
     public $quotation;
 
-    public function mount($quotation = null)
+    public function mount($quotation = null, $event = null)
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->showIndicators === true;
+        $this->showIndicators = true;
+        $this->event = $event;
 
         if($quotation){
             $this->quotation = $quotation;
@@ -23,4 +24,5 @@ class QuotationFormPanel extends ControlPanel
         $this->new = route('sales.quotations.create', ['subdomain' => current_company()->domain_name]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
+
 }

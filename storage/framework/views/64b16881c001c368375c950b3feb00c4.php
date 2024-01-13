@@ -1,14 +1,17 @@
 <?php $attributes ??= new \Illuminate\View\ComponentAttributeBag; ?>
 <?php foreach($attributes->onlyProps([
-    'value'
+    'value',
+    'id'
 ]) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 } ?>
 <?php $attributes = $attributes->exceptProps([
-    'value'
+    'value',
+    'id'
 ]); ?>
 <?php foreach (array_filter(([
-    'value'
+    'value',
+    'id'
 ]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 } ?>
@@ -19,13 +22,18 @@
 <?php unset($__defined_vars); ?>
 <?php
     $location = \Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation::find($value);
+    $parent = \Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation::find($location->parent_id);
 ?>
-<!--[if BLOCK]><![endif]--><?php if($location): ?>
-<div>
-    <a style="text-decoration: none" wire:navigate href="<?php echo e(route('inventory.locations.show' , ['subdomain' => current_company()->domain_name, 'location' => $location->id ])); ?>"  tabindex="-1">
-        <?php echo e($location->name); ?>
 
+<div>
+    <a style="text-decoration: none" wire:navigate href="<?php echo e($this->showRoute($id)); ?>"  tabindex="-1">
+        <!--[if BLOCK]><![endif]--><?php if(isset($parent)): ?>
+            <?php echo e($parent->name); ?>/<?php echo e($location->name); ?>
+
+        <?php else: ?>
+            <?php echo e($location->name); ?>
+
+        <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
     </a>
 </div>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/columns/common/operation/location.blade.php ENDPATH**/ ?>

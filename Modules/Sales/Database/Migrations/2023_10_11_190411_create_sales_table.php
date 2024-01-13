@@ -28,10 +28,10 @@ return new class extends Migration
             $table->decimal('total_amount', $precision = 12, $scale = 2);
             $table->decimal('paid_amount', $precision = 12, $scale = 2);
             $table->decimal('due_amount', $precision = 12, $scale = 2);
-            $table->string('status');
+            $table->enum('status', ['to_invoice', 'partial', 'invoiced']);
             // Payment
             $table->string('payment_term');
-            $table->string('payment_status');
+            $table->enum('payment_status', ['unpaid', 'partial', 'paid']);
             $table->string('payment_method');
             $table->text('note')->nullable();
             //Sales

@@ -31,7 +31,7 @@ class SalesTeam extends Model
 
 
     public function salesPerson() {
-        return $this->hasMany(Sale::class, 'sales_team_id', 'id');
+        return $this->hasMany(SalesPerson::class, 'sales_team_id', 'id');
     }
 
     public function sales() {

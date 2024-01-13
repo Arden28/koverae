@@ -36,7 +36,7 @@ class LocationTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('name', "Emplacement")->component('columns.common.show-title-link'),
+            Column::make('id', "Emplacement")->component('columns.common.location'),
             Column::make('type', "Type d'emplacement")
         ];
     }

@@ -1,5 +1,12 @@
-@section('title', $name)
+
 <div>
+    @section('title', $contact->name)
+
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:contact::navbar.control-panel.contact-form-panel :contact="$contact" />
+    @endsection
+
     <div class="k_form_sheet_bg">
         <!-- Notify -->
         @include('notify::components.notify')

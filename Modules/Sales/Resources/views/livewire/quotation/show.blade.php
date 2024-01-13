@@ -4,7 +4,7 @@
 
     <!-- Control Panel -->
     @section('control-panel')
-    <livewire:sales::navbar.control-panel.quotation-form-panel :quotation="$quotation" />
+    <livewire:sales::navbar.control-panel.quotation-form-panel :quotation="$quotation" :event="'update-quotation'" />
     @endsection
 
     <!-- Notify -->

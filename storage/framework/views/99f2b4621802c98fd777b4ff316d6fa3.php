@@ -20,7 +20,9 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-
+<?php
+    $sellers = \Modules\Sales\Entities\SalesPerson::isCompany(current_company()->id)->where('id', $this->sales_team)->get();
+?>
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- seller -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
@@ -32,7 +34,7 @@
     <div class="k_cell k_wrap_input flex-grow-1">
         <select  wire:model="<?php echo e($value->model); ?>" class="k_input" id="<?php echo e($value->model); ?>_0">
             <option value=""></option>
-            <!--[if BLOCK]><![endif]--><?php $__currentLoopData = \Modules\Sales\Entities\SalesPerson::isCompany(current_company()->id)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seller): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $sellers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seller): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($seller->id); ?>"><?php echo e($seller->user->name); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
         </select>

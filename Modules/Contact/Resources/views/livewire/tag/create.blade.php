@@ -1,6 +1,11 @@
 <div>
     @section('title', __('Nouvelle étiquette'))
 
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:contact::navbar.control-panel.tag-form-panel />
+    @endsection
+
     <div class="k_form_sheet_bg">
         <form wire:submit.prevent="storeTag()">
             <!-- Status bar -->

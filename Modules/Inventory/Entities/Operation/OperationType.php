@@ -23,6 +23,11 @@ class OperationType extends Model
     {
         return $query->where('company_id', $company_id);
     }
+
+    public function scopeIsType(Builder $query, $operation_type)
+    {
+        return $query->where('operation_type', $operation_type);
+    }
     public function warehouse() {
         return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
     }

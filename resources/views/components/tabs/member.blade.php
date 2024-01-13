@@ -3,7 +3,7 @@
     'data'
 ])
                     <!-- Members -->
-                    <div class="tab-pane active show" id="members">
+                    <div class="tab-pane active show" id="members" wire:ignore>
 
                         <div class="k_kanban_view k_field_X2many">
                             <div class="k_x2m_control_panel d-empty-none mb-4">

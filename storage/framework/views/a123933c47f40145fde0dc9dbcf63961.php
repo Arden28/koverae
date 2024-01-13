@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginal1927e83484f33657c2037182ddbc0dde = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal1927e83484f33657c2037182ddbc0dde = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.navbar.switch-button','data' => ['value' => $value]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('navbar.switch-button'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginal1927e83484f33657c2037182ddbc0dde)): ?>
+<?php $attributes = $__attributesOriginal1927e83484f33657c2037182ddbc0dde; ?>
+<?php unset($__attributesOriginal1927e83484f33657c2037182ddbc0dde); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal1927e83484f33657c2037182ddbc0dde)): ?>
+<?php $component = $__componentOriginal1927e83484f33657c2037182ddbc0dde; ?>
+<?php unset($__componentOriginal1927e83484f33657c2037182ddbc0dde); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/eede8e53e2610d7076e42ee8cebeaf10.blade.php ENDPATH**/ ?>

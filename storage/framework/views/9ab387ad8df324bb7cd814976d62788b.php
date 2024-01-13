@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginal8ba6659b9d8aca778d88549e505af395 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal8ba6659b9d8aca778d88549e505af395 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.columns.common.sales-team','data' => ['value' => $value,'id' => $id]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('columns.common.sales-team'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginal8ba6659b9d8aca778d88549e505af395)): ?>
+<?php $attributes = $__attributesOriginal8ba6659b9d8aca778d88549e505af395; ?>
+<?php unset($__attributesOriginal8ba6659b9d8aca778d88549e505af395); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal8ba6659b9d8aca778d88549e505af395)): ?>
+<?php $component = $__componentOriginal8ba6659b9d8aca778d88549e505af395; ?>
+<?php unset($__componentOriginal8ba6659b9d8aca778d88549e505af395); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/d9c1f2381475e1a8d682e5af28eb2003.blade.php ENDPATH**/ ?>

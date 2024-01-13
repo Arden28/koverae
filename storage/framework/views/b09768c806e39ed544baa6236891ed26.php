@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginal7ee50bd21c07009d53a5718d9420b315 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal7ee50bd21c07009d53a5718d9420b315 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.columns.common.status.quotation-status','data' => ['value' => $value,'id' => $id]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('columns.common.status.quotation-status'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginal7ee50bd21c07009d53a5718d9420b315)): ?>
+<?php $attributes = $__attributesOriginal7ee50bd21c07009d53a5718d9420b315; ?>
+<?php unset($__attributesOriginal7ee50bd21c07009d53a5718d9420b315); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal7ee50bd21c07009d53a5718d9420b315)): ?>
+<?php $component = $__componentOriginal7ee50bd21c07009d53a5718d9420b315; ?>
+<?php unset($__componentOriginal7ee50bd21c07009d53a5718d9420b315); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/251be1c8faf86330b4271a174c9527c2.blade.php ENDPATH**/ ?>

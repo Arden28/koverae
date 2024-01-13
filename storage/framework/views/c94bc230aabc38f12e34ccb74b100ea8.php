@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginalc6e9c67913525ee1f88abea3747f0938 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalc6e9c67913525ee1f88abea3747f0938 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.columns.common.status.sale-invoice-status','data' => ['value' => $value,'id' => $id]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('columns.common.status.sale-invoice-status'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginalc6e9c67913525ee1f88abea3747f0938)): ?>
+<?php $attributes = $__attributesOriginalc6e9c67913525ee1f88abea3747f0938; ?>
+<?php unset($__attributesOriginalc6e9c67913525ee1f88abea3747f0938); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc6e9c67913525ee1f88abea3747f0938)): ?>
+<?php $component = $__componentOriginalc6e9c67913525ee1f88abea3747f0938; ?>
+<?php unset($__componentOriginalc6e9c67913525ee1f88abea3747f0938); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/743c8c0ea06e47997d496a57cfb838be.blade.php ENDPATH**/ ?>

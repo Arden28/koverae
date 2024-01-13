@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginal9400eedad550b8fd88d5459ef64373ae = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9400eedad550b8fd88d5459ef64373ae = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.select.sales_teams','data' => ['value' => $value]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.select.sales_teams'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginal9400eedad550b8fd88d5459ef64373ae)): ?>
+<?php $attributes = $__attributesOriginal9400eedad550b8fd88d5459ef64373ae; ?>
+<?php unset($__attributesOriginal9400eedad550b8fd88d5459ef64373ae); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9400eedad550b8fd88d5459ef64373ae)): ?>
+<?php $component = $__componentOriginal9400eedad550b8fd88d5459ef64373ae; ?>
+<?php unset($__componentOriginal9400eedad550b8fd88d5459ef64373ae); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/abda2decc61446107ae9343f48d308a8.blade.php ENDPATH**/ ?>

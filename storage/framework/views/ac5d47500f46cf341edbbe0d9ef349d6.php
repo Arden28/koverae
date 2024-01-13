@@ -9,6 +9,7 @@
 
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $action->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -18,6 +19,10 @@
 <?php endif; ?>
 <?php $component->withAttributes(['value' => $action,'status' => $status]); ?>
                  <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
@@ -34,6 +39,7 @@
 
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->statusBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $status_button): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $status_button->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -43,6 +49,10 @@
 <?php endif; ?>
 <?php $component->withAttributes(['value' => $status_button,'status' => $status]); ?>
                  <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
@@ -65,6 +75,7 @@
                     <div class="k_horizontal_asset" id="k_horizontal_capsule">
                         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->capsules(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $capsule): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $capsule->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -74,6 +85,10 @@
 <?php endif; ?>
 <?php $component->withAttributes(['value' => $capsule,'status' => $status]); ?>
                          <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
@@ -103,6 +118,7 @@
                                 <ul class="dropdown-menu">
                                     <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action_button): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $action_button->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -112,6 +128,10 @@
 <?php endif; ?>
 <?php $component->withAttributes(['value' => $action_button,'status' => $status]); ?>
                                      <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
@@ -149,6 +169,7 @@
                         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->inputs(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <!--[if BLOCK]><![endif]--><?php if($input->position == 'left' && $input->tab == 'none'): ?>
                                 <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $input->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -158,6 +179,10 @@
 <?php endif; ?>
 <?php $component->withAttributes(['value' => $input]); ?>
                                  <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
@@ -173,6 +198,7 @@
                         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->inputs(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <!--[if BLOCK]><![endif]--><?php if($input->position == 'right' && $input->tab == 'none'): ?>
                                 <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $input->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -182,6 +208,10 @@
 <?php endif; ?>
 <?php $component->withAttributes(['value' => $input,'date' => $date]); ?>
                                  <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
@@ -208,6 +238,7 @@
 
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->tabs(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tab): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $tab->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -217,6 +248,10 @@
 <?php endif; ?>
 <?php $component->withAttributes(['value' => $tab,'cartInstance' => '{{ $cartInstance }}']); ?>
                  <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>

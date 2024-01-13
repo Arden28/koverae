@@ -8,14 +8,16 @@ class SaleFormPanel extends ControlPanel
 {
     public $sale;
 
-    public function mount($sale = null)
+    public function mount($sale = null, $event)
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->showIndicators === true;
+        $this->showIndicators = true;
+        $this->event = $event;
 
         if($sale){
             $this->sale = $sale;
+
             $this->currentPage = $sale->reference;
         }else{
             $this->currentPage = 'Nouveau';

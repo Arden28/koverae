@@ -1,12 +1,15 @@
 <div>
     @section('title', 'Contacts')
-    <div class="page-body d-print-none">
-        <div class="container-fluid">
-            <!-- Notify -->
-            @include('notify::components.notify')
 
-            <livewire:contact::table.contacts-table />
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:contact::navbar.control-panel.contact-panel />
+    @endsection
 
-        </div>
+    <div class="w-100 d-print-none">
+        <!-- Notify -->
+        @include('notify::components.notify')
+        <!-- Table -->
+        <livewire:contact::table.contacts-table />
     </div>
 </div>

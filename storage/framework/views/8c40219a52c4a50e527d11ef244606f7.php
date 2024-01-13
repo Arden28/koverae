@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginal3433cf984a35df25e98b55a7d6b1012d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal3433cf984a35df25e98b55a7d6b1012d = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button.action-bar.confirmed-quotation','data' => ['value' => $value,'status' => $status]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('button.action-bar.confirmed-quotation'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginal3433cf984a35df25e98b55a7d6b1012d)): ?>
+<?php $attributes = $__attributesOriginal3433cf984a35df25e98b55a7d6b1012d; ?>
+<?php unset($__attributesOriginal3433cf984a35df25e98b55a7d6b1012d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal3433cf984a35df25e98b55a7d6b1012d)): ?>
+<?php $component = $__componentOriginal3433cf984a35df25e98b55a7d6b1012d; ?>
+<?php unset($__componentOriginal3433cf984a35df25e98b55a7d6b1012d); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/84e17c90c581ad1a3d9bc066dcc07a47.blade.php ENDPATH**/ ?>

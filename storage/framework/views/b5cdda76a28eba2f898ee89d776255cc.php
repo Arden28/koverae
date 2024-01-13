@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginalcea0fe8738def09fd935037f03945293 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalcea0fe8738def09fd935037f03945293 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.textarea.tabs-middle','data' => ['value' => $value]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.textarea.tabs-middle'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginalcea0fe8738def09fd935037f03945293)): ?>
+<?php $attributes = $__attributesOriginalcea0fe8738def09fd935037f03945293; ?>
+<?php unset($__attributesOriginalcea0fe8738def09fd935037f03945293); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalcea0fe8738def09fd935037f03945293)): ?>
+<?php $component = $__componentOriginalcea0fe8738def09fd935037f03945293; ?>
+<?php unset($__componentOriginalcea0fe8738def09fd935037f03945293); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/9b67dd7d958bfee4cb9a1258bb8384f1.blade.php ENDPATH**/ ?>

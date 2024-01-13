@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginala23ecf83c355d19534a65fe400bea930 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginala23ecf83c355d19534a65fe400bea930 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.select.shipping.policy','data' => ['value' => $value]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.select.shipping.policy'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginala23ecf83c355d19534a65fe400bea930)): ?>
+<?php $attributes = $__attributesOriginala23ecf83c355d19534a65fe400bea930; ?>
+<?php unset($__attributesOriginala23ecf83c355d19534a65fe400bea930); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginala23ecf83c355d19534a65fe400bea930)): ?>
+<?php $component = $__componentOriginala23ecf83c355d19534a65fe400bea930; ?>
+<?php unset($__componentOriginala23ecf83c355d19534a65fe400bea930); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/922eb1ab57e91eaf096e54cba77d8053.blade.php ENDPATH**/ ?>

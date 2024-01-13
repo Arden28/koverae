@@ -112,7 +112,7 @@ class Show extends Component
             $this->note = $sale->note;
             $this->seller = $sale->seller_id;
             $this->sales_team = $sale->sales_team_id;
-            $this->tags = $sale->tags;
+            // $this->tags = $sale->tags;
             $this->shipping_date = $sale->shipping_date;
             $this->shipping_policy = $sale->shipping_policy;
             $this->shipping_status = $sale->shipping_status;

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->decimal('discount_amount', $precision = 12, $scale = 2)->default(0);
             $table->decimal('shipping_amount', $precision = 12, $scale = 2)->default(0);
             $table->decimal('total_amount', $precision = 12, $scale = 2)->default(0);
-            $table->string('status')->default('pending');
+            $table->enum('status', ['quotation', 'sent', 'sale_order']);
             $table->text('note')->nullable();
             // Sales
             $table->foreignId('seller_id')->nullable();
@@ -44,7 +44,7 @@ return new class extends Migration
             $table->string('incoterm_location')->nullable();
             $table->string('shipping_policy')->nullable();
             $table->date('shipping_date')->nullable();
-            $table->string('shipping_status')->nullable();
+            $table->enum('shipping_status', ['undelivered', 'delivered']);
 
             // Tracking
             $table->string('source_document')->nullable();

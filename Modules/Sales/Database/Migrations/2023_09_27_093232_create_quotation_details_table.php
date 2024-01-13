@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('quotation_id');
             $table->unsignedBigInteger('product_id')->nullable();
             $table->string('product_name');
-            $table->string('product_code');
+            $table->string('product_code')->nullable();
             $table->text('description')->nullable();
             $table->decimal('quantity', $precision = 12, $scale = 2);
             $table->decimal('price', $precision = 12, $scale = 2);

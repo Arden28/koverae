@@ -1,14 +1,17 @@
 <?php $attributes ??= new \Illuminate\View\ComponentAttributeBag; ?>
 <?php foreach($attributes->onlyProps([
-    'value'
+    'value',
+    'id'
 ]) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 } ?>
 <?php $attributes = $attributes->exceptProps([
-    'value'
+    'value',
+    'id'
 ]); ?>
 <?php foreach (array_filter(([
-    'value'
+    'value',
+    'id'
 ]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 } ?>
@@ -20,10 +23,12 @@
 <?php
     $customer = \Modules\Contact\Entities\Contact::find($value);
 ?>
+<!--[if BLOCK]><![endif]--><?php if(isset($customer)): ?>
 <div>
     <a style="text-decoration: none" wire:navigate href="<?php echo e(route('contacts.show' , ['subdomain' => current_company()->domain_name, 'contact' => $customer->id ])); ?>"  tabindex="-1">
         <?php echo e($customer->name); ?>
 
     </a>
 </div>
+<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/columns/common/customer.blade.php ENDPATH**/ ?>

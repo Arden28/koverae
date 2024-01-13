@@ -1,5 +1,11 @@
 <div>
     @section('title', $tag->name)
+
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:contact::navbar.control-panel.tag-form-panel :tag="$tag" />
+    @endsection
+
     <div class="k_form_sheet_bg">
         <form wire:submit.prevent="updateTag({{$tag->id}})">
             <!-- Status bar -->

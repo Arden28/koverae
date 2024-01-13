@@ -51,12 +51,13 @@
                         </div>
                         @if($this->showIndicators)
                         <div class="k_form_status_indicator_buttons d-flex">
-                            <button wire:click.prevent="saveUpdate()" wire:target="saveUpdate()" class="k_form_button_save btn-light rounded-1 py-0 px-1 lh-sm">
+                            <button wire:loading.remove wire:click.prevent="saveUpdate()" wire:target="saveUpdate()" class="k_form_button_save btn-light rounded-1 py-0 px-1 lh-sm">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                             </button>
-                            <button class="k_form_button_save btn-light py-0 px-1 lh-sm">
+                            <button wire:click.prevent="resetForm()" wire:loading.remove class="k_form_button_save btn-light py-0 px-1 lh-sm">
                                 <i class="bi bi-arrow-return-left"></i>
                             </button>
+                            <span wire:loading wire:target="saveUpdate()">...</span>
                         </div>
                         @endif
                     </div>

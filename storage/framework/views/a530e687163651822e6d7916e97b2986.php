@@ -56,12 +56,13 @@
                         </div>
                         <!--[if BLOCK]><![endif]--><?php if($this->showIndicators): ?>
                         <div class="k_form_status_indicator_buttons d-flex">
-                            <button wire:click.prevent="saveUpdate()" wire:target="saveUpdate()" class="k_form_button_save btn-light rounded-1 py-0 px-1 lh-sm">
+                            <button wire:loading.remove wire:click.prevent="saveUpdate()" wire:target="saveUpdate()" class="k_form_button_save btn-light rounded-1 py-0 px-1 lh-sm">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                             </button>
-                            <button class="k_form_button_save btn-light py-0 px-1 lh-sm">
+                            <button wire:click.prevent="resetForm()" wire:loading.remove class="k_form_button_save btn-light py-0 px-1 lh-sm">
                                 <i class="bi bi-arrow-return-left"></i>
                             </button>
+                            <span wire:loading wire:target="saveUpdate()">...</span>
                         </div>
                         <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
                     </div>
@@ -87,6 +88,7 @@
                 <!-- Button view -->
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->switchButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switchButton): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $switchButton->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -96,6 +98,10 @@
 <?php endif; ?>
 <?php $component->withAttributes(['value' => $switchButton]); ?>
                  <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>

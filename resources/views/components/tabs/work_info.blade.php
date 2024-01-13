@@ -3,7 +3,7 @@
     'data'
 ])
 
-<div class="tab-pane active" id="{{ $value->key }}">
+<div class="tab-pane active" id="{{ $value->key }}" wire:ignore>
     <div class="row">
         <!-- Left Side -->
         <div class="k_work_employee_main col-md-8 col-lg-8 flex-grow-0">

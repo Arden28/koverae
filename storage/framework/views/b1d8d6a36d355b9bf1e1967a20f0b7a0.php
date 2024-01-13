@@ -7,9 +7,9 @@
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
-[$__name, $__params] = $__split('sales::navbar.control-panel.sale-form-panel', ['sale' => $sale]);
+[$__name, $__params] = $__split('sales::navbar.control-panel.sale-form-panel', ['sale' => $sale,'event' => 'update-sale']);
 
-$__html = app('livewire')->mount($__name, $__params, 'C8sb66p', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'SfocZSo', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -23,6 +23,23 @@ if (isset($__slots)) unset($__slots);
 
     <!-- Notify -->
     <?php echo $__env->make('notify::components.notify', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('sales::form.sale-form', ['sale' => $sale]);
+
+$__html = app('livewire')->mount($__name, $__params, '7N1luw8', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+
     <div class="k_form_sheet_bg">
         <!-- Status bar -->
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
@@ -154,6 +171,15 @@ if (isset($__slots)) unset($__slots);
                             <i class="k_button_icon bi bi-newspaper"></i>
                             <a style="text-decoration: none;" wire:navigate href="<?php echo e(route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $sale->quotation_id ])); ?>">
                                 <span class="k_horizontal_span"><?php echo e(__('Devis')); ?> (1)</span>
+                            </a>
+                        </div>
+                        <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                        <!--[if BLOCK]><![endif]--><?php if($sale->transfers): ?>
+                        <!-- Invoice -->
+                        <div class="form-check k_radio_item">
+                            <i class="k_button_icon bi bi-truck"></i>
+                            <a style="text-decoration: none;" wire:navigate href="">
+                                <span class="k_horizontal_span"><?php echo e(__('Livraison')); ?> (1)</span>
                             </a>
                         </div>
                         <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
@@ -321,7 +347,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('cart.product-cart', ['cartInstance' => 'sale','data' => $sale]);
 
-$__html = app('livewire')->mount($__name, $__params, '4Jfmnzo', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'VZsuCLz', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -553,7 +579,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('sales::sale.invoice.set-invoice', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'Lh0Xv1n', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'EUPPrJh', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

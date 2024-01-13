@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Invoicing\Entities\Customer\Invoice;
 use Modules\Sales\Entities\Quotation\Quotation;
 use App\Models\Company\Company;
+use Modules\Inventory\Entities\Operation\OperationTransfer;
 
 class Sale extends Model
 {
@@ -65,6 +66,15 @@ class Sale extends Model
     // Get Quotation's details
     public function invoice() {
         return $this->hasOne(Invoice::class, 'sale_id', 'id');
+    }
+
+    // Get Quotation's details
+    public function transfers() {
+        return $this->hasMany(OperationTransfer::class, 'source_document', 'reference');
+    }
+
+    public function tags() {
+        return $this->belongsToMany(SaleTag::class, 'tag_id', 'id');
     }
 
     public static function boot() {

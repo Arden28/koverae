@@ -23,14 +23,14 @@
 
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- Sales Team -->
-    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
+    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         <label class="k_form_label">
             <?php echo e($value->label); ?> :
         </label>
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select  wire:model="<?php echo e($value->model); ?>" class="k_input" id="<?php echo e($value->model); ?>_0">
+        <select  wire:model.blur="<?php echo e($value->model); ?>" class="k_input" id="<?php echo e($value->model); ?>_0">
             <option value=""></option>
             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = \Modules\Sales\Entities\SalesTeam::isCompany(current_company()->id)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sales_team): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($sales_team->id); ?>"><?php echo e($sales_team->name); ?></option>

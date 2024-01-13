@@ -2,7 +2,9 @@
     'value',
     'data'
 ])
-
+@php
+    $sellers = \Modules\Sales\Entities\SalesPerson::isCompany(current_company()->id)->where('id', $this->sales_team)->get();
+@endphp
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- seller -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
@@ -14,7 +16,7 @@
     <div class="k_cell k_wrap_input flex-grow-1">
         <select  wire:model="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0">
             <option value=""></option>
-            @foreach (\Modules\Sales\Entities\SalesPerson::isCompany(current_company()->id)->get() as $seller)
+            @foreach ($sellers as $seller)
                 <option value="{{ $seller->id }}">{{ $seller->user->name }}</option>
             @endforeach
         </select>

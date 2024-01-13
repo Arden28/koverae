@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginalc5b14300ef700ef8ba930db34890ca97 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalc5b14300ef700ef8ba930db34890ca97 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.columns.common.status.shipping-status','data' => ['value' => $value,'id' => $id]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('columns.common.status.shipping-status'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginalc5b14300ef700ef8ba930db34890ca97)): ?>
+<?php $attributes = $__attributesOriginalc5b14300ef700ef8ba930db34890ca97; ?>
+<?php unset($__attributesOriginalc5b14300ef700ef8ba930db34890ca97); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc5b14300ef700ef8ba930db34890ca97)): ?>
+<?php $component = $__componentOriginalc5b14300ef700ef8ba930db34890ca97; ?>
+<?php unset($__componentOriginalc5b14300ef700ef8ba930db34890ca97); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/b24a5bee0a9838f6203a4862d76d60b4.blade.php ENDPATH**/ ?>

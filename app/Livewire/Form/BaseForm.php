@@ -12,7 +12,9 @@ abstract class BaseForm extends Component
         return view('livewire.form.base-form');
     }
 
-    public abstract function form() : string;
+    public function form(){
+        return null;
+    }
 
     public abstract function inputs() : array;
 

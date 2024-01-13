@@ -42,7 +42,7 @@ class ContactsTable extends Table
             Column::make('email', 'Email'),
             Column::make('city', 'Ville'),
             Column::make('country', 'Pays'),
-            Column::make('created_at', 'Rejoinds depuis')->component('columns.common.human-diff'),
+            // Column::make('created_at', 'Rejoinds depuis')->component('columns.common.human-diff'),
         ];
     }
 }

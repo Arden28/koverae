@@ -22,6 +22,14 @@ class WarehouseLocation extends Model
         return $query->where('company_id', $company_id);
     }
 
+    public function scopeIsType(Builder $query, $type)
+    {
+        return $query->where('type', $type);
+    }
+    public function parent() {
+        return $this->belongsTo(WarehouseLocation::class, 'parent_id', 'id');
+    }
+
     // protected static function newFactory(): WarehouseLocationFactory
     // {
     //     //return WarehouseLocationFactory::new();

@@ -21,7 +21,7 @@
 } ?>
 <?php unset($__defined_vars); ?>
     <!-- Order Table -->
-    <div class="tab-pane active show" id="<?php echo e($value->key); ?>">
+    <div class="tab-pane active show" id="<?php echo e($value->key); ?>" wire:ignore>
         <!-- Order Table -->
         <?php
 $__split = function ($name, $params = []) {
@@ -29,7 +29,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('cart.product-cart', ['cartInstance' => 'quotation','data' => $this->quotation]);
 
-$__html = app('livewire')->mount($__name, $__params, 'tyUQIBg', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'q9groKs', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

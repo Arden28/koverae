@@ -24,6 +24,12 @@ class SalesPerson extends Model
         return $query->where('company_id', $company_id);
     }
 
+    // If the sales belong to the company
+    public function scopeIsTeam(Builder $query, $team_id)
+    {
+        return $query->where('sales_team_id', $team_id);
+    }
+
     public function sales() {
         return $this->hasMany(Sale::class, 'seller_id', 'id');
     }

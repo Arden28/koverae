@@ -37,32 +37,35 @@
                 <a class="dropdown-item" wire:navigate href="{{ route('contacts.tags.index', ['subdomain' => current_company()->domain_name]) }}">
                     {{ __('Etiquettes') }}
                 </a>
-                <hr>
-                <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
-                  {{ __('Localisation') }}
-                </a>
-                <div class="dropdown-menu">
-                  <a wire:navigate href="{{ route('contacts.countries.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
-                    {{ __('Pays') }}
-                  </a>
-                  <a wire:navigate href="{{ route('employee.department.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
-                    {{ __('Etats Fed.') }}
-                  </a>
-                  <a wire:navigate href="{{ route('employee.department.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
-                    {{ __('Groupe de Pays') }}
-                  </a>
+                <div class="dropend">
+                    <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                      {{ __('Localisation') }}
+                    </a>
+                    <div class="dropdown-menu">
+                      <a wire:navigate href="{{ route('contacts.countries.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
+                        {{ __('Pays') }}
+                      </a>
+                      {{-- <a wire:navigate href="{{ route('employee.department.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
+                        {{ __('Etats Fed.') }}
+                      </a>
+                      <a wire:navigate href="{{ route('employee.department.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
+                        {{ __('Groupe de Pays') }}
+                      </a> --}}
+                    </div>
                 </div>
-                <hr>
-                <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
-                  {{ __('Comptes Bancaires') }}
-                </a>
-                <div class="dropdown-menu">
-                  <a wire:navigate href="{{ route('contacts.banks.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
-                    {{ __('Banques') }}
-                  </a>
-                  <a wire:navigate href="{{ route('contacts.banks.accounts.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
-                    {{ __('Comptes bancaires') }}
-                  </a>
+
+                <div class="dropend">
+                    <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                      {{ __('Comptes Bancaires') }}
+                    </a>
+                    <div class="dropdown-menu">
+                      <a wire:navigate href="{{ route('contacts.banks.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
+                        {{ __('Banques') }}
+                      </a>
+                      <a wire:navigate href="{{ route('contacts.banks.accounts.index', ['subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
+                        {{ __('Comptes bancaires') }}
+                      </a>
+                    </div>
                 </div>
 
             </div>

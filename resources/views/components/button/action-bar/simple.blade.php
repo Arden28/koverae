@@ -2,6 +2,7 @@
     'value',
     'status'
 ])
+@if($status != 'canceled')
 <div>
     <button type="button" wire:click="{{ $value->action }}" wire:target="{{ $value->action }}"  id="top-button" class="btn btn-primary {{ $status == $value->primary ? 'primary' : '' }}">
         <span>
@@ -10,7 +11,7 @@
     </button>
 
     <!-- Dropdown button -->
-    <div class="btn-group">
+    {{-- <div class="btn-group">
         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         Action
         </button>
@@ -23,5 +24,6 @@
         @endif
         <!--<li><hr class="dropdown-divider"></li>-->
         </ul>
-    </div>
+    </div> --}}
 </div>
+@endif

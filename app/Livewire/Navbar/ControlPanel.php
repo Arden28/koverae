@@ -18,8 +18,9 @@ abstract class ControlPanel extends Component
     public $urlPrefix = '';
 
     public $currentPage;
-
     public $new;
+    public $event;
+
 
     public function render()
     {
@@ -49,7 +50,12 @@ abstract class ControlPanel extends Component
     }
 
     public function saveUpdate(){
-        $this->dispatch('saveChange');
+        $this->dispatch($this->event);
+        // $this->dispatch('saveChange');
+    }
+
+    public function resetForm(){
+        $this->dispatch('reset-form');
     }
 
 }

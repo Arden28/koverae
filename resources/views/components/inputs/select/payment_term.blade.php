@@ -4,7 +4,7 @@
 
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- Payment Terms -->
-    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
+    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         <label class="k_form_label">
             {{ $value->label }} :
         </label>

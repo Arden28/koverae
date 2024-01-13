@@ -23,7 +23,7 @@
 
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- seller -->
-    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
+    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         <label class="k_form_label">
             <?php echo e($value->label); ?> :
         </label>
@@ -32,11 +32,11 @@
     <div class="k_cell k_wrap_input flex-grow-1">
         <select  wire:model="<?php echo e($value->model); ?>" class="k_input" id="<?php echo e($value->model); ?>_0">
             <option value=""></option>
-            <option value="as_soon_as_possible">
+            <option value="after_done">
                 <?php echo e(__('Lorsque tous les produits sont prêts')); ?>
 
             </option>
-            <option value="after_done">
+            <option value="as_soon_as_possible">
                 <?php echo e(__('Dès que possible')); ?>
 
             </option>

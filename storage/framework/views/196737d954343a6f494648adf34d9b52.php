@@ -24,8 +24,7 @@
 <div>
     <button type="button" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>"  id="top-button" class="btn btn-primary <?php echo e($status == $value->primary ? 'primary' : ''); ?>">
         <span>
-            <?php echo e($value->label); ?>
-
+            <?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>" ></span>
         </span>
     </button>
 </div>

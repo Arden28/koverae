@@ -3,7 +3,7 @@
 
     <!-- Control Panel -->
     @section('control-panel')
-    <livewire:sales::navbar.control-panel.quotation-form-panel />
+    <livewire:sales::navbar.control-panel.quotation-form-panel :event="'create-quotation'" />
     @endsection
 
     <!-- Notify -->

@@ -12,7 +12,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php if (isset($component)) { $__componentOriginalc1e205fc84d9035880411983449ad92b = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalc1e205fc84d9035880411983449ad92b = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputs.select.contact','data' => ['value' => $value]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('inputs.select.contact'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,7 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php if (isset($__attributesOriginalc1e205fc84d9035880411983449ad92b)): ?>
+<?php $attributes = $__attributesOriginalc1e205fc84d9035880411983449ad92b; ?>
+<?php unset($__attributesOriginalc1e205fc84d9035880411983449ad92b); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc1e205fc84d9035880411983449ad92b)): ?>
+<?php $component = $__componentOriginalc1e205fc84d9035880411983449ad92b; ?>
+<?php unset($__componentOriginalc1e205fc84d9035880411983449ad92b); ?>
 <?php endif; ?><?php /**PATH C:\wamp64\www\my-startups\app.koverae\storage\framework\views/991f7d5bfc89f79937caea9681e167dd.blade.php ENDPATH**/ ?>
