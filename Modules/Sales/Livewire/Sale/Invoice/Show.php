@@ -134,8 +134,7 @@ class Show extends Component
         $sales_teams = SalesTeam::isCompany(current_company()->id)->get();
         $journals = Journal::isCompany(current_company()->id)->get();
         return view('sales::livewire.sale.invoice.show', compact('contacts', 'sales_teams', 'journals', 'sales_people'))
-        ->extends('layouts.master')
-        ->section('content');
+        ->extends('layouts.master');
     }
 
     // Update Invoice

@@ -90,7 +90,7 @@ class WarehouseForm extends LightWeightForm
 
         $warehouse = $this->storeWarehouse($data);
 
-        return $this->redirect(route('inventory.warehouses.show', ['warehouse' => $warehouse->id, 'subdomain' => current_company()->domain_name]), navigate:true);
+        return redirect()->route('inventory.warehouses.show', ['warehouse' => $warehouse->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
     }
 
@@ -106,6 +106,6 @@ class WarehouseForm extends LightWeightForm
         ]);
         $warehouse->save();
 
-        // return $this->redirect(route('inventory.warehouses.show', ['type' => $type->id, 'subdomain' => current_company()->domain_name]), navigate:true);
+        // return $this->redirect(route('inventory.warehouses.show', ['type' => $type->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]), navigate:true);
     }
 }

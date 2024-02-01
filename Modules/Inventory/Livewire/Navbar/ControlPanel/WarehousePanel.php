@@ -13,7 +13,7 @@ class WarehousePanel extends ControlPanel
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->currentPage = 'Entrepôts';
-        $this->new = route('inventory.warehouses.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('inventory.warehouses.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 }

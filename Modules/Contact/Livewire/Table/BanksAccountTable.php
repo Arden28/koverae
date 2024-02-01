@@ -15,13 +15,13 @@ class BanksAccountTable extends Table
     public function createRoute() : string
     {
 
-        return route('contacts.banks.accounts.create', ['subdomain' => current_company()->domain_name ]);
+        return route('contacts.banks.accounts.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('contacts.banks.accounts.show', ['bank' => $id, 'subdomain' => current_company()->domain_name]);
+        return route('contacts.banks.accounts.show', ['bank' => $id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function headerName() : string

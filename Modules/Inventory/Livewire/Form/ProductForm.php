@@ -265,7 +265,7 @@ class ProductForm extends SimpleAvatarForm
     }
 
     public function new(){
-        return route('inventory.products.create', ['subdomain' => current_company()->domain_name]);
+        return route('inventory.products.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function store(){
@@ -308,7 +308,7 @@ class ProductForm extends SimpleAvatarForm
         ]);
         // $product->save();
 
-        return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name]);
+        return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     #[On('saveChange')]
@@ -392,8 +392,8 @@ class ProductForm extends SimpleAvatarForm
         }
         // dd($data);
 
-        // return $this->redirectRoute('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name], navigate:true);
-        return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name]);
+        // return $this->redirectRoute('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()], navigate:true);
+        return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
 }

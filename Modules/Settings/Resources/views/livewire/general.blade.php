@@ -99,7 +99,7 @@
                                             <div class="k_field_text k_readonly_modifier text-muted">
                                                 <span>{{ current_company()->country.' - '. current_company()->city }}</span>
                                             </div>
-                                            <a href="{{ route('settings.edit-company', ['subdomain' => current_company()->domain_name, 'company' => current_company()->id]) }}" wire:navigate class="btn btn-link">
+                                            <a href="{{ route('settings.edit-company', ['subdomain' => current_company()->domain_name, 'company' => current_company()->id, 'menu' => current_menu()]) }}" wire:navigate class="btn btn-link">
                                                 <i class="bi bi-arrow-right"></i>
                                                 <span><b>{{ __('Mettre à jour ces informations') }}</b></span>
                                             </a>
@@ -150,7 +150,7 @@
                                             <div class="k_field_text k_readonly_modifier text-muted">
                                                 <span>{{ __('Recevoir des rapports et analyses quotidiennes sur votre entreprise.') }}</span>
                                             </div>
-                                            <a href="{{ route('settings.edit-company', ['subdomain' => current_company()->domain_name, 'company' => current_company()->id]) }}" wire:navigate class="btn btn-link">
+                                            <a href="{{ route('settings.edit-company', ['subdomain' => current_company()->domain_name, 'company' => current_company()->id, 'menu' => current_menu()]) }}" wire:navigate class="btn btn-link">
                                                 <i class="bi bi-arrow-right"></i>
                                                 <span><b>{{ __('Configurer les rapports') }}</b></span>
                                             </a>

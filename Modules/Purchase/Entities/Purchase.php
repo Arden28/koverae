@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 use Modules\Contact\Entities\Vendor\Supplier;
 use Modules\Employee\Entities\Employee;
+use Modules\Inventory\Entities\Operation\OperationTransfer;
 use Modules\Invoicing\Entities\Vendor\Bill;
 
 class Purchase extends Model
@@ -43,6 +44,11 @@ class Purchase extends Model
     // public function purchase() {
     //     return $this->hasOne(RequestQuotation::class, 'request_quotation_id', 'id');
     // }
+
+    // Get Quotation's details
+    public function transfers() {
+        return $this->hasMany(OperationTransfer::class, 'source_document', 'reference');
+    }
 
     // Get seller
     public function supplier() {

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('name');
-            $table->string('type');
+            $table->enum('type', ['sale','purchase', 'cash', 'bank','miscellaneous'])->nullable();
             $table->string('short_code');
             // Accounting Informations
                 // Sale

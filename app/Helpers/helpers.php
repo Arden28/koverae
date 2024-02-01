@@ -7,6 +7,7 @@ use App\Models\Team\Team;
 use Bpuig\Subby\Models\Plan;
 use Bpuig\Subby\Models\PlanSubscription;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 if (!function_exists('domains')) {
     function domains() {
@@ -96,6 +97,54 @@ if (!function_exists('settings')) {
     }
 }
 
+// Current Menu
+if (!function_exists('update_menu')) {
+    function update_menu($module) {
+
+        $storedArray = Cache::get('current_menu');
+
+        // Check if the array exists in the cache
+        if ($storedArray) {
+            // Modify the array as needed
+            $storedArray['name'] = $module->name;
+            $storedArray['path'] = $module->path;
+            $storedArray['id'] = $module->navbar_id;
+            $storedArray['slug'] = $module->slug;
+
+            // Store the modified array back in the cache with the same key
+            Cache::put('current_menu', $storedArray, 60); // Adjust the expiration time if needed
+        } else {
+            // Storing the array in the cache with a key and expiration time (in minutes)
+            Cache::put('current_menu', [
+                'name' => $module->name,
+                'path' => $module->path,
+                'id' => $module->navbar_id,
+                'slug' => $module->slug
+            ],
+            24*60);
+        }
+
+        // No need to return a value here, as Cache::put doesn't return anything
+    }
+}
+
+if (!function_exists('current_menu')) {
+    function current_menu() {
+
+        // Retrieve the current array from the cache
+        $menu = Cache::get('current_menu');
+
+        // Check if the array exists in the cache
+        if ($menu) {
+            // Return the desired value from the array
+            return $menu['id'];
+        }
+
+        // Handle the case where the array is not present in the cache
+        return null;
+    }
+}
+
 
 if (!function_exists('format_currency')) {
     function format_currency($value, $format = true) {
@@ -104,7 +153,7 @@ if (!function_exists('format_currency')) {
         }
 
         $settings = settings();
-        $position = $settings->default_currency_position;
+        $position = $settings->currency->symbol_position;
         $symbol = $settings->currency->symbol;
         $decimal_separator = $settings->currency->decimal_separator;
         $thousand_separator = $settings->currency->thousand_separator;
@@ -112,7 +161,7 @@ if (!function_exists('format_currency')) {
         if ($position == 'prefix') {
             $formatted_value = $symbol . number_format((float) $value, 2, $decimal_separator, $thousand_separator);
         } else {
-            $formatted_value = number_format((float) $value, 2, $decimal_separator, $thousand_separator) . $symbol;
+            $formatted_value = number_format((float) $value, 2, $decimal_separator, $thousand_separator) .' '. $symbol;
         }
 
         return $formatted_value;
@@ -180,8 +229,25 @@ if (!function_exists('convertToInt')) {
 }
 
 // Payment Term
-// if(!function_exists('payment_term')){
-//     function payment_term($type){
-
-//     }
-// }
+if(!function_exists('payment_term')){
+    function payment_term($type){
+        switch ($type) {
+            case 'immediate_payment':
+                return 'Paiement immediat';
+            case '7_days':
+                return '7 Jours';
+            case '15_days':
+                return '15 Jours';
+            case '21_days':
+                return '21 Jours';
+            case '30_days':
+                return '30 Jours';
+            case '45_days':
+                return '45 Jours';
+            case 'end_of_next_month':
+                return 'Fin du mois suivant';
+            default:
+                return 'Non fixée';
+        }
+    }
+}

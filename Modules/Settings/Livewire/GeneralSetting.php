@@ -13,7 +13,7 @@ use Livewire\Attributes\Url;
 
 class GeneralSetting extends Component
 {
-    #[Url(as: 'view')]
+    #[Url(keep: 'view')]
     public $view = '';
 
     public function render()
@@ -25,6 +25,6 @@ class GeneralSetting extends Component
     }
 
     public function changePanel($panel){
-        $this->view = $panel;
+        return $this->view = $panel;
     }
 }

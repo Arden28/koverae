@@ -128,7 +128,7 @@ class ScrapForm extends SimpleForm
         $this->updateQty($scrap->product_id, $scrap->quantity);
 
 
-        return redirect()->route('inventory.adjustments.scraps.show', ['scrap' => $scrap->id, 'subdomain' => current_company()->domain_name]);
+        return redirect()->route('inventory.adjustments.scraps.show', ['scrap' => $scrap->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
     }
 
@@ -151,7 +151,7 @@ class ScrapForm extends SimpleForm
         ]);
         $scrap->save();
 
-        return redirect()->route('inventory.adjustments.scraps.show', ['scrap' => $scrap->id, 'subdomain' => current_company()->domain_name]);
+        return redirect()->route('inventory.adjustments.scraps.show', ['scrap' => $scrap->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function updateQty(Product $product, $qty){

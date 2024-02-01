@@ -19,6 +19,7 @@ class Template extends Mailable
     public $subject;
     public $content;
     public $company;
+    public $attachment;
 
     /**
      * Create a new message instance.
@@ -64,6 +65,10 @@ class Template extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return [
+            // Attachment::fromStorage($this->attachment)
+            //         ->as('quotation.pdf')
+            //         ->withMime('application/pdf'),
+        ];
     }
 }

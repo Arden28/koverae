@@ -13,13 +13,13 @@ class OperationTypeTable extends Table
     public function createRoute() : string
     {
 
-        return route('inventory.operation-types.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('inventory.operation-types.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('inventory.operation-types.show' , ['subdomain' => current_company()->domain_name, 'type' => $id ]);
+        return route('inventory.operation-types.show' , ['subdomain' => current_company()->domain_name, 'type' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

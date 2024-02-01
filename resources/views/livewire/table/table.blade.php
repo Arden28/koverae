@@ -56,6 +56,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="card-footer d-flex align-items-end ms-auto w-100">
+            {{ $this->data()->links() }}
+        </div>
     </div>
 
 </div>

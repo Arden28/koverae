@@ -43,6 +43,6 @@ class Create extends Component
         $this->reset(['name', 'manager', 'parent', 'company']);
 
         session()->flash('message', __('Le département a été ajouté !'));
-        return redirect()->route('employee.department.index', ['subdomain' => current_company()->domain_name]);
+        return redirect()->route('employee.department.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 }

@@ -20,7 +20,7 @@ class TagFormPanel extends ControlPanel
         }else{
             $this->currentPage = 'Nouveau';
         }
-        $this->new = route('contacts.tags.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('contacts.tags.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 }

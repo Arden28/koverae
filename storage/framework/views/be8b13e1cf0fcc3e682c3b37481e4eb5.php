@@ -41,7 +41,7 @@
               </p>
               <div class="empty-action">
                 
-                <a  wire:navigate class="btn btn-primary">
+                <a  wire:navigate href="<?php echo e(route('main', ['subdomain' => current_company()->domain_name])); ?>" class="btn btn-primary">
                   <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                   <i class="bi bi-house"></i>
                   <?php echo e(__("Retouner à l'acceuil")); ?>

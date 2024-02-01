@@ -20,7 +20,11 @@
         <select wire:model.live="{{ $value->model }}" id="" class="k_input">
             <option value=""></option>
             @foreach($locations as $location)
-            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                @if($location->parent)
+                    <option value="{{ $location->id }}">{{ $location->parent->name }}/{{ $location->name }}</option>
+                @else
+                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                @endif
             @endforeach
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror

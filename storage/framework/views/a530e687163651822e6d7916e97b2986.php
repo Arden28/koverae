@@ -41,17 +41,34 @@
                         </span>
                         <div class="k_cp_action_menus d-flex align-items-center pe-2 gap-1">
                             <div class="k_dropdown dropdown lh-1 dropdown-no-caret" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-gear"></i>
+                                <i class="bi bi-gear" wire:loading.remove></i>
+                                <span wire:loading>...</span>
                             </div>
                             <ul class="k_dropdown_menu dropdown-menu lh-base">
-                                <li class="dropdown-item cursor-pointer">
-                                    <i class="bi bi-copy"></i> <?php echo e(__('Dupliquer')); ?>
 
-                                </li>
-                                <li class="dropdown-item cursor-pointer">
-                                    <i class="bi bi-trash"></i> <?php echo e(__('Supprimer')); ?>
+                                <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action_button): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
+<?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $action_button->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('dynamic-component'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\DynamicComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['value' => $action_button]); ?>
+                                 <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
+<?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
 
-                                </li>
                             </ul>
                         </div>
                         <!--[if BLOCK]><![endif]--><?php if($this->showIndicators): ?>
@@ -77,14 +94,11 @@
           <!-- Navigations -->
           <div class="k_control_panel_navigation d-flex flex-wrap flex-md-wrap align-items-center justify-content-end gap-l-1 gap-xl-5 order-1 order-lg-2 flex-grow-1">
             <!-- Pagination -->
-            <!--[if BLOCK]><![endif]--><?php if($showPagination): ?>
-                <?php echo e($this->data()->links()); ?>
-
-            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+            
             <!-- End Pagination -->
 
             <!-- Display panel buttons -->
-            <div class="k_cp_switch_buttons d-print-none d-none d-xl-inline-flex btn-group">
+            <div class="k_cp_switch_buttons d-print-none d-xl-inline-flex btn-group">
                 <!-- Button view -->
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->switchButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switchButton): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>

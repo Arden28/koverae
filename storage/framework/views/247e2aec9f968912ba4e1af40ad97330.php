@@ -22,7 +22,7 @@
 <?php unset($__defined_vars); ?>
 <!--[if BLOCK]><![endif]--><?php if($status != 'canceled'): ?>
 <div>
-    <button type="button" wire:click="<?php echo e($value->action); ?>" onclick="Livewire.dispatch('openModal', {component: 'modal.email.send-by-mail', arguments: { template: 1, model: <?php echo e($this->model); ?> } } )"  id="top-button" class="btn btn-primary <?php echo e($status == $value->primary ? 'primary' : ''); ?>">
+    <button type="button" wire:click="<?php echo e($value->action); ?>" onclick="Livewire.dispatch('openModal', {component: 'modal.email.send-by-mail', arguments: { template: <?php echo e($this->template); ?>, model: <?php echo e($this->model); ?> } } )"  id="top-button" class="btn btn-primary <?php echo e($status == $value->primary ? 'primary' : ''); ?>">
         <span>
             <?php echo e($value->label); ?>
 

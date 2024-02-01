@@ -33,6 +33,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Modules\App\Entities\Email\EmailTemplate;
 use Modules\Inventory\Entities\Operation\OperationTransfer;
 use Modules\Inventory\Entities\Operation\OperationTransferDetail;
 use Modules\Inventory\Entities\Operation\OperationType;
@@ -93,6 +94,7 @@ class QuotationForm extends BaseForm
     public $sale;
 
     public $model;
+    public $template;
 
 
     public function mount($quotation = null){
@@ -101,6 +103,7 @@ class QuotationForm extends BaseForm
             $this->quotation = $quotation;
 
             $this->model = $quotation;
+            $this->template = EmailTemplate::isCompany(current_company()->id)->applyTo('quotation')->first()->id;
 
             $this->sale = $quotation->sale;
 
@@ -347,7 +350,7 @@ class QuotationForm extends BaseForm
 
             notify()->success("Nouveau Devis créé !");
 
-            return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id]);
+            return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
         });
 
     }
@@ -412,7 +415,7 @@ class QuotationForm extends BaseForm
                 Cart::instance('quotation')->destroy();
             });
 
-            return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id]);
+            return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
 
         // notify()->success("Votre devis a été créer !");
         // return redirect()->route('sales.quotations.index', ->subdomain' => current_company()->domain_name]);
@@ -545,7 +548,7 @@ class QuotationForm extends BaseForm
                         'operation_transfer_id' => $transfer->id,
                         'product_name' => Product::find($detail->product_id)->product_name,
                         'demand' => $detail->quantity,
-                        'quantity' => $detail->quantity,
+                        'quantity' => Product::find($detail->product_id)->product_quantity,
                     ]);
                     $transfer_details->save();
                 }
@@ -557,11 +560,24 @@ class QuotationForm extends BaseForm
 
             notify()->success("Nouveau bon de commande créé !");
 
-            return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id]);
+            return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'menu' => current_menu()]);
         });
 
     }
 
+    public function canceled(Quotation $quotation){
+
+        $quotation->update([
+            'status' => 'canceled',
+        ]);
+        $quotation->save();
+
+        $this->status = $quotation->status;
+        // $this->dispatch('canceledQuotation', $quotation);
+    }
+
+
+    #[On('print-quotation')]
     // Print Quotation
     public function print(){
         try {
@@ -584,21 +600,6 @@ class QuotationForm extends BaseForm
                 'company' => $company
             ])->setPaper('a4');
 
-            // $folderPath = "companies/{$company->name}/files/quotations";
-            // $filePath = "$folderPath/{$quotation->reference}.pdf";
-
-            // // Check if the file already exists
-            // if (Storage::exists($filePath)) {
-            //     // Delete the existing file
-            //     Storage::delete($filePath);
-            // }
-
-            // // Ensure the directory exists, create it if not
-            // Storage::makeDirectory($folderPath);
-
-            // // Save the PDF to the storage
-            // Storage::put($filePath, $pdf->output());
-
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->output(); // Echo download contents directly...
             }, 'Devis -' . $quotation->reference . '.pdf');
@@ -609,6 +610,74 @@ class QuotationForm extends BaseForm
             Log::error('Error generating quotation PDF: ' . $e->getMessage());
             return response()->json(['error' => 'Unable to generate PDF'], 500);
         }
+    }
+
+    #[On('duplicate-quotation')]
+    // Duplicate quotation
+    public function duplicateQT(){
+
+        $this->validate();
+
+        DB::transaction(function () {
+            $cart = Cart::instance('quotation');
+            // Remove any non-numeric characters except the decimal point
+            $this->total_amount = convertToInt($cart->total());
+            $this->tax_amount = convertToInt($cart->tax());
+
+            $quotation = Quotation::create([
+
+                'company_id' => current_company()->id,
+                'date' => $this->date,
+                'expected_date' => $this->expected_date,
+                'payment_term' => $this->payment_term,
+                'seller_id' => $this->seller ?? 1, //customer id
+                'sales_team_id' => $this->sales_team, //customer id
+                'customer_id' => $this->customer, //customer id
+                'tax_percentage' => $this->tax_percentage,
+                'discount_percentage' => $this->discount_percentage,
+                'shipping_amount' => 0,
+                'shipping_date' => $this->shipping_date,
+                'shipping_policy' => $this->shipping_policy,
+                'shipping_status' => $this->status,
+                'total_amount' => $this->total_amount / 100,
+                'status' => $this->status,
+                'note' => $this->note,
+                'tax_amount' => $this->tax_amount,
+                'discount_amount' => $this->discount_amount,
+            ]);
+
+            foreach (Cart::instance('quotation')->content() as $cart_item) {
+                QuotationDetails::create([
+                    'quotation_id' => $quotation->id,
+                    'product_id' => $cart_item->id,
+                    'product_name' => $cart_item->name,
+                    'product_code' => $cart_item->options->code,
+                    'quantity' => $cart_item->qty,
+                    'price' => $cart_item->price * 100,
+                    'unit_price' => $cart_item->options->unit_price * 100,
+                    'sub_total' => $cart_item->options->sub_total * 100,
+                    'product_discount_amount' => $cart_item->options->product_discount * 100,
+                    'product_discount_type' => $cart_item->options->product_discount_type,
+                    'product_tax_amount' => $cart_item->options->product_tax * 100,
+                ]);
+            }
+
+            // Cart::instance('quotation')->store(Auth::user()->id);
+            Cart::instance('quotation')->destroy();
+
+            notify()->success("Nouveau Devis créé !");
+
+            return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
+        });
+
+    }
+
+    #[On('delete-quotation')]
+    public function deleteQT(Quotation $quotation)
+    {
+        // $quotation = Quotation::find($quotation);
+        $quotation->delete();
+        return redirect()->route('sales.quotations.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
 }

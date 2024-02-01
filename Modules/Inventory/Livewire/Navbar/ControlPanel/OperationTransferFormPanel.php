@@ -12,7 +12,7 @@ class OperationTransferFormPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->showIndicators === true;
+        $this->showIndicators = true;
 
         if($transfer){
             $this->transfer = $transfer;
@@ -20,7 +20,7 @@ class OperationTransferFormPanel extends ControlPanel
         }else{
             $this->currentPage = 'Nouveau';
         }
-        $this->new = route('inventory.operation-transfers.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('inventory.operation-transfers.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 }

@@ -13,13 +13,13 @@ class EmployeesTable extends Table
     public function createRoute() : string
     {
 
-        return route('employee.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('employee.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('employee.show' , ['subdomain' => current_company()->domain_name, 'employee' => $id ]);
+        return route('employee.show' , ['subdomain' => current_company()->domain_name, 'employee' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->dateTime('schedule_date')->nullable();
             $table->dateTime('effective_date')->nullable();
             $table->string('source_document')->nullable();
-            $table->enum('shipping_policy', ['as_soon_as_possible', 'after_done'])->default('as_soon_as_possible');
+            $table->enum('shipping_policy', ['as_soon_as_possible', 'after_done'])->nullable();
             $table->unsignedBigInteger('responsible_id')->nullable();
             $table->text('note')->nullable();
             $table->enum('status', ['draft', 'ready', 'done', 'cancelled'])->nullable();

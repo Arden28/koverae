@@ -6,7 +6,7 @@
 @endphp
 @if($employee && $employee->manager_id)
 <div>
-    <a style="text-decoration: none" wire:navigate href="{{ route('employee.jobs.show' , ['subdomain' => current_company()->domain_name, 'job' => $employee->job->id ]) }}"  tabindex="-1">
+    <a style="text-decoration: none" wire:navigate href="{{ route('employee.jobs.show' , ['subdomain' => current_company()->domain_name, 'job' => $employee->job->id, 'menu' => current_menu() ]) }}"  tabindex="-1">
         {{ $employee->manager->user->name }}
     </a>
 </div>

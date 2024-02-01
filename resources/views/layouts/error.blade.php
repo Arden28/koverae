@@ -40,7 +40,7 @@
               </p>
               <div class="empty-action">
                 {{-- @auth --}}
-                <a  wire:navigate class="btn btn-primary">
+                <a  wire:navigate href="{{ route('main', ['subdomain' => current_company()->domain_name]) }}" class="btn btn-primary">
                   <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                   <i class="bi bi-house"></i>
                   {{ __("Retouner à l'acceuil") }}

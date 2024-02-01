@@ -3,7 +3,7 @@
 
     <!-- Control Panel -->
     @section('control-panel')
-    <livewire:inventory::navbar.control-panel.operation-transfer-form-panel :transfer="$transfer" />
+    <livewire:inventory::navbar.control-panel.operation-transfer-form-panel :transfer="$transfer" :event="'update-transfer'" />
     @endsection
 
     <livewire:inventory::form.operation-transfer-form :transfer="$transfer" />

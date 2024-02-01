@@ -30,7 +30,7 @@ class Create extends Component
         $account->save();
         notify()->success("Nouveau compte bancaire ajoutée !");
 
-        return $this->redirect(route('contacts.banks.accounts.show', ['subdomain' => current_company()->domain_name, 'account' => $account->id]), navigate:true);
+        return redirect()->route('contacts.banks.accounts.show', ['subdomain' => current_company()->domain_name, 'account' => $account->id, 'menu' => current_menu()]);
     }
 
     public function render()

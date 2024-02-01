@@ -13,13 +13,13 @@ class TagTable extends Table
     public function createRoute() : string
     {
 
-        return route('contacts.tags.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('contacts.tags.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('contacts.tags.show' , ['subdomain' => current_company()->domain_name, 'tag' => $id ]);
+        return route('contacts.tags.show' , ['subdomain' => current_company()->domain_name, 'tag' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

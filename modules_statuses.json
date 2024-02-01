@@ -10,5 +10,7 @@
     "Accounting": true,
     "Purchase": true,
     "App": true,
-    "Point": true
+    "Point": true,
+    "Manufacutring": true,
+    "Manufacturing": true
 }

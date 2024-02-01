@@ -3,13 +3,17 @@
 namespace App\Livewire\Modal\Email;
 
 use Illuminate\Validation\Rule;
+use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
 use Modules\App\Entities\Email\EmailTemplate;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Template;
+use Illuminate\Support\Facades\Log;
+use Modules\Contact\Entities\Contact;
 
 class SendByMail extends ModalComponent
 {
+    use WithFileUploads;
     public EmailTemplate $template;
 
     public $model;
@@ -19,18 +23,24 @@ class SendByMail extends ModalComponent
 
     public $subject, $content, $template_id;
 
+    public $contact;
+    public $file;
+
     public function mount($template, $model){
         $this->model = $model;
         $this->template= $template;
         $this->recipient_emails = explode(',', $template->recipient_emails);
-        $this->subject = str_replace(['{company_name}', '{quotation_reference}'], ['Banéo', $model['reference'] ], $template->subject);
-        $this->content = str_replace(['{total_amount}', '{quotation_reference}', '{sender}'], [format_currency($model['total_amount']), $model['reference'], 'Arden BOUET'], $template->content);
+        $this->subject = str_replace(['{company_name}', '{reference}'], ['Banéo', $model['reference'] ], $template->subject);
+        $this->content = str_replace(['{total_amount}', '{reference}', '{sender}'], [format_currency($model['total_amount']), $model['reference'], 'Arden BOUET'], $template->content);
         $this->template_id = $template->id;
+        $this->contact = Contact::find($model['customer_id']);
+
+        $this->recipient_emails[] = $this->contact->email;
     }
 
     public function render()
     {
-        $templates = EmailTemplate::all();
+        $templates = EmailTemplate::isCompany(current_company()->id)->get();
         return view('livewire.modal.email.send-by-mail', compact('templates'));
     }
 
@@ -39,11 +49,14 @@ class SendByMail extends ModalComponent
         return 'md';
     }
 
+    public function updatedEmail($value){
+        $this->addEmail();
+    }
 
     public function addEmail()
     {
         $this->validate([
-            'email' => ['required', 'email', Rule::notIn($this->recipientEmails)],
+            'email' => ['required', 'email', Rule::notIn($this->recipient_emails)],
         ]);
 
         // Validate email format if needed
@@ -67,11 +80,24 @@ class SendByMail extends ModalComponent
         ]);
         $company = current_company();
 
-        // Send email using the Template Mailable class
-        Mail::to($this->recipient_emails)
-            ->cc('laudbouetoumoussa@koverae.com')
-            ->send(new Template($this->subject, $this->content, $company));
+        try {
+            // Send email using the Template Mailable class
+            Mail::to($this->recipient_emails)
+                ->cc('laudbouetoumoussa@koverae.com')
+                ->send(new Template($this->subject, $this->content, $company));
 
-        $this->closeModal();
+            $this->closeModal();
+        } catch (\Exception $exception) {
+            // Handle the exception
+            $errorMessage = $exception->getMessage();
+
+            Log::error('Error sending email: ' . $exception->getMessage());
+
+            notify()->error('Error sending email: ' . $errorMessage);
+
+            // Redirect back or to a specific route
+            return redirect()->back();
+        }
+
     }
 }

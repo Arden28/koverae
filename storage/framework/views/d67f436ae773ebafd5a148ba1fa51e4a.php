@@ -17,11 +17,11 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if($this->sale->quotation->count() >= 1 && module('inventory')): ?>
+<!--[if BLOCK]><![endif]--><?php if(isset($sale->quotation)  && module('inventory')): ?>
 <!-- Routes -->
 <div class="form-check k_radio_item" id="capsule">
     <i class="k_button_icon bi bi-newspaper"></i>
-    <a style="text-decoration: none;" title="<?php echo e($value->help); ?>" wire:navigate href="<?php echo e(route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $this->sale->quotation_id])); ?>" >
+    <a style="text-decoration: none;" title="<?php echo e($value->help); ?>" wire:navigate href="<?php echo e(route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $this->sale->quotation_id, 'menu' => current_menu()])); ?>" >
         <span class="k_horizontal_span"><?php echo e($value->label); ?></span>
         <span class="stat_value">
             1

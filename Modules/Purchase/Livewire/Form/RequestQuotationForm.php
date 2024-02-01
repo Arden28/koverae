@@ -23,6 +23,11 @@ use Modules\Purchase\Entities\Purchase;
 use Modules\Purchase\Entities\PurchaseDetail;
 use Modules\Purchase\Entities\Request\RequestQuotation;
 use Modules\Purchase\Entities\Request\RequestQuotationDetail;
+use Modules\Inventory\Entities\Operation\OperationTransfer;
+use Modules\Inventory\Entities\Operation\OperationTransferDetail;
+use Modules\Inventory\Entities\Operation\OperationType;
+use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
+use Modules\Inventory\Traits\OperationTransferTrait;
 
 class RequestQuotationForm extends BaseForm
 {
@@ -33,19 +38,18 @@ class RequestQuotationForm extends BaseForm
 
     public $status = 'request';
 
+    public bool $ask_confirmation = false;
+
     public $reference,
     $supplier,
     $supplier_reference,
     $date,
     $deadline_date,
     $expected_arrival_date,
-    $ask_confirmation = false,
     $reminder_date_before_receipt = 0,
-
     $buyer,
     $source_document,
     $tags = [],
-
     $payment_term,
     $fiscal_position,
 
@@ -118,6 +122,13 @@ class RequestQuotationForm extends BaseForm
                     ]
                 ]);
             }
+        }else{
+            $this->date = now()->format('Y-m-d H:i:s');
+            $this->deadline_date = now()->format('Y-m-d H:i:s');
+            $this->expected_arrival_date = now()->format('Y-m-d H:i:s');
+            $this->payment_term = 'immediate_payment';
+            // Buyer
+            $this->buyer = Contact::isCompany(current_company()->id)->first()->id;
         }
     }
 
@@ -156,13 +167,13 @@ class RequestQuotationForm extends BaseForm
             Input::make('supplier_id','Fournisseur', 'select', 'supplier', 'left', 'none', 'none')->component('inputs.select.contact'),
             Input::make('supplier_reference','Référence Fournisseur', 'text', 'supplier_reference', 'left', 'none', 'none'),
             // Input::make('date',"Date", 'date', 'date', 'right', 'none', 'none')->component('inputs.date.complete_readonly'),
-            Input::make('deadline_date',"Echéance", 'date', 'deadline_date', 'right', 'none', 'none'),
-            Input::make('expected_arrival_date','Livraison prévue', 'date', 'expected_arrival_date', 'right', 'none', 'none'),
+            Input::make('deadline_date',"Echéance", 'datetime-local', 'deadline_date', 'right', 'none', 'none'),
+            Input::make('expected_arrival_date','Livraison prévue', 'datetime-local', 'expected_arrival_date', 'right', 'none', 'none'),
             Input::make('ask_confirmation','Demande de confirmation', 'checkbox', 'ask_confirmation', 'right', 'none', 'none')->component('inputs.ask-confirmation'),
 
             // Purchase
             Input::make('buyer_id','Acheteur', 'select', 'buyer', '', 'other', 'purchases')->component('inputs.select.contact'),
-            Input::make('source_document','Document', 'text', 'source_document', '', 'other', 'purchases'),
+            Input::make('source_document',"Document d'origine", 'text', 'source_document', '', 'other', 'purchases'),
             Input::make('tags','Tag(s)', 'select', 'tags', '', 'other', 'sales')->component('inputs.select.sales.tags'),
 
             // Invoicing
@@ -197,7 +208,7 @@ class RequestQuotationForm extends BaseForm
         $buttons = [
             ActionBarButton::make('send', 'Envoyer par Email', 'sendByEmail()', 'request'),
             ActionBarButton::make('print', 'Imprimer', 'confirmQT()', 'request'),
-            ActionBarButton::make('confirm', 'Comfirmer la commande', 'storePO()', 'sent'),
+            ActionBarButton::make('confirm', 'Comfirmer la commande', $this->request ? 'confirmQT()': 'storePO()', 'sent'),
             ActionBarButton::make('cancel', 'Annuler', 'cancel()', 'cancelled'),
             // Add more buttons as needed
         ];
@@ -309,7 +320,7 @@ class RequestQuotationForm extends BaseForm
             }
             notify()->success("Nouvelle demande de Devis créée !");
 
-            return $this->redirect(route('purchases.requests.show', ['subdomain' => current_company()->domain_name, 'request' => $request->id]), navigate:true);
+            return redirect()->route('purchases.requests.show', ['subdomain' => current_company()->domain_name, 'request' => $request->id, 'menu' => current_menu()]);
         });
     }
 
@@ -349,6 +360,134 @@ class RequestQuotationForm extends BaseForm
                 'supplier_id' => $this->supplier,
                 'deadline_date' => $this->deadline_date,
                 'date' => now(),
+                // 'source_document' => $this->reference,
+                'expected_arrival_date' => $this->expected_arrival_date,
+                'ask_confirmation' => $this->ask_confirmation,
+                'reminder_date_before_receipt' => $this->reminder_date_before_receipt,
+                'supplier_reference' => $this->supplier_reference,
+                'buyer_id' => $this->buyer,
+                'source_document' => $this->source_document,
+                'payment_term' => $this->payment_term,
+                'fiscal_position_id' => $this->fiscal_position,
+                // 'terms' => $this->terms,
+                'payment_status' => $payment_status,
+                'delivery_status' => 'Pending',
+                'reception_status' => 'Pending',
+                'invoice_status' => 'Pending',
+                'total_amount' => $this->total_amount / 100,
+                'paid_amount' => $this->paid_amount / 100,
+                'due_amount' => $this->total_amount / 100, //$due_amount
+                'status' => 'purchase_order',
+                'tax_amount' => $this->tax_amount,
+                'discount_amount' => $this->discount_amount,
+                'tax_percentage' => $this->tax_percentage,
+                'discount_percentage' => $this->discount_percentage,
+            ]);
+
+            foreach (Cart::instance('request-quotation')->content() as $cart_item) {
+                PurchaseDetail::create([
+                    'purchase_id' => $purchase->id,
+                    'product_id' => $cart_item->id,
+                    'product_name' => $cart_item->name,
+                    'product_code' => $cart_item->options->code,
+                    'quantity' => $cart_item->qty,
+                    'price' => $cart_item->price * 100,
+                    'unit_price' => $cart_item->options->unit_price * 100,
+                    'sub_total' => $cart_item->options->sub_total * 100,
+                    'product_discount_amount' => $cart_item->options->product_discount * 100,
+                    'product_discount_type' => $cart_item->options->product_discount_type,
+                    'product_tax_amount' => $cart_item->options->product_tax * 100,
+                    'received' => 0,
+                    'invoiced' => 0,
+                ]);
+            }
+
+            if(module('inventory')){
+                // Launch delivery operation
+                $from = WarehouseLocation::isCompany(current_company()->id)->isType('supplier')->get()->first();
+                $to = WarehouseLocation::isCompany(current_company()->id)->isType('view')->isName('WH')->first();
+                $type = OperationType::isCompany(current_company()->id)->isType('receipt')->get()->first();
+
+                $transfer = OperationTransfer::create([
+                    'company_id' => current_company()->id,
+                    'contact_id' => $purchase->customer_id,
+                    'operation_type_id' => $type->id,
+                    'received_from' => $from->id,
+                    'in_direction_to' => $to->id,
+                    'schedule_date' => $purchase->expected_arrival_date,
+                    'effective_date' => $purchase->deadline_date,
+                    'source_document' => $purchase->reference,
+                    // 'responsible_id' => $purchase->responsible,
+                    'shipping_policy' => $purchase->shipping_policy,
+                    'note' => $purchase->note,
+                    'status' => 'ready',
+                ]);
+                $transfer->save();
+
+                foreach ($purchase->purchaseDetails as $detail) {
+                    $transfer_details = OperationTransferDetail::create([
+                        'company_id' => current_company()->id,
+                        'product_id' => $detail->product_id,
+                        'operation_transfer_id' => $transfer->id,
+                        'product_name' => Product::find($detail->product_id)->product_name,
+                        'demand' => $detail->quantity,
+                        'quantity' => Product::find($detail->product_id)->product_quantity,
+                    ]);
+                    $transfer_details->save();
+                }
+            }
+
+
+            // Cart::instance('request-quotation')->store(Auth::user()->id);
+            Cart::instance('request-quotation')->destroy();
+
+            if($purchase->supplier_reference){
+                $contact = Contact::findOrFail($purchase->supplier_id);
+                if($contact->reference == null){
+                    $contact->reference = $purchase->supplier_reference;
+                    $contact->save();
+                }
+            }
+
+            notify()->success("Nouvelle commande créée !");
+
+            return redirect()->route('purchases.show', ['subdomain' => current_company()->domain_name, 'purchase' => $purchase->id, 'menu' => current_menu()]);
+        });
+    }
+
+    public function confirmQT(){
+                // $this->validate();
+        $request = $this->request;
+
+        DB::transaction(function () {
+            $cart = Cart::instance('request-quotation');
+            // Remove any non-numeric characters except the decimal point
+            $this->total_amount = convertToInt($cart->total());
+            $this->tax_amount = convertToInt($cart->tax());
+
+            $due_amount = $this->total_amount - $this->paid_amount;
+
+            if (isset($this->payment_method)) {
+                // Access the payment_method key
+                $paymentMethod = $this->payment_method;
+            } else {
+                // Set a default value for payment_method
+                $paymentMethod = 'Cash';
+            }
+            if ($due_amount == $this->total_amount) {
+                $payment_status = 'Unpaid';
+            } elseif ($due_amount > 0) {
+                $payment_status = 'Partial';
+            } else {
+                $payment_status = 'Paid';
+            }
+
+            $purchase = Purchase::create([
+                'company_id' => current_company()->id,
+                'supplier_id' => $this->supplier,
+                'deadline_date' => $this->deadline_date,
+                'date' => now(),
+                // 'source_document' => $this->reference,
                 'expected_arrival_date' => $this->expected_arrival_date,
                 'ask_confirmation' => $this->ask_confirmation,
                 'reminder_date_before_receipt' => $this->reminder_date_before_receipt,
@@ -403,12 +542,12 @@ class RequestQuotationForm extends BaseForm
 
             notify()->success("Nouvelle commande créée !");
 
-            return $this->redirect(route('purchases.show', ['subdomain' => current_company()->domain_name, 'purchase' => $purchase->id]), navigate:true);
+            return redirect()->route('purchases.show', ['subdomain' => current_company()->domain_name, 'purchase' => $purchase->id, 'menu' => current_menu()]);
         });
     }
 
     public function askConfirmation(){
-        // $this->ask_confirmation == true
+        $this->ask_confirmation = true;
     }
 
 }

@@ -13,7 +13,7 @@ class WorkplacePanel extends ControlPanel
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->currentPage = "Lieux de travail";
-        $this->new = route('employee.workplaces.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('employee.workplaces.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 

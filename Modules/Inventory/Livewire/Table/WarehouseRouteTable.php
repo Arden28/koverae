@@ -13,13 +13,13 @@ class WarehouseRouteTable extends Table
     public function createRoute() : string
     {
 
-        return route('inventory.warehouses.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('inventory.warehouses.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('inventory.warehouses.routes.show' , ['subdomain' => current_company()->domain_name, 'route' => $id ]);
+        return route('inventory.warehouses.routes.show' , ['subdomain' => current_company()->domain_name, 'route' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

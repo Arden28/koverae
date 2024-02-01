@@ -14,13 +14,13 @@ class PurchaseTable extends Table
     public function createRoute() : string
     {
 
-        return route('purchases.requests.create', ['subdomain' => current_company()->domain_name ]);
+        return route('purchases.requests.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('purchases.show', ['purchase' => $id, 'subdomain' => current_company()->domain_name]);
+        return route('purchases.show', ['purchase' => $id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function headerName() : string

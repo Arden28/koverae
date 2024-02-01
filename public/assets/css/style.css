@@ -31,6 +31,25 @@
             top: 0px;
 
         }
+        /* Button Group */
+        .k_form_buttons_edit{
+            height: 32px;
+            width: auto;
+        }
+        .k_form_buttons_edit .k_form_button_save{
+            line-height: 21px;
+            background-color: #0E6163;
+            color: white;
+            height: 32px;
+            width: auto;
+        }
+        .k_form_buttons_edit .k_form_button_cancel{
+            line-height: 21px;
+            background-color: #E7E9ED;
+            color: black;
+            height: 32px;
+            width: auto;
+        }
         .k_control_panel .k_control_panel_main{
             height: 34px;
             width: auto;
@@ -85,6 +104,10 @@
             }
             .k_control_panel_breadcrumbs .k_last_breadcrumb_item{
                 width: auto;
+            }
+            #current-page{
+                font-size: 18px;
+                height: 18px;
             }
             .k_control_panel_breadcrumbs .k_last_breadcrumb_item .k_cp_action_menus {
                 height: 17px;
@@ -530,11 +553,12 @@
             height: 100vh;
             width: 100%;
             display: flex;
+            flex-direction: column; /* Adjusted to column direction */
         }
         .settings_tab{
             background-color: #F9FAFB;
-            height: 100%;
-            width: 15%;
+            height: 90px; /* Adjusted height for horizontal bar */
+            width: 100%;
             min-height: auto;
             min-width: auto;
             /* margin: 0 0 0 10px; */
@@ -543,24 +567,26 @@
             left: 0px;
             right: 0px;
             bottom: 0px;
-            display: block;
-            border-right: 1px solid #D8DADD;
+            display: flex;
+            border-bottom: 1px solid #D8DADD; /* Changed to bottom border */
             /* Hide the scrollbar for this section */
-            overflow: hidden;
+            overflow-x: scroll;
             position: sticky;
         }
+        .settings_tab::-webkit-scrollbar-thumb:hover {
+            background-color: #c7c7c7;
+        }
         .settings_tab .tab{
-            /* font-size: 21px; */
-            line-height: 40px;
+            line-height: 20px;
             text-decoration: none solid rgb(17, 24, 39);
             white-space: nowrap;
             height: 40px;
-            width: 100%;
             min-height: auto;
             min-width: auto;
-            /* max-width: 100%; */
-            padding: 0 32px 0 16px;
+            padding: 0 16px; /* Adjusted padding */
             display: flex;
+            align-items: center; /* Center vertically */
+            border-right: 1px solid #D8DADD;
         }
         .settings_tab .tab.selected{
             background-color: #E6F2F3;
@@ -592,7 +618,7 @@
 
         .settings{
             background-color: #fff;
-            height: 100%;
+            height: auto;
             width: 100%;
             min-height: auto;
             min-width: auto;
@@ -784,8 +810,8 @@
         }
         /* K_doc_link */
         .k_doc_link{
-            font-size: 14px;
-            line-height: 21px;
+            font-size: 12px;
+            line-height: 18px;
             font-weight: 500;
             text-decoration: none solid #e0eaeb;
         }

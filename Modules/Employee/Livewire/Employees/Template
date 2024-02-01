@@ -357,6 +357,6 @@ class Show extends Component
         // $this->reset(['name', 'manager', 'parent', 'company']);
 
         session()->flash('message', __("L'employé à bien été ajouté !"));
-        return redirect()->route('employee', ['subdomain' => current_company()->domain_name]);
+        return redirect()->route('employee', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 }

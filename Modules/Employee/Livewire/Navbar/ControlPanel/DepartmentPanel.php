@@ -13,7 +13,7 @@ class DepartmentPanel extends ControlPanel
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->currentPage = "Départements";
-        $this->new = route('employee.department.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('employee.department.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 

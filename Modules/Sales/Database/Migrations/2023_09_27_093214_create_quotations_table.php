@@ -42,9 +42,9 @@ return new class extends Migration
             // Delivery
             $table->string('incoterm')->nullable();
             $table->string('incoterm_location')->nullable();
-            $table->string('shipping_policy')->nullable();
+            $table->enum('shipping_policy', ['after_done', 'as_soon_as_possible'])->nullable();
             $table->date('shipping_date')->nullable();
-            $table->enum('shipping_status', ['undelivered', 'delivered']);
+            $table->enum('shipping_status', ['unshipped', 'shipped']);
 
             // Tracking
             $table->string('source_document')->nullable();

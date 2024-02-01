@@ -103,7 +103,7 @@ class OperationTypeForm extends SimpleForm
     }
 
     public function new(){
-        return $this->redirect(route('inventory.operation-types.create', ['subdomain' => current_company()->domain_name]), navigate:true);
+        return redirect()->route('inventory.operation-types.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function store(){
@@ -118,7 +118,7 @@ class OperationTypeForm extends SimpleForm
         ]);
         $operationType->save();
 
-        return $this->redirect(route('inventory.operation-types.show', ['type' => $operationType->id, 'subdomain' => current_company()->domain_name]), navigate:true);
+        return redirect()->route('inventory.operation-types.show', ['type' => $operationType->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
     }
 
@@ -135,7 +135,7 @@ class OperationTypeForm extends SimpleForm
         ]);
         $type->save();
 
-        // return $this->redirect(route('inventory.operation-types.show', ['type' => $type->id, 'subdomain' => current_company()->domain_name]), navigate:true);
+        // return $this->redirect(route('inventory.operation-types.show', ['type' => $type->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]), navigate:true);
     }
 
 }

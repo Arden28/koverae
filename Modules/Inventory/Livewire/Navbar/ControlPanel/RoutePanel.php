@@ -13,7 +13,7 @@ class RoutePanel extends ControlPanel
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->currentPage = 'Routes';
-        // $this->new = route('inventory.warehouses.route.create', ['subdomain' => current_company()->domain_name]);
+        // $this->new = route('inventory.warehouses.route.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 }

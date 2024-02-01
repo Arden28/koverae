@@ -2,6 +2,7 @@
 
 namespace Modules\Sales\Livewire\Navbar\ControlPanel;
 
+use App\Livewire\Navbar\Button\ActionButton;
 use App\Livewire\Navbar\ControlPanel;
 
 class SaleFormPanel extends ControlPanel
@@ -22,7 +23,29 @@ class SaleFormPanel extends ControlPanel
         }else{
             $this->currentPage = 'Nouveau';
         }
-        $this->new = route('sales.quotations.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('sales.quotations.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
+    }
+
+    public function actionButtons() : array
+    {
+        return [
+            ActionButton::make('print', '<i class="bi bi-printer"></i> Imprimer', 'printSL()'),
+            ActionButton::make('duplicate', 'Dupliquer', 'duplicateSL()'),
+            ActionButton::make('delete', '<i class="bi bi-trash"></i> Supprimer', 'deleteSL()'),
+            // Add more buttons as needed
+        ];
+    }
+
+    public function printSL(){
+        return $this->dispatch('print-sale');
+    }
+
+    public function duplicateSL(){
+        $this->dispatch('duplicate-sale');
+    }
+
+    public function deleteSL(){
+        $this->dispatch('delete-sale', $this->sale->id);
     }
 }

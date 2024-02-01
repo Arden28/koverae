@@ -17,14 +17,15 @@ class Module extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'icon',
-        'name',
-        'slug',
-        'short_name',
-        'description',
-        'enabled'
-    ];
+    // protected $fillable = [
+    //     'icon',
+    //     'name',
+    //     'slug',
+    //     'short_name',
+    //     'description',
+    //     'enabled'
+    // ];
+    protected $guarded = [];
 
 
     public function scopeFindBySlug(Builder $query, $slug)

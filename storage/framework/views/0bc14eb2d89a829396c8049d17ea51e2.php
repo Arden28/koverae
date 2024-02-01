@@ -10,7 +10,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('sales::navbar.control-panel.quotation-form-panel', ['quotation' => $quotation,'event' => 'update-quotation']);
 
-$__html = app('livewire')->mount($__name, $__params, 'g0518Wl', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, '1arPSdH', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -30,7 +30,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('sales::form.quotation-form', ['quotation' => $quotation]);
 
-$__html = app('livewire')->mount($__name, $__params, 'P3kBOxf', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, '0uyNWBZ', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

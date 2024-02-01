@@ -14,10 +14,10 @@
     <div class="k_cell k_wrap_input flex-grow-1">
         <select  wire:model="{{ $value->model }}" disabled class="k_input" id="{{ $value->model }}_0">
             <option value=""></option>
-            <option value="undelivered">
+            <option value="unshipped">
                 {{ __('Non livrée') }}
             </option>
-            <option value="delivered">
+            <option value="shipped">
                 {{ __('Livrée') }}
             </option>
         </select>

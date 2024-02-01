@@ -10,6 +10,7 @@ use Livewire\Attributes\On;
 class SearchInputText extends Component
 {
 
+    public $identifier;
     public $query;
     public $search_results;
     public $how_many;
@@ -44,7 +45,7 @@ class SearchInputText extends Component
     }
 
     public function selectProduct($product) {
-        $this->dispatch('productSelected', $product);
+        $this->dispatch('productSelected', product: $product, identifier: $this->identifier);
         // return $this->query = 'motherfucker';
     }
 }

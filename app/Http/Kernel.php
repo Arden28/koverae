@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         'module'    => \App\Http\Middleware\CheckIfModuleInstalled::class,
+        'page.menu'    => \App\Http\Middleware\AddMenuVariable::class,
     ];
 }

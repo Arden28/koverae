@@ -14,7 +14,7 @@
             <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
 
                 <div id="statusbar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
-                    <a href="{{ route('employee.department.create', ['subdomain' => current_company()->domain_name]) }}" wire:navigate id="top-button" class="btn btn-primary">
+                    <a href="{{ route('employee.department.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" wire:navigate id="top-button" class="btn btn-primary">
                         <span>
                             {{ __('Nouveau') }}
                         </span>

@@ -1,4 +1,4 @@
-<!--[if BLOCK]><![endif]--><?php if(isset($this->payment_status) && $this->payment_status == 'Paid'): ?>
+<!--[if BLOCK]><![endif]--><?php if(isset($this->payment_status) && $this->payment_status == 'paid'): ?>
     <div class="box col-9">
         <div class="k-folded-ribbon success">
             <span class="word">
@@ -7,7 +7,7 @@
             </span>
         </div>
     </div>
-<?php elseif(isset($this->payment_status) && $this->payment_status == 'Partial'): ?>
+<?php elseif(isset($this->payment_status) && $this->payment_status == 'partial'): ?>
     <div class="box col-9">
         <div class="k-folded-ribbon pending">
             <span class="word">

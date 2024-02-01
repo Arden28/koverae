@@ -121,7 +121,7 @@ class BillForm extends BaseForm
             Input::make('supplier_reference','Référence fournisseur', 'supplier_reference', 'text', 'left', 'none', 'none'),
 
             Input::make('date','Date', 'datetime-local', 'date', 'right', 'none', 'none'),
-            Input::make('payment_reference','Paiement', 'text', 'payment_reference', 'right', 'none', 'none', 'none', 'Référence de paiement'),
+            Input::make('payment_reference','Référence de paiement', 'text', 'payment_reference', 'right', 'none', 'none', 'none', 'Référence de paiement'),
             // Input::make('receipt_bank','Compte bancaire', 'text', 'receipt_bank_date', 'right', 'none', 'none'),
             Input::make('payment_term','Modalité de paiement', 'select', 'payment_term', 'right', 'none', 'none')->component('inputs.select.payment_term'),
 
@@ -157,8 +157,8 @@ class BillForm extends BaseForm
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
             ActionBarButton::make('payment', 'Enregistrer un paiement', 'confirmInv', 'posted')->component('button.action-bar.register-invoice-payment'),
             ActionBarButton::make('confirm', 'Confirmer', 'confirmInv', 'draft')->component('button.action-bar.confirm-invoice'),
-            ActionBarButton::make('refunds', 'Remboursement', "", ''),
-            ActionBarButton::make('cancel', 'Annuler', 'cancel', '')->component('button.action-bar.cancel'),
+            ActionBarButton::make('refunds', 'Remboursement', "", 'posted')->component('button.action-bar.if-status'),
+            ActionBarButton::make('cancel', 'Annuler', 'cancel', ''),
             // Add more buttons as needed
         ];
 
@@ -216,7 +216,7 @@ class BillForm extends BaseForm
         $this->status = 'posted';
         $this->payment_reference = $invoice->payment_reference;
 
-        return $this->redirect(route('purchases.invoices.show', ['subdomain' => current_company()->domain_name, 'purchase' => $invoice->purchase_id, 'invoice' => $invoice->id]), navigate:true);
+        return redirect()->route('purchases.invoices.show', ['subdomain' => current_company()->domain_name, 'purchase' => $invoice->purchase_id, 'invoice' => $invoice->id, 'menu' => current_menu()]);
     }
 
     // Cancel the invoice
@@ -231,7 +231,7 @@ class BillForm extends BaseForm
 
         $this->status = 'canceled';
 
-        return $this->redirect(route('purchases.invoices.show', ['subdomain' => current_company()->domain_name, 'purchase' => $invoice->purchase_id, 'invoice' => $invoice->id]), navigate:true);
+        return redirect()->route('purchases.invoices.show', ['subdomain' => current_company()->domain_name, 'purchase' => $invoice->purchase_id, 'invoice' => $invoice->id, 'menu' => current_menu()]);
     }
 
     // Cancel the invoice
@@ -246,7 +246,7 @@ class BillForm extends BaseForm
 
         $this->status = 'canceled';
 
-        return $this->redirect(route('purchases.invoices.show', ['subdomain' => current_company()->domain_name, 'purchase' => $invoice->purchase_id, 'invoice' => $invoice->id]), navigate:true);
+        return redirect()->route('purchases.invoices.show', ['subdomain' => current_company()->domain_name, 'purchase' => $invoice->purchase_id, 'invoice' => $invoice->id, 'menu' => current_menu()]);
     }
 
 }

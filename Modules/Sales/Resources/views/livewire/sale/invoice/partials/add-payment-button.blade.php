@@ -1,4 +1,4 @@
-@if($payment_status == 'Unpaid' || $payment_status == '')
+@if($payment_status == 'unpaid' || $payment_status == '')
 <button type="button" wire:click="setPayment({{ $invoice->id }})" data-bs-toggle="modal" data-bs-target="#payInvoiceModal" id="top-button" class="btn btn-dark primary {{ $payment_status != 'Paid' ? '' : 'd-none' }}">
     <span>
         {{ __('Enregistrer un paiement') }}

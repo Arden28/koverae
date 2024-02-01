@@ -254,7 +254,7 @@ class EmployeForm extends SimpleAvatarForm
     }
 
     public function new(){
-        return route('employee.create', ['subdomain' => current_company()->domain_name]);
+        return route('employee.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function update(){

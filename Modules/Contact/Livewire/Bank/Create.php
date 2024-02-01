@@ -40,7 +40,7 @@ class Create extends Component
         $bank->save();
         notify()->success("Nouvelle Banque ajoutée !");
 
-        return $this->redirect(route('contacts.banks.show', ['subdomain' => current_company()->domain_name, 'bank' => $bank->id]), navigate:true);
+        return redirect()->route('contacts.banks.show', ['subdomain' => current_company()->domain_name, 'bank' => $bank->id, 'menu' => current_menu()]);
     }
 
     public function render()

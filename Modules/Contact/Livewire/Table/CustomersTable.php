@@ -15,13 +15,13 @@ class CustomersTable extends Table
     public function createRoute() : string
     {
 
-        return route('contacts.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('contacts.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('contacts.show' , ['subdomain' => current_company()->domain_name, 'contact' => $id ]);
+        return route('contacts.show' , ['subdomain' => current_company()->domain_name, 'contact' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

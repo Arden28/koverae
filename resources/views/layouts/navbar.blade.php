@@ -129,7 +129,7 @@
           <ul class="navbar-nav">
             <!-- Navbar Menu -->
               <!-- Settings -->
-              @if(request()->routeIs('settings.*'))
+              {{-- @if(request()->routeIs('settings.*'))
                   @include('settings::layouts.navbar-menu')
               <!-- Employee -->
               @elseif(request()->routeIs('employee*'))
@@ -151,7 +151,9 @@
                   @include('purchase::layouts.navbar-menu')
               @else
                   @include('layouts.navbar-menu')
-              @endif
+              @endif --}}
+            {{-- @include('purchase::layouts.navbar-menu') --}}
+            <livewire:navbar-manager :key="time()" :menu="request('menu')" />
             <!-- Navbar Menu -->
           </ul>
         </div>

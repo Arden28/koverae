@@ -146,6 +146,6 @@ class SalesTeamForm extends SimpleForm
     }
 
     public function new(){
-        return $this->redirect(route('sales.teams.create', ['subdomain' => current_company()->domain_name]), navigate:true);
+        return $this->redirect(route('sales.teams.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]), navigate:true);
     }
 }

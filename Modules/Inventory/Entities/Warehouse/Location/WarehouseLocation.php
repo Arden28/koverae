@@ -30,6 +30,11 @@ class WarehouseLocation extends Model
         return $this->belongsTo(WarehouseLocation::class, 'parent_id', 'id');
     }
 
+    public function scopeIsName(Builder $query, $name)
+    {
+        return $query->where('name', $name);
+    }
+
     // protected static function newFactory(): WarehouseLocationFactory
     // {
     //     //return WarehouseLocationFactory::new();

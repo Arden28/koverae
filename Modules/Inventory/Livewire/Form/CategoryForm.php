@@ -86,7 +86,7 @@ class CategoryForm extends LightWeightForm
     }
 
     public function new(){
-        return $this->redirect(route('inventory.products.categories.create', ['subdomain' => current_company()->domain_name]), navigate:true);
+        return redirect()->route('inventory.products.categories.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function store(){
@@ -101,7 +101,7 @@ class CategoryForm extends LightWeightForm
         ]);
         $category->save();
 
-        return redirect()->route('inventory.products.categories.show', ['category' => $category->id, 'subdomain' => current_company()->domain_name]);
+        return redirect()->route('inventory.products.categories.show', ['category' => $category->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
     }
 
@@ -116,7 +116,7 @@ class CategoryForm extends LightWeightForm
         ]);
         $category->save();
 
-        return redirect()->route('inventory.products.categories.show', ['category' => $category->id, 'subdomain' => current_company()->domain_name]);
+        return redirect()->route('inventory.products.categories.show', ['category' => $category->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
     }
 }

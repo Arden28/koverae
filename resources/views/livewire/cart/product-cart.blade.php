@@ -54,7 +54,7 @@
                 @foreach($inputs as $key => $value)
                     <tr class="k_field_list_row">
                         <td class="k_field_list">
-                            <livewire:search.search-input-text  :key="$value" />
+                            <livewire:search.search-input-text  :special="$key" />
                         </td>
                         <td class="k_field_list">
                             <input type="text" wire:model="description.{{ $value }}" class="k_input">

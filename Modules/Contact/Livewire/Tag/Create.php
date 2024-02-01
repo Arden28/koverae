@@ -29,7 +29,7 @@ class Create extends Component
 
         notify()->success("Nouvelle étiquette ajoutée !");
 
-        return $this->redirect(route('contacts.tags.show', ['subdomain' => current_company()->domain_name, 'tag' => $tag->id]), navigate:true);
+        return $this->redirect(route('contacts.tags.show', ['subdomain' => current_company()->domain_name, 'tag' => $tag->id, 'menu' => current_menu()]), navigate:true);
 
     }
     public function render()

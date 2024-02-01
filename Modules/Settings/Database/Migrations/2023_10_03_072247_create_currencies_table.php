@@ -17,10 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id');
             $table->string('currency_name');
-            $table->string('code');
+            $table->string('code')->nullable();
             $table->string('symbol');
-            $table->string('thousand_separator');
-            $table->string('decimal_separator');
+            $table->string('thousand_separator')->default('.');
+            $table->enum('symbol_position', ['prefix', 'suffix'])->default('suffix');
+            $table->string('decimal_separator')->default(',');
             $table->integer('exchange_rate')->default(1);
 
             // $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();

@@ -67,42 +67,22 @@
                     </span>
                 </div>
                 <?php endif; ?>
-            <div class="row">
+            <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('module.main-list', []);
 
-                <?php $__currentLoopData = $modules; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $module): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <?php if(module($module->slug)): ?>
-                    <div class="col-3 col-md-2 k_draggable p-1 p-md-2">
-                        <a href="<?php echo e(route($module->link, ['subdomain' => $subdomain])); ?>" class="k_app k_menuitem d-flex flex-column justify-content-start align-items-center w-100 rounded">
-                            <img src="<?php echo e(asset('assets/images/apps/'.$module->slug.'.png')); ?>" alt="" class="k_app_icon rounded">
+$__html = app('livewire')->mount($__name, $__params, '2egF7jb', $__slots ?? [], get_defined_vars());
 
-                            <div class="k_caption w-100 text-center text-truncate mt-2">
-                                <?php echo e($module->name); ?>
+echo $__html;
 
-                            </div>
-                        </a>
-                    </div>
-                    <?php endif; ?>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                <div class="col-3 col-md-2 k_draggable p-1 p-md-2">
-                    <a href="" class="k_app k_menuitem d-flex flex-column justify-content-start align-items-center w-100 rounded">
-                        <img src="<?php echo e(asset('assets/images/apps/todo.png')); ?>" alt="" class="k_app_icon rounded">
-
-                        <div class="k_caption w-100 text-center text-truncate mt-2">
-                            Todo
-                        </div>
-                    </a>
-                </div>
-                <div class="col-3 col-md-2 k_draggable p-1 p-md-2">
-                    <a href="<?php echo e(route('settings.general', ['subdomain' => $subdomain])); ?>" class="k_app k_menuitem d-flex flex-column justify-content-start align-items-center w-100 rounded">
-                        <img src="<?php echo e(asset('assets/images/apps/settings.png')); ?>" alt="" class="k_app_icon rounded">
-
-                        <div class="k_caption w-100 text-center text-truncate mt-2">
-                            Paramètre
-                        </div>
-                    </a>
-                </div>
-            </div>
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
         </div>
     </div>
     <script>

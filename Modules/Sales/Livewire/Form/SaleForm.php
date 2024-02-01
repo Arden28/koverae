@@ -24,7 +24,10 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Modules\App\Entities\Email\EmailTemplate;
 use Modules\Inventory\Traits\OperationTransferTrait;
+use Modules\Invoicing\Entities\Customer\Invoice;
+use Modules\Invoicing\Entities\Customer\InvoiceDetails;
 use Modules\Sales\Entities\SalesDetail;
 
 class SaleForm extends BaseForm
@@ -73,11 +76,13 @@ class SaleForm extends BaseForm
 
     $tag;
     public $model, $quotation;
+    public $template;
 
     public function mount($sale){
 
         $this->sale= $sale;
 
+            $this->template = EmailTemplate::isCompany(current_company()->id)->applyTo('sale_order')->first()->id;
         $this->model = $sale;
             // Set values
             $this->status = $sale->status;
@@ -195,8 +200,8 @@ class SaleForm extends BaseForm
         $buttons = [
             // key, label, action, primary
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
-            ActionBarButton::make('invoice', 'Créer une facture', "createInvoice", $this->status),
-            ActionBarButton::make('send', 'Envoyer par email', 'send', 'sent')->component('button.action-bar.send-email'),
+            ActionBarButton::make('invoice', 'Créer une facture', "createInvoice", $this->status)->component('button.action-bar.invoice.create-sale-invoice'),
+            ActionBarButton::make('send', 'Envoyer par email', '', 'sent')->component('button.action-bar.send-email'),
             ActionBarButton::make('preview', 'Aperçu', 'preview()', 'previewed'),
             ActionBarButton::make('cancel', 'Annuler', 'canceled', 'cancelled'),
             ActionBarButton::make('make-quotation', 'Définir un devis', '', 'canceled')->component('button.action-bar.canceled.simple'),
@@ -226,8 +231,9 @@ class SaleForm extends BaseForm
     public function capsules() : array
     {
         return [
-            Capsule::make('shipping', 'Livraison', 'Les livraisons engendrées par cette commande..')->component('capsules.sale.delivery'),
-            Capsule::make('quotation', 'Devis', 'Les devis ayant engendrés cette commande..')->component('capsules.sale.quotation'),
+            Capsule::make('shipping', 'Livraison', 'Les livraisons engendrées par cette commande.')->component('capsules.sale.delivery'),
+            Capsule::make('quotation', 'Devis', 'Les devis ayant engendrés cette commande.')->component('capsules.sale.quotation'),
+            Capsule::make('invoice', 'Factures', 'Les factures ayant été engendrées par cette commande.')->component('capsules.invoice.sale-invoice'),
             // Add more buttons as needed
         ];
     }
@@ -310,7 +316,7 @@ class SaleForm extends BaseForm
 
         });
 
-        return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id]);
+        return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'menu' => current_menu()]);
     }
 
     // Cancel sale order
@@ -323,15 +329,73 @@ class SaleForm extends BaseForm
 
         $this->status = 'canceled';
         // $this->dispatch('canceledQuotation', $quotation);
-        return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $this->sale->id]);
+        return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $this->sale->id, 'menu' => current_menu()]);
     }
 
     #[On('reset-form')]
     public function resetForm(){
-        return redirect()->route('sales.index', ['subdomain' => current_company()->domain_name]);
+        return redirect()->route('sales.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+    }
+
+    // Create Invoice
+    public function createInvoice(){
+
+        $sale = $this->sale;
+        $invoice = Invoice::create([
+            'company_id' => $sale->company_id,
+            'sale_id' => $sale->id,
+            'customer_id' => $sale->customer_id,
+            // 'reference' => 'INV/'.$sale->reference,
+            'date' => now(),
+            // 'date' => $sale->date,
+            'due_date' => $sale->expected_date,
+            'shipping_date' => $sale->shipping_date,
+            'payment_term' => $sale->payment_term,
+            'payment_status' => 'unpaid',
+            'seller_id' => $sale->seller_id,
+            'terms' => $sale->terms,
+            'total_amount' => $sale->total_amount * 100,
+            'paid_amount' => $sale->paid_amount * 100,
+            'due_amount' => $sale->due_amount * 100,
+            'status' => 'draft',
+            'to_checked' => false,
+        ]);
+        $invoice->save();
+
+        $sale->update([
+            'status' => 'invoiced',
+        ]);
+
+        // $invoiceDetails = $invoice->invoiceDetails;
+            $sale_details = $sale->saleDetails;
+
+        foreach($sale_details as $detail) {
+            //Create sale from quotation view without create quotation
+            InvoiceDetails::create([
+                'customer_invoice_id' => $invoice->id,
+                'product_id' => $detail->product_id,
+                'label' => $detail->product_name,
+                'product_name' => $detail->product_name,
+                'quantity' => $detail->quantity,
+                'price' => $detail->price,
+                'unit_price' => $detail->unit_price,
+                'sub_total' => $detail->sub_total,
+                'product_discount_amount' => $detail->product_discount_amount,
+                'product_discount_type' => $detail->product_discount_type,
+                'product_tax_amount' => $detail->product_tax_amount,
+            ]);
+
+        }
+
+        Cart::instance('sale')->destroy();
+
+        // Redirect to invoice
+        return redirect()->route('sales.invoices.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'invoice' => $invoice->id, 'menu' => current_menu()]);
+
     }
 
 
+    #[On('delete-print')]
     // Print sale
     public function print(){
         try {
@@ -364,6 +428,14 @@ class SaleForm extends BaseForm
             Log::error('Error generating sale PDF: ' . $e->getMessage());
             return response()->json(['error' => 'Unable to generate PDF'], 500);
         }
+    }
+
+    #[On('delete-sale')]
+    public function deleteQT(Sale $sale)
+    {
+        // $sale = sale::find($sale);
+        $sale->delete();
+        return redirect()->route('sales.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
 }

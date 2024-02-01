@@ -10,6 +10,7 @@ use App\Livewire\Form\Button\ActionBarButton;
 use App\Livewire\Form\Button\StatusBarButton;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Carbon\Carbon;
+use Livewire\Attributes\On;
 use Modules\Contact\Entities\Contact;
 use Modules\Inventory\Entities\Operation\OperationTransfer;
 use Modules\Inventory\Entities\Operation\OperationType;
@@ -38,6 +39,7 @@ class OperationTransferForm extends SimpleForm
             $this->source_document = $transfer->source_document;
             $this->responsible = $transfer->responsible_id;
             $this->note = $transfer->note;
+            $this->status = $transfer->status;
             $this->updateMode = true;
         }else{
             $this->type = OperationType::isCompany(current_company()->id)->first()->id;
@@ -116,10 +118,10 @@ class OperationTransferForm extends SimpleForm
         $status = $this->status;
 
         $buttons = [
-            ActionBarButton::make('mark', 'Marquer comme à faire', 'new()', ''),
-            ActionBarButton::make('validate', 'Valider', 'new()', 'ready'),
+            ActionBarButton::make('mark', 'Marquer comme à faire', 'markAsReady()', 'draft')->component('button.action-bar.if-status'),
+            ActionBarButton::make('validate', isset($this->transfer->operationType->operation_type) == 'receipt' ? 'Recevoir les produits' : 'Valider', 'new()', 'ready')->component('button.action-bar.if-status'),
             ActionBarButton::make('cancelled', 'Annuler', 'new()', 'done'),
-            ActionBarButton::make('storeTeam', 'Sauvegarder', $this->updateMode == false ? 'store' : "update"),
+            ActionBarButton::make('storeTeam', 'Sauvegarder', $this->updateMode == false ? 'store' : "update", 'droft'),
         ];
 
         // Define the custom order of button keys
@@ -156,9 +158,10 @@ class OperationTransferForm extends SimpleForm
     }
 
     public function new(){
-        return $this->redirect(route('inventory.operation-transfers.create', ['subdomain' => current_company()->domain_name]), navigate:true);
+        return redirect()->route('inventory.operation-transfers.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
+    #[On('create-transfer')]
     public function store(){
         $this->validate();
 
@@ -178,10 +181,11 @@ class OperationTransferForm extends SimpleForm
         ]);
         $transfer->save();
 
-        return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name]);
+        return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
     }
 
+    #[On('update-transfer')]
     public function update(){
         $this->validate();
 
@@ -202,6 +206,16 @@ class OperationTransferForm extends SimpleForm
         ]);
         $transfer->save();
 
-        return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name]);
+        return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+    }
+
+    // Mark as ready
+    public function markAsReady(){
+        $transfer = $this->transfer;
+        $transfer->update([
+            'status' => 'ready'
+        ]);
+        $transfer->save();
+        return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 }

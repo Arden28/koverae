@@ -25,6 +25,8 @@ class CreateModulesTable extends Migration
             $table->boolean('is_default')->default(false);
             $table->string('link')->default('home');
             $table->boolean('enabled')->default(true);
+            $table->string('path')->nullable();
+            $table->string('navbar_id')->nullable();
             $table->timestamps();
         });
     }

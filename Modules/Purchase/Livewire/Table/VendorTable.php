@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Livewire\Table\Column;
 use App\Livewire\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Contact\Entities\Contact;
 
 class VendorTable extends Table
 {
@@ -13,13 +14,13 @@ class VendorTable extends Table
     public function createRoute() : string
     {
 
-        return route('purchases.requests.create', ['subdomain' => current_company()->domain_name ]);
+        return route('purchases.requests.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('purchases.show', ['purchase' => $id, 'subdomain' => current_company()->domain_name]);
+        return route('purchases.show', ['purchase' => $id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function headerName() : string
@@ -30,7 +31,7 @@ class VendorTable extends Table
 
     public function query() : Builder
     {
-        return Bill::query();
+        return Contact::query();
     }
     public function columns() : array
     {

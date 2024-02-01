@@ -13,13 +13,13 @@ class WorkplaceTable extends Table
     public function createRoute() : string
     {
 
-        return route('employee.workplaces.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('employee.workplaces.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('employee.workplaces.show' , ['subdomain' => current_company()->domain_name, 'workplace' => $id ]);
+        return route('employee.workplaces.show' , ['subdomain' => current_company()->domain_name, 'workplace' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

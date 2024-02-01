@@ -32,11 +32,11 @@
     <div class="k_cell k_wrap_input flex-grow-1">
         <select  wire:model="<?php echo e($value->model); ?>" disabled class="k_input" id="<?php echo e($value->model); ?>_0">
             <option value=""></option>
-            <option value="undelivered">
+            <option value="unshipped">
                 <?php echo e(__('Non livrée')); ?>
 
             </option>
-            <option value="delivered">
+            <option value="shipped">
                 <?php echo e(__('Livrée')); ?>
 
             </option>

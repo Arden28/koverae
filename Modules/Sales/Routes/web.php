@@ -51,7 +51,12 @@ Route::middleware(['module:sales'])->group(function() {
     Route::get('sales/customers', CustomerLists::class)->name('sales.customers.index');
     // Product
     Route::get('products', ProductLists::class)->name('sales.products.index');
-
+    // Quotations
+    Route::prefix('quotations')->name('sales.quotations.')->group(function(){
+        Route::get('/create', QuotationCreate::class)->name('create');
+        Route::get('/{quotation}', QuotationShow::class)->name('show');
+    });
+    // Sales
     Route::prefix('sales')->name('sales.')->group(function(){
 
         // Invoices
@@ -63,11 +68,6 @@ Route::middleware(['module:sales'])->group(function() {
 
         // Quotations
         // Route::get('/quotations', ['uses' => QuotationLists::class, 'as' => 'quotations.index']);
-
-        Route::prefix('quotations')->name('quotations.')->group(function(){
-            Route::get('/create', QuotationCreate::class)->name('create');
-            Route::get('/{quotation}', QuotationShow::class)->name('show');
-        });
 
         // Sales Team
         Route::prefix('teams')->name('teams.')->group(function(){

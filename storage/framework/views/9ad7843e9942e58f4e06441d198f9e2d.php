@@ -17,11 +17,14 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
+<?php
+    $transfer = Modules\Inventory\Entities\Operation\OperationTransfer::isCompany(current_company()->id)->isBelongs($this->sale->reference)->first();
+?>
 <?php if($this->sale->transfers->count() >= 1 && module('inventory')): ?>
 <!-- Routes -->
 <div class="form-check k_radio_item" id="capsule">
     <i class="k_button_icon bi bi-truck"></i>
-    <a style="text-decoration: none;" title="<?php echo e($value->help); ?>" wire:navigate href="<?php echo e(route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name])); ?>" >
+    <a style="text-decoration: none;" title="<?php echo e($value->help); ?>" wire:navigate href="<?php echo e(route('inventory.operation-transfers.show', ['subdomain' => current_company()->domain_name, 'transfer' => $transfer->id ?? null, 'menu' => current_menu()])); ?>" >
         <span class="k_horizontal_span"><?php echo e($value->label); ?></span>
         <span class="stat_value">
             <?php echo e(count($this->sale->transfers)); ?>

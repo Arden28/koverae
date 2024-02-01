@@ -3,7 +3,7 @@
     'data'
 ])
 @php
-    $sellers = \Modules\Sales\Entities\SalesPerson::isCompany(current_company()->id)->where('id', $this->sales_team)->get();
+    $sellers = \Modules\Sales\Entities\SalesPerson::isCompany(current_company()->id)->get();
 @endphp
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- seller -->

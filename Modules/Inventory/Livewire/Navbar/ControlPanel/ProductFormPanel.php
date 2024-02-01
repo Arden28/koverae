@@ -21,7 +21,7 @@ class ProductFormPanel extends ControlPanel
         }else{
             $this->currentPage = 'Nouveau Produit';
         }
-        $this->new = route('inventory.products.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('inventory.products.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 

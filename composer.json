@@ -51,7 +51,9 @@
         "files": [
             "app/Helpers/helpers.php",
             "Modules/Dashboards/Helpers/helpers.php",
-            "Modules/Inventory/Helpers/helpers.php"
+            "Modules/Inventory/Helpers/helpers.php",
+            "Modules/Sales/Helpers/settings.php",
+            "Modules/Purchase/Helpers/settings.php"
         ]
     },
     "autoload-dev": {

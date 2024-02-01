@@ -13,13 +13,13 @@ class ProductCategoryTable extends Table
     public function createRoute() : string
     {
 
-        return route('inventory.products.categories.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('inventory.products.categories.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('inventory.products.categories.show' , ['subdomain' => current_company()->domain_name, 'category' => $id ]);
+        return route('inventory.products.categories.show' , ['subdomain' => current_company()->domain_name, 'category' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

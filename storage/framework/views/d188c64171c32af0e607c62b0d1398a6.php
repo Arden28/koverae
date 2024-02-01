@@ -58,9 +58,9 @@
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
-[$__name, $__params] = $__split('search.search-input-text', []);
+[$__name, $__params] = $__split('search.search-input-text', ['special' => $key]);
 
-$__html = app('livewire')->mount($__name, $__params, $value, $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, '14Kqfi9', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

@@ -69,7 +69,7 @@
                             @endif
 
                             <!-- Special buttons -->
-                            <div class="btn-group">
+                            {{-- <div class="btn-group">
                                 <button type="button" class="" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-gear-fill fa-xs"></i>
                                 </button>
@@ -88,7 +88,7 @@
                             <div wire:dirty>
                                 <button type="submit" wire:target="{{ $this->form() }}" wire:loading.remove title="Sauvegarder les changements...."><i class="bi bi-cloud-arrow-up-fill fa-xs"></i></button>
                                 <button type="submit" wire:loading class="disabled" title="Sauvegarder les changements....">...</button>
-                            </div>
+                            </div> --}}
 
                         </h1>
                     </div>
@@ -129,7 +129,7 @@
                                 <x-dynamic-component
                                     :component="$input->component"
                                     :value="$input"
-                                    :date="$date"
+                                    {{-- :date="$this->date" --}}
                                 >
                                 </x-dynamic-component>
                             @endif

@@ -5,7 +5,7 @@
 @section('breadcrumb')
 <div class="k_control_panel_main d-flex flex-wrap flex-grow-2 flex-nowrap justify-content-between align-items-start gap-5">
     <div class="k_control_panel_breadcumbs d-flex align-items-center gap-1 order-0 h-lg-100">
-        <a wire:navigate href="{{ route('employee.workplaces.create', ['subdomain' => current_company()->domain_name ]) }}" class="btn btn-outline-primary k_form_button_create">
+        <a wire:navigate href="{{ route('employee.workplaces.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="btn btn-outline-primary k_form_button_create">
             {{ __('Nouveau') }}
         </a>
         <br>

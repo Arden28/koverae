@@ -3,10 +3,8 @@
     'status'
 ])
 <div>
-    <li>
-        <a class="dropdown-item cursor-pointer" wire:click="{{ $value->action }}" wire:target="{{ $value->action }}">
-            {!! $value->label !!}
-        </a>
+    <li class="dropdown-item cursor-pointer" wire:click="{{ $value->action }}" wire:target="{{ $value->action }}">
+        {!! $value->label !!}
     </li>
     {{-- <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> {{ __('Supprimer') }}</a></li>
     <li><hr class="dropdown-divider"></li>

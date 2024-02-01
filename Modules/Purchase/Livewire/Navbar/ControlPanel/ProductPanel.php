@@ -13,7 +13,7 @@ class ProductPanel extends ControlPanel
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->currentPage = "Produits";
-        $this->new = route('inventory.products.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('inventory.products.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 

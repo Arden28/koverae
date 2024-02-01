@@ -111,40 +111,7 @@
                             <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
 
                             <!-- Special buttons -->
-                            <div class="btn-group">
-                                <button type="button" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-gear-fill fa-xs"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action_button): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
-<?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $action_button->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('dynamic-component'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\DynamicComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['value' => $action_button,'status' => $status]); ?>
-                                     <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
-<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
-<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
-<?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
-<?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
-<?php endif; ?>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
-                                </ul>
-                            </div>
-
-                            <div wire:dirty>
-                                <button type="submit" wire:target="<?php echo e($this->form()); ?>" wire:loading.remove title="Sauvegarder les changements...."><i class="bi bi-cloud-arrow-up-fill fa-xs"></i></button>
-                                <button type="submit" wire:loading class="disabled" title="Sauvegarder les changements....">...</button>
-                            </div>
+                            
 
                         </h1>
                     </div>
@@ -206,7 +173,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\DynamicComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['value' => $input,'date' => $date]); ?>
+<?php $component->withAttributes(['value' => $input]); ?>
                                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>

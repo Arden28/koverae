@@ -13,13 +13,13 @@ class ScrapTable extends Table
     public function createRoute() : string
     {
 
-        return route('inventory.adjustments.scraps.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('inventory.adjustments.scraps.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('inventory.adjustments.scraps.show' , ['subdomain' => current_company()->domain_name, 'scrap' => $id ]);
+        return route('inventory.adjustments.scraps.show' , ['subdomain' => current_company()->domain_name, 'scrap' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

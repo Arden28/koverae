@@ -13,7 +13,7 @@ class AdjustmentPhysicalPanel extends ControlPanel
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->currentPage = "Ajustements d'inventaire";
-        $this->new = route('inventory.adjustments.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('inventory.adjustments.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 }

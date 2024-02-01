@@ -21,11 +21,9 @@
 } ?>
 <?php unset($__defined_vars); ?>
 <div>
-    <li>
-        <a class="dropdown-item cursor-pointer" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>">
-            <?php echo $value->label; ?>
+    <li class="dropdown-item cursor-pointer" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>">
+        <?php echo $value->label; ?>
 
-        </a>
     </li>
     
 </div>

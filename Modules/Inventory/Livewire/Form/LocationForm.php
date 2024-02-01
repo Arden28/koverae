@@ -123,7 +123,7 @@ class LocationForm extends LightWeightForm
 
         $location->save();
 
-        return redirect()->route('inventory.locations.show', ['location' => $location->id, 'subdomain' => current_company()->domain_name]);
+        return redirect()->route('inventory.locations.show', ['location' => $location->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
     }
 
@@ -149,7 +149,7 @@ class LocationForm extends LightWeightForm
         // dd($this->location);
         $location->save();
 
-        return redirect()->route('inventory.locations.show', ['location' => $location->id, 'subdomain' => current_company()->domain_name]);
+        return redirect()->route('inventory.locations.show', ['location' => $location->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
     }
 

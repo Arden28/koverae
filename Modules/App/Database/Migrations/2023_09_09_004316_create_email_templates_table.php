@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('email_templates', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('apply_to')->nullable();
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->string('apply_to')->nullable();
             $table->string('name');
             $table->string('model_class');
             $table->string('subject')->nullable(); // Add this column
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->string('automatic_delete')->nullable(); // Add this column
             $table->string('template_description')->nullable(); // Add this column
 
+            $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
 
             $table->timestamps();
             $table->softDeletes();

@@ -13,13 +13,13 @@ class LocationTable extends Table
     public function createRoute() : string
     {
 
-        return route('inventory.locations.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('inventory.locations.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('inventory.locations.show' , ['subdomain' => current_company()->domain_name, 'location' => $id ]);
+        return route('inventory.locations.show' , ['subdomain' => current_company()->domain_name, 'location' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

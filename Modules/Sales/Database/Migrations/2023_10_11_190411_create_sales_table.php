@@ -28,7 +28,7 @@ return new class extends Migration
             $table->decimal('total_amount', $precision = 12, $scale = 2);
             $table->decimal('paid_amount', $precision = 12, $scale = 2);
             $table->decimal('due_amount', $precision = 12, $scale = 2);
-            $table->enum('status', ['to_invoice', 'partial', 'invoiced']);
+            $table->enum('status', ['to_invoice', 'invoiced', 'cancelled'])->default('to_invoice');
             // Payment
             $table->string('payment_term');
             $table->enum('payment_status', ['unpaid', 'partial', 'paid']);
@@ -43,13 +43,14 @@ return new class extends Migration
 
             // Invoicing
             $table->string('fiscal_position')->nullable();
+            $table->enum('invoice_status', ['not_invoiced', 'partial', 'invoiced'])->default('not_invoiced');
 
-            // Delivery
+            // Shipping
             $table->string('incoterm')->nullable();
             $table->string('incoterm_location')->nullable();
-            $table->string('shipping_policy')->nullable();
+            $table->enum('shipping_policy', ['after_done', 'as_soon_as_possible'])->nullable();
             $table->date('shipping_date')->nullable();
-            $table->string('shipping_status')->nullable();
+            $table->enum('shipping_status', ['unshipped', 'shipped'])->default('unshipped');
 
             // Tracking
             $table->string('source_document')->nullable();

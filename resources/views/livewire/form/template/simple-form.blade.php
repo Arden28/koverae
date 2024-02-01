@@ -53,12 +53,9 @@
             @csrf
             <!-- Sheet Card -->
             <div class="k_form_sheet position-relative">
+                <!-- title-->
                 <div class="row justify-content-between position-relative w-100 m-0 mb-2">
-
-                    <!-- name-->
                     <div class="ke_title mw-75 pe-2 ps-0">
-
-                        <!-- Name -->
                         @foreach($this->inputs() as $input)
                             @if($input->position == 'top-title' && $input->tab == 'none')
                                 <x-dynamic-component
@@ -68,21 +65,19 @@
                                 </x-dynamic-component>
                             @endif
                         @endforeach
-
                     </div>
-
-                    <!-- Right Side -->
-                    @foreach($this->groups() as $group)
-                        @if($group->tab == 'none' || $group->tab = null)
-                            <x-dynamic-component
-                                :component="$group->component"
-                                :value="$group"
-                            >
-                            </x-dynamic-component>
-                        @endif
-                    @endforeach
-
                 </div>
+
+                <!-- Right Side -->
+                @foreach($this->groups() as $group)
+                    @if($group->tab == 'none' || $group->tab = null)
+                        <x-dynamic-component
+                            :component="$group->component"
+                            :value="$group"
+                        >
+                        </x-dynamic-component>
+                    @endif
+                @endforeach
 
                 @if($this->tabs())
                 <div class="k_notebokk_headers">

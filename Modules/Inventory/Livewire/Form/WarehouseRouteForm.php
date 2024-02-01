@@ -107,7 +107,7 @@ class WarehouseRouteForm extends LightWeightForm
         ]);
         $route->save();
 
-        return $this->redirect(route('inventory.warehouses.routes.show', ['route' => $route->id, 'subdomain' => current_company()->domain_name]), navigate:true);
+        return redirect()->route('inventory.warehouses.routes.show', ['route' => $route->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
     }
 
@@ -127,6 +127,6 @@ class WarehouseRouteForm extends LightWeightForm
         ]);
         $route->save();
 
-        // return $this->redirect(route('inventory.warehouses.show', ['type' => $type->id, 'subdomain' => current_company()->domain_name]), navigate:true);
+        // return $this->redirect(route('inventory.warehouses.show', ['type' => $type->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]), navigate:true);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Modules\Invoicing\Entities\Customer;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -46,14 +47,16 @@ class Invoice extends Model
         return $this->belongsTo(SalesPerson::class, 'seller_id', 'id');
     }
 
-    // public static function boot() {
-    //     parent::boot();
+    public static function boot() {
+        parent::boot();
 
-    //     static::creating(function ($model) {
-    //         $number = Invoice::max('id') + 1;
-    //         $model->reference = make_reference_id('INV', $number);
-    //     });
-    // }
+        static::creating(function ($model) {
+            $number = Invoice::isCompany(current_company()->id)->max('id') + 1;
+            $year = Carbon::parse($model->date)->year;
+            $month = Carbon::parse($model->date)->month;
+            $model->reference = make_reference_with_id('INV', $number, $year);
+        });
+    }
 
     public function scopeCompleted($query) {
         return $query->where('status', 'Completed');

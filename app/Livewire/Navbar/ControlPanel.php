@@ -58,4 +58,8 @@ abstract class ControlPanel extends Component
         $this->dispatch('reset-form');
     }
 
+    public  function actionButtons() : array{
+        return [];
+    }
+
 }

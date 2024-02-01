@@ -13,13 +13,13 @@ class JobTable extends Table
     public function createRoute() : string
     {
 
-        return route('employee.jobs.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('employee.jobs.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('employee.jobs.show' , ['subdomain' => current_company()->domain_name, 'job' => $id ]);
+        return route('employee.jobs.show' , ['subdomain' => current_company()->domain_name, 'job' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

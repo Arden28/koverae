@@ -73,6 +73,10 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
             </tbody>
         </table>
+        <div class="card-footer d-flex align-items-end ms-auto w-100">
+            <?php echo e($this->data()->links()); ?>
+
+        </div>
     </div>
 
 </div>

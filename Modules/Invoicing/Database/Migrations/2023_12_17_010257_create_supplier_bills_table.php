@@ -34,8 +34,8 @@ return new class extends Migration
             $table->decimal('total_amount', $precision = 12, $scale = 2);
             $table->decimal('paid_amount', $precision = 12, $scale = 2);
             $table->decimal('due_amount', $precision = 12, $scale = 2);
-            $table->string('status');
-            $table->string('payment_status')->nullable();
+            $table->enum('status', ['draft', 'posted']);
+            $table->enum('payment_status', ['unpaid', 'partial', 'paid'])->default('unpaid');
 
             // Bill
             $table->string('supplier_reference')->nullable();

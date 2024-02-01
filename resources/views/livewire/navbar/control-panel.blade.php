@@ -38,15 +38,19 @@
                         </span>
                         <div class="k_cp_action_menus d-flex align-items-center pe-2 gap-1">
                             <div class="k_dropdown dropdown lh-1 dropdown-no-caret" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-gear"></i>
+                                <i class="bi bi-gear" wire:loading.remove></i>
+                                <span wire:loading>...</span>
                             </div>
                             <ul class="k_dropdown_menu dropdown-menu lh-base">
-                                <li class="dropdown-item cursor-pointer">
-                                    <i class="bi bi-copy"></i> {{ __('Dupliquer') }}
-                                </li>
-                                <li class="dropdown-item cursor-pointer">
-                                    <i class="bi bi-trash"></i> {{ __('Supprimer') }}
-                                </li>
+
+                                @foreach($this->actionButtons() as $action_button)
+                                <x-dynamic-component
+                                    :component="$action_button->component"
+                                    :value="$action_button"
+                                >
+                                </x-dynamic-component>
+                                @endforeach
+
                             </ul>
                         </div>
                         @if($this->showIndicators)
@@ -72,13 +76,13 @@
           <!-- Navigations -->
           <div class="k_control_panel_navigation d-flex flex-wrap flex-md-wrap align-items-center justify-content-end gap-l-1 gap-xl-5 order-1 order-lg-2 flex-grow-1">
             <!-- Pagination -->
-            @if($showPagination)
+            {{-- @if($showPagination)
                 {{ $this->data()->links() }}
-            @endif
+            @endif --}}
             <!-- End Pagination -->
 
             <!-- Display panel buttons -->
-            <div class="k_cp_switch_buttons d-print-none d-none d-xl-inline-flex btn-group">
+            <div class="k_cp_switch_buttons d-print-none d-xl-inline-flex btn-group">
                 <!-- Button view -->
                 @foreach($this->switchButtons() as $switchButton)
                 <x-dynamic-component

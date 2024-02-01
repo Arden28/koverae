@@ -13,7 +13,7 @@ class ContactPanel extends ControlPanel
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->currentPage = "Contacts";
-        $this->new = route('contacts.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('contacts.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 

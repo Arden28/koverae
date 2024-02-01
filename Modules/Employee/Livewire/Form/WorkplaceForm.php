@@ -34,7 +34,7 @@ class WorkplaceForm extends LightWeightForm
     ];
 
     public function new(){
-        return redirect()->route('employee.workplaces.create', ['subdomain' => current_company()->domain_name]);
+        return redirect()->route('employee.workplaces.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function form() : string
@@ -88,7 +88,7 @@ class WorkplaceForm extends LightWeightForm
 
         $workplace->save();
 
-        // return redirect()->route('employee.workplaces.index', ['subdomain' => current_company()->domain_name]);
+        // return redirect()->route('employee.workplaces.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     public function update(){

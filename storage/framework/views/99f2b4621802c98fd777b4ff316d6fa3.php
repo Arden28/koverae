@@ -21,7 +21,7 @@
 } ?>
 <?php unset($__defined_vars); ?>
 <?php
-    $sellers = \Modules\Sales\Entities\SalesPerson::isCompany(current_company()->id)->where('id', $this->sales_team)->get();
+    $sellers = \Modules\Sales\Entities\SalesPerson::isCompany(current_company()->id)->get();
 ?>
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- seller -->

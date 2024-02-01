@@ -9,7 +9,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('sales::navbar.control-panel.sale-panel', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'WwrHmb3', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'It2vZ3G', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -31,7 +31,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('sales::table.sales-table', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'wAXTYUk', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, '5JTjZAV', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

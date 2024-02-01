@@ -13,17 +13,22 @@
                             <div class="row g-2 align-items-center">
                                 <div class="col">
                                     <h4 class="card-title m-0">
-                                        <a wire:navigate href="{{ route('inventory.operation-types.show', ['type' => $o->id, 'subdomain' => current_company()->domain_name]) }}">{{ $o->name }}</a>
+                                        <a wire:navigate href="{{ route('inventory.operation-types.show', ['type' => $o->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">{{ $o->name }}</a>
                                     </h4>
                                     <div class="small mt-1">
                                         <span class="badge"><i class="bi bi-building"></i> {{ current_company()->name }}</span>
                                     </div>
                                 </div>
                                 <div class="col-auto">
-                                    <a wire:navigate href="{{ route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name]) }}" class="btn btn-primary">
-                                         {{ $o->operationTransfers()->isWating()->count() }} {{ __('à traiter') }}
+                                    <a wire:navigate href="{{ route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => $o->id,'status' => 'ready', 'menu' => current_menu()]) }}" class="btn btn-primary">
+                                         {{ $o->operationTransfers()->isOperationType($o->id)->isWating()->count() }} {{ __('à traiter') }}
                                     </a>
                                 </div>
+                                @if($o->operationTransfers()->isOperationType($o->id)->isWating()->isLate()->count() >= 1 )
+                                    <div class="col-auto">
+                                        {{ $o->operationTransfers()->isOperationType($o->id)->isWating()->isLate()->count() }} en retard
+                                    </div>
+                                @endif
 
                                 <div class="col-auto">
                                     <div class="dropdown">
@@ -32,7 +37,7 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="1" /><circle cx="12" cy="19" r="1" /><circle cx="12" cy="5" r="1" /></svg>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            <a wire:navigate href="{{ route('inventory.operation-types.show', ['type' => $o->id, 'subdomain' => current_company()->domain_name]) }}" class="dropdown-item">
+                                            <a wire:navigate href="{{ route('inventory.operation-types.show', ['type' => $o->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                                                 <i class="bi bi-gear"></i> {{ __('Configuration') }}
                                             </a>
 

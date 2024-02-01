@@ -2,6 +2,7 @@
 
 namespace Modules\Inventory\Entities\Operation;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Inventory\Database\factories\OperationTransferFactory;
@@ -34,9 +35,24 @@ class OperationTransfer extends Model
         return $query->where('company_id', $company_id);
     }
 
+    public function scopeIsBelongs(Builder $query, $source_document)
+    {
+        return $query->where('source_document', $source_document);
+    }
+
+
+    public function scopeIsOperationType(Builder $query, $type_id)
+    {
+        return $query->where('operation_type_id', $type_id);
+    }
+
     public function scopeIsWating(Builder $query)
     {
-        return $query->where('status', 'waiting');
+        return $query->where('status', 'ready');
+    }
+
+    public function scopeIsLate(Builder $query){
+        return $query->whereDate('schedule_date', '<', Carbon::now());
     }
 
 

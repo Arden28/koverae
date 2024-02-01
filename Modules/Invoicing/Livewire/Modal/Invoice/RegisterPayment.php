@@ -86,6 +86,6 @@ class RegisterPayment extends ModalComponent
             'due_amount' => ($due_amount),
         ]);
 
-        return $this->redirect(route('purchases.invoices.show', ['subdomain' => current_company()->domain_name, 'purchase' => $invoice->purchase_id, 'invoice' => $invoice->id]), navigate:true);
+        return redirect()->route('purchases.invoices.show', ['subdomain' => current_company()->domain_name, 'purchase' => $invoice->purchase_id, 'invoice' => $invoice->id, 'menu' => current_menu()]);
     }
 }

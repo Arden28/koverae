@@ -126,29 +126,24 @@
           <ul class="navbar-nav">
             <!-- Navbar Menu -->
               <!-- Settings -->
-              <?php if(request()->routeIs('settings.*')): ?>
-                  <?php echo $__env->make('settings::layouts.navbar-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-              <!-- Employee -->
-              <?php elseif(request()->routeIs('employee*')): ?>
-                  <?php echo $__env->make('employee::layouts.navbar-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-              <!-- Dashboards -->
-              <?php elseif(request()->routeIs('dashboards.*')): ?>
-                  <?php echo $__env->make('dashboards::layouts.navbar-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-              <!-- Sale -->
-              <?php elseif(request()->routeIs('sales.*')): ?>
-                  <?php echo $__env->make('sales::layouts.navbar-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-              <!-- Contacts -->
-              <?php elseif(request()->routeIs('contacts.*')): ?>
-                  <?php echo $__env->make('contact::layouts.navbar-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-              <!-- Inventory -->
-              <?php elseif(request()->routeIs('inventory.*')): ?>
-                  <?php echo $__env->make('inventory::layouts.navbar-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-              <!-- Purhase -->
-              <?php elseif(request()->routeIs('purchases.*')): ?>
-                  <?php echo $__env->make('purchase::layouts.navbar-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-              <?php else: ?>
-                  <?php echo $__env->make('layouts.navbar-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-              <?php endif; ?>
+              
+            
+            <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('navbar-manager', ['menu' => request('menu')]);
+
+$__html = app('livewire')->mount($__name, $__params, time(), $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
             <!-- Navbar Menu -->
           </ul>
         </div>

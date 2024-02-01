@@ -14,13 +14,13 @@ class QuotationsTable extends Table
     public function createRoute() : string
     {
 
-        return route('sales.quotations.create' , ['subdomain' => current_company()->domain_name ]);
+        return route('sales.quotations.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
     {
 
-        return route('sales.quotations.show' , ['subdomain' => current_company()->domain_name, 'quotation' => $id ]);
+        return route('sales.quotations.show' , ['subdomain' => current_company()->domain_name, 'quotation' => $id, 'menu' => current_menu() ]);
     }
 
     public function headerName() : string

@@ -105,7 +105,7 @@ class JobForm extends SimpleForm
     }
 
     public function new(){
-        return redirect(route('employee.jobs.create' , ['subdomain' => current_company()->domain_name ]));
+        return redirect(route('employee.jobs.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]));
     }
 
     public function store(){

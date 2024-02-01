@@ -129,11 +129,18 @@
             }
             .cool-gray {
                 color: #6B7280;
-            }.logo {
-                text-align: center;
+            }
+            .header{
+                height: auto;
+                border-bottom: 1px solid #000000;
+            }
+            .logo {
+                text-align: start;
             }
             .logo img {
-                display: block;
+                height: 40px;
+                width: auto;
+                display: inline-flex;
                 margin: 0 auto;
             }
 
@@ -145,9 +152,11 @@
         {{-- @if($invoice->logo)
             <img src="{{ $invoice->getLogo() }}" alt="logo" height="100">
         @endif --}}
-        {{-- <div class="logo">
-            <img src="{{ asset('assets/images/logo/logo-1.png') }}" alt="logo" />
-        </div> --}}
+        <div class="header">
+            <div class="logo">
+                <img src="{{ base_path('public/assets/images/logo/logo-black-gd.png') }}" alt="logo" />
+            </div>
+        </div>
 
         <table class="table mt-5">
             <tbody>
@@ -400,29 +409,19 @@
                     </p>
                 @endif
 
-                {{-- <p>
-                    {{ trans('invoices::invoice.amount_in_words') }}:
-                </p> --}}
                 <p>
                     Veuillez utiliser cette reference pour votre paiement: {{ $invoice->reference }}
                 </p>
+
                 <p>
-                    Modalité de paiement: {{ $invoice->payment_term }}
+                    Délai de paiement: {{ payment_term($invoice->payment_term) }}
                 </p>
+
                 @if($invoice->shipping_date)
                 <p>
                     Date de livraison prévue: {{ \Carbon\Carbon::parse($invoice->shipping_date)->format('d/m/Y') }}
                 </p>
                 @endif
-
-                {{-- <div class="row" style="margin-top: 25px;">
-                    <div class="col-xs-12">
-                        <h4 style="text-align: center">
-                            {{ Auth::user()->currentCompany->name }}
-                            &copy; {{ date('Y') }}.
-                        </h4>
-                    </div>
-                </div> --}}
 
                 <script type="text/php">
                     if (isset($pdf) && $PAGE_COUNT > 1) {

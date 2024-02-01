@@ -62,7 +62,7 @@
                                 <i class="bi bi-question-circle-fill"></i>
                             </a>
                             <br>
-                            <a wire:navigate href="{{ route('settings.users', ['subdomain' => current_company()->domain_name]) }}" class="btn btn-link k_web_settings_access_rights outline-none">
+                            <a wire:navigate href="{{ route('settings.users', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="btn btn-link k_web_settings_access_rights outline-none">
                                 <i class="bi bi-arrow-right k_button_icon"></i> <span>Gérer les utilisateurs</span>
                             </a>
                         </div>
@@ -407,7 +407,7 @@
                                 </span>
                             </div>
                         </div>
-                        @if($has_all_rights_access)
+                        @if($this->has_all_rights_access)
                         <div class="mt14">
                             <button class="btn btn-link k_web_settings_access_rights">
                                 <i class="bi bi-arrow-right k_button_icon"></i> <span>Droits d'accès par défaut</span>

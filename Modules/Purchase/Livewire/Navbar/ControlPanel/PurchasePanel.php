@@ -14,7 +14,7 @@ class PurchasePanel extends ControlPanel
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->currentPage = "Bons de commandes fournisseurs";
-        $this->new = route('purchases.requests.create', ['subdomain' => current_company()->domain_name]);
+        $this->new = route('purchases.requests.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 

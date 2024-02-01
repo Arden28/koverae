@@ -98,7 +98,7 @@ class Create extends Component
 
         notify()->success("Nouveau Contact ajouté !");
 
-        return $this->redirect(route('contacts.show', ['subdomain' => current_company()->domain_name, 'contact' => $contact->id]), navigate:true);
+        return redirect()->route('contacts.show', ['subdomain' => current_company()->domain_name, 'contact' => $contact->id, 'menu' => current_menu()]);
     }
     public function render()
     {
