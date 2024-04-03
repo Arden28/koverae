@@ -14,6 +14,7 @@
       	--tblr-font-sans-serif: Inter, -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
       }
     </style>
+    <?php $config = (new \LaravelPWA\Services\ManifestService)->generate(); echo $__env->make( 'laravelpwa::meta' , ['config' => $config])->render(); ?>
     <?php echo $__env->make('includes.main-css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php echo $__env->make('includes.main-js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
@@ -28,7 +29,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('wire-elements-modal');
 
-$__html = app('livewire')->mount($__name, $__params, 'pPc7K0H', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-3946496405-0', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

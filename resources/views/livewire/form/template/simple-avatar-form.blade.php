@@ -3,7 +3,7 @@
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
             <!-- Action Bar -->
             @if($this->actionBarButtons())
-            <div id="action-bar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
+            <div id="action-bar" class="k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around flex-wrap gap-1">
 
                 @foreach($this->actionBarButtons() as $action)
                 <x-dynamic-component
@@ -14,6 +14,23 @@
                 </x-dynamic-component>
                 @endforeach
 
+            </div>
+            <!-- Dropdown button -->
+            <div class="btn-group d-lg-none">
+                <button type="button" class="btn buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Action
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach($this->actionBarButtons() as $action)
+                    <x-dynamic-component
+                        :component="$action->component"
+                        :value="$action"
+                        :status="$status"
+                    >
+                    </x-dynamic-component>
+                    @endforeach
+                    <!--<li><hr class="dropdown-divider"></li>-->
+                </ul>
             </div>
             @endif
             {{-- <div id="status-bar" class="k_statusbar_buttons_arrow d-flex align-items-center align-content-around ">
@@ -165,5 +182,22 @@
 
             </div>
         </form>
+    </div>
+    <div class="k-chatter mt-2 px-1 py-1">
+        <div class="k-chatter-top position-sticky top-0 gap-2">
+            <!-- Topbar -->
+            <div class="k-chatter-topbar d-flex flex-shrink-0 flex-grow-0 px-3 overflow-x-auto">
+                <button class="btn btn-primary">Envoyer un message</button>
+                <span class="btn btn-secondary" style="margin-left: 5px;">
+                    Prendre des notes
+                </span>
+                <div class="k-chatter-topbar-grow w-50 flex-grow-1 pe-2">
+
+                </div>
+                <div class="d-flex flex-grow-1 right">
+                    <button class="btn btn-link"><i class="bi bi-paperclip" style="font-size: 18px;"></i></button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

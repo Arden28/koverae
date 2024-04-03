@@ -33,6 +33,8 @@ class DashboardTableSeeder extends Seeder
 
                 $sales_dashboard = AppDashboard::create([
                     'name' => 'Ventes',
+                    'parent_slug' => 'sales',
+                    'slug' => 'sales_dashboard',
                     'dash_id' => $dash1->id,
                     'app_id' => 6,
                     'is_enable' => true,
@@ -41,6 +43,8 @@ class DashboardTableSeeder extends Seeder
 
                 $products_dashboard = AppDashboard::create([
                     'name' => 'Produits',
+                    'parent_slug' => 'sales',
+                    'slug' => 'products_dashboard',
                     'dash_id' => $dash1->id,
                     'app_id' => 6,
                     'is_enable' => true,
@@ -49,6 +53,8 @@ class DashboardTableSeeder extends Seeder
 
                 $pos_dashboard = AppDashboard::create([
                     'name' => 'Point de vente',
+                    'parent_slug' => 'sales',
+                    'slug' => 'pos_dashboard',
                     'dash_id' => $dash1->id,
                     'app_id' => 8,
                     'is_enable' => true,
@@ -65,6 +71,8 @@ class DashboardTableSeeder extends Seeder
 
                 $invoices_dashboard = AppDashboard::create([
                     'name' => 'Facturation',
+                    'parent_slug' => 'finances',
+                    'slug' => 'invoices_dashboard',
                     'dash_id' => $dash2->id,
                     'app_id' => 2,
                     'is_enable' => true,
@@ -82,6 +90,8 @@ class DashboardTableSeeder extends Seeder
                 // App Dashboards
                 $purchases_dashboard = AppDashboard::create([
                     'name' => 'Achats',
+                    'parent_slug' => 'logistics',
+                    'slug' => 'purchases_dashboard',
                     'dash_id' => $dash3->id,
                     'app_id' => 4,
                     'is_enable' => true,
@@ -90,6 +100,8 @@ class DashboardTableSeeder extends Seeder
 
                 $vendors_dashboard = AppDashboard::create([
                     'name' => 'Fournisseurs',
+                    'parent_slug' => 'logistics',
+                    'slug' => 'suppliers_dashboard',
                     'dash_id' => $dash3->id,
                     'app_id' => 4,
                     'is_enable' => true,
@@ -98,6 +110,8 @@ class DashboardTableSeeder extends Seeder
 
                 $inventory_on_hand_dashboard = AppDashboard::create([
                     'name' => 'Inventaire disponible',
+                    'parent_slug' => 'logistics',
+                    'slug' => 'inventory_dashboard',
                     'dash_id' => $dash3->id,
                     'app_id' => 3,
                     'is_enable' => true,
@@ -106,6 +120,8 @@ class DashboardTableSeeder extends Seeder
 
                 $inventory_on_hand_dashboard = AppDashboard::create([
                     'name' => 'Flux des stocks',
+                    'parent_slug' => 'logistics',
+                    'slug' => 'stock_flow_dashboard',
                     'dash_id' => $dash3->id,
                     'app_id' => 3,
                     'is_enable' => true,
@@ -123,6 +139,8 @@ class DashboardTableSeeder extends Seeder
                 // App Dashboards
                 $projects_dashboard = AppDashboard::create([
                     'name' => 'Projets',
+                    'parent_slug' => 'field_of_service',
+                    'slug' => 'projects_dashboard',
                     'dash_id' => $dash4->id,
                     'app_id' => 15,
                     'is_enable' => true,
@@ -131,6 +149,8 @@ class DashboardTableSeeder extends Seeder
 
                 $timesheets_dashboard = AppDashboard::create([
                     'name' => 'Feuille de Temps',
+                    'parent_slug' => 'field_of_service',
+                    'slug' => 'timesheets_dashboard',
                     'dash_id' => $dash4->id,
                     'app_id' => 16,
                     'is_enable' => true,
@@ -149,6 +169,8 @@ class DashboardTableSeeder extends Seeder
                 //Leads
                 $leads_dashboard = AppDashboard::create([
                     'name' => 'Leads',
+                    'parent_slug' => 'crm',
+                    'slug' => 'leads_dashboard',
                     'dash_id' => $dash5->id,
                     'app_id' => 7,
                     'is_enable' => true,
@@ -157,6 +179,8 @@ class DashboardTableSeeder extends Seeder
                 //Pipeline
                 $leads_dashboard = AppDashboard::create([
                     'name' => 'Pipeline',
+                    'parent_slug' => 'crm',
+                    'slug' => 'pipelines_dashboard',
                     'dash_id' => $dash5->id,
                     'app_id' => 7,
                     'is_enable' => true,

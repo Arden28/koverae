@@ -15,7 +15,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model.blur="{{ $value->model }}" id="" class="k_input">
+        <select wire:model.change="{{ $value->model }}" id="" class="k_input">
             <option value=""></option>
             @foreach($products as $product)
             <option value="{{ $product->id }}">{{ $product->product_name }}</option>

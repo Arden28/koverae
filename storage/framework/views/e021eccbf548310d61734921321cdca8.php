@@ -21,10 +21,12 @@
 } ?>
 <?php unset($__defined_vars); ?>
 <!--[if BLOCK]><![endif]--><?php if($this->sale->invoice == null && $status != 'canceled'): ?>
-<button type="button" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>" class="btn btn-primary primary">
+
+<button class="d-none d-lg-inline-flex" type="button" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>"  id="top-button" class="btn btn-primary <?php echo e($status == $value->primary ? 'primary' : ''); ?>">
     <span>
-        <?php echo e($value->label); ?> <p wire:loading wire:target="<?php echo e($value->action); ?>">...</p>
+        <?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>" >...</span>
     </span>
 </button>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<li class="d-lg-none"><a class="dropdown-item" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>"><?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>" >...</span></a></li>
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/button/action-bar/invoice/create-sale-invoice.blade.php ENDPATH**/ ?>

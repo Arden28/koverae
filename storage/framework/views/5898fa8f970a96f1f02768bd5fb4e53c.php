@@ -27,5 +27,5 @@
 
     </a>
 </div>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/columns/common/seller.blade.php ENDPATH**/ ?>

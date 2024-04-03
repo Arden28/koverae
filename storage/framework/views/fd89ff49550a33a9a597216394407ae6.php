@@ -30,18 +30,24 @@
         </label>
     </div>
     <!-- Input Form -->
-    <div class="k_cell k_wrap_input flex-grow-1">
+    <div class="k_cell k_wrap_input flex-grow-1 mb-3">
         <div class="k_field_tags d-inline-flex flex-wrap gap-1 k_tags_input k_input">
-            <span class="k_tag d-inline-flex align-items-center mw-100 badge rounded-pill m-1 k_tag_color_0">
+            <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->sales_taxes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tax): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php
+                $tax = \Modules\Invoicing\Entities\Tax\Tax::find($tax);
+            ?>
+            <span class="k_tag d-inline-flex align-items-center w-auto badge rounded-pill m-1 k_tag_color_0">
                 <div class="k_tag_badge_text text-truncate">
-                    18%
+                    <?php echo e($tax->name); ?>
+
                     <a href="" class="k_delete opacity-100-hover ps-1 opacity-75">
                         <i class="bi bi-x"></i>
                     </a>
                 </div>
             </span>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
-            <input type="<?php echo e($value->type); ?>" wire:model="<?php echo e($value->model); ?>" class="k_input " id="taxes_id">
+            <input type="<?php echo e($value->type); ?>" wire:model="<?php echo e($value->model); ?>" class="k_input w-auto" id="taxes_id">
         </div>
         <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -50,7 +56,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> <span class="text-danger"><?php echo e($message); ?></span> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?> <!--[if ENDBLOCK]><![endif]-->
+unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
     </div>
 </div>
 

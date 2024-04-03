@@ -1,5 +1,5 @@
 <div>
-    <div class="k_control_panel d-flex flex-column gap-3 gap-lg-1 px-3 pt-2 pb-3">
+    <div class="k_control_panel d-flex flex-column gap-3 gap-lg-1 px-3 pt-2 pb-3 sticky-top">
       <div class="k_control_panel_main d-flex flex-wrap flex-nowrap justify-content-between align-items-lg-start gap-5 flex-grow-1">
           <!-- Breadcrumbs -->
           <div class="k_control_panel_breadcrumbs d-flex align-items-center gap-1 order-0 h-lg-100">

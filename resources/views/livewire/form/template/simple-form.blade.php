@@ -3,6 +3,7 @@
         <!-- Notify -->
         <x-notify::notify />
         <!-- Status bar -->
+        @if(count($this->actionBarButtons()) >= 1 || count($this->statusBarButtons()) >= 1)
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
 
             <!-- Action Bar -->
@@ -19,17 +20,6 @@
 
 
                 <div wire:dirty>Modifications non sauvegardés...</div>
-                <!-- Dropdown button -->
-                {{-- <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Action
-                    </button>
-                    <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">{{ __('Nouveau') }}</a></li>
-                    <li><a class="dropdown-item" href="#">{{ __('Enregistrer') }}</a></li>
-                    <!--<li><hr class="dropdown-divider"></li>-->
-                    </ul>
-                </div> --}}
 
             </div>
 
@@ -49,6 +39,7 @@
             @endif
 
         </div>
+        @endif
         <form wire:submit.prevent="{{ $this->form() }}">
             @csrf
             <!-- Sheet Card -->

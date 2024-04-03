@@ -48,34 +48,33 @@ use Modules\Inventory\Livewire\Location\Show as LocationShow;
 */
 
 
-Route::middleware(['module:inventory'])->group(function() {
-
     // Inventory
     Route::get('inventory', Overview::class)->name('inventory.index');
 
     // Operations
-    Route::get('inventory/operation-tranfers', OperationsTransferLists::class)->name('inventory.operation-transfers.index');
-    Route::get('inventory/operation-types', OperationTypeList::class)->name('inventory.operation-types.index');
+    Route::get('operation-tranfers', OperationsTransferLists::class)->name('inventory.operation-transfers.index');
+    Route::get('operation-types', OperationTypeList::class)->name('inventory.operation-types.index');
 
     // Adjustments
-    Route::get('inventory/adjustment/physicals', AdjustmentLists::class)->name('inventory.adjustments.physical.index');
+    Route::get('adjustment/physicals', AdjustmentLists::class)->name('inventory.adjustments.physical.index');
 
     // Adjustments Scraps
-    Route::get('inventory/adjustment/scraps', AdjustmentScrapLists::class)->name('inventory.adjustments.scraps.index');
+    Route::get('adjustment/scraps', AdjustmentScrapLists::class)->name('inventory.adjustments.scraps.index');
 
     // Products
     Route::get('inventory/products', ProductLists::class)->name('inventory.products.index');
     // Categories
-    Route::get('inventory/products/categories', CategoryLists::class)->name('inventory.products.categories.index');
+    Route::get('products/categories', CategoryLists::class)->name('inventory.products.categories.index');
 
     // Warehouse
-    Route::get('inventory/warehouses', WarehouseList::class)->name('inventory.warehouses.index');
+    Route::get('warehouses', WarehouseList::class)->name('inventory.warehouses.index');
     // WarehouseRoute
-    Route::get('inventory/warehouses-routes', WarehouseRouteList::class)->name('inventory.warehouses.routes.index');
+    Route::get('warehouses-routes', WarehouseRouteList::class)->name('inventory.warehouses.routes.index');
     // Locations
-    Route::get('inventory/locations', LocationList::class)->name('inventory.locations.index');
+    Route::get('locations', LocationList::class)->name('inventory.locations.index');
 
-    Route::prefix('inventory')->name('inventory.')->group(function(){
+    // Route::prefix('inventory')->name('inventory.')->group(function(){
+    Route::name('inventory.')->group(function(){
         // Operations
         Route::get('operation-types/create', OperationTypeCreate::class)->name('operation-types.create');
         Route::get('operation-types/{type}', OperationTypeShow::class)->name('operation-types.show');
@@ -103,5 +102,3 @@ Route::middleware(['module:inventory'])->group(function() {
         Route::get('adjustment/physicals/create', AdjustmentCreate::class)->name('adjustments.create');
         Route::get('adjustment/physicals/{adjustment}', AdjustmentShow::class)->name('adjustments.show');
     });
-
-});

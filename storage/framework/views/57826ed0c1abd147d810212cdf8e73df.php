@@ -22,6 +22,7 @@
 <?php unset($__componentOriginal58ef761b4a8d895ed279bb45cfc348ea); ?>
 <?php endif; ?>
         <!-- Status bar -->
+        <!--[if BLOCK]><![endif]--><?php if(count($this->actionBarButtons()) >= 1 || count($this->statusBarButtons()) >= 1): ?>
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
 
             <!-- Action Bar -->
@@ -48,12 +49,10 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
 
                 <div wire:dirty>Modifications non sauvegardés...</div>
-                <!-- Dropdown button -->
-                
 
             </div>
 
@@ -82,11 +81,12 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
             </div>
-            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
         </div>
+        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
         <form wire:submit.prevent="<?php echo e($this->form()); ?>">
             <?php echo csrf_field(); ?>
             <!-- Sheet Card -->
@@ -116,8 +116,8 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                 </div>
 
@@ -144,8 +144,8 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
                 <!--[if BLOCK]><![endif]--><?php if($this->tabs()): ?>
                 <div class="k_notebokk_headers">
@@ -155,10 +155,10 @@
                         <li class="nav-item">
                             <a class="nav-link <?php echo e($tab->key == 'order' || $tab->key == 'purchase' || $tab->key == 'general' ? 'active' : ''); ?>" data-bs-toggle="tab" href="#<?php echo e($tab->key); ?>"><?php echo e($tab->label); ?></a>
                         </li>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                     </ul>
                 </div>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                 <!-- Tab Content -->
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->tabs(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tab): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -182,7 +182,7 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
             </div>
         </form>

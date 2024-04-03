@@ -29,7 +29,8 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            Route::middleware('api')
+            // Route::domain(env('CORE_URL'))->middleware('api')
+            Route::domain('{subdomain}.'.env('APP_URL'))->middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
@@ -40,6 +41,9 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->prefix('web')
                 ->group(base_path('routes/auth.php'));
+
+            Route::middleware('portal')
+                ->group(base_path('routes/portal.php'));
         });
     }
 }

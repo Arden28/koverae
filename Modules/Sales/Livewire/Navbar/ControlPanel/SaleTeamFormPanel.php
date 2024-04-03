@@ -12,7 +12,7 @@ class SaleTeamFormPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->showIndicators === true;
+        $this->showIndicators = true;
 
         if($team){
             $this->team = $team;

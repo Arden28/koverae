@@ -1,16 +1,16 @@
 <div>
-    <div class="table-responsive" style="margin-top: 10px;">
-        <table class="table card-table table-vcenter text-nowrap datatable">
-            <thead>
-                <tr>
-                    <th><button class="table-sort" data-sort="sort-name"><?php echo e(__('Nom du Produit')); ?></button></th>
-                    <th><button class="table-sort" data-sort="sort-name"><?php echo e(__('Description')); ?></button></th>
-                    <th><button class="table-sort" data-sort="sort-name"><?php echo e(__('Quantité')); ?></button></th>
-                    <th><button class="table-sort" data-sort="sort-name"><?php echo e(__('Prix unitaire')); ?></button></th>
-                    <th><button class="table-sort" data-sort="sort-name"><?php echo e(__('Réduction')); ?></button></th>
-                    <th><button class="table-sort" data-sort="sort-name"><?php echo e(__('Taxe')); ?></button></th>
-                    <th><button class="table-sort" data-sort="sort-name"><?php echo e(__('Hors Taxe')); ?></button></th>
-                    <th><button class="table-sort" data-sort="sort-name"><?php echo e(__('Subtotal')); ?></button></th>
+    <div class="table-responsive w-100 mb-2">
+        <table class="table card-table text-nowrap">
+            <thead class="order-table">
+                <tr class="order-tr">
+                    <th><button><?php echo e(__('Nom du Produit')); ?></button></th>
+                    <th><button><?php echo e(__('Description')); ?></button></th>
+                    <th><button><?php echo e(__('Quantité')); ?></button></th>
+                    <th><button><?php echo e(__('Prix unitaire')); ?></button></th>
+                    <th><button><?php echo e(__('Réduction')); ?></button></th>
+                    <th><button><?php echo e(__('Taxe')); ?></button></th>
+                    <th><button><?php echo e(__('Hors Taxe')); ?></button></th>
+                    <th><button><?php echo e(__('Toutes taxes comprises')); ?></button></th>
                     <th></th>
                 </tr>
             </thead>
@@ -37,7 +37,7 @@
                             <input type="text" value="<?php echo e($cart_item->options->product_tax); ?>" class="k_input">
                         </td>
                         <td class="k_field_list">
-                            <input type="text" value="<?php echo e(format_currency($cart_item->options->sub_total)); ?>" class="k_input">
+                            <input type="text" value="<?php echo e(format_currency($cart_item->options->untaxed_amount)); ?>" class="k_input">
                         </td>
                         <td class="k_field_list">
                             <input type="text" value="<?php echo e(format_currency($cart_item->options->sub_total)); ?>" class="k_input">
@@ -48,8 +48,8 @@
                             </span>
                         </td>
                     </tr>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $inputs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr class="k_field_list_row">
@@ -60,7 +60,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('search.search-input-text', ['special' => $key]);
 
-$__html = app('livewire')->mount($__name, $__params, '14Kqfi9', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-194859216-0', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -98,7 +98,7 @@ if (isset($__slots)) unset($__slots);
                             </span>
                         </td>
                     </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                 <!--[if BLOCK]><![endif]--><?php if($status == 'posted'): ?>
                 <tr class="k_field_list_row">
                     <td class="k_field_list">
@@ -113,15 +113,15 @@ if (isset($__slots)) unset($__slots);
                         </span>
                     </td>
                 </tr>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </tbody>
         </table>
     </div>
 
     <!-- Note and total part -->
-    <div class="k_group row align-items-start mt-2 mt-md-0">
+    <div class="k_group row align-items-start mt-md-0">
 
-        <div class="k_inner_group col-lg-8">
+        <div class="k_inner_group col-lg-10">
             <div class="k_cell flex-grow-0 flex-sm-grow-0">
                 <div class="note-editable" id="note_1">
                     <textarea wire:model="term" id="term" style="width: 75%; padding-left: 5px; padding-top:10px;" id="" cols="30" rows="5" class="k_input textearea" placeholder="Termes & conditions">
@@ -132,73 +132,87 @@ if (isset($__slots)) unset($__slots);
             </div>
         </div>
 
-        <div class="k_inner_group k_subtotal_footer col-lg-4 right">
-            <div class="k_cell flex-grow-1 flex-sm-grow-0">
+        <div class="k_inner_group k_subtotal_footer col-lg-2 right overflow-y-auto h-100">
 
-                <?php if($global_tax > 0): ?>
-                    <!-- Taxes -->
-                    <td class="k_td_label">
-                        <label for="" class="k_text_label k_tax_total_label">
-                            <?php echo e(__('Taxe')); ?> (<?php echo e($global_tax); ?>%) :
-                        </label>
-                    </td>
+            <td class="k_td_label">
+                <span>
+                    Total HT
+                </span>
+            </td>
+            <br>
+            <td class="k_list_monetary">
+                <span>
+                    (=) <?php echo e(format_currency( (convertToIntSimple(Cart::instance($this->cart_instance)->subtotal) - convertToIntSimple(Cart::instance($this->cart_instance)->tax()) ) / 100 )); ?>
 
-                    <td class="k_list_monetary">
-                        <span>
-                            (+) <?php echo e(format_currency(Cart::instance($cart_instance)->tax())); ?>
-
-                        </span>
-                    </td>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-
-                <!-- Reduction
+                </span>
+            </td>
+            <br class="mb-2">
+            <!--[if BLOCK]><![endif]--><?php if($this->global_tax > 0): ?>
+                <!-- Taxes -->
                 <td class="k_td_label">
                     <label for="" class="k_text_label k_tax_total_label">
-                        <?php echo e(__('Réduction')); ?> (<?php echo e($global_discount); ?>%) :
+                        <?php echo e(__('Taxe')); ?> (<?php echo e(sales_tax()->amount); ?>%) :
                     </label>
                 </td>
-
+                <br>
                 <td class="k_list_monetary">
                     <span>
-                        (-) <?php echo e(format_currency(0)); ?>
+                        (+) <?php echo e($global_tax); ?>
 
                     </span>
                 </td>
-                -->
-                <!--[if BLOCK]><![endif]--><?php if($shipping): ?>
-                    <!-- Livraison -->
-                    <td class="k_td_label">
-                        <label for="" class="k_text_label k_tax_total_label">
-                            <?php echo e(__('Livraison')); ?> :
-                        </label>
-                    </td>
+                <br>
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
-                    <td class="k_list_monetary">
-                        <input type="hidden" value="<?php echo e($shipping); ?>" name="shipping_amount">
-                        <span>
-                            (+) <?php echo e($shipping); ?>
+            <!-- Reduction
+            <td class="k_td_label">
+                <label for="" class="k_text_label k_tax_total_label">
+                    <?php echo e(__('Réduction')); ?> (<?php echo e($global_discount); ?>%)
+                </label>
+            </td>
+            <br>
+            <td class="k_list_monetary">
+                <span>
+                    (-) <?php echo e(format_currency(0)); ?>
 
-                        </span>
-                    </td>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                </span>
+            </td>
+            <br> -->
 
+            <!--[if BLOCK]><![endif]--><?php if($shipping): ?>
+                <!-- Livraison -->
                 <td class="k_td_label">
                     <label for="" class="k_text_label k_tax_total_label">
-                        <b><?php echo e(__('Total')); ?></b> :
+                        <?php echo e(__('Livraison')); ?> :
                     </label>
                 </td>
-
-                <?php
-                    $total_with_shipping = Cart::instance($cart_instance)->subtotal()
-                ?>
-
+                <br>
                 <td class="k_list_monetary">
+                    <input type="hidden" value="<?php echo e($shipping); ?>" name="shipping_amount">
                     <span>
-                        (=) <?php echo e($total_with_shipping); ?>
+                        (+) <?php echo e($shipping); ?>
 
                     </span>
                 </td>
-            </div>
+                <br>
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+
+            <td class="k_td_label">
+                <label for="" class="k_text_label k_tax_total_label">
+                    <b><?php echo e(__('Total TTC')); ?></b>
+                </label>
+            </td>
+            <br>
+            <?php
+                $total_with_shipping = Cart::instance($cart_instance)->total
+            ?>
+
+            <td class="k_list_monetary">
+                <span>
+                    (=) <?php echo e($total_with_shipping); ?>
+
+                </span>
+            </td>
         </div>
     </div>
 </div>

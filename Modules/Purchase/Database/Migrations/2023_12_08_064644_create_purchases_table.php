@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('supplier_reference')->nullable();
             $table->string('payment_term')->nullable();
             $table->foreignId('fiscal_position_id')->nullable();
-            $table->enum('status', ['purchase_order', 'invoiced', 'cancelled'])->default('to_invoice');
+            $table->enum('status', ['purchase_order', 'invoiced', 'cancelled'])->default('purchase_order');
             $table->text('terms')->nullable();
 
             // Delivery
@@ -50,7 +50,7 @@ return new class extends Migration
             $table->enum('reception_status', ['not_received', 'pending', 'received'])->default('not_received');
 
             // Invoice
-            $table->enum('invoice_status', ['to', 'partial', 'invoiced'])->default('not_invoiced');
+            $table->enum('invoice_status', ['to_invoice', 'partial', 'invoiced'])->default('to_invoice');
 
             // Email
             $table->unsignedBigInteger('email_template_id')->nullable();

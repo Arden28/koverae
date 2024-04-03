@@ -22,11 +22,12 @@
 <?php unset($__defined_vars); ?>
 <!--[if BLOCK]><![endif]--><?php if($this->status == $value->primary): ?>
 <div>
-    <button type="button" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>"  id="top-button" class="btn btn-primary primary">
-        <span>
-            <?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>">...</span>
-        </span>
-    </button>
+<button class="d-none d-lg-inline-flex" type="button" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>"  id="top-button" class="btn btn-primary primary">
+    <span>
+        <?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>" >...</span>
+    </span>
+</button>
+<li class="d-lg-none"><a class="dropdown-item" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>"><?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>" >...</span></a></li>
 </div>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/button/action-bar/if-status.blade.php ENDPATH**/ ?>

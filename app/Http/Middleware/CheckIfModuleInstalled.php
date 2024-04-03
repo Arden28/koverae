@@ -21,10 +21,11 @@ class CheckIfModuleInstalled
     public function handle(Request $request, Closure $next, $moduleName)
     {
         // $team = Team::find(Auth::user()->team->id)->first();
-        $team = Team::where('id', Auth::user()->team->id)->where('uuid', Auth::user()->team->uuid)->first();
+        // $team = Team::where('id', Auth::user()->team->id)->where('uuid', Auth::user()->team->uuid)->first();
+        $company = current_company();
         $module = Module::where('slug', $moduleName)->firstOrFail();
 
-        if (!$module->isInstalledBy($team)) {
+        if (!$module->isInstalledBy($company)) {
             // return response('The module'.$module->name.' is not installed for the current team.', 403);
             return response(view('errors.module.not-installed', compact('module')));
         }

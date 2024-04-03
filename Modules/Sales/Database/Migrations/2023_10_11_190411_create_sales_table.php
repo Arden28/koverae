@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('program_id')->nullable(); //Sales program apply to the sale
             $table->dateTime('date')->nullable();
             $table->string('reference');
             $table->unsignedBigInteger('customer_id')->nullable();
@@ -67,7 +68,7 @@ return new class extends Migration
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             // $table->foreign('pos_id')->references('id')->on('pos')->nullOnDelete();
-            $table->foreign('customer_id')->references('id')->on('users')->nullOnDelete(); //A modifier, relier la tables au clients
+            // $table->foreign('customer_id')->references('id')->on('users')->nullOnDelete(); //A modifier, relier la tables au clients
             // $table->foreign('seller_id')->references('id')->on('sales_people')->nullOnDelete();
             // $table->foreign('sales_team_id')->references('id')->on('sales_teams')->nullOnDelete();
             $table->foreign('quotation_id')->references('id')->on('quotations')->nullOnDelete();

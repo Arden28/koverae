@@ -24,5 +24,5 @@
     
 
 </div>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/columns/common/human-diff.blade.php ENDPATH**/ ?>

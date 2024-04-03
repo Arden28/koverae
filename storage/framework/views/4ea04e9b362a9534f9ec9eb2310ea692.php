@@ -9,7 +9,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('inventory::navbar.control-panel.products-panel', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'RS5bhR9', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-2848936618-0', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -31,7 +31,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('inventory::table.product-table', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'Pj8jS8P', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-2848936618-1', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

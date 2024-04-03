@@ -1,93 +1,134 @@
-@extends('layouts.master')
+<div>
+    @section('title', 'Applications')
 
-@section('title', __('Tableaux de bord'))
+    @section('styles')
+        <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+          body::-webkit-scrollbar {
+              display: none;
+          }
 
-@section('styles')
-    <style>
-        .k_spreadsheet_dashboard{
-            font-size: 14px;
-            line-height: 21px;
-            text-decoration: none solid rgb(55, 65, 81);
-            word-spacing: 0px;
-            padding: 0 8px 48px 24px;
-            min-height: auto;
-            max-width: 200px;
-            min-width: auto;
-            display: block;
-        }
-        .k_spreadsheet_dashboard .k_search_panel_section_header{
-            height: 50px;
-            width: 100%;
-            padding: 24px 0 8px 0 ;
-            position: relative;
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-        .k_spreadsheet_dashboard .k_search_panel_category{
-            text-decoration: none solid rgb(17, 24, 39);
-            text-align: left;
-            white-space: nowrap;
-            height: 29px;
-            width: 75px;
-            padding: 4px 8px 4px 12px;
-            cursor: pointer;
-        }
-        .k_spreadsheet_dashboard .k_search_panel_category.active{
+          /* Hide scrollbar for IE, Edge, and Firefox */
+          body {
+              -ms-overflow-style: none;  /* IE and Edge */
+              scrollbar-width: none;  /* Firefox */
+          }
+          .app-sidebar{
+            overflow-y: auto;
+          }
+          .panel-category:hover{
+            background-color: #D8DADD;
+          }
+          .panel-category.selected{
             background-color: #E6F2F3;
-            color: #017E84;
-        }
-        .k-grid-overlay{
-            /* height: 545px; */
-            width: 1000px;
-            top: 0px;
-            left: 0px;
-            right: 0px;
-            bottom: 0px;
-            display: block;
-        }
-        .k-scorecard{
-            background-color: #bdbdbd;
-            height: 120px;
-            /* width: 200px; */
-            padding: 4px 4px 4px 4px;
-            margin: 4px 4px 4px 4px;
-            cursor: pointer;
-        }
-        .k-grid-overlay .stat{
-            font-size: 42px;
-            line-height: 45px;
-        }
-        .k-grid-overlay .card-title{
-            font-size: 22px;
-            line-height: 24px;
-        }
-    </style>
-@endsection
+          }
+            .app{
+                background-color: white;
+                padding: 8px 8px 8px 8px;
+                height: 120px;
+                width: 340px;
+                min-height: auto;
+                min-width: auto;
+                display: flex;
+                border: 1px solid #D8DADD;
+            }
+            .app .app_desc{
+                height: 77px;
+                width: 280px;
+                padding: 0 0 0 10px;
+                min-height: auto;
+            }
+            .app .app_desc .k_kanban_record_title{
+                font-weight: bold;
+                font-size: 15.6px;
+            }
+            .app .app_icon{
+                height: 40px;
+                width: 40px;
+            }
+        </style>
+    @endsection
 
-@section('content')
-    <div class="page-body d-print-none">
-        <div class="row">
+    <div class="page-body h-100 m-0">
+      <div class="container-fluid">
+        <div class="row g-4">
+            <!-- Side Bar -->
+          <div class="col-md-2 bg-white app-sidebar flex-grow-0 flex-shrink-0 h-screen mb-5 bg-view overflow-auto position-relative pe-1 ps-3">
+            <form action="./" method="get" autocomplete="off" novalidate class="sticky-top">
+              <header class="form-label pt-3 font-weight-bold text-uppercase"> <b><i class="bi bi-folder"></i> Industries</b></header>
+              <ul class="mb-4 ml-2">
+                <li class="text-decoration-none panel-category py-1 pe-0 ps-0 cursor-pointer">
+                  {{ __('Vente au détail') }}
+                </li>
+                <li class="text-decoration-none panel-category py-1 pe-0 ps-0 cursor-pointer">
+                  {{ __('Fabrication') }}
+                </li>
+                <li class="text-decoration-none panel-category py-1 pe-0 ps-0 cursor-pointer">
+                  {{ __('Organisation') }}
+                </li>
+              </ul>
 
-            <div class="k_spreadsheet_dashboard search_panel k_flex_panel flex-grow-0 border-end flex-shrink-0 pe-2 pb-5 ps-4 bg-view overflow-auto col-lg-2 col-md-2">
+              <header class="form-label pt-3 font-weight-bold text-uppercase"> <b><i class="bi bi-folder"></i> Applications</b></header>
+              <ul class="mb-4 ml-2">
+                <li class="text-decoration-none panel-category py-1 pe-0 ps-0 cursor-pointer">
+                  {{ __('Toutes le applications') }}
+                </li>
+                {{-- @foreach ($app_categories as $category)
+                <li wire:click="category({{ $category->slug }})" class="text-decoration-none {{ $this->cat == $category->slug ? 'selected' : '' }} panel-category py-1 pe-0 ps-0 cursor-pointer">
+                  {{ $category->name }}
+                </li>
+                @endforeach --}}
+              </ul>
 
-                @foreach($dashboards as $d)
-                    @if($d->appDashboard->count() > 0)
-                        <header class="k_search_panel_section_header ps-4 pl-2 text-uppercase user-select-none">
-                            <b>{{ $d->name }}</b>
-                        </header>
-                        <ul>
-
-                            @foreach ($d->appDashboard as $dash)
-                                <li class="k_search_panel_category list-group-item border-0">
-                                    {{ $dash->name }}
+            </form>
+          </div>
+          <!-- Apps List -->
+          <div class="col-12 col-md-12 col-lg-10 h-screen">
+            <div class="row gap-1">
+                <!-- App -->
+                {{-- @foreach ($apps as $app)
+                <div class="app mt-1 col-12 col-md-12 col-lg-4">
+                    <img src="{{ asset('assets/images/apps/'.$app->icon.'.png') }}" height="40px" width="40px" alt="" class="app_icon rounded">
+                    <div class="app_desc">
+                        <h4 class="k_kanban_record_title">
+                            {{ $app->short_name }}
+                        </h4>
+                        <span class="text-muted small">
+                            {{ str($app->description, 10) }}
+                        </span>
+                        <div class="app_action d-flex flex-wrap justify-content-between">
+                            @if(module($app->slug) == false)
+                            <button class="btn btn-primary button_immediate_installation" wire:loading.attr="disabled" wire:target="install({{ $app->id }})" wire:click="install({{ $app->id }})">
+                                {{ __('Installer') }}
+                            </button>
+                            @endif
+                            <a href="" class="btn btn-secondary float-end">
+                                {{ __('En savoir plus') }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-2 text-right">
+                        <div class="dropdown">
+                            <a href="#" class="btn-action text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/dots-vertical -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="1" /><circle cx="12" cy="19" r="1" /><circle cx="12" cy="5" r="1" /></svg>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#" class="dropdown-item">{{ __("Info sur l'app") }}</a>
+                                @if(module($app->slug))
+                                <li wire:click="uninstall({{ $app->slug }})" class="dropdown-item cursor-pointer">
+                                    {{ __('Désintaller') }}
                                 </li>
-                            @endforeach
-                        </ul>
-                    @endif
-                @endforeach
-            </div>
-            <!-- The correspendant data play -->
+                                @endif
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach --}}
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-@endsection
+</div>

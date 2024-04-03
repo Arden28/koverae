@@ -16,10 +16,23 @@ class InstalledModule extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'team_id',
-        'module_slug',
-    ];
+    protected $guarded = [];
+
+    // public static function boot() {
+    //     parent::boot();
+
+    //     static::creating(function ($model) {
+    //         $module = Module::findBySlug($model->slug);
+    //         if($module->parent_slug){
+    //             $parent = Module::find($module->parent_slug);
+    //             InstalledModule::create([
+    //                 'company_id' => current_company()->id,
+    //                 'module_slug' => $parent->id
+    //             ]);
+    //         }
+    //     });
+    // }
+
 
     public function module()
     {

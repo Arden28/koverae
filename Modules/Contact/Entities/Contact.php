@@ -41,6 +41,12 @@ class Contact extends Model
     }
 
     // If the contacts belong to the company
+    public function scopeIsType(Builder $query, $type)
+    {
+        return $query->where('type', $type);
+    }
+
+    // If the contacts belong to the company
     public function scopeIsSupplier(Builder $query)
     {
         return $query->where('is_supplier', true);

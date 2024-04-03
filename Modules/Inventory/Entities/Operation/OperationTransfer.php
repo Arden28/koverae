@@ -55,10 +55,14 @@ class OperationTransfer extends Model
         return $query->whereDate('schedule_date', '<', Carbon::now());
     }
 
-
     public function operationType() {
         return $this->belongsTo(OperationType::class, 'operation_type_id', 'id');
     }
+
+    public function details() {
+        return $this->hasMany(OperationTransferDetail::class, 'operation_transfer_id', 'id');
+    }
+
 
     // protected static function newFactory(): OperationTransferFactory
     // {

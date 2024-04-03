@@ -2,7 +2,7 @@
 
 namespace Modules\Inventory\Livewire\Form;
 
-use App\Livewire\Form\Template\SimpleForm;
+use App\Livewire\Form\BaseForm;
 use App\Livewire\Form\Input;
 use App\Livewire\Form\Tabs;
 use App\Livewire\Form\Group;
@@ -13,11 +13,13 @@ use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Modules\Contact\Entities\Contact;
 use Modules\Inventory\Entities\Operation\OperationTransfer;
+use Modules\Inventory\Entities\Operation\OperationTransferDetail;
 use Modules\Inventory\Entities\Operation\OperationType;
+use Modules\Inventory\Entities\Product;
 use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
 use Modules\Inventory\Entities\Warehouse\Warehouse;
 
-class OperationTransferForm extends SimpleForm
+class OperationTransferForm extends BaseForm
 {
     use ActionBarButtonTrait;
     public $transfer;
@@ -26,6 +28,7 @@ class OperationTransferForm extends SimpleForm
 
     public bool $updateMode = false;
     public $status = 'draft';
+    public $inputs = [];
 
     public function mount($transfer = null){
         if($transfer){
@@ -81,8 +84,8 @@ class OperationTransferForm extends SimpleForm
             Input::make('reference', "Reference", 'text', 'reference', 'top-title', 'none', 'none', 'ex: Réception')->component('inputs.reference.simple'),
             Input::make('contact','Contact', 'select', 'contact', 'left', 'none', 'base_info')->component('inputs.select.contact'),
             Input::make('type',"Type d'opération", 'select', 'type', 'left', 'none', 'base_info')->component('inputs.select.operations.operation-type'),
-            Input::make('from',"Emplacement d'origine", 'select', 'from', 'left', 'none', 'base_info')->component('inputs.select.operations.default_from'),
-            Input::make('to',"Emplacement de destination", 'select', 'to', 'left', 'none', 'base_info')->component('inputs.select.operations.default_from'),
+            Input::make('from',"Emplacement d'origine", 'select', 'from', 'right', 'none', 'base_info')->component('inputs.select.operations.default_from'),
+            Input::make('to',"Emplacement de destination", 'select', 'to', 'right', 'none', 'base_info')->component('inputs.select.operations.default_from'),
             Input::make('schedule_date',"Date prévue", 'datetime-local', 'schedule_date', 'right', 'none', 'base_info')->component('inputs.date.local'),
             Input::make('source_document',"Document d'origine", 'text', 'source_document', 'right', 'none', 'base_info', 'par ex: SL0001'),
             //
@@ -96,7 +99,7 @@ class OperationTransferForm extends SimpleForm
     {
         return  [
             // make($key, $label)
-            Tabs::make('general','Opérations'),
+            Tabs::make('order','Opérations')->component('tabs.operation-transfer'),
             Tabs::make('supp_info','Info supplémentaire'),
             Tabs::make('note','Note')->component('tabs.note.summary'),
         ];
@@ -161,6 +164,11 @@ class OperationTransferForm extends SimpleForm
         return redirect()->route('inventory.operation-transfers.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
+    #[On('transfer-cart')]
+    public function updateInputs($inputs){
+        $this->inputs = $inputs;
+    }
+
     #[On('create-transfer')]
     public function store(){
         $this->validate();
@@ -179,6 +187,21 @@ class OperationTransferForm extends SimpleForm
             'note' => $this->note,
             'status' => $this->status,
         ]);
+
+        foreach($this->inputs as $detail){
+            OperationTransferDetail::create([
+                'company_id' => current_company()->id,
+                'product_id' => $detail['product'],
+                'operation_transfer_id' => $transfer->id,
+                'product_name' => Product::find($detail['product'])->product_name,
+                'demand' => $detail['demand'],
+                'quantity' => Product::find($detail['product'])->product_quantity,
+                'description' => $detail['description'],
+                'schedule_date' => $detail['schedule_date'],
+                'deadline_date' => $detail['deadline_date'],
+            ]);
+        }
+
         $transfer->save();
 
         return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);

@@ -11,8 +11,9 @@ use Modules\Inventory\Entities\History\InventoryMove;
 use Modules\Inventory\Entities\Operation\OperationType;
 use Modules\Inventory\Entities\Product;
 use Modules\Inventory\Entities\UoM\UnitOfMeasure;
+use Modules\Inventory\Entities\Warehouse\Warehouse;
 use Modules\Manufacturing\Entities\BOM\BillOfMaterial;
-use Modules\Manufacturing\Entities\ManufacturingOrderComponent;
+use Modules\Manufacturing\Entities\MO\ManufacturingOrderComponent;
 use Modules\Manufacturing\Entities\Unbuild\UnbuildOrder;
 
 class ManufacturingOrder extends Model
@@ -27,6 +28,18 @@ class ManufacturingOrder extends Model
     public function scopeIsCompany(Builder $query, $company_id)
     {
         return $query->where('company_id', $company_id);
+    }
+
+
+    public static function boot() {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $number = ManufacturingOrder::max('id') + 1;
+            $prefix = 'MO';
+            $warehouse = Warehouse::find($model->operationType->warehouse_id);
+            $model->reference = make_reference_with_id($warehouse->short_name, $number, $prefix);
+        });
     }
 
     public function product() {

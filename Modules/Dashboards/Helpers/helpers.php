@@ -11,13 +11,15 @@ use Modules\Dashboards\Entities\AppDashboard;
 use Modules\Dashboards\Entities\Dashboard;
 
 if (!function_exists('dashboard')) {
-    function dashboard($dash) {
+    function dashboard($slug) {
 
         // $app_dashboard = AppDashboard::where('name', $name)->first();
-        $dashboard = Dashboard::find($dash->dash_id)->first();
+        // $dashboard = Dashboard::find($dash->dash_id)->first();
+        $app_dashboard = AppDashboard::isCompany(current_company()->id)->findBySlug($slug)->first();
+        $company = Company::find(current_company()->id)->first();
 
-        if($dash->isInstalledBy($dashboard)){
-            return $dash->isInstalledBy($dashboard);
+        if(!$app_dashboard->isInstalledBy($company)){
+            return $app_dashboard->isInstalledBy($company);
         }
     }
 }

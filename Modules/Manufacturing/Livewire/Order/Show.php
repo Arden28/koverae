@@ -15,6 +15,7 @@ class Show extends Component
 
     public function render()
     {
-        return view('manufacturing::livewire.order.show');
+        return view('manufacturing::livewire.order.show')
+        ->extends('layouts.master');
     }
 }

@@ -27,7 +27,6 @@ use Modules\Purchase\Livewire\Product\CategoryLists as CategoryList;
 |
 */
 
-Route::middleware(['module:purchase'])->group(function() {
 
     // Quotation
     Route::get('purchases', Quotation::class)->name('purchases.index');
@@ -58,6 +57,3 @@ Route::middleware(['module:purchase'])->group(function() {
         Route::get('/create', VendorCreate::class)->name('create');
         Route::get('/{vendor}', VendorShow::class)->name('show');
     });
-
-    // Route::get('purchases/requests/create', RequestQuotationCreate::class)->name('purchases.requests.create');
-});

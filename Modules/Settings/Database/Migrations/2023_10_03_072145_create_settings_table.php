@@ -116,6 +116,7 @@ return new class extends Migration
             $table->unsignedBigInteger('fiscal_country')->nullable();
             // Currencies
             $table->integer('default_currency_id')->nullable();
+            $table->string('default_currency_position')->default('suffix');
             // Customer Invoice
             $table->string('default_sending_options')->nullable();
             $table->boolean('has_customer_address')->default(false);

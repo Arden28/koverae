@@ -16,9 +16,23 @@ return new class extends Migration
             $table->foreignId('user_id')->index();
             $table->string('name');
             $table->string('reference')->nullable();
-            $table->boolean('personal_company');
+            $table->boolean('personal_company')->default(true);
             $table->string('domain_name');
+            $table->boolean('is_self_hosted')->default(false); // Si le domaine est hébergé par le kover
             $table->boolean('enabled')->default(1);
+            // Company Information
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->unique()->nullable();
+            $table->string('phone_2')->unique()->nullable();
+            $table->text('address')->nullable();
+            $table->string('website')->unique()->nullable();
+            $table->text('city')->nullable();
+            $table->text('country')->nullable();
+
+            $table->text('domain')->nullable();
+            $table->string('size')->nullable();
+            $table->string('primary_interest')->nullable();
+            $table->string('default_currency')->nullable();
             $table->timestamps();
         });
     }

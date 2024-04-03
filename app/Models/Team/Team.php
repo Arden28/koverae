@@ -5,7 +5,7 @@ namespace App\Models\Team;
 use App\Abstracts\Team as TeamModel;
 use Bpuig\Subby\Traits\HasSubscriptionPeriodUsage;
 use Bpuig\Subby\Traits\HasSubscriptions;
-use App\Models\Module;
+use App\Models\Module\Module;
 use Bpuig\Subby\Traits\HasTrialPeriodUsage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

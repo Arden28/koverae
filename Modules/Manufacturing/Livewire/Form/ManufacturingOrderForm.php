@@ -14,9 +14,13 @@ use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Carbon\Carbon;
 use Modules\Inventory\Entities\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Livewire\Attributes\On;
 use Modules\Contact\Entities\Contact;
 use Modules\Inventory\Entities\Operation\OperationType;
 use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
+use Modules\Manufacturing\Entities\BOM\BillOfMaterial;
+use Modules\Manufacturing\Entities\Mo\ManufacturingOrderComponent;
+use Modules\Manufacturing\Entities\MO\ManufacturingOrder;
 
 class ManufacturingOrderForm extends BaseForm
 {
@@ -24,8 +28,10 @@ class ManufacturingOrderForm extends BaseForm
 
     public $cartInstance = 'mo';
     public $order;
-    public $reference, $status, $product, $quantity, $bom, $schedule_date, $end_date, $responsible;
+    public $reference, $status, $product, $quantity, $bom, $schedule_date, $end_date, $responsible, $uom;
     public $operationType, $component_location, $finshed_products_location, $source_document;
+    // Cart component
+    public $inputs = [];
 
     public function mount($order = null){
         if($order){
@@ -36,7 +42,7 @@ class ManufacturingOrderForm extends BaseForm
             $this->bom = $order->bom_id;
             $this->schedule_date = Carbon::parse($order->schedule_date)->format('Y-m-d H:i:s');
             $this->end_date = Carbon::parse($order->end_date)->format('Y-m-d H:i:s');
-            $this->responsible = Contact::find($order->reference)->first()->id;
+            $this->responsible = Contact::find($order->responsible_id)->first()->id;
             $this->operationType = $order->operation_type_id;
             $this->component_location = $order->components_location_id;
             $this->finshed_products_location = $order->finished_products_location_id;
@@ -47,18 +53,18 @@ class ManufacturingOrderForm extends BaseForm
             $this->quantity = 1.00;
             $this->schedule_date = now()->format('Y-m-d H:i:s');
             $this->end_date = now()->addDays(2)->format('Y-m-d H:i:s');
-            $this->operationType = OperationType::isCompany(current_company()->id)->first()->id;
-            $this->component_location = WarehouseLocation::isCompany(current_company()->id)->first()->id;
-            $this->finshed_products_location = WarehouseLocation::isCompany(current_company()->id)->first()->id;
+            $this->operationType = OperationType::isCompany(current_company()->id)->isType('manufacturing')->first()->id;
+            $this->component_location = WarehouseLocation::isCompany(current_company()->id)->isType('internal')->first()->id;
+            $this->finshed_products_location = WarehouseLocation::isCompany(current_company()->id)->isType('internal')->first()->id;
             $this->responsible = Contact::isCompany(current_company()->id)->first()->id;
         }
     }
 
-    protected $rules = [
-        'product' => 'required|integer',
-        'quantity' => 'required|gt:0',
-        'bom' => 'required|integer',
-    ];
+    // protected $rules = [
+    //     'product' => 'required|integer',
+    //     'quantity' => 'required|gt:0',
+    //     'bom' => 'required|integer',
+    // ];
 
     public function tabs() : array
     {
@@ -88,7 +94,7 @@ class ManufacturingOrderForm extends BaseForm
             Input::make('end_date','Date de fin', 'datetime-local', 'end_date', 'right', 'none', 'none'),
             Input::make('responsible','Responsable', 'select', 'responsible', 'right', 'none', 'none')->component('inputs.select.contact'),
 
-            Input::make('operatonType',"Type d'opération", 'select', 'operatonType', 'left', 'miscellaneous', 'miscellaneous')->component('inputs.select.operations.operation-type'),
+            Input::make('operationType',"Type d'opération", 'select', 'operationType', 'left', 'miscellaneous', 'miscellaneous')->component('inputs.select.operations.operation-type'),
             Input::make('component_location',"Emplacement des compsants", 'select', 'component_location', 'left', 'miscellaneous', 'miscellaneous')->component('inputs.select.operations.default_from'),
             Input::make('finshed_products_location',"Emplacement des produits finis", 'select', 'finshed_products_location', 'left', 'miscellaneous', 'miscellaneous')->component('inputs.select.operations.default_from'),
             Input::make('source_document',"Document source", 'text', 'source_document', 'right', 'miscellaneous', 'miscellaneous')
@@ -102,8 +108,8 @@ class ManufacturingOrderForm extends BaseForm
         $buttons = [
             // key, label, action, primary
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
-            ActionBarButton::make('confirm', 'Confirmer', "confirm()", 'draft'),
-            ActionBarButton::make('unlock', 'Débloquer', "unlock()", 'confirmed')->component('button.action-bar.if-status'),
+            ActionBarButton::make('confirm', 'Confirmer', "confirmOrder()", 'draft')->component('button.action-bar.if-status'),
+            ActionBarButton::make('unlock', 'Débloquer', "unlock()", 'confirmed')->component('button.action-bar.if-status-normal'),
             // Add more buttons as needed
         ];
 
@@ -127,4 +133,99 @@ class ManufacturingOrderForm extends BaseForm
         ];
     }
 
+    #[On('manufacturing-cart')]
+    public function updateInputs($inputs){
+        $this->inputs = $inputs;
+    }
+
+    // Set the product bom
+    // public function updatedProduct(){
+    //     $this->dispatch('set-product-bom', product: $this->product);
+    // }
+
+    #[On('set-product-bom')]
+    public function setBom($product){
+        if($product){
+            $product = Product::find($this->product);
+            $this->bom = $product->bom->id;
+        }
+    }
+
+    public function updatedBom(){
+        $this->dispatch('add-bom-component', value: $this->bom);
+    }
+
+    public function confirmOrder(){
+        //
+        // $this->validate();
+
+        $order = ManufacturingOrder::create([
+            'company_id' => current_company()->id,
+            'schedule_date' => $this->schedule_date,
+            'end_date' => $this->end_date,
+            'product_id' => $this->product,
+            // 'serial_number' => $this->serial_number,
+            'bom_id' => $this->bom,
+            'source_document' => $this->source_document,
+            'responsible_id' => $this->responsible,
+            'quantity' => $this->quantity,
+            'uom_id' => $this->uom,
+            'status' => 'confirmed',
+            'operation_type_id' => $this->operationType,
+            'components_location_id' => $this->component_location,
+            'finished_products_location_id' => $this->finshed_products_location,
+        ]);
+
+        foreach($this->inputs as $component){
+            ManufacturingOrderComponent::create([
+                'company_id' => current_company()->id,
+                'mo_id' => $order->id,
+                'product_id' => $component['product'],
+                'quantity' => $component['quantity'],
+                'source_location_id' => $component['location'],
+            ]);
+        }
+
+        $order->save();
+        return redirect()->route('manufacturing.orders.show', ['order' => $order->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+    }
+
+    #[On('update-manufacture')]
+    public function updateOrder(){
+        // $this->validate();
+        $order = $this->order;
+
+        $order->update([
+            'schedule_date' => $this->schedule_date,
+            'end_date' => $this->end_date,
+            'product_id' => $this->product,
+            // 'serial_number' => $this->serial_number,
+            'bom_id' => $this->bom,
+            'source_document' => $this->source_document,
+            'responsible_id' => $this->responsible,
+            'quantity' => $this->quantity,
+            'uom_id' => $this->uom,
+            'status' => 'confirmed',
+            'operation_type_id' => $this->operationType,
+            'components_location_id' => $this->component_location,
+            'finished_products_location_id' => $this->finshed_products_location,
+        ]);
+
+        foreach ($order->components as $component) {
+            $component->delete();
+        }
+
+        foreach($this->inputs as $component){
+            ManufacturingOrderComponent::create([
+                'company_id' => current_company()->id,
+                'mo_id' => $order->id,
+                'product_id' => $component['product'],
+                'quantity' => $component['quantity'],
+                'source_location_id' => $component['location'],
+            ]);
+        }
+
+        $order->save();
+        return redirect()->route('manufacturing.orders.show', ['order' => $order->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+    }
 }

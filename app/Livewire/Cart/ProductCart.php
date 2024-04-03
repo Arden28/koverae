@@ -5,7 +5,7 @@ namespace App\Livewire\Cart;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Gloudemans\Shoppingcart\Facades\Cart;
-
+use Modules\Invoicing\Entities\Tax\Tax;
 
 class ProductCart extends Component
 {
@@ -36,6 +36,7 @@ class ProductCart extends Component
 
             $this->global_discount = $data->discount_percentage;
             $this->global_tax = $data->tax_percentage;
+            // $this->global_tax = $data->product_order_tax;
             $this->shipping = $data->shipping_amount;
             $this->term = $data->note;
 
@@ -125,7 +126,7 @@ class ProductCart extends Component
                 'unit'                  => $product['product_unit'],
                 'product_tax'           => $product['product_order_tax'] >= 0 ? $product['product_order_tax'] : 0,
                 'unit_price'            => $this->calculate($product)['unit_price'],
-                'untaxed_amount'            => $this->calculate($product)['untaxed_amount'],
+                'untaxed_amount'        => $this->calculate($product)['untaxed_amount'],
                 'term'                  => $this->term,
             ]
         ]);
@@ -134,6 +135,7 @@ class ProductCart extends Component
         $this->quantity[$product['id']] = 1;
         $this->discount_type[$product['id']] = 'fixed';
         $this->item_discount[$product['id']] = 0;
+        $this->global_tax = $cart->instance($this->cart_instance)->tax();
     }
 
     public function removeItem($row_id) {
@@ -176,6 +178,7 @@ class ProductCart extends Component
                 'term'                  => $cart_item->options->term,
             ]
         ]);
+        $this->global_tax = Cart::instance($this->cart_instance)->tax();
     }
 
     public function updatedDiscountType($value, $name) {
@@ -220,7 +223,18 @@ class ProductCart extends Component
         }
     }
 
+    public function setTax($product){
+        if($this->cart_instance == 'quotation' || $this->cart_instance == 'sale'){
+            $tax = Tax::find($product['product_order_tax'])->first();
+            return $tax->amount;
+        }else{
+            $tax = Tax::find($product['product_purchase_tax'])->first();
+            return $tax->amount;
+        }
+    }
+
     public function calculate($product) {
+        $product_tax = 0;
         $price = 0;
         $unit_price = 0;
         $product_tax = 0;
@@ -228,15 +242,15 @@ class ProductCart extends Component
         $sub_total = 0;
 
         if ($product['product_tax_type'] == 1) {
-            $price = $this->setPrice($product) + ($this->setPrice($product) * ($product['product_order_tax'])) / 100;
+            $price = $this->setPrice($product) + ($this->setPrice($product) * ($this->setTax($product))) / 100;
             $unit_price = $this->setPrice($product) / 100;
             $untaxed_amount = $this->setPrice($product) / 100;
-            $product_tax = $this->setPrice($product) * ($product['product_order_tax']) / 100;
-            $sub_total = $this->setPrice($product) + ($this->setPrice($product) * ($product['product_order_tax'])) / 100;
+            $product_tax = $this->setPrice($product) * ($this->setTax($product)) / 100;
+            $sub_total = $this->setPrice($product) + ($this->setPrice($product) * ($this->setTax($product))) / 100;
         } elseif ($product['product_tax_type'] == 2) {
             $unit_price = $this->setPrice($product) / 100;
             $price = $this->setPrice($product) / 100;
-            $product_tax = $this->setPrice($product) * ($product['product_order_tax']) / 100;
+            $product_tax = $this->setPrice($product) * ($this->setTax($product)) / 100;
             $untaxed_amount = $price - $product_tax / 100;
             $sub_total = $this->setPrice($product) / 100;
         } else {

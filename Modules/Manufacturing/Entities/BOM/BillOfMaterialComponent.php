@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Inventory\Entities\Product;
+use Modules\Inventory\Entities\UoM\UnitOfMeasure;
 
 class BillOfMaterialComponent extends Model
 {
@@ -28,6 +29,10 @@ class BillOfMaterialComponent extends Model
 
     public function product() {
         return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function uom() {
+        return $this->belongsTo(UnitOfMeasure::class, 'uom_id', 'id');
     }
 
     // protected static function newFactory(): BillOfMaterialComponentFactory

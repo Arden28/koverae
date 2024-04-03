@@ -33,7 +33,7 @@ return new class extends Migration
             $table->integer('sale_default_email_template')->default(0);
             $table->string('web_base_url')->nullable();
 
-            $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
+            // $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

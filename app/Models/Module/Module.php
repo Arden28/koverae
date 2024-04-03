@@ -2,6 +2,7 @@
 
 namespace App\Models\Module;
 
+use App\Models\Company\Company;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Team\Team;
@@ -17,14 +18,7 @@ class Module extends Model
      *
      * @var array<int, string>
      */
-    // protected $fillable = [
-    //     'icon',
-    //     'name',
-    //     'slug',
-    //     'short_name',
-    //     'description',
-    //     'enabled'
-    // ];
+
     protected $guarded = [];
 
 
@@ -36,29 +30,38 @@ class Module extends Model
     {
         return $this->belongsToMany(Team::class, 'installed_modules', 'module_slug', 'team_id');
     }
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'installed_modules', 'module_slug', 'company_id');
+    }
 
 
-    public function install(Team $team)
+    public function install(Company $company)
     {
         if (!$this->enabled) {
             throw new \RuntimeException("L'application est désactivée. Il est impossible de l'installer.");
         }
 
-        $team->modules()->attach($this->slug);
+        $company->modules()->attach($this->slug);
         InstalledModule::create([
-            'team_id'   => $team->id,
+            'company_id'   => $company->id,
         ]);
     }
 
-    public function uninstall(Team $team)
+    // public function uninstall(Team $team)
+    // {
+    //     $team->modules()->detach($this->slug);
+    // }
+
+    public function uninstall(Company $company)
     {
-        $team->modules()->detach($this->slug);
+        $company->modules()->detach($this->slug);
     }
 
-    public function isInstalledBy(Team $team)
+    public function isInstalledBy(Company $company)
     {
         return InstalledModule::where('module_slug', $this->slug)
-            ->where('team_id', $team->id)
+            ->where('company_id', $company->id)
             ->first();
     }
 
@@ -68,6 +71,12 @@ class Module extends Model
 
     public function module_users(){
         return $this->hasMany(ModuleUser::class, 'module_slug', 'slug');
+    }
+
+    // Parent App
+
+    public function parent(){
+        return $this->belongsTo(Module::class, 'parent_slug', 'slug');
     }
 
     // App Dashboards

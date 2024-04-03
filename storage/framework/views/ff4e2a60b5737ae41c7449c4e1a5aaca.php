@@ -34,7 +34,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                     <button class="btn btn-secondary k-paginate-arrow" wire:click="previousPage" wire:loading.attr="disabled">
                         <i class="bi bi-arrow-left"></i>
                     </button>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                 
                 <!--[if BLOCK]><![endif]--><?php if($paginator->hasMorePages()): ?>
@@ -45,9 +45,9 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                     <button class="btn btn-secondary k-paginate-arrow" disabled>
                         <i class="bi bi-arrow-right"></i>
                     </button>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </span>
         </nav>
-    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 </div>
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/vendor/livewire/k-paginate.blade.php ENDPATH**/ ?>

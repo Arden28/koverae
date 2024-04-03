@@ -103,7 +103,7 @@ class QuotationForm extends BaseForm
             $this->quotation = $quotation;
 
             $this->model = $quotation;
-            $this->template = EmailTemplate::isCompany(current_company()->id)->applyTo('quotation')->first()->id;
+            // $this->template = EmailTemplate::isCompany(current_company()->id)->applyTo('quotation')->first()->id;
 
             $this->sale = $quotation->sale;
 
@@ -154,6 +154,7 @@ class QuotationForm extends BaseForm
                 ]);
             }
         }else{
+            $this->reference = "Nouveau";
             $this->date = now()->format('Y-m-d');
             $this->expected_date = now()->addDays(7)->format('Y-m-d');
             $this->payment_term = 'immediate_payment';
@@ -321,7 +322,7 @@ class QuotationForm extends BaseForm
                 'shipping_amount' => 0,
                 'shipping_date' => $this->shipping_date,
                 'shipping_policy' => $this->shipping_policy,
-                'shipping_status' => 'Pending',
+                // 'shipping_status' => $this->shipping_status,
                 'total_amount' => $this->total_amount / 100,
                 'status' => $this->status,
                 'note' => $this->note,
@@ -477,7 +478,7 @@ class QuotationForm extends BaseForm
                 'shipping_amount' => 0,
                 'shipping_date' => $this->shipping_date,
                 'shipping_policy' => $this->shipping_policy,
-                'shipping_status' => 'Pending',
+                // 'shipping_status' => 'Pending',
                 'payment_term' => $this->payment_term,
                 'payment_status' => $payment_status,
                 'payment_method' => $paymentMethod,
@@ -486,7 +487,7 @@ class QuotationForm extends BaseForm
                 'total_amount' => $this->total_amount / 100,
                 'status' => 'to_invoice',
                 'note' => $this->note,
-                'tax_amount' => $this->tax_amount,
+                'tax_amount' => $this->tax_amount / 100,
                 'discount_amount' => $this->discount_amount,
                 'quotation_id' => $this->quotation->id ?? null
             ]);

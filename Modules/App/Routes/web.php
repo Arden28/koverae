@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\App\Livewire\Overview;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([], function () {
+Route::middleware(['module:apps'])->name('apps.')->group(function () {
     // Route::resource('app', AppController::class)->names('app');
+    Route::get('/apps', Overview::class)->name('index');
 });

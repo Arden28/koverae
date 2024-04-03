@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('warehouse_id')->nullable();
             $table->string('name');
             $table->enum('operation_type', ['receipt', 'delivery', 'internal_transfer', 'manufacturing'])->default('receipt');
-            $table->string('prefix');
+            $table->string('prefix')->nullable();
             $table->string('barcode')->nullable();
             $table->unsignedBigInteger('return_type_id')->nullable();
             $table->enum('booking_method', ['confirmation', 'manually', 'before_scheduled_date'])->default('confirmation');

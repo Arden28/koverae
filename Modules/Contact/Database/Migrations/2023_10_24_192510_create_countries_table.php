@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id');
             $table->string('name');
             $table->string('country_code');
-            $table->string('currency');
             $table->string('currency_code');
             $table->string('country_calling_code');
             $table->string('vat_label');

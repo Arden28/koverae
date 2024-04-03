@@ -33,6 +33,7 @@ return new class extends Migration
             $table->decimal('discount_percentage', $precision = 12, $scale = 2)->default(0);
             $table->decimal('discount_amount', $precision = 12, $scale = 2)->default(0);
             $table->decimal('shipping_amount', $precision = 12, $scale = 2)->default(0);
+            $table->date('shipping_date')->nullable();
             $table->decimal('total_amount', $precision = 12, $scale = 2);
             $table->decimal('paid_amount', $precision = 12, $scale = 2);
             $table->decimal('due_amount', $precision = 12, $scale = 2);
@@ -45,6 +46,7 @@ return new class extends Migration
             $table->string('customer_reference')->nullable();
             $table->unsignedBigInteger('bank_account_id')->nullable();
             $table->unsignedBigInteger('seller_id')->nullable();
+            $table->foreignId('sales_team_id')->nullable();
 
             // Accounting
             $table->unsignedBigInteger('incoterm_id')->nullable();

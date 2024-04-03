@@ -9,7 +9,7 @@
         <label class="k_form_label">
             {{ $value->label }}
             @if($value->help)
-                <sup><i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="{{ $value->help }}"></i></sup>
+                <sup><i class="bi bi-question-circle-fill" style="color: #0E6163" data-toggle="tooltip" data-placement="top" title="{{ $value->help }}"></i></sup>
             @endif
         </label>
     </div>

@@ -16,6 +16,6 @@ class DashboardsDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(DashboardTableSeeder::class);
+        // $this->call(DashboardTableSeeder::class);
     }
 }

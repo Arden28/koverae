@@ -30,7 +30,7 @@
 
             <!--[if BLOCK]><![endif]--><?php if($value->help): ?>
                 <sup><i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="<?php echo e($value->help); ?>"></i></sup>
-            <?php endif; ?> <!--[if ENDBLOCK]><![endif]--> :
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]--> :
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
@@ -38,7 +38,7 @@
             <option value=""></option>
             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <option value="<?php echo e($type->id); ?>"><?php echo e($type->name); ?></option>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
         </select>
         <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -47,7 +47,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> <span class="text-danger"><?php echo e($message); ?></span> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?> <!--[if ENDBLOCK]><![endif]-->
+unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
     </div>
 </div>
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/inputs/select/operations/operation-type.blade.php ENDPATH**/ ?>

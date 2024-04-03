@@ -10,9 +10,12 @@ use App\Livewire\Form\Button\ActionBarButton;
 use App\Livewire\Form\Button\StatusBarButton;
 use App\Livewire\Form\Button\ActionButton;
 use App\Livewire\Form\Capsule;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Modules\Employee\Entities\Employee;
+use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\On;
 
 class EmployeForm extends SimpleAvatarForm
 {
@@ -98,11 +101,11 @@ class EmployeForm extends SimpleAvatarForm
     protected $rules = [
         'name' => 'required|string|max:50',
         // 'mobile' => 'nullable|string|max:60',
-        'work_phone' => 'required|string|max:60',
-        'work_email' => 'required|string|email|max:255',
+        'work_phone' => 'nullable|string|max:60',
+        'work_email' => 'nullable|string|email|max:255',
         'society' => 'nullable|integer',
         'department' => 'nullable|integer',
-        'job' => 'required|integer',
+        'job' => 'nullable|integer',
         'manager' => 'nullable|integer|gt:0',
         // Location
         'work_address' => 'nullable|string|max:100',
@@ -257,10 +260,80 @@ class EmployeForm extends SimpleAvatarForm
         return route('employee.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
+    #[On('create-employee')]
+    public function create(){
+
+        // $this->validate();
+
+        $user = User::create([
+            'name' => $this->name,
+            'email' => $this->work_email,
+            'phone' => $this->work_phone,
+            'password' => Hash::make('koverae'),
+            'is_active' => 1,
+        ]);
+        $user->save();
+
+        $employee = Employee::create([
+            'user_id' => $user->id,
+            'department_id' => $this->department,
+            'job_id' => $this->job,
+            'manager_id' => $this->manager,
+            'work_address' => $this->work_address,
+            'workplace_id' => $this->workplace,
+            'date_of_hire' => now(),
+
+            'role' => $this->role,
+            'default_role' => $this->default_role,
+
+            'street' => $this->street,
+            'street2' => $this->street2,
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'personal_email' => $this->personal_email,
+            'personal_phone' => $this->personal_phone,
+            'bank_account_id' => $this->bank_account_id,
+            // 'languages' => 'fr',
+
+            'certificate_level' => $this->certificate_level,
+            'study_field' => $this->study_field,
+            'school_study' => $this->school,
+
+            'marital_status' => $this->marital,
+            'children_no' => $this->children_no,
+
+            'contact_name' => $this->contact_name,
+            'contact_phone' => $this->contact_phone,
+
+            'nationality' => $this->nationality,
+            'national_id' => $this->national_id,
+            'passport_no' => $this->passport_no,
+            'gender' => $this->gender,
+            'birthday' => $this->birthday,
+            'birth_place' => $this->birth_place,
+            'birth_country' => $this->birth_country,
+            'is_resident' => $this->is_resident,
+
+            'visa_no' => $this->visa_no,
+            'work_permit_no' => $this->work_permit_no,
+            'visa_expiration_date' => $this->visa_expiration_date,
+            'work_permit_expiration_date' => $this->work_permit_expiration_date,
+
+            'type' => $this->employee_type,
+            'pin_code' => $this->pin_code,
+            'cypher_id' => $this->badge_id,
+        ]);
+        $employee->save();
+
+        return redirect()->route('employee.show', ['subdomain' => current_company()->domain_name, 'employee' => $employee->id, 'menu' => current_menu()]);
+    }
+
+    #[On('update-employee')]
     public function update(){
         $employee = Employee::find($this->employee->id);
 
-        $this->validate();
+        // $this->validate();
 
         $employee->user->update([
             'name' => $this->name,
@@ -319,6 +392,8 @@ class EmployeForm extends SimpleAvatarForm
             'cypher_id' => $this->badge_id,
         ]);
         $employee->save();
+
+        return redirect()->route('employee.show', ['subdomain' => current_company()->domain_name, 'employee' => $employee->id, 'menu' => current_menu()]);
     }
 
     public function generateCypher(){

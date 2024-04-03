@@ -8,6 +8,8 @@ use Modules\Inventory\Database\factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
+use Modules\Inventory\Entities\UoM\UnitOfMeasure;
+use Modules\Manufacturing\Entities\BOM\BillOfMaterial;
 use Modules\Purchase\Entities\PurchaseDetail;
 use Modules\Sales\Entities\SalesDetail;
 
@@ -49,6 +51,14 @@ class Product extends Model implements Buyable
 
     public function sold() {
         return $this->hasMany(SalesDetail::class, 'product_id', 'id');
+    }
+
+    public function bom() {
+        return $this->hasOne(BillOfMaterial::class, 'product_id', 'id');
+    }
+
+    public function unit() {
+        return $this->belongsTo(UnitOfMeasure::class, 'uom_id', 'id');
     }
 
 }

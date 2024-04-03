@@ -1,11 +1,11 @@
 <div>
-    <div class="k_form_sheet_bg">
+    <div class="k_form_sheet_bg h-auto">
         <!-- Status bar -->
-        <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
+        <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 mt-md-2 pb-2 pb-md-0">
 
             <!-- Action Bar -->
             @if($this->actionBarButtons())
-            <div id="action-bar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
+            <div id="action-bar" class="k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around flex-wrap gap-1">
 
                 @foreach($this->actionBarButtons() as $action)
                 <x-dynamic-component
@@ -17,6 +17,24 @@
                 @endforeach
 
             </div>
+            <!-- Dropdown button -->
+            <div class="btn-group d-lg-none">
+                <button type="button" class="btn buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Action
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach($this->actionBarButtons() as $action)
+                    <x-dynamic-component
+                        :component="$action->component"
+                        :value="$action"
+                        :status="$status"
+                    >
+                    </x-dynamic-component>
+                    @endforeach
+                    <!--<li><hr class="dropdown-divider"></li>-->
+                </ul>
+            </div>
+
             @endif
 
             <!-- Status Bar -->
@@ -58,16 +76,11 @@
                     </div>
                     @endif
                     <!-- title-->
+                    @if($this->reference)
                     <div class="ke_title mw-75 pe-2 ps-0" id="new-title">
                         <!-- Name -->
                         <h1 class="d-flex flex-row align-items-center">
-
-                            @if($reference)
-                                {{ $reference }}
-                            @else
-                                {{__('Nouveau') }}
-                            @endif
-
+                            {{ $this->reference }}
                             <!-- Special buttons -->
                             {{-- <div class="btn-group">
                                 <button type="button" class="" data-bs-toggle="dropdown" aria-expanded="false">
@@ -92,6 +105,7 @@
 
                         </h1>
                     </div>
+                    @endif
 
                     @if (session()->has('message'))
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">

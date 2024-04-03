@@ -353,6 +353,7 @@ class SaleForm extends BaseForm
             'payment_term' => $sale->payment_term,
             'payment_status' => 'unpaid',
             'seller_id' => $sale->seller_id,
+            'sales_team_id' => $sale->sales_team_id,
             'terms' => $sale->terms,
             'total_amount' => $sale->total_amount * 100,
             'paid_amount' => $sale->paid_amount * 100,

@@ -8,7 +8,7 @@
       </div>
       <form wire:submit.prevent="sendEmail">
         <div class="modal-body position-relative">
-        {{-- @include('utils.alerts') --}}
+
           <div class="k_form_renderer k_form_nosheet k_form_editable d-block">
 
               <div class="k_inner_group">

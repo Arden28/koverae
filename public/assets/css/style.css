@@ -76,6 +76,26 @@
                 border: 1px solid #0E6163;
                 padding: 5px 10px 5px 10px;
             }
+            /* Primary Button */
+            .k-btn-primay{
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 21px;
+                text-decoration: none solid rgb(55, 65, 81);
+                text-align: center;
+                vertical-align: middle;
+                word-spacing: 0px;
+                color: #0E6163;
+                height: 32px;
+                width: auto;
+                border: 1px solid #0E6163;
+                padding: 5px 10px 5px 10px;
+            }
+            .k-btn-primay:hover{
+                background-color: #0E6163;
+                color: #fff;
+            }
+
             .k_control_panel_breadcrumbs .k_form_button_create:hover{
                 background-color: #0E6163;
                 color: #fff;
@@ -429,7 +449,9 @@
           outline: none;
           border-bottom: 1px solid #CCCCCC;
         }
-
+        #cart-input:hover{
+            border: none;
+        }
         /* Search Input */
         .k_searchview_input{
             font-size: 14px;
@@ -758,7 +780,7 @@
             cursor: pointer;
             max-width: 200px;
             min-height: 35px;
-            padding: 0 4px 0 24px;
+            padding: 0 4px 6px 24px;
         }
         #capsule a{
             text-decoration: none solid rgb(1, 126, 132);
@@ -920,7 +942,29 @@
         @media(max-width: 760px){
             .k_form_sheet{
                 border: 0px solid #D8DADD;
-                padding: 10px -24px -24px 10px;
+                padding: 10px 15px -24px 10px;
+            }
+            .k_form_sheet_bg .k_form_statusbar{
+                height: auto;
+                padding: 5px 5px 5px 5px;
+            } 
+
+            /* Order Table */
+            .table-responsive{
+                overflow-x:  scroll; /* Use 'scroll' to always show scrollbar, or 'auto' to show it only when needed */
+                scrollbar-width: thin; /* Firefox */
+                scrollbar-color: transparent transparent; /* Firefox */
+            }
+            .table-responsive::-webkit-scrollbar {
+                width: 0.5em; /* Adjust the width of the scrollbar as needed */
+            }
+            .table-responsive::-webkit-scrollbar-thumb {
+                background-color: transparent; /* Set the color of the scrollbar thumb */
+            }
+            #order .k_subtotal_footer{
+                padding-right: 35px;
+                left: 0;
+                text-align: end;
             }
         }
         .k_form_statbar{
@@ -1020,8 +1064,16 @@
             min-width: auto;
             min-height: auto;
         }
-        .k_statusbar_buttons .btn-group {
-            display: none; /* Hide the div on desktop */
+        .k_form_statusbar .btn-group {
+            background-color: #000;
+            height: 30px;
+        }
+        .k_form_statusbar .btn-group .buttons{
+            color: #fff;
+        }
+        .k_form_statusbar .btn-group .buttons:hover,::after{
+            background-color: #000;
+            color: #fff;
         }
         .k_statusbar_buttons button{
             background-color: #D8DADD;
@@ -1114,7 +1166,8 @@
             display: flex;
         }
         #k_horizontal_capsule{
-            height: 45px;
+            height: auto;
+            padding: 5px 0 5px 0;
         }
         .k_horizontal_asset .k_radio_item{
             height: 21px;
@@ -1230,16 +1283,16 @@
         @media(max-width: 490px){
             .k_form_sheet{
                 padding: 16px 16px 16px 16px;
-                margin: -16px -16px -16px -16px;
+                /* margin: -16px -16px -16px -16px; */
             }
             .k_statusbar_buttons #top-button {
                 display: none; /* Hide the buttons on mobile */
             }
-            .k_statusbar_buttons .btn-group {
+            /* .k_statusbar_buttons .btn-group {
                 display: block;
                 padding: 0 19px 19px 0;
                 margin: 5px 0 0 0;
-            }
+            } */
             .ke_title{
                 width: 60%;
             }
@@ -1261,6 +1314,68 @@
                 font-size: 12px;
                 line-height: 18px;
             }
+        }
+        /* Kanban Card */
+        .k_kanban_renderer{
+            font-size: 15px;
+            line-height: 18px;
+            text-decoration: none solid rgb(55, 65, 81);
+            word-spacing: 0px;
+            width: 100%;
+            padding: 8px 8px 8px 8px;
+        }
+        .k_kanban_card{
+            background-color: #ffffff;
+            border: 1px solid #D8DADD;
+            padding: 8px 16px 8px 16px;
+            height: auto;
+            min-height: auto;
+            min-width: auto;
+            position: relative;
+        }
+        .k_kanban_card .k_kanban_card_header{
+            height: 62px;
+            width: 100%;
+            min-height: auto;
+            min-width: auto;
+        }
+        .k_kanban_card .k_kanban_card_header .k_kanban_card_header_title{
+            height: 45px;
+            width: 100%;
+            margin: 0 0 5px 0;
+        }
+        .k_kanban_card .k_kanban_card_header .k_kanban_card_header_title .k_kanban_card_header_title_name{
+            height: 29px;
+        }
+        /* .k_kanban_card .k_kanban_card_header .k_kanban_card_header_title .k_kanban_card_header_title_name button{
+            text-align: right;
+            vertical-align: top;
+            height: 32px;
+            width: 32px;
+            margin: 1px 1px 0 0;
+            padding: 8px 16px 8px 16px;
+        } */
+        .k_kanban_card .k_kanban_card_content{
+            vertical-align: top;
+            height: auto;
+            display: flex;
+            /* margin: 16px 0 0 0; */
+            min-height: 80px;
+            min-width: auto;
+        }
+        .k_kanban_card .k_kanban_card_content .k_kanban_primary_left{
+            height: auto;
+            padding: 0 16px 0 16px;
+            min-height: auto;
+            max-width: 100%;
+            min-height: auto;
+        }
+        .k_kanban_card .k_kanban_card_content .k_kanban_primary_right{
+            height: auto;
+            padding: 0 16px 0 16px;
+            min-height: auto;
+            max-width: 100%;
+            min-height: auto;
         }
 
         /* Kanban View */
@@ -1511,13 +1626,26 @@
         min-height: auto;
         padding: 4px 40px 4px 40px;
     }
+    #order{
+        padding: 0px;
+        width: 100%;
+        margin-left: -2%;
+    }
+    /* Table */
+    .order-table .order-tr th{
+        background-color: #fff;
+        color: #000;
+        font-size: 14px;
+        line-height: 18px;
+        /* font-weight: bold; */
+    }
 
     .k_subtotal_footer{
         height: 37px;
-        width: 130px;
+        /* width: 170px; */
         border-top: 1px solid #D8DADD;
-        margin: 15px 0 8px 274px;
-        padding: 0 16px 0 16px;
+        /* margin: 15px 0 8px 274px; */
+        /* padding: 0 6px 0 6px; */
         min-height: auto;
         max-width: 100%;
         min-width: auto;
@@ -1605,6 +1733,265 @@
         border-bottom: 1px solid #017E84;
         outline: none;
     }
+
+    /*************
+        Checkout
+    *************/
+
+        .empty-cart{
+            text-align: center;
+            height: 150px;
+            padding: 16px 24px 16px 24px;
+        }
+        .empty-cart i{
+            font-size: 56px;
+            line-height: 56px;
+            color: #737373;
+            height: 56px;
+            width: 52px;
+        }
+        .empty-cart h3{
+            font-size: 15px;
+            font-weight: 500;
+            margin: 8px 0 8px 0;
+        }
+        #cart-body{
+            padding: 0 0 0 0px;
+            position: absolute;
+        }
+
+        /* Right side cart */
+        .empty-cart{
+            background-color: #e7e7e7;
+            height: 200px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .order-container-bg-view{
+            height: 170px;
+            min-height: auto;
+            min-width: auto;
+            background-color: #ffffff;
+        }
+        .order-container-bg-view .oderline{
+            text-align: left;
+            height: 51px;
+            padding: 8px 8px 8px 8px;
+            min-height: auto;
+            min-width: auto;
+            display: list-item;
+        }
+        /* For WebKit browsers like Chrome and Safari */
+        .order-container-bg-view::-webkit-scrollbar {
+            width: 3px; /* Set the width of the scrollbar */
+        }
+
+        /* Handle on hover */
+        .order-container-bg-view::-webkit-scrollbar-thumb:hover {
+            background: #03565b; /* Change the color on hover */
+        }
+        .orderline.selected{
+            background-color: #E6F2F3
+        }
+        .oderline .product-name{
+            text-align: left;
+            white-space: nowrap;
+            padding: 0 4px 0 0;
+            height: 16px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .oderline .product-price{
+            text-align: right;
+            height: 16px;
+            width: 44px;
+            display: block;
+            min-height: auto;
+            min-width: auto;
+        }
+        .price-per-unit{
+            height: 17px;
+            width: 80%;
+            margin-left: 10px;
+            display: list-item;
+        }
+        .order-summary{
+            background-color: #F9FAFB;
+            height: auto;
+            max-height: auto;
+            padding: 8px 16px 8px 16px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .order-summary .subentry{
+            font-size: 14px;
+        }
+        /* Control Buttons */
+        .control_buttons{
+            font-size: 14px;
+            line-height: 21px;
+            white-space: nowrap;
+            word-spacing: 0px;
+            background-color: #D8DADD;
+            /* height: 120px; */
+            height: auto;
+            border-top: 1px solid #D8DADD;
+            border-bottom: 1px solid #D8DADD;
+        }
+        .control_buttons .btn{
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 21px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            /* height: 38px; */
+            /* width: 168px; */
+            width: 32.7%;
+            border: #E7E9ED;
+            padding: 8px 8px 8px 8px;
+            margin: 0 1px 0 1px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .control_buttons #reset-cart{
+            width: 100%;
+        }
+        /* Calculator Buttons */
+        .calculator_buttons{
+            font-size: 14px;
+            line-height: 21px;
+            /* white-space: nowrap; */
+            word-spacing: 0px;
+            background-color: #D8DADD;
+            height: auto;
+            border-top: 1px solid #D8DADD;
+            border-bottom: 1px solid #D8DADD;
+            min-height: auto;
+            min-width: auto;
+        }
+        /* Vertical */
+        #vertical_buttons .btn{
+            width: 100%;
+        }
+
+        .calculator_buttons .btn{
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 21px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            height: 40px;
+            /* width: 93.5px; */
+            width: 24.3%;
+            border: #E7E9ED;
+            padding: 8px 8px 8px 8px;
+            margin: 0 1px 0 1px;
+            min-height: auto;
+            min-width: auto;
+        }
+        .calculator_buttons .btn.selected{
+            background-color: #e0edef;
+            border: 1px solid #017E84;
+        }
+        .calculator_buttons #pay{
+            background-color: #03565b;
+            color: white;
+        }
+        .calculator_buttons #pay:hover{
+            background-color: #044145;
+            color: white;
+        }
+
+    /*************************
+        POS receipt print view
+    **************************/
+
+        .pos-receipt-container{
+            background-color: #E7E9ED;
+            height: 100%;
+            overflow: hidden;
+        }
+        .pos-receipt .pos-receipt-logo{
+            height: 35px;
+            padding: 3px 0 3px 0;
+        }
+        .pos-receipt .company-info{
+            font-size: 11px;
+            line-height: 14px;
+        }
+        .pos-receipt .company-info .receipt-number{
+            font-weight: 500;
+            padding: 5px 0 5px 0;
+        }
+        /* Print View */
+        @media print{
+            @page{
+                margin: 0.2cm;
+
+            }
+            .page-wrapper{
+                margin: 0;
+                padding: 0;
+                height: auto;
+            }
+            .page-body{
+                height: auto;
+                margin: 0;
+                padding: 0;
+            }
+            .payment-container{
+                height: auto;
+            }
+            .payment-cofirmed{
+                padding: 0 !important;
+                margin: 0 !important;
+                height: auto !important;
+            }
+
+            .pos-receipt-container{
+                background-color: #ffffff;
+                height: auto;
+                width: 100%;
+            }
+            .receipt-block{
+                padding: 0 !important;
+                margin: 0 !important;
+                /* border: none !important; */
+                height: auto;
+            }
+            .pos-receipt{
+                overflow-y: hidden !important;
+                height: auto;
+                width: 100%;
+                padding: -10px !important;
+                margin: 0;
+            }
+            .pos-receipt .order-container-bg-view{
+                overflow-y: hidden !important;
+                height: auto !important;
+            }
+        }
+
+    /*******************
+        Modal
+    *******************/
+        .modal-body{
+            height: auto;
+            width: 100%;
+            padding: 16px 16px 16px 16px;
+            min-width: auto;
+        }
+        .session-table th{
+            height: 23px;
+            width: 25%;
+            padding: 1px 1px 1px 1px;
+        }
+        .notes-container{
+            height: 99px;
+            padding: 16px 0 0 0;
+        }
     /* .k_input:hover{
       outline: none;
       border-bottom: 1px solid #CCCCCC;
@@ -1622,7 +2009,7 @@
             text-decoration: none solid rgb(52, 58, 64);
             word-spacing: 0px;
             background-attachment: fixed;
-            background-image: url('../images/background/bg-3.jpg');
+            /* background-image: url('../images/background/bg-3.jpg'); */
             background-repeat: no-repeat;
             height: 100%;
             /* width: auto; */

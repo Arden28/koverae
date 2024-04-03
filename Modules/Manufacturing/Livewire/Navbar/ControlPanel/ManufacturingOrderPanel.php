@@ -4,7 +4,7 @@ namespace Modules\Manufacturing\Livewire\Navbar\ControlPanel;
 
 use App\Livewire\Navbar\ControlPanel;
 
-class ManufacturingOrderPanel extends  ControlPanel
+class ManufacturingOrderPanel extends ControlPanel
 {
     // public $product;
 

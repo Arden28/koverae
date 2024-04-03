@@ -2,7 +2,7 @@
 
 namespace Modules\Inventory\Livewire\Form;
 
-use App\Livewire\Form\Template\SimpleForm;
+use App\Livewire\Form\BaseForm;
 use App\Livewire\Form\Input;
 use App\Livewire\Form\Tabs;
 use App\Livewire\Form\Group;
@@ -13,7 +13,7 @@ use Modules\Inventory\Entities\Adjustment\ScrapOrder;
 use Modules\Inventory\Entities\Product;
 use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
 
-class ScrapForm extends SimpleForm
+class ScrapForm extends BaseForm
 {
     use ActionBarButtonTrait;
     public $scrap;
@@ -35,6 +35,7 @@ class ScrapForm extends SimpleForm
             $this->replenish = $scrap->replenish;
             $this->updateMode = true;
         }else{
+            $this->reference = 'Nouveau';
             $this->quantity = 1;
             $this->from = WarehouseLocation::isCompany(current_company()->id)->first()->id;
             $this->to = WarehouseLocation::isCompany(current_company()->id)->first()->id;

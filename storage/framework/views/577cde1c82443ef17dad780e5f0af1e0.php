@@ -3,7 +3,7 @@
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
             <!-- Action Bar -->
             <!--[if BLOCK]><![endif]--><?php if($this->actionBarButtons()): ?>
-            <div id="action-bar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
+            <div id="action-bar" class="k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around flex-wrap gap-1">
 
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
@@ -26,10 +26,41 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
             </div>
-            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+            <!-- Dropdown button -->
+            <div class="btn-group d-lg-none">
+                <button type="button" class="btn buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Action
+                </button>
+                <ul class="dropdown-menu">
+                    <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
+<?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $action->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('dynamic-component'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\DynamicComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['value' => $action,'status' => $status]); ?>
+                     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
+<?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
+                    <!--<li><hr class="dropdown-divider"></li>-->
+                </ul>
+            </div>
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             
 
         </div>
@@ -38,7 +69,7 @@
             <!-- Sheet Card -->
             <div class="k_form_sheet position-relative">
                 <!-- Capsule -->
-                <?php if(count($this->capsules()) >= 1): ?>
+                <!--[if BLOCK]><![endif]--><?php if(count($this->capsules()) >= 1): ?>
                 <div class="k_horizontal_asset" id="k_horizontal_capsule">
                     <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->capsules(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $capsule): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
@@ -61,9 +92,9 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 <!-- title-->
                 <div class="row justify-content-between position-relative w-100 m-0 mb-2">
                     <div class="ke_title mw-75 pe-2 ps-0">
@@ -89,8 +120,8 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
                     </div>
                     <!-- Employee Avatar -->
@@ -145,7 +176,7 @@
                             </div>
                         </span>
                     </div>
-                    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
 
                 <!-- Top Form -->
@@ -175,8 +206,8 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
                     </div>
                     <!-- Right Side -->
@@ -204,8 +235,8 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                 </div>
 
@@ -217,10 +248,10 @@
                         <li class="nav-item">
                             <a class="nav-link <?php echo e($tab->key == 'work_info' || $tab->key == 'general' ? 'active' : ''); ?>" data-bs-toggle="tab" href="#<?php echo e($tab->key); ?>"><?php echo e($tab->label); ?></a>
                         </li>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                     </ul>
                 </div>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                 <!-- Tabs content -->
                 <!--[if BLOCK]><![endif]--><?php if($this->tabs()): ?>
@@ -245,12 +276,29 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
 
             </div>
         </form>
+    </div>
+    <div class="k-chatter mt-2 px-1 py-1">
+        <div class="k-chatter-top position-sticky top-0 gap-2">
+            <!-- Topbar -->
+            <div class="k-chatter-topbar d-flex flex-shrink-0 flex-grow-0 px-3 overflow-x-auto">
+                <button class="btn btn-primary">Envoyer un message</button>
+                <span class="btn btn-secondary" style="margin-left: 5px;">
+                    Prendre des notes
+                </span>
+                <div class="k-chatter-topbar-grow w-50 flex-grow-1 pe-2">
+
+                </div>
+                <div class="d-flex flex-grow-1 right">
+                    <button class="btn btn-link"><i class="bi bi-paperclip" style="font-size: 18px;"></i></button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/livewire/form/template/simple-avatar-form.blade.php ENDPATH**/ ?>

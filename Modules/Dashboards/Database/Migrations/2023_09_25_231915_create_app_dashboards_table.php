@@ -15,8 +15,11 @@ return new class extends Migration
     {
         Schema::create('app_dashboards', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->nullable();
             $table->string('name');
-            $table->foreignId('dash_id');
+            $table->string('slug');
+            $table->foreignId('dash_id')->nullable();
+            $table->string('parent_slug');
             $table->foreignId('app_id');
             $table->boolean('is_enable')->default(true);
             $table->timestamps();

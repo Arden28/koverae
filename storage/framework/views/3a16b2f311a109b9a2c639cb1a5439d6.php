@@ -22,5 +22,5 @@
     <?php echo e(\Carbon\Carbon::parse($value)->format('d/m/Y')); ?>
 
 </div>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/columns/common/date/simple.blade.php ENDPATH**/ ?>

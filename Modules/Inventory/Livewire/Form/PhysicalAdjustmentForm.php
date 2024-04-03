@@ -2,7 +2,7 @@
 
 namespace Modules\Inventory\Livewire\Form;
 
-use App\Livewire\Form\Template\SimpleForm;
+use App\Livewire\Form\BaseForm;
 use App\Livewire\Form\Input;
 use App\Livewire\Form\Tabs;
 use App\Livewire\Form\Group;
@@ -12,7 +12,7 @@ use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Modules\Contact\Entities\Contact;
 use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
 
-class PhysicalAdjustmentForm extends SimpleForm
+class PhysicalAdjustmentForm extends BaseForm
 {
     use ActionBarButtonTrait;
     public $scrap;
@@ -29,6 +29,7 @@ class PhysicalAdjustmentForm extends SimpleForm
             $this->responsible = $scrap->responsible_id;
             $this->updateMode = true;
         }else{
+            $this->reference = 'Nouveau';
             $this->schedule_date = now()->format('Y-m-d H:i:s');
             $this->responsible = Contact::isCompany(current_company()->id)->first()->id;
 
@@ -71,7 +72,7 @@ class PhysicalAdjustmentForm extends SimpleForm
     {
         return  [
             // make($key, $label)
-            Tabs::make('general','Produits')->component('tabs.adjustment-physical'),
+            Tabs::make('order','Produits')->component('tabs.adjustment-physical'),
         ];
     }
     public function groups() : array

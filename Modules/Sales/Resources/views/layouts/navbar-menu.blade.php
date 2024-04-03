@@ -1,7 +1,7 @@
 <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
 
     <li class="nav-item page-module">
-        <a class="nav-link kover-navlink" style="margin-right: 5px;" wire:navigate href="{{ route('main', ['subdomain' => current_company()->domain_name]) }}" >
+        <a class="nav-link kover-navlink" style="margin-right: 5px;" href="{{ route('main', ['subdomain' => current_company()->domain_name]) }}" >
             <span class="nav-link-icon d-md-none d-lg-inline-block">
                 <img class="custom-image" src="{{ asset('assets/images/apps/sales.png') }}" alt="">
             </span>
@@ -81,15 +81,13 @@
                         {{ __('Listes de prix') }}
                     </a>
                     @endif
-                    @if(settings()->has_discount)
-                    <a class="dropdown-item" wire:navigate href="{{ route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
-                        {{ __('Remises & fidélité') }}
+                    @if(settings()->has_sale_program)
+                    <a class="dropdown-item" wire:navigate href="{{ route('sales.programs.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                        {{ __('Remises & Fidélité') }}
                     </a>
-                    @endif
-                    @if(settings()->has_program)
-                    <a class="dropdown-item" wire:navigate href="{{ route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                    {{-- <a class="dropdown-item" wire:navigate href="{{ route('sales.programs.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Cartes cadeaux') }}
-                    </a>
+                    </a> --}}
                     @endif
                 </div>
             </div>

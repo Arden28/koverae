@@ -6,6 +6,7 @@
     $locations = \Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation::isCompany(current_company()->id)->get();
 @endphp
 
+@if(settings()->has_storage_locations)
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- UoM -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
@@ -30,3 +31,4 @@
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
     </div>
 </div>
+@endif

@@ -25,13 +25,13 @@
                                 </a>
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        <?php if($search_results->count() >= $how_many): ?>
+                        <!--[if BLOCK]><![endif]--><?php if($search_results->count() >= $how_many): ?>
                              <li class="list-group-item list-group-item-action text-center">
                                  <a wire:click.prevent="loadMore" class="btn btn-primary btn-sm" href="#">
                                      <?php echo e(__('Plus de résultats')); ?> <i class="bi bi-arrow-down-circle"></i>
                                  </a>
                              </li>
-                        <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     </ul>
                 </div>
             </div>
@@ -52,8 +52,8 @@
                     </ul>
                 </div>
             </div>
-        <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
 </div>
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/livewire/search/search-input-text.blade.php ENDPATH**/ ?>

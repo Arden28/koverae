@@ -15,3 +15,19 @@ if (!function_exists('location_name')) {
         }
     }
 }
+
+if (!function_exists('transfer_type')) {
+    function transfer_type($type) {
+        $name = '';
+        if($type == 'receipt'){
+            $name = 'Réception';
+        }elseif($type == 'delivery'){
+            $name = 'Livraisons';
+        }elseif($type == 'internal_transfer'){
+            $name = 'Transferts Internes';
+        }elseif($type == 'manufacturing'){
+            $name = 'Productions';
+        }
+        return $name;
+    }
+}

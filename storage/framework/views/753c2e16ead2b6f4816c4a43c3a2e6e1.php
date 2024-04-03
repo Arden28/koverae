@@ -1,7 +1,7 @@
 <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
 
     <li class="nav-item page-module">
-        <a class="nav-link kover-navlink" style="margin-right: 5px;" wire:navigate href="<?php echo e(route('main', ['subdomain' => current_company()->domain_name])); ?>" >
+        <a class="nav-link kover-navlink" style="margin-right: 5px;" href="<?php echo e(route('main', ['subdomain' => current_company()->domain_name])); ?>" >
             <span class="nav-link-icon d-md-none d-lg-inline-block">
                 <img class="custom-image" src="<?php echo e(asset('assets/images/apps/sales.png')); ?>" alt="">
             </span>
@@ -86,25 +86,20 @@
                         <?php echo e(__('Variantes Produits')); ?>
 
                     </a>
-                    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                    <!--[if BLOCK]><![endif]--><?php if(settings()->has_pricelist_check): ?>
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                    <?php if(settings()->has_pricelist_check): ?>
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
                         <?php echo e(__('Listes de prix')); ?>
 
                     </a>
-                    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                    <!--[if BLOCK]><![endif]--><?php if(settings()->has_discount): ?>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Remises & fidélité')); ?>
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                    <?php if(settings()->has_sale_program): ?>
+                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.programs.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
+                        <?php echo e(__('Remises & Fidélité')); ?>
 
                     </a>
-                    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                    <!--[if BLOCK]><![endif]--><?php if(settings()->has_program): ?>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Cartes cadeaux')); ?>
-
-                    </a>
-                    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                    
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
             </div>
         </div>
@@ -188,11 +183,11 @@
                                 <?php echo e(__('Attributs')); ?>
 
                             </a>
-                            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         </div>
                     </div>
                     <!-- Has uom-->
-                    <!--[if BLOCK]><![endif]--><?php if(settings()->has_uom): ?>
+                    <?php if(settings()->has_uom): ?>
                     <div class="dropend">
                         <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                           <?php echo e(__('Unités de mesure')); ?>
@@ -205,7 +200,7 @@
                             </a>
                         </div>
                     </div>
-                    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                 </div>
             </div>

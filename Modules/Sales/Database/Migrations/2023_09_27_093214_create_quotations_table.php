@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('program_id')->nullable(); //Sales program apply to the sale
             $table->date('date');
             $table->date('expected_date')->nullable();
             $table->string('payment_term');

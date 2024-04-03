@@ -1,7 +1,7 @@
 <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
 
     <li class="nav-item page-module">
-        <a class="nav-link kover-navlink" style="margin-right: 5px;" wire:navigate href="{{ route('main', ['subdomain' => current_company()->domain_name]) }}" >
+        <a class="nav-link kover-navlink" style="margin-right: 5px;" href="{{ route('main', ['subdomain' => current_company()->domain_name]) }}" >
             <span class="nav-link-icon d-md-none d-lg-inline-block">
                 <img class="custom-image" src="{{ asset('assets/images/apps/mrp.png') }}" alt="">
             </span>
@@ -21,13 +21,13 @@
             <div class="dropdown-menu-columns">
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
-                    <a wire:navigate href="{{ route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'delivery', 'menu' => current_menu()]) }}" class="dropdown-item">
+                    <a wire:navigate href="{{ route('manufacturing.orders.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                       {{ __('Ordres de fabrications') }}
                     </a>
-                    <a wire:navigate href="{{ route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'delivery', 'menu' => current_menu()]) }}" class="dropdown-item">
+                    <a wire:navigate href="{{ route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                       {{ __('Ordres de déconstructions') }}
                     </a>
-                    <a wire:navigate href="{{ route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'delivery', 'menu' => current_menu()]) }}" class="dropdown-item">
+                    <a wire:navigate href="{{ route('inventory.adjustments.scraps.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                       {{ __('Ordres de rebuts') }}
                     </a>
 
@@ -50,7 +50,7 @@
                     <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Produits') }}
                     </a>
-                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                    <a class="dropdown-item" wire:navigate href="{{ route('manufacturing.boms.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Nomenclatures') }}
                     </a>
                 </div>

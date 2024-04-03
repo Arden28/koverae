@@ -22,6 +22,7 @@
     $locations = \Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation::isCompany(current_company()->id)->get();
 ?>
 
+<!--[if BLOCK]><![endif]--><?php if(settings()->has_storage_locations): ?>
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- UoM -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
@@ -30,7 +31,7 @@
 
             <!--[if BLOCK]><![endif]--><?php if($value->help): ?>
                 <sup><i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="<?php echo e($value->help); ?>"></i></sup>
-            <?php endif; ?> <!--[if ENDBLOCK]><![endif]--> :
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]--> :
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
@@ -41,8 +42,8 @@
                     <option value="<?php echo e($location->id); ?>"><?php echo e($location->parent->name); ?>/<?php echo e($location->name); ?></option>
                 <?php else: ?>
                     <option value="<?php echo e($location->id); ?>"><?php echo e($location->name); ?></option>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
         </select>
         <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -51,7 +52,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> <span class="text-danger"><?php echo e($message); ?></span> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?> <!--[if ENDBLOCK]><![endif]-->
+unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
     </div>
 </div>
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/inputs/select/operations/default_from.blade.php ENDPATH**/ ?>

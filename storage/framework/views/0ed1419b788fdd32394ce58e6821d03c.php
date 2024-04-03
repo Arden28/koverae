@@ -48,7 +48,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> <span class="text-danger"><?php echo e($message); ?></span> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?> <!--[if ENDBLOCK]><![endif]-->
+unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
     </div>
 </div>
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/inputs/select/shipping/policy.blade.php ENDPATH**/ ?>

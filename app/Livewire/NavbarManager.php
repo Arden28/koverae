@@ -68,23 +68,23 @@ class NavbarManager extends Component
                 'name' => 'Facturation',
                 'path' => 'invoicing::layouts.navbar-menu',
                 'id' => 9,
-                'slug' => 'crm'
+                'slug' => 'invoicing'
             ],
             10 => [
                 'name' => 'Abonnement',
-                'path' => 'invoicing::layouts.navbar-menu',
+                'path' => 'subscription::layouts.navbar-menu',
                 'id' => 10,
                 'slug' => 'subscription'
             ],
             11 => [
                 'name' => 'Service sur terrain',
-                'path' => 'invoicing::layouts.navbar-menu',
+                'path' => 'field-of-service::layouts.navbar-menu',
                 'id' => 11,
                 'slug' => 'field_of_service'
             ],
             12 => [
                 'name' => 'Location',
-                'path' => 'invoicing::layouts.navbar-menu',
+                'path' => 'rental::layouts.navbar-menu',
                 'id' => 12,
                 'slug' => 'rental'
             ],
@@ -102,33 +102,55 @@ class NavbarManager extends Component
             ],
             15 => [
                 'name' => 'Présences',
-                'path' => 'invoicing::layouts.navbar-menu',
+                'path' => 'attendances::layouts.navbar-menu',
                 'id' => 15,
                 'slug' => 'attendances'
             ],
             16 => [
                 'name' => 'Dépense employés',
-                'path' => 'invoicing::layouts.navbar-menu',
+                'path' => 'expenses::layouts.navbar-menu',
                 'id' => 16,
                 'slug' => 'expenses'
             ],
             17 => [
                 'name' => 'Abonnement',
-                'path' => 'invoicing::layouts.navbar-menu',
+                'path' => 'subscription::layouts.navbar-menu',
                 'id' => 17,
                 'slug' => 'subscription'
             ],
             18 => [
                 'name' => 'Sondage',
-                'path' => 'invoicing::layouts.navbar-menu',
+                'path' => 'survey::layouts.navbar-menu',
                 'id' => 18,
                 'slug' => 'survey'
+            ],
+            19 => [
+                'name' => 'Paramètres',
+                'path' => 'settings::layouts.navbar-menu',
+                'id' => 19,
+                'slug' => 'settings'
+            ],
+            20 => [
+                'name' => 'Tâches',
+                'path' => 'task::layouts.navbar-menu',
+                'id' => 20,
+                'slug' => 'task'
+            ],
+            21 => [
+                'name' => 'Application',
+                'path' => 'app::layouts.navbar-menu',
+                'id' => 21,
+                'slug' => 'apps'
             ],
         ];
 
         // Set the navbar based on the menu variable
-        $this->navbar = $navbarMapping[$menu] ?? abort(404);
-        $this->menu = $this->navbar['id'];
+        if(session()->has('current_menu')){
+            $menu = session('current_menu');
+        }
+        $this->menu = $menu;
+        // $this->menu = $this->navbar['id'];
+        $this->navbar = $navbarMapping[$this->menu] ?? abort(404);
     }
 
     public function render()

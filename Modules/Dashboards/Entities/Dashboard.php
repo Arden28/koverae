@@ -12,11 +12,26 @@ class Dashboard extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'company_id', 'is_enable'];
+    protected $guarded = [];
+
+    // public function scopeIsCompany(Builder $query, $company_id)
+    // {
+    //     return $query->where('company_id', $company_id);
+    // }
 
     public function scopeIsCompany(Builder $query, $company_id)
     {
         return $query->where('company_id', $company_id);
+    }
+
+    public function scopeFindBySlug(Builder $query, $slug)
+    {
+        return $query->where('slug', $slug);
+    }
+
+    public function scopeIsEnabled(Builder $query)
+    {
+        return $query->where('is_enable', true);
     }
 
     protected static function newFactory()
@@ -33,8 +48,8 @@ class Dashboard extends Model
     }
 
     // Get the app_dashboard belongs to the dashboard.
-    public function appDashboard(){
-        return $this->hasMany(AppDashboard::class, 'dash_id');
+    public function appDashboards(){
+        return $this->hasMany(AppDashboard::class, 'dash_id', 'id');
     }
 
     // Get the app_dashboard installed belongs to the dashboard

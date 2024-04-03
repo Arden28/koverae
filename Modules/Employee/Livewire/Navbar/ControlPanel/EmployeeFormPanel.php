@@ -8,11 +8,12 @@ class EmployeeFormPanel extends ControlPanel
 {
     public $employee;
 
-    public function mount($employee = null)
+    public function mount($employee = null, $event = null)
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->showIndicators === true;
+        $this->showIndicators = true;
+        $this->event = $event;
 
         if($employee){
             $this->employee = $employee;

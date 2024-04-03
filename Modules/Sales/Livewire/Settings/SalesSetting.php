@@ -27,7 +27,7 @@ class SalesSetting extends AppSetting
         $this->margin = $setting->has_margin;
         $this->customer_account = $setting->has_customer_account;
         $this->has_pricelist = $setting->has_pricelist_check;
-        $this->pricelist = $setting->has_pricelist;
+        $this->pricelist = $setting->pricelist;
         $this->sale_warnings = $setting->has_sale_warnings;
         $this->lock_confirmed_sales = $setting->lock_confirmed_sales;
         $this->has_pro_format_invoice = $setting->has_pro_format_invoice;
@@ -88,15 +88,15 @@ class SalesSetting extends AppSetting
             'send_mail_after_confirmation' => $this->email_delivery,
             'has_discount' => $this->discount,
             'has_sale_program' => $this->sale_program,
-            'show_margin' => $this->margin,
+            'has_margin' => $this->margin,
             'has_customer_account' => $this->customer_account,
             'has_pricelist_check' => $this->has_pricelist,
-            'has_pricelist' => $this->pricelist,
+            'pricelist' => $this->pricelist,
             'has_sale_warnings' =>$this->sale_warnings,
             'lock_confirmed_sales' => $this->lock_confirmed_sales,
             'has_pro_format_invoice' => $this->has_pro_format_invoice,
-            'show_has_shipping_cost' => $this->has_shipping_cost,
-            'has_invoice_policy' => $this->invoice_policy,
+            'has_shipping_cost' => $this->has_shipping_cost,
+            'invoice_policy' => $this->invoice_policy,
             'down_payment' => $this->down_payment,
         ]);
         $setting->save();

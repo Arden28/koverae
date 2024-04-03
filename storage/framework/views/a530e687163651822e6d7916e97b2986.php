@@ -1,5 +1,5 @@
 <div>
-    <div class="k_control_panel d-flex flex-column gap-3 gap-lg-1 px-3 pt-2 pb-3">
+    <div class="k_control_panel d-flex flex-column gap-3 gap-lg-1 px-3 pt-2 pb-3 sticky-top">
       <div class="k_control_panel_main d-flex flex-wrap flex-nowrap justify-content-between align-items-lg-start gap-5 flex-grow-1">
           <!-- Breadcrumbs -->
           <div class="k_control_panel_breadcrumbs d-flex align-items-center gap-1 order-0 h-lg-100">
@@ -8,7 +8,7 @@
               <a href="<?php echo e($new); ?>" wire:navigate class="btn btn-outline-primary k_form_button_create">
                   Nouveau
               </a>
-              <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+              <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 <?php
                     $filteredBreadcrumbs = array_filter($breadcrumbs, function($breadcrumb) {
                         return $breadcrumb['url'] && $breadcrumb['url'] != route('main', ['subdomain' => current_company()->domain_name]) && $breadcrumb['label'] != 'Inventory' && $breadcrumb['url'] != url()->current();
@@ -29,11 +29,11 @@
                                     <?php echo e($breadcrumb['label']); ?> <?php echo e(config('inventory.config.name')); ?>
 
                                 </a>
-                                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                         </span>
-                        <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     <div class="d-flex gap-1 text-truncate">
                         <span class="min-w-0 text-truncate">
                             <?php echo e($this->currentPage); ?>
@@ -67,7 +67,7 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
                             </ul>
                         </div>
@@ -81,7 +81,7 @@
                             </button>
                             <span wire:loading wire:target="saveUpdate()">...</span>
                         </div>
-                        <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                 </div>
           </div>
@@ -121,7 +121,7 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
             </div>
           </div>
       </div>

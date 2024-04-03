@@ -28,8 +28,8 @@
             <?php echo e($value->label); ?>
 
             <!--[if BLOCK]><![endif]--><?php if($value->help): ?>
-                <sup><i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="<?php echo e($value->help); ?>"></i></sup>
-            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                <sup><i class="bi bi-question-circle-fill" style="color: #0E6163" data-toggle="tooltip" data-placement="top" title="<?php echo e($value->help); ?>"></i></sup>
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
         </label>
     </div>
     <!-- Input Form -->
@@ -42,7 +42,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> <span class="text-danger"><?php echo e($message); ?></span> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?> <!--[if ENDBLOCK]><![endif]-->
+unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
     </div>
 </div>
 

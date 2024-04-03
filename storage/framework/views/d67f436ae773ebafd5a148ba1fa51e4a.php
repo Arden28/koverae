@@ -17,7 +17,7 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<!--[if BLOCK]><![endif]--><?php if(isset($sale->quotation)  && module('inventory')): ?>
+<!--[if BLOCK]><![endif]--><?php if($this->sale->quotation_id): ?>
 <!-- Routes -->
 <div class="form-check k_radio_item" id="capsule">
     <i class="k_button_icon bi bi-newspaper"></i>
@@ -29,5 +29,5 @@
     </a>
 </div>
 
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/capsules/sale/quotation.blade.php ENDPATH**/ ?>

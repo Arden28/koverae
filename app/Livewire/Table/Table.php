@@ -30,7 +30,9 @@ abstract class Table extends Component
 
     public abstract function headerName() : string;
 
-    public abstract function createRoute() : string;
+    public function createRoute() : string{
+        return '';
+    }
 
     public abstract function query() : Builder;
 

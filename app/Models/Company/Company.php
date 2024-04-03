@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Abstracts\Company as CompanyModel;
+use App\Models\Module\Module;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Dashboards\Entities\Dashboard;
 use Modules\Employee\Entities\Department;
+use Modules\Employee\Entities\Employee;
 use Modules\Employee\Entities\Job;
+use Modules\Inventory\Entities\Warehouse\Warehouse;
 // use Modules\Pos\Traits\HasPos;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -23,12 +27,10 @@ class Company extends CompanyModel implements HasMedia
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'user_id',
-        'personal_company',
-        'enabled'
-    ];
+    protected $connection = 'mysql';
+    public $table = 'companies';
+
+    protected $guarded = [];
 
     protected $with = ['media'];
 
@@ -41,6 +43,21 @@ class Company extends CompanyModel implements HasMedia
     public function isActive(Builder $builder) {
         return $builder->where('enabled', 1);
     }
+
+
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class, 'installed_modules', 'module_slug', 'team_id');
+    }
+
+    /**
+     * Get user for the company.
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class, 'company_id', 'id');
+    }
+
 
     /**
      * Get employees for the company.
@@ -72,6 +89,14 @@ class Company extends CompanyModel implements HasMedia
     public function jobs()
     {
         return $this->hasMany(Job::class, 'company_id', 'id');
+    }
+
+    /**
+     * Get jobs for the company.
+     */
+    public function warehouses()
+    {
+        return $this->hasMany(Warehouse::class, 'company_id', 'id');
     }
 
 }

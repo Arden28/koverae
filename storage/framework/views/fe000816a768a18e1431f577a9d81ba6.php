@@ -9,7 +9,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('inventory::navbar.control-panel.operation-transfer-form-panel', ['event' => 'create-transfer']);
 
-$__html = app('livewire')->mount($__name, $__params, '7yChDxI', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-1220767107-0', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -27,7 +27,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('inventory::form.operation-transfer-form', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'dRxDz0h', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-1220767107-1', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

@@ -33,5 +33,5 @@
         <?php echo e(__('Bon de commande')); ?>
 
     </span>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/columns/common/status/quotation-status.blade.php ENDPATH**/ ?>

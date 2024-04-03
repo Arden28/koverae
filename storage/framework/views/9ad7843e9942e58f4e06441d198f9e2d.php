@@ -20,7 +20,7 @@
 <?php
     $transfer = Modules\Inventory\Entities\Operation\OperationTransfer::isCompany(current_company()->id)->isBelongs($this->sale->reference)->first();
 ?>
-<?php if($this->sale->transfers->count() >= 1 && module('inventory')): ?>
+<!--[if BLOCK]><![endif]--><?php if($this->sale->transfers->count() >= 1 && module('inventory')): ?>
 <!-- Routes -->
 <div class="form-check k_radio_item" id="capsule">
     <i class="k_button_icon bi bi-truck"></i>
@@ -33,5 +33,5 @@
     </a>
 </div>
 
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/capsules/sale/delivery.blade.php ENDPATH**/ ?>

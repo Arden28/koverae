@@ -25,7 +25,7 @@
             </thead>
             <tbody>
                 @foreach($this->data() as $row)
-                <tr>
+                <tr class="cursor-pointer">
                     <td>
                         <input class="form-check-input m-0 align-middle" type="checkbox" wire:model.defer="ids.{{ $row->id }}" wire:click="toggleCheckbox({{ $row->id }})" wire:loading.attr="disabled" defer>
                     </td>

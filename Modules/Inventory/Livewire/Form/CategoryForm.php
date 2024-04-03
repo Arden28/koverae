@@ -24,8 +24,9 @@ class CategoryForm extends LightWeightForm
             $this->name = $category->category_name;
             $this->cost_method = $category->costing_method;
             $this->packaging = $category->reserve_packagings;
+            $this->parent = $category->parent_id;
         }
-        $this->parent = Category::isCompany(current_company()->id)->first()->id;
+        // $this->parent = Category::isCompany(current_company()->id)->first()->id;
         $this->cost_method = 'standard';
         $this->packaging = 'only_full';
 

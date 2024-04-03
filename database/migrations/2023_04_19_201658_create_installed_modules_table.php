@@ -15,8 +15,10 @@ class CreateInstalledModulesTable extends Migration
     {
         Schema::create('installed_modules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('team_id');
+            $table->foreignId('company_id');
             $table->string('module_slug');
+            $table->boolean('is_approved')->default(true);
+            $table->foreignId('installed_by')->nullable();
             $table->timestamps();
         });
     }

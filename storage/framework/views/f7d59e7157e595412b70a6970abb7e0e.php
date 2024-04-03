@@ -1,10 +1,10 @@
 <div>
     <!--[if BLOCK]><![endif]--><?php if(isset($jsPath)): ?>
         <script><?php echo file_get_contents($jsPath); ?></script>
-    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
     <!--[if BLOCK]><![endif]--><?php if(isset($cssPath)): ?>
         <style><?php echo file_get_contents($cssPath); ?></style>
-    <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
     <div
             x-data="LivewireUIModal()"
@@ -65,7 +65,7 @@ if (isset($__slots)) unset($__slots);
 ?>
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@ use App\Livewire\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
 use Modules\Inventory\Entities\Operation\OperationTransfer;
+use Modules\Inventory\Entities\Operation\OperationType;
 
 class OperationTransferTable extends Table
 {
@@ -36,16 +37,21 @@ class OperationTransferTable extends Table
 
     public function headerName() : string
     {
+        // Set breadcrumb
 
         return "Opérations de transferts";
     }
 
     public function query() : Builder
     {
+        $type = OperationType::isCompany(current_company()->id)->isType($this->type)->first()->id ?? null;
+
         $query = OperationTransfer::query();
 
-        if ($this->type) {
-            $query = $query->isOperationType($this->type);
+        if ($type) {
+            $query = $query->isOperationType($type);
+        }else{
+            $query = $query->isOperationType($type);
         }
 
         if ($this->status) {

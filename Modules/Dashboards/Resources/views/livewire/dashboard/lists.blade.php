@@ -41,7 +41,7 @@
                 @foreach($dashboards as $dash)
                 <tr>
                   <td><input wire:model.blur="selectedEmployees" value="{{ $dash->id }}" class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
-                  <td><a wire:navigate href="{{ route('employee.show', ['subdomain' => current_company()->domain_name, 'epID' => $dash->id, 'menu' => current_menu()]) }}"  tabindex="-1">{{ $dash->name }}</a></td>
+                  <td><a wire:navigate href="{{ route('employee.show', ['subdomain' => current_company()->domain_name, 'employee' => $dash->id, 'menu' => current_menu()]) }}"  tabindex="-1">{{ $dash->name }}</a></td>
                   <td class="text-end">
                     <span class="dropdown">
                       <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>

@@ -42,16 +42,16 @@
             Vous pouvez les facturer avant qu'ils ne soient livrés.
             <?php elseif($this->invoice_policy == 'delivered'): ?>
             Facturez après livraison, en fonction des quantités livrées, non commandées.
-            <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
         </span>
         <?php elseif($this->product_type == 'service' || $this->product_type == 'booking_fee'): ?>
         <span style="">
             Facturez les quantités commandées dès que ce service est vendu.
         </span>
-        <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
     </div>
 </div>
 <br><br>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/inputs/product/comment-type-product.blade.php ENDPATH**/ ?>

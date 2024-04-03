@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('name');
-            $table->foreignId('team_leader_id');
+            $table->foreignId('team_leader_id')->nullable();
             $table->string('email_alias')->nullable();
             $table->integer('invoice_target')->default(0);
 

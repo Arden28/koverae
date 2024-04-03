@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
-            $table->boolean('is_company')->default(1);
+            $table->unsignedBigInteger('user_id')->nullable();
+            // $table->boolean('is_company')->default(1);
             $table->string('name')->nullable();
             $table->string('company_name')->nullable();
             // Address
@@ -56,6 +57,7 @@ return new class extends Migration
             // Type Bool
             $table->boolean('is_supplier')->default(false);
             $table->boolean('is_customer')->default(false);
+            $table->enum('type', ['individual', 'company'])->default('individual');
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->timestamps();

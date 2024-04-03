@@ -8,6 +8,7 @@ use Bpuig\Subby\Models\Plan;
 use Bpuig\Subby\Models\PlanSubscription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Modules\Settings\Entities\Currency;
 
 if (!function_exists('domains')) {
     function domains() {
@@ -61,16 +62,20 @@ if (!function_exists('module')) {
 
         $module = Module::findBySlug($slug)->first();
 
-        if($module->isInstalledBy($team)){
-            return $module->isInstalledBy($team);
+        $company = Company::find(current_company()->id);
+
+        if($module){
+            return $module->isInstalledBy($company);
+        }else{
+            return false;
         }
     }
 }
 
 
 if(!function_exists('installed_apps')){
-    function installed_apps($team){
-        $installed_apps = InstalledModule::where('team_id', $team->id)->get();
+    function installed_apps($company){
+        $installed_apps = InstalledModule::where('company_id', $company->id)->get();
         return $installed_apps;
     }
 }
@@ -97,14 +102,13 @@ if (!function_exists('settings')) {
     }
 }
 
-// Current Menu
-if (!function_exists('update_menu')) {
-    function update_menu($module) {
+if (!function_exists('updated_menu')) {
+    function updated_menu($module) {
 
         $storedArray = Cache::get('current_menu');
 
         // Check if the array exists in the cache
-        if ($storedArray) {
+        if ($storedArray != null) {
             // Modify the array as needed
             $storedArray['name'] = $module->name;
             $storedArray['path'] = $module->path;
@@ -112,19 +116,32 @@ if (!function_exists('update_menu')) {
             $storedArray['slug'] = $module->slug;
 
             // Store the modified array back in the cache with the same key
-            Cache::put('current_menu', $storedArray, 60); // Adjust the expiration time if needed
-        } else {
-            // Storing the array in the cache with a key and expiration time (in minutes)
-            Cache::put('current_menu', [
-                'name' => $module->name,
-                'path' => $module->path,
-                'id' => $module->navbar_id,
-                'slug' => $module->slug
-            ],
-            24*60);
+            $navbar = Cache::put('current_menu', $storedArray, 60); // Adjust the expiration time if needed
+            return $navbar;
         }
 
+        // Storing the array in the cache with a key and expiration time (in minutes)
+        $cookie = Cache::put('current_menu', [
+            'name' => $module->name,
+            'path' => $module->path,
+            'id' => $module->navbar_id,
+            'slug' => $module->slug
+        ],
+        120);
+
+        return $cookie;
+
+
         // No need to return a value here, as Cache::put doesn't return anything
+    }
+}
+// Current Menu
+if (!function_exists('update_menu')) {
+    function update_menu($module){
+        // Store company information in the session or a cookie
+        $menu = session(['current_menu' => $module->navbar_id]);
+
+        return $menu;
     }
 }
 
@@ -132,16 +149,12 @@ if (!function_exists('current_menu')) {
     function current_menu() {
 
         // Retrieve the current array from the cache
-        $menu = Cache::get('current_menu');
 
-        // Check if the array exists in the cache
-        if ($menu) {
-            // Return the desired value from the array
-            return $menu['id'];
-        }
+        $menu = session('current_company');
+        return $menu;
 
         // Handle the case where the array is not present in the cache
-        return null;
+        return $menu;
     }
 }
 
@@ -153,10 +166,11 @@ if (!function_exists('format_currency')) {
         }
 
         $settings = settings();
-        $position = $settings->currency->symbol_position;
-        $symbol = $settings->currency->symbol;
-        $decimal_separator = $settings->currency->decimal_separator;
-        $thousand_separator = $settings->currency->thousand_separator;
+        $currency = Currency::find($settings->default_currency_id);
+        $position = $currency->symbol_position;
+        $symbol = $currency->symbol;
+        $decimal_separator = $currency->decimal_separator;
+        $thousand_separator = $currency->thousand_separator;
 
         if ($position == 'prefix') {
             $formatted_value = $symbol . number_format((float) $value, 2, $decimal_separator, $thousand_separator);
@@ -228,6 +242,22 @@ if (!function_exists('convertToInt')) {
     }
 }
 
+if (!function_exists('convertToIntSimple')) {
+    function convertToIntSimple($value){
+        // Assuming $cart->total() returns a string like "12.500,00"
+        $totalString = $value;
+
+        // Remove commas and dots from the string and keep only digits
+        $totalWithoutCommasAndDots = str_replace([',', '.'], '', $totalString);
+
+        // Convert the resulting string to an integer
+        $value = (int) $totalWithoutCommasAndDots;
+
+        return $value;
+    }
+}
+
+
 // Payment Term
 if(!function_exists('payment_term')){
     function payment_term($type){
@@ -249,5 +279,20 @@ if(!function_exists('payment_term')){
             default:
                 return 'Non fixée';
         }
+    }
+}
+
+// Receipt Number
+if (!function_exists('receipt_number')) {
+    function receipt_number($reference) {
+        $matches = null; // or initialize with any default value
+
+        // Use preg_match to find the number in the string
+        if (preg_match("/\d+/", $reference, $matches)) {
+            // Check if the match is found
+            $number = $matches[0];
+        }
+
+        return $number;
     }
 }

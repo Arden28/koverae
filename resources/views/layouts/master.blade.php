@@ -14,6 +14,7 @@
       	--tblr-font-sans-serif: Inter, -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
       }
     </style>
+    @laravelPWA
     @include('includes.main-css')
     @include('includes.main-js')
 

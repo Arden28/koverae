@@ -1,7 +1,7 @@
 @props([
     'value',
 ])
-@if(isset($sale->quotation)  && module('inventory'))
+@if($this->sale->quotation_id)
 <!-- Routes -->
 <div class="form-check k_radio_item" id="capsule">
     <i class="k_button_icon bi bi-newspaper"></i>

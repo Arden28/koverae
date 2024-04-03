@@ -16,11 +16,7 @@ class InstalledDashboard extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'dash_id',
-        'app_dashboard_id',
-        'company_id',
-    ];
+    protected $guarded = [];
 
     public function dashboard()
     {

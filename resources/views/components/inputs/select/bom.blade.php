@@ -15,10 +15,10 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model.blur="{{ $value->model }}" id="" class="k_input">
+        <select wire:model.change="{{ $value->model }}" id="" class="k_input">
             <option value=""></option>
             @foreach($boms as $bom)
-            <option value="{{ $bom->id }}">{{ $bom->bom_name }}</option>
+            <option value="{{ $bom->id }}">{{ $bom->name }}</option>
             @endforeach
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror

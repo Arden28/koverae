@@ -39,8 +39,9 @@ class SalesPerson extends Model
     }
 
     public function user() {
-        return $this->belongsTo(Contact::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
     // protected static function newFactory()
     // {
     //     return \Modules\Sales\Database\factories\SalesPersonFactory::new();

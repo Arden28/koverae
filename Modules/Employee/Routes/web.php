@@ -1,19 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Employee\Http\Controllers\EmployeeController;
-use Modules\Employee\Http\Controllers\DepartmentController;
-use Modules\Employee\Http\Controllers\JobController;
 use Modules\Employee\Http\Controllers\WorkplaceController;
 use Modules\Employee\Livewire\Department\Lists as DepartmentLists;
 use Modules\Employee\Livewire\Department\Create as DepartmentCreate;
 use Modules\Employee\Livewire\Department\Show as DepartmentShow;
 
-use Modules\Employee\Livewire\Employees\Employee as EmployeeEmployee;
 use Modules\Employee\Livewire\Employees\Lists as EmployeeLists;
 use Modules\Employee\Livewire\Employees\Create as EmployeeCreate;
 use Modules\Employee\Livewire\Employees\Show as EmployeeShow;
-use Modules\Settings\Livewire\Module\Employee;
 use Modules\Employee\Livewire\Workplace\Lists as WorkplaceLists;
 use Modules\Employee\Livewire\Workplace\Show as WorkplaceShow;
 use Modules\Employee\Livewire\Workplace\Create as WorkplaceCreate;
@@ -33,7 +28,7 @@ use Modules\Employee\Livewire\Job\Show as JobShow;
 */
 
 
-Route::prefix('employees')->middleware(['module:employee'])->name('employee.')->group(function() {
+Route::prefix('employees')->name('employee.')->group(function() {
     // Route::get('/', EmployeeEmployee::class)->name('employee');
 
     Route::get('/', EmployeeLists::class)->name('index');

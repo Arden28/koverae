@@ -12,5 +12,6 @@
     "App": true,
     "Point": true,
     "Manufacutring": true,
-    "Manufacturing": true
+    "Manufacturing": true,
+    "Pos": true
 }

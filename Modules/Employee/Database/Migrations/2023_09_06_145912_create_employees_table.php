@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable();
             $table->foreignId('user_id')->nullable();
             $table->foreignId('department_id')->nullable();
-            $table->date('date_of_hire');
+            $table->date('date_of_hire')->nullable();
             $table->foreignId('job_id')->nullable();
             $table->foreignId('manager_id')->nullable();
             $table->timestamps();

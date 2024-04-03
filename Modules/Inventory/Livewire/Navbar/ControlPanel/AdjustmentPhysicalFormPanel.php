@@ -6,21 +6,21 @@ use App\Livewire\Navbar\ControlPanel;
 
 class AdjustmentPhysicalFormPanel extends ControlPanel
 {
-    public $product;
+    public $adjustment;
 
-    public function mount($product = null)
+    public function mount($adjustment = null)
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->showIndicators = true;
 
-        if($product){
-            $this->product = $product;
-            $this->currentPage = $product->product_name;
+        if($adjustment){
+            $this->adjustment = $adjustment;
+            $this->currentPage = $adjustment->reference;
         }else{
             $this->currentPage = 'Nouveau';
         }
-        $this->new = route('inventory.products.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+        $this->new = route('inventory.adjustments.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 

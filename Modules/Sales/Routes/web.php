@@ -27,6 +27,9 @@ use Modules\Sales\Livewire\Product\Lists as ProductLists;
 use Modules\Contact\Entities\Contact;
 use Modules\Sales\Entities\SalesPerson;
 
+use Modules\Sales\Livewire\SalesProgram\Lists as ProgramLists;
+use Modules\Sales\Livewire\SalesProgram\Create as ProgramCreate;
+use Modules\Sales\Livewire\SalesProgram\Show as ProgramShow;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,9 +47,9 @@ Route::middleware(['module:sales'])->group(function() {
 
     // Sales
     Route::get('sales', SaleLists::class)->name('sales.index');
-        // Route::get('sales/{sale}', ['uses' => SaleShow::class, 'as' => 'sales.show']);
     Route::get('quotations', QuotationLists::class)->name('sales.quotations.index');
     Route::get('sales/teams', TeamLists::class)->name('sales.teams.index');
+    Route::get('sales-programs', ProgramLists::class)->name('sales.programs.index');
     // Customers
     Route::get('sales/customers', CustomerLists::class)->name('sales.customers.index');
     // Product
@@ -58,24 +61,23 @@ Route::middleware(['module:sales'])->group(function() {
     });
     // Sales
     Route::prefix('sales')->name('sales.')->group(function(){
-
         // Invoices
         Route::get('/{sale}/invoices/{invoice}', InvoiceShow::class)->name('invoices.show');
-
         // Sales
         Route::get('/create', SaleCreate::class)->name('create');
         Route::get('/{sale}', SaleShow::class)->name('show');
-
-        // Quotations
-        // Route::get('/quotations', ['uses' => QuotationLists::class, 'as' => 'quotations.index']);
-
         // Sales Team
-        Route::prefix('teams')->name('teams.')->group(function(){
+        Route::prefix('sales-teams')->name('teams.')->group(function(){
             Route::get('/create', TeamCreate::class)->name('create');
             Route::get('/{team}', TeamShow::class)->name('show');
         });
 
         // Route::resource('teams', SalesTeamController::class);
+    });
+    // Sales Team
+    Route::prefix('sales-programs')->name('sales.programs.')->group(function(){
+        Route::get('/create', ProgramCreate::class)->name('create');
+        Route::get('/{team}', ProgramShow::class)->name('show');
     });
 
     // Route::get('/', 'SalesController@index');

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('content');
 
             $table->string('sender_email')->nullable(); // Add this column
-            $table->string('recipient_emails'); // Recipient email
+            $table->string('recipient_emails')->nullable(); // Recipient email
             $table->string('cc_recipient_emails')->nullable(); // Copy carbon recipents
             $table->string('reply_email')->nullable(); // Add this column
 

@@ -34,8 +34,8 @@
             </div>
 
             <div class="k_login_buttons clearfix text-center gap-1 d-grid mb-1 pt-3">
-                <button class="btn btn-primary float-start">
-                    {{ __('ME KONNECTER') }}
+                <button class="btn btn-primary float-start text-uppercase">
+                    {{ __('Me konnecter') }}
                 </button>
 
                 <div class="links-container">

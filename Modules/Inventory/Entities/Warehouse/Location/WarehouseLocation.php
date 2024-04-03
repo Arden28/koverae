@@ -22,6 +22,11 @@ class WarehouseLocation extends Model
         return $query->where('company_id', $company_id);
     }
 
+    public function scopeIsWarehouse(Builder $query, $warehouse_id)
+    {
+        return $query->where('warehouse_id', $warehouse_id);
+    }
+
     public function scopeIsType(Builder $query, $type)
     {
         return $query->where('type', $type);

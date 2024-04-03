@@ -4,16 +4,19 @@ namespace Modules\Inventory\Livewire\Navbar\ControlPanel;
 
 use App\Livewire\Navbar\ControlPanel;
 use App\Livewire\Navbar\SwitchButton;
+use Livewire\Attributes\Url;
 
 class OperationTransferPanel extends ControlPanel
 {
+    #[Url(as : 'type')]
+    public $type;
     // public $product;
 
     public function mount()
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Transferts";
+        $this->currentPage = $this->type ? transfer_type($this->type) : "Transferts";
         $this->new = route('inventory.operation-transfers.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }

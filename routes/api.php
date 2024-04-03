@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Subby\PlanController;
 use App\Http\Controllers\Api\Demo\DemoController;
+use App\Http\Controllers\Api\StartKoverController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,5 @@ Route::get('plans', [PlanController::class, 'index']);
 Route::post('demo/store', [DemoController::class, 'store']);
 
 Route::post('demo', [DemoController::class, 'index']);
+
+Route::post('/start', [StartKoverController::class, 'store']);

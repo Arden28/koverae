@@ -22,6 +22,11 @@ class BillOfMaterial extends Model
         return $query->where('company_id', $company_id);
     }
 
+    public function scopeIsProduct(Builder $query, $product_id)
+    {
+        return $query->where('product_id', $product_id);
+    }
+
     public function product() {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }

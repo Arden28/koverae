@@ -6,17 +6,17 @@ use App\Livewire\Navbar\ControlPanel;
 
 class ManufacturingOrderFormPanel extends ControlPanel
 {
-    public $product;
+    public $order;
 
-    public function mount($product = null)
+    public function mount($order = null)
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->showIndicators = true;
 
-        if($product){
-            $this->product = $product;
-            $this->currentPage = $product->product_name;
+        if($order){
+            $this->order = $order;
+            $this->currentPage = $order->reference;
         }else{
             $this->currentPage = 'Nouveau';
         }

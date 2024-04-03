@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->nullOnDelete();
             $table->foreign('operation_transfer_id')->references('id')->on('operation_transfers')->nullOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -35,6 +36,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('operation_transfer_details');
+        Schema::table('operation_transfer_details', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

@@ -3,7 +3,7 @@
 
     <!-- Control Panel -->
     @section('control-panel')
-    <livewire:inventory::navbar.control-panel.product-form-panel />
+    <livewire:inventory::navbar.control-panel.product-form-panel :event="'create-product'" />
     @endsection
 
     <!-- Form -->

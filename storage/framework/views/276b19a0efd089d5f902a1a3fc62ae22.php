@@ -29,5 +29,5 @@
         </span>
     </button>
 </div>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/button/status-bar/waiting.blade.php ENDPATH**/ ?>

@@ -230,7 +230,7 @@ body {
 
 }
 .k_app .k_app_icon:hover{
-    transform: translateY(-10px) perspective(100px) rotateX(10deg);
+    /* transform: translateY(-10px) perspective(100px) rotateX(10deg); */
 }
 .k_app .k_caption{
     text-decoration: none solid;

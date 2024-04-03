@@ -1,7 +1,7 @@
 <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
 
     <li class="nav-item page-module">
-        <a class="nav-link kover-navlink" style="margin-right: 5px;" wire:navigate href="<?php echo e(route('main', ['subdomain' => current_company()->domain_name])); ?>" >
+        <a class="nav-link kover-navlink" style="margin-right: 5px;" href="<?php echo e(route('main', ['subdomain' => current_company()->domain_name])); ?>" >
             <span class="nav-link-icon d-md-none d-lg-inline-block">
                 <img class="custom-image" src="<?php echo e(asset('assets/images/apps/inventory.png')); ?>" alt="">
             </span>
@@ -38,26 +38,26 @@
 
                         </a>
                         <div class="dropdown-menu">
-                          <a wire:navigate href="<?php echo e(route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'receipt', 'menu' => current_menu()])); ?>" class="dropdown-item">
-                            <?php echo e(__('Réceptions')); ?>
+                            <a wire:navigate href="<?php echo e(route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'receipt', 'menu' => current_menu()])); ?>" class="dropdown-item">
+                                <?php echo e(__('Réceptions')); ?>
 
-                          </a>
-                          <a wire:navigate href="<?php echo e(route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'delivery', 'menu' => current_menu()])); ?>" class="dropdown-item">
-                            <?php echo e(__('Livraisons')); ?>
+                            </a>
+                            <a wire:navigate href="<?php echo e(route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'delivery', 'menu' => current_menu()])); ?>" class="dropdown-item">
+                                <?php echo e(__('Livraisons')); ?>
 
-                          </a>
-                          <!--[if BLOCK]><![endif]--><?php if(settings()->has_storage_locations): ?>
-                          <a wire:navigate href="<?php echo e(route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'internal_transfer', 'menu' => current_menu()])); ?>" class="dropdown-item">
-                            <?php echo e(__('Internes')); ?>
+                            </a>
+                            <!--[if BLOCK]><![endif]--><?php if(settings()->has_storage_locations): ?>
+                            <a wire:navigate href="<?php echo e(route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'internal_transfer', 'menu' => current_menu()])); ?>" class="dropdown-item">
+                                <?php echo e(__('Internes')); ?>
 
-                          </a>
-                          <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
-                          <!--[if BLOCK]><![endif]--><?php if(module('manufacturing')): ?>
-                          <a wire:navigate href="<?php echo e(route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'type' => 'manufacturing', 'menu' => current_menu()])); ?>" class="dropdown-item">
-                            <?php echo e(__('Fabrications')); ?>
+                            </a>
+                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                            <!--[if BLOCK]><![endif]--><?php if(module('manufacturing')): ?>
+                            <a wire:navigate href="<?php echo e(route('manufacturing.orders.index', ['subdomain' => current_company()->domain_name, 'type' => 'manufacturing', 'menu' => current_menu()])); ?>" class="dropdown-item">
+                                <?php echo e(__('Fabrications')); ?>
 
-                          </a>
-                          <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                            </a>
+                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         </div>
                     </div>
 
@@ -185,13 +185,13 @@
                             <?php echo e(__('Emplacements')); ?>
 
                           </a>
-                          <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                          <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                           <!--[if BLOCK]><![endif]--><?php if(settings()->has_storage_locations): ?>
                           <a wire:navigate href="<?php echo e(route('inventory.warehouses.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
                             <?php echo e(__("Règles d'affectation")); ?>
 
                           </a>
-                          <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                          <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         </div>
                     </div>
 
@@ -205,12 +205,12 @@
                             <?php echo e(__('Catégories de produits')); ?>
 
                           </a>
-                          <!--[if BLOCK]><![endif]--><?php if(settings()->has_package): ?>
+                          <?php if(settings()->has_package): ?>
                           <a wire:navigate href="<?php echo e(route('employee.department.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
                             <?php echo e(__("Emballages de produits")); ?>
 
                           </a>
-                          <?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+                          <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         </div>
                     </div>
 

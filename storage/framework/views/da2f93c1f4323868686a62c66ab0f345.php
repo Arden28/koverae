@@ -16,5 +16,5 @@
             </span>
         </div>
     </div>
-<?php endif; ?> <!--[if ENDBLOCK]><![endif]-->
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\Modules/Sales\Resources/views/livewire/sale/invoice/partials/payment-status-ribbon.blade.php ENDPATH**/ ?>

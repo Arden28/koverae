@@ -13,8 +13,8 @@ use Livewire\Attributes\Url;
 
 class GeneralSetting extends Component
 {
-    #[Url(keep: 'view')]
-    public $view = '';
+    #[Url(as: 'view', keep: true)]
+    public $view = 'general';
 
     public function render()
     {
