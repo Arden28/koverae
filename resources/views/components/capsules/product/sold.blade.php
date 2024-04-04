@@ -12,7 +12,7 @@
     <i class="k_button_icon bi bi-bar-chart"></i>
     <a style="text-decoration: none;" title="{{ $value->help }}" wire:navigate href="#" >
         <span class="k_horizontal_span">{{ $value->label }}</span>
-        <span class="stat_value text-muted">
+        <span class="stat_value text-muted d-none d-lg-flex">
             {{ $sold ?? "0,00" }} {{ $unit->name }}
         </span>
     </a>

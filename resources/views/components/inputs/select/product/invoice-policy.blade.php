@@ -7,7 +7,7 @@
     <!-- seller -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         <label class="k_form_label">
-            {{ $value->label }} :
+            {{ $value->label }}
         </label>
     </div>
     <!-- Input Form -->

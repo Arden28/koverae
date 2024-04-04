@@ -45,7 +45,7 @@
             <div class="k_form_sheet position-relative">
                 <!-- Capsule -->
                 @if(count($this->capsules()) >= 1)
-                <div class="k_horizontal_asset" id="k_horizontal_capsule">
+                <div class="k_horizontal_asset overflow-x-auto overflow-y-hidden m-md-3" id="k_horizontal_capsule">
                     @foreach($this->capsules() as $capsule)
                     <x-dynamic-component
                         :component="$capsule->component"
@@ -56,7 +56,7 @@
                 </div>
                 @endif
                 <!-- title-->
-                <div class="row justify-content-between position-relative w-100 m-0 mb-2">
+                <div class="row justify-content-between position-relative w-100  m-0 mb-2">
                     <div class="ke_title mw-75 pe-2 ps-0">
                         @foreach($this->inputs() as $input)
                             @if($input->position == 'top-title' && $input->tab == 'none')
@@ -72,19 +72,25 @@
                     <!-- Employee Avatar -->
                     <div class="k_employee_avatar m-0 p-0">
                         <!-- Image Uploader -->
-                        <img src="{{ asset('assets/images/people/default_avatar.png') }}" alt="" class="img img-fluid">
+                        @if($this->photo)
+                        <img src="{{ $this->photo->temporaryUrl() }}" alt="image" class="img img-fluid">
+                        @else
+                        <img src="{{ asset('assets/images/people/default_avatar.png') }}" alt="image" class="img img-fluid">
+                        @endif
                         <!-- <small class="k_button_icon">
                             <i class="bi bi-circle text-success align-middle"></i>
                         </small>-->
                         <!-- Image selector -->
                         <div class="select-file d-flex position-absolute justify-content-between w100 bottom-0">
-                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1">
+                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1" onclick="document.getElementById('photo').click();">
                                 <i class="bi bi-pencil"></i>
+                                <input type="file" wire:model="photo" id="photo" style="display: none;" />
                             </button>
-                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1">
+                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1" wire:click="$cancelUpload('photo')" wire:target="$cancelUpload('photo')">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
+                        @error('photo') <span class="error">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- checkboxes -->
@@ -158,7 +164,7 @@
                 <!-- Tab Link -->
                 @if($this->tabs())
                 <div class="k_notebokk_headers">
-                    <ul class="nav nav-tabs flex-row flex-nowrap" data-bs-toggle="tabs">
+                    <ul class="nav nav-tabs flex-row flex-nowrap overflow-y-hidden" data-bs-toggle="tabs">
                         @foreach ($this->tabs() as $tab)
                         <li class="nav-item">
                             <a class="nav-link {{ $tab->key == 'work_info' || $tab->key == 'general' ? 'active' : '' }}" data-bs-toggle="tab" href="#{{ $tab->key }}">{{ $tab->label }}</a>

@@ -15,6 +15,7 @@ use App\Livewire\Form\Table;
 use App\Livewire\Table\Column;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
+use Livewire\WithFileUploads;
 use Modules\Contact\Entities\Contact;
 use Modules\Inventory\Entities\Category;
 use Modules\Inventory\Entities\Product;
@@ -23,7 +24,7 @@ use Modules\Inventory\Traits\ProductTrait;
 
 class ProductForm extends SimpleAvatarForm
 {
-    use ActionBarButtonTrait, ProductTrait;
+    use ActionBarButtonTrait, ProductTrait, WithFileUploads;
 
     public $product;
 
@@ -39,6 +40,9 @@ class ProductForm extends SimpleAvatarForm
     public bool $can_be_sold = true, $can_be_purchased = true, $can_be_subscribed = false, $can_be_rented = false;
 
     public $status = 'active', $qty = 1;
+
+    public $photos = [];
+    public $photo;
 
     public bool $updateMode = false;
 
@@ -110,7 +114,7 @@ class ProductForm extends SimpleAvatarForm
         'price' => 'required|string',
         'sale_taxes' => 'nullable|string',
         'cost' => 'nullable|string',
-        's' => 'nullable|string',
+        // 's' => 'nullable|string',
         'category' => 'required|string',
         'reference' => 'nullable|string',
         'barcode' => 'nullable|string',
@@ -176,10 +180,10 @@ class ProductForm extends SimpleAvatarForm
     public function capsules() : array
     {
         return [
-            Capsule::make('on_hand', 'En stock', 'Les ventes générées via le devis.')->component('capsules.product.stock'),
-            Capsule::make('prevision', 'Prévisions de stock', 'Les ventes générées via le devis.')->component('capsules.product.stats'),
-            Capsule::make('bought', 'Acheté', 'Les ventes générées via le devis.')->component('capsules.product.bought'),
-            Capsule::make('sold', 'Vendu', 'Les ventes générées via le devis.')->component('capsules.product.sold'),
+            Capsule::make('on_hand', 'En stock', 'Quantités disponibles.')->component('capsules.product.stock'),
+            Capsule::make('prevision', 'Prévisions', 'Prévisions de stock.')->component('capsules.product.stats'),
+            Capsule::make('bought', 'Acheté', 'Quantités achetées.')->component('capsules.product.bought'),
+            Capsule::make('sold', 'Vendu', 'Quantités vendues.')->component('capsules.product.sold'),
         ];
     }
 
@@ -280,6 +284,7 @@ class ProductForm extends SimpleAvatarForm
     public function store(){
         // $this->validate();
 
+
         $product = Product::create([
             'company_id' => current_company()->id,
             'category_id' => $this->category,
@@ -316,6 +321,7 @@ class ProductForm extends SimpleAvatarForm
             'status' => $this->status,
         ]);
         // $product->save();
+        $this->updatedPhoto();
 
         return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
@@ -404,6 +410,19 @@ class ProductForm extends SimpleAvatarForm
         // return $this->redirectRoute('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()], navigate:true);
         return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
+    public function updatedPhoto()
+    {
+        $this->validate([
+            'photo' => 'image|max:1024', // 1MB Max
+        ]);
+        // Store the file in the public disk
+        $this->photo->store('/assets', 'public');
 
+        $this->photo->store('/public');
+
+    
+        // You can then save the path or perform additional actions as needed
+    }
+    
     // Taxes
 }

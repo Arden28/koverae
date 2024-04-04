@@ -32,7 +32,7 @@
 
             <!--[if BLOCK]><![endif]--><?php if($value->help): ?>
                 <sup><i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="<?php echo e($value->help); ?>"></i></sup>
-            <?php endif; ?><!--[if ENDBLOCK]><![endif]--> :
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
         </label>
     </div>
     <!-- Input Form -->
@@ -40,10 +40,13 @@
         <div class="row">
             <!--[if BLOCK]><![endif]--><?php if($settings->default_currency_position == 'prefix'): ?>
                 <span class="col-6" style="width: 30%; margin: 0 0 12px 0;"><?php echo e($settings->currency->symbol); ?></span>
-                <input type="<?php echo e($value->type); ?>" style="width: 50%;" wire:model="<?php echo e($value->model); ?>" min="0" class="k_input" placeholder="<?php echo e($value->placeholder); ?>" id="amount">
+                <input type="<?php echo e($value->type); ?>" style="width: 50%;" wire:model.change="<?php echo e($value->model); ?>" min="0" class="k_input" placeholder="<?php echo e($value->placeholder); ?>" id="amount">
             <?php else: ?>
-                <input type="<?php echo e($value->type); ?>" style="width: 30%;" wire:model="<?php echo e($value->model); ?>" min="0" class="k_input" placeholder="<?php echo e($value->placeholder); ?>" id="amount">
+                <input type="<?php echo e($value->type); ?>" style="width: 30%;" wire:model.change="<?php echo e($value->model); ?>" min="0" class="k_input" placeholder="<?php echo e($value->placeholder); ?>" id="amount">
                 <span class="col-6" style="width: 30%; margin: 0 0 12px 0;"><?php echo e($settings->currency->symbol); ?></span>
+                <!--[if BLOCK]><![endif]--><?php if($this->price): ?>
+                <span class="col-6" style="width: 30%; margin: 0 0 12px 0;">(= <?php echo e($this->price); ?> <?php echo e($settings->currency->symbol); ?>)</span>
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
         </div>
         <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];

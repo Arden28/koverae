@@ -12,10 +12,14 @@ use Modules\Inventory\Entities\UoM\UnitOfMeasure;
 use Modules\Manufacturing\Entities\BOM\BillOfMaterial;
 use Modules\Purchase\Entities\PurchaseDetail;
 use Modules\Sales\Entities\SalesDetail;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model implements Buyable
+class Product extends Model implements Buyable, HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $guarded = [];
 
@@ -29,6 +33,15 @@ class Product extends Model implements Buyable
     protected static function newFactory()
     {
         return ProductFactory::new();
+    }
+
+    // Image
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Fit::Contain, 300, 300)
+            ->nonQueued();
     }
 
     // Cart

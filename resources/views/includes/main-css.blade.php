@@ -4,7 +4,7 @@
 <!-- CSS files -->
     <link href="{{ asset('assets/dist/css/tabler.min.css')}}?166828765()"  rel="stylesheet"/>
     {{-- <link href="{{ asset('assets/dist/css/tabler-vendors.min.css')}}?1668287865" rel="stylesheet"/> --}}
-    <link href="{{ asset('/assets/css/style.css')}}?1668287814008()" rel="stylesheet"/>
+    <link href="{{ asset('/assets/css/style.css')}}?16682878101()" rel="stylesheet"/>
 
 <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">

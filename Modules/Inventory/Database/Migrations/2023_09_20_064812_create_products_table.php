@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
             $table->string('product_name');
             $table->string('product_reference')->nullable();
+            $table->string('image_path')->nullable();
 
             $table->enum('product_type', ['storable', 'service', 'consumable', 'booking_fee']); //storable: Stock is managed, consumable: Stock isn't managed, service: non physical product
             $table->enum('invoicing_policy', ['ordered', 'delivered', 'prepaid'])->default('ordered'); //ordered: the products ordered by the customer, delivered: the products delivered to the customer

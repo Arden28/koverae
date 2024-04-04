@@ -1167,7 +1167,30 @@
         }
         #k_horizontal_capsule{
             height: auto;
-            padding: 5px 0 5px 0;
+            /* padding: 5px 0 5px 0; */
+        }
+        /* Smooth scrollbar */
+        .smooth-scroll{
+            overflow-x:  scroll; /* Use 'scroll' to always show scrollbar, or 'auto' to show it only when needed */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: transparent transparent; /* Firefox */
+        }
+        .smooth-scroll::-webkit-scrollbar {
+            width: 0.5em; /* Adjust the width of the scrollbar as needed */
+        }
+        .smooth-scroll::-webkit-scrollbar-thumb {
+            background-color: transparent; /* Set the color of the scrollbar thumb */
+        }
+        #k_horizontal_capsule{
+            overflow-x:  scroll; /* Use 'scroll' to always show scrollbar, or 'auto' to show it only when needed */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: transparent transparent; /* Firefox */
+        }
+        #k_horizontal_capsule::-webkit-scrollbar {
+            width: 0.5em; /* Adjust the width of the scrollbar as needed */
+        }
+        #k_horizontal_capsule::-webkit-scrollbar-thumb {
+            background-color: transparent; /* Set the color of the scrollbar thumb */
         }
         .k_horizontal_asset .k_radio_item{
             height: 21px;
@@ -1307,6 +1330,7 @@
                 height: 27px;
             }
             .k_notebokk_headers{
+                height: 20px;
                 width: 100%;
                 overflow-x: auto;
             }

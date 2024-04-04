@@ -7,7 +7,7 @@
     <i class="k_button_icon bi bi-receipt"></i>
     <a style="text-decoration: none;" title="{{ $value->help }}" wire:navigate href="{{ route('sales.invoices.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'invoice' => $sale->invoice->id, 'menu' => current_menu()]) }}" >
         <span class="k_horizontal_span">{{ $value->label }}</span>
-        <span class="stat_value">
+        <span class="stat_value d-none d-lg-flex">
             1
         </span>
     </a>

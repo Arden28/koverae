@@ -70,7 +70,7 @@
             <div class="k_form_sheet position-relative">
                 <!-- Capsule -->
                 <!--[if BLOCK]><![endif]--><?php if(count($this->capsules()) >= 1): ?>
-                <div class="k_horizontal_asset" id="k_horizontal_capsule">
+                <div class="k_horizontal_asset overflow-x-auto overflow-y-hidden m-md-3" id="k_horizontal_capsule">
                     <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->capsules(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $capsule): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
@@ -96,7 +96,7 @@
                 </div>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 <!-- title-->
-                <div class="row justify-content-between position-relative w-100 m-0 mb-2">
+                <div class="row justify-content-between position-relative w-100  m-0 mb-2">
                     <div class="ke_title mw-75 pe-2 ps-0">
                         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->inputs(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <!--[if BLOCK]><![endif]--><?php if($input->position == 'top-title' && $input->tab == 'none'): ?>
@@ -127,19 +127,32 @@
                     <!-- Employee Avatar -->
                     <div class="k_employee_avatar m-0 p-0">
                         <!-- Image Uploader -->
-                        <img src="<?php echo e(asset('assets/images/people/default_avatar.png')); ?>" alt="" class="img img-fluid">
+                        <!--[if BLOCK]><![endif]--><?php if($this->photo): ?>
+                        <img src="<?php echo e($this->photo->temporaryUrl()); ?>" alt="image" class="img img-fluid">
+                        <?php else: ?>
+                        <img src="<?php echo e(asset('assets/images/people/default_avatar.png')); ?>" alt="image" class="img img-fluid">
+                        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         <!-- <small class="k_button_icon">
                             <i class="bi bi-circle text-success align-middle"></i>
                         </small>-->
                         <!-- Image selector -->
                         <div class="select-file d-flex position-absolute justify-content-between w100 bottom-0">
-                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1">
+                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1" onclick="document.getElementById('photo').click();">
                                 <i class="bi bi-pencil"></i>
+                                <input type="file" wire:model="photo" id="photo" style="display: none;" />
                             </button>
-                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1">
+                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1" wire:click="$cancelUpload('photo')" wire:target="$cancelUpload('photo')">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
+                        <!--[if BLOCK]><![endif]--><?php $__errorArgs = ['photo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="error"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
 
                     <!-- checkboxes -->
@@ -243,7 +256,7 @@
                 <!-- Tab Link -->
                 <!--[if BLOCK]><![endif]--><?php if($this->tabs()): ?>
                 <div class="k_notebokk_headers">
-                    <ul class="nav nav-tabs flex-row flex-nowrap" data-bs-toggle="tabs">
+                    <ul class="nav nav-tabs flex-row flex-nowrap overflow-y-hidden" data-bs-toggle="tabs">
                         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->tabs(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tab): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <li class="nav-item">
                             <a class="nav-link <?php echo e($tab->key == 'work_info' || $tab->key == 'general' ? 'active' : ''); ?>" data-bs-toggle="tab" href="#<?php echo e($tab->key); ?>"><?php echo e($tab->label); ?></a>
