@@ -35,7 +35,8 @@ class ProductCart extends Component
             $this->data = $data;
 
             $this->global_discount = $data->discount_percentage;
-            $this->global_tax = $data->tax_percentage;
+            $this->global_tax = $data->tax_amount;
+            // $this->global_tax = $data->tax_percentage;
             // $this->global_tax = $data->product_order_tax;
             $this->shipping = $data->shipping_amount;
             $this->term = $data->note;
@@ -244,8 +245,8 @@ class ProductCart extends Component
         if ($product['product_tax_type'] == 1) {
             $price = $this->setPrice($product) + ($this->setPrice($product) * ($this->setTax($product))) / 100;
             $unit_price = $this->setPrice($product) / 100;
-            $untaxed_amount = $this->setPrice($product) / 100;
             $product_tax = $this->setPrice($product) * ($this->setTax($product)) / 100;
+            $untaxed_amount = $price - $product_tax / 100;
             $sub_total = $this->setPrice($product) + ($this->setPrice($product) * ($this->setTax($product))) / 100;
         } elseif ($product['product_tax_type'] == 2) {
             $unit_price = $this->setPrice($product) / 100;

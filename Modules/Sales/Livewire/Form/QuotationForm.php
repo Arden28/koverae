@@ -39,6 +39,7 @@ use Modules\Inventory\Entities\Operation\OperationTransferDetail;
 use Modules\Inventory\Entities\Operation\OperationType;
 use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
 use Modules\Inventory\Traits\OperationTransferTrait;
+use Modules\Invoicing\Entities\Tax\Tax;
 
 class QuotationForm extends BaseForm
 {
@@ -326,8 +327,8 @@ class QuotationForm extends BaseForm
                 'total_amount' => $this->total_amount / 100,
                 'status' => $this->status,
                 'note' => $this->note,
-                'tax_amount' => $this->tax_amount,
-                'discount_amount' => $this->discount_amount,
+                'tax_amount' => $this->tax_amount / 100,
+                'discount_amount' => $this->discount_amount / 100,
             ]);
 
             foreach (Cart::instance('quotation')->content() as $cart_item) {
@@ -342,7 +343,7 @@ class QuotationForm extends BaseForm
                     'sub_total' => $cart_item->options->sub_total * 100,
                     'product_discount_amount' => $cart_item->options->product_discount * 100,
                     'product_discount_type' => $cart_item->options->product_discount_type,
-                    'product_tax_amount' => $cart_item->options->product_tax * 100,
+                    'product_tax_amount' => (Tax::find($cart_item->options->product_tax)->first()->amount * $cart_item->price) * 100,
                 ]);
             }
 
@@ -388,7 +389,7 @@ class QuotationForm extends BaseForm
                     'total_amount' => convertToInt(Cart::instance('quotation')->total()) / 100,
                     'status' => $this->status,
                     'note' => $this->note,
-                    'tax_amount' => convertToInt(Cart::instance('quotation')->tax()),
+                    'tax_amount' => convertToInt(Cart::instance('quotation')->tax()) / 100,
                     'discount_amount' => $this->discount_amount,
                 ]);
                 $quotation->save();
@@ -409,7 +410,7 @@ class QuotationForm extends BaseForm
                         'sub_total' => $cart_item->options->sub_total * 100,
                         'product_discount_amount' => $cart_item->options->product_discount * 100,
                         'product_discount_type' => $cart_item->options->product_discount_type,
-                        'product_tax_amount' => $cart_item->options->product_tax * 100,
+                        'product_tax_amount' => (Tax::find($cart_item->options->product_tax)->first()->amount * $cart_item->price) * 100,
                     ]);
                 }
 

@@ -39,17 +39,30 @@
 
             <!-- Status Bar -->
             @if($this->statusBarButtons())
-            <div id="status-bar" class="k_statusbar_buttons_arrow d-flex align-items-center align-content-around ">
+                <div id="status-bar" class="k_statusbar_buttons_arrow d-none d-md-flex align-items-center align-content-around ">
 
-                @foreach($this->statusBarButtons() as $status_button)
-                <x-dynamic-component
-                    :component="$status_button->component"
-                    :value="$status_button"
-                    :status="$status"
-                >
-                </x-dynamic-component>
-                @endforeach
-            </div>
+                    @foreach($this->statusBarButtons() as $status_button)
+                    <x-dynamic-component
+                        :component="$status_button->component"
+                        :value="$status_button"
+                        :status="$status"
+                    >
+                    </x-dynamic-component>
+                    @endforeach
+                </div>
+                <div id="status-bar" class="k_statusbar_buttons_arrow d-flex d-md-none align-items-center align-content-around ">
+
+                    @foreach($this->statusBarButtons() as $status_button)
+                        @if($this->status == $status_button->primary)
+                        <x-dynamic-component
+                            :component="$status_button->component"
+                            :value="$status_button"
+                            :status="$status"
+                        >
+                        </x-dynamic-component>
+                        @endif
+                    @endforeach
+                </div>
             @endif
         </div>
         <form wire:submit.prevent="{{ $this->form() }}">
@@ -178,5 +191,9 @@
 
         </form>
 
+    </div>
+    <!-- Loading -->
+    <div class="k-loading cursor-pointer pb-1" wire:loading>
+        <p>En cours de chargement ...</p>
     </div>
 </div>

@@ -23,7 +23,7 @@
     <i class="k_button_icon bi bi-newspaper"></i>
     <a style="text-decoration: none;" title="<?php echo e($value->help); ?>" wire:navigate href="<?php echo e(route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $this->sale->quotation_id, 'menu' => current_menu()])); ?>" >
         <span class="k_horizontal_span"><?php echo e($value->label); ?></span>
-        <span class="stat_value">
+        <span class="stat_value d-none d-lg-flex">
             1
         </span>
     </a>

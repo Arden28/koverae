@@ -18,3 +18,13 @@ if (!function_exists('calculate_product_ttc')) {
         return $default;
     }
 }
+
+if (!function_exists('calculate_ttc_price')) {
+    function calculate_ttc_price($price, $tax) {
+        $default = Tax::find($tax);
+        $tax_amount = ($price * $default->amount) / 100;
+        $ttc = $price + $tax_amount;
+        return $ttc;
+    }
+}
+

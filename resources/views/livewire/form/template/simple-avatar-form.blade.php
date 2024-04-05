@@ -3,24 +3,8 @@
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
             <!-- Action Bar -->
             @if($this->actionBarButtons())
-            <div id="action-bar" class="k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around flex-wrap gap-1">
+                <div id="action-bar" class="k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around flex-wrap gap-1">
 
-                @foreach($this->actionBarButtons() as $action)
-                <x-dynamic-component
-                    :component="$action->component"
-                    :value="$action"
-                    :status="$status"
-                >
-                </x-dynamic-component>
-                @endforeach
-
-            </div>
-            <!-- Dropdown button -->
-            <div class="btn-group d-lg-none">
-                <button type="button" class="btn buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Action
-                </button>
-                <ul class="dropdown-menu">
                     @foreach($this->actionBarButtons() as $action)
                     <x-dynamic-component
                         :component="$action->component"
@@ -29,14 +13,26 @@
                     >
                     </x-dynamic-component>
                     @endforeach
-                    <!--<li><hr class="dropdown-divider"></li>-->
-                </ul>
-            </div>
+
+                </div>
+                <!-- Dropdown button -->
+                <div class="btn-group d-lg-none">
+                    <button type="button" class="btn buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach($this->actionBarButtons() as $action)
+                        <x-dynamic-component
+                            :component="$action->component"
+                            :value="$action"
+                            :status="$status"
+                        >
+                        </x-dynamic-component>
+                        @endforeach
+                        <!--<li><hr class="dropdown-divider"></li>-->
+                    </ul>
+                </div>
             @endif
-            {{-- <div id="status-bar" class="k_statusbar_buttons_arrow d-flex align-items-center align-content-around ">
-                <a href="{{ $this->new() }}" wire:navigate class="btn btn-link"> Nouveau &nbsp; <i class="bi bi-plus-square"></i></a>
-                <button class="btn btn-primary" wire:click.prevent="{{ $this->updateForm() }}" wire:target="{{ $this->updateForm() }}">Sauvegarder</button> <span wire:dirty > Modifications non sauvegardés...</span>
-            </div> --}}
 
         </div>
         <form wire:submit.prepend="{{ $this->form() }}">
@@ -45,7 +41,7 @@
             <div class="k_form_sheet position-relative">
                 <!-- Capsule -->
                 @if(count($this->capsules()) >= 1)
-                <div class="k_horizontal_asset overflow-x-auto overflow-y-hidden m-md-3" id="k_horizontal_capsule">
+                <div class="k_horizontal_asset overflow-x-auto overflow-y-hidden mb-md-4" id="k_horizontal_capsule">
                     @foreach($this->capsules() as $capsule)
                     <x-dynamic-component
                         :component="$capsule->component"
@@ -72,8 +68,10 @@
                     <!-- Employee Avatar -->
                     <div class="k_employee_avatar m-0 p-0">
                         <!-- Image Uploader -->
-                        @if($this->photo)
+                        @if($this->photo != null)
                         <img src="{{ $this->photo->temporaryUrl() }}" alt="image" class="img img-fluid">
+                        @elseif($this->image_path)
+                        <img src="{{ Storage::disk('public')->url($this->image_path) }}" alt="image" class="img img-fluid">
                         @else
                         <img src="{{ asset('assets/images/people/default_avatar.png') }}" alt="image" class="img img-fluid">
                         @endif
@@ -82,20 +80,22 @@
                         </small>-->
                         <!-- Image selector -->
                         <div class="select-file d-flex position-absolute justify-content-between w100 bottom-0">
-                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1" onclick="document.getElementById('photo').click();">
+                            <span class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1" onclick="document.getElementById('photo').click();">
                                 <i class="bi bi-pencil"></i>
                                 <input type="file" wire:model="photo" id="photo" style="display: none;" />
-                            </button>
-                            <button class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1" wire:click="$cancelUpload('photo')" wire:target="$cancelUpload('photo')">
+                            </span>
+                            @if($this->photo || $this->image_path)
+                            <span class="k_select_file_button btn btn-light border-0 rounded-circle m-1 p-1" wire:click="$cancelUpload('photo')" wire:target="$cancelUpload('photo')">
                                 <i class="bi bi-trash"></i>
-                            </button>
+                            </span>
+                            @endif
                         </div>
                         @error('photo') <span class="error">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- checkboxes -->
                     @if($this->checkboxes)
-                    <div>
+                    <div class="p-0">
                         <!-- checkbox -->
                         <span class="d-inline-block">
                             <div class="k-checkbox form-check">
@@ -205,5 +205,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <!-- Loading -->
+    <div class="k-loading cursor-pointer pb-1" wire:loading>
+        <p>En cours de chargement ...</p>
     </div>
 </div>

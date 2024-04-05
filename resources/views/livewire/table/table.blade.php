@@ -1,9 +1,9 @@
 <div>
     <!-- Table -->
-    <div class="table-responsive card">
+    <div class="table-responsive mb-2">
         <table class="table card-table table-vcenter text-nowrap datatable">
-            <thead>
-            <tr>
+            <thead class="list-table">
+            <tr class="list-tr">
                 <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all invoices"></th>
                 @foreach($this->columns() as $column)
                     <th wire:click="sort('{{ $column->key }}')" class="cursor-pointer">
@@ -23,7 +23,7 @@
                     </th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class=" bg-white">
                 @foreach($this->data() as $row)
                 <tr class="cursor-pointer">
                     <td>

@@ -148,10 +148,6 @@
     </head>
 
     <body>
-        {{-- Header --}}
-        {{-- @if($quotation->logo)
-            <img src="{{ $quotation->getLogo() }}" alt="logo" height="100">
-        @endif --}}
         <div class="header">
             <div class="logo">
                 <img src="{{ base_path('public/assets/images/logo/logo-black-gd.png') }}" alt="logo" />

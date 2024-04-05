@@ -26,7 +26,7 @@
                 <input type="{{ $value->type }}" style="width: 30%;" wire:model.change="{{ $value->model }}" min="0" class="k_input" placeholder="{{ $value->placeholder }}" id="amount">
                 <span class="col-6" style="width: 30%; margin: 0 0 12px 0;">{{ $settings->currency->symbol }}</span>
                 @if($this->price)
-                <span class="col-6" style="width: 30%; margin: 0 0 12px 0;">(= {{ $this->price }} {{ $settings->currency->symbol }})</span>
+                <span class="col-6" style="width: 40%; margin: 0 0 12px 0;">(= {{ format_currency(calculate_ttc_price($this->price, $this->sale_taxes)) }} {{ __('toutes taxes comprises') }})</span>
                 @endif
             @endif
         </div>

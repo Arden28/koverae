@@ -41,22 +41,24 @@ class ProductForm extends SimpleAvatarForm
 
     public $status = 'active', $qty = 1;
 
-    public $photos = [];
-    public $photo;
+    public $image_path;
+    public $photo = null;
 
     public bool $updateMode = false;
 
     public function mount($product = null){
         if($product){
+            $this->product = $product;
             $this->updateMode = true;
             $this->category = $product->category_id;
             $this->product_name = $product->product_name;
+            $this->image_path = $product->image_path;
             $this->product_type = $product->product_type;
             $this->invoice_policy = $product->invoicing_policy;
             $this->uom = $product->uom_id;
             $this->purchase_uom = $product->purchase_uom_id;
             $this->price = $product->product_price / 100;
-            // $this->sale_taxes = $product->product_order_tax;
+            $this->sale_taxes = $product->product_order_tax;
             $this->cost = $product->product_cost / 100;
             $this->sales_taxes = explode(',', $product->product_order_tax);
             $this->purchase_taxes = $product->product_purchase_tax;
@@ -84,6 +86,7 @@ class ProductForm extends SimpleAvatarForm
             $this->status = $product->status;
         }else{
             // Set up default values
+            $this->image_path = null;
             $this->product_type = 'storable';
             $this->invoice_policy = 'ordered';
             $this->uom = UnitOfMeasure::isCompany(current_company()->id)->first()->id;
@@ -110,7 +113,7 @@ class ProductForm extends SimpleAvatarForm
         'product_type' => 'required|string',
         'invoice_policy' => 'required|string',
         'uom' => 'required|integer',
-        'purchase_uom' => 'required|integer',
+        'purchase_uom' => 'nullable|integer',
         'price' => 'required|string',
         'sale_taxes' => 'nullable|string',
         'cost' => 'nullable|string',
@@ -132,10 +135,10 @@ class ProductForm extends SimpleAvatarForm
         'expense_account' => 'nullable|string',
         'price_difference_account' => 'nullable|string',
         //
-        'can_be_sold' => 'required|string',
-        'can_be_purchased' => 'required|string',
-        'can_be_rented' => 'required|string',
-        'can_be_subscribed' => 'required|string',
+        'can_be_sold' => 'nullable|string',
+        'can_be_purchased' => 'nullable|string',
+        'can_be_rented' => 'nullable|string',
+        'can_be_subscribed' => 'nullable|string',
     ];
 
     #[On('saveChange')]
@@ -155,6 +158,16 @@ class ProductForm extends SimpleAvatarForm
         }else{
             return 'store()';
         }
+    }
+
+    public function actionButtons() : array
+    {
+        return [
+            ActionButton::make('print', '<i class="bi bi-printer"></i> Imprimer', 'print()'),
+            ActionButton::make('duplicate', 'Dupliquer', 'duplicate'),
+            ActionButton::make('delete', 'Supprimer', 'delete'),
+            // Add more buttons as needed
+        ];
     }
 
     // Action Bar Button
@@ -252,7 +265,7 @@ class ProductForm extends SimpleAvatarForm
             //
             Input::make('price',"Prix de vente", 'number', 'price', 'right', 'general', 'group1', "0.00")->component('inputs.product.product-price'),
             Input::make('sale_taxes',"Taxes à la vente", 'input', 'sale_taxes', 'right', 'general', 'group1')->component('inputs.tag.sale_taxes'),
-            Input::make('cost',"Coût", 'number', 'cost', 'right', 'general', 'group1', "0.00")->component('inputs.product.product-price'),
+            Input::make('cost',"Coût", 'number', 'cost', 'right', 'general', 'group1', "0.00")->component('inputs.product.product-cost'),
             Input::make('category',"Catégorie", 'input', 'category', 'right', 'general', 'group1')->component('inputs.select.product.categories'),
             Input::make('reference',"Réf interne", 'input', 'reference', 'right', 'general', 'group1'),
             Input::make('barcode',"Code-barres", 'input', 'barcode', 'right', 'general', 'group1'),
@@ -283,12 +296,17 @@ class ProductForm extends SimpleAvatarForm
     #[On('create-product')]
     public function store(){
         // $this->validate();
-
+        $this->validate([
+            'photo' => 'image|max:1024', // 1MB Max
+        ]);
+        
+        $filePath = $this->photo->store('/assets', 'public');
 
         $product = Product::create([
             'company_id' => current_company()->id,
             'category_id' => $this->category,
             'product_name' => $this->product_name,
+            'image_path' => $filePath,
             'product_type' => $this->product_type,
             'invoicing_policy' => $this->invoice_policy,
             'uom_id' => $this->uom,
@@ -320,109 +338,116 @@ class ProductForm extends SimpleAvatarForm
             'can_be_subscribed' => $this->can_be_subscribed,
             'status' => $this->status,
         ]);
-        // $product->save();
-        $this->updatedPhoto();
 
         return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
-    #[On('saveChange')]
+    #[On('update-product')]
     public function update(){
         // $this->validate();
+        // $this->validate([
+        //     'photo' => 'image|max:1024', // 1MB Max
+        // ]);
+        
+        // $filePath = $this->photo->store('/assets', 'public');
 
-        $product = $this->product;
-        if($product){
-            $product->update([
-                'category_id' => $this->category,
-                'product_name' => $this->product_name,
-                'product_type' => $this->product_type,
-                'invoicing_policy' => $this->invoice_policy,
-                'uom_id' => $this->uom,
-                'purchase_uom_id' => $this->purchase_uom,
-                'product_price' => $this->price * 100,
-                'product_order_tax' => settings()->default_sales_tax_id,
-                'product_cost' => $this->cost * 100,
-                'product_purchase_tax' => settings()->default_purchase_tax_id,
-                'product_internal_reference' => $this->reference,
-                'product_barcode_symbology' => $this->barcode,
-                'product_quantity' => $this->qty,
-                'control_policy' => $this->control_policy,
-                'purchase_description' => $this->purchase_description,
-                'sale_description' => $this->sale_description,
-                //
-                'responsible_id' => $this->responsible,
-                'weight' => $this->weight,
-                'volume' => $this->volume,
-                'customer_lead_time' => $this->lead_time,
-                'tracking' => $this->tracking,
-                //
-                'income_account_id' => $this->income_account,
-                'expense_account_id' => $this->expense_account,
-                'price_difference_account_id' => $this->price_difference_account,
-                //
-                'can_be_sold' => $this->can_be_sold,
-                'can_be_purchased' => $this->can_be_purchased,
-                'can_be_rented' => $this->can_be_rented,
-                'can_be_subscribed' => $this->can_be_subscribed,
-                'status' => $this->status,
-            ]);
-        }else{
-
-            $product = Product::create([
-                'company_id' => current_company()->id,
-                'category_id' => $this->category,
-                'product_name' => $this->product_name,
-                'product_type' => $this->product_type,
-                'invoicing_policy' => $this->invoice_policy,
-                'uom_id' => $this->uom,
-                'purchase_uom_id' => $this->purchase_uom,
-                'product_price' => $this->price * 100,
-                'product_order_tax' => settings()->default_sales_tax_id,
-                'product_cost' => $this->cost * 100,
-                'product_purchase_tax' => settings()->default_purchase_tax_id,
-                'product_internal_reference' => $this->reference,
-                'product_barcode_symbology' => $this->barcode,
-                'product_quantity' => $this->qty,
-                'control_policy' => $this->control_policy,
-                'purchase_description' => $this->purchase_description,
-                'sale_description' => $this->sale_description,
-                //
-                'responsible_id' => $this->responsible,
-                'weight' => $this->weight,
-                'volume' => $this->volume,
-                'customer_lead_time' => $this->lead_time,
-                'tracking' => $this->tracking,
-                //
-                'income_account_id' => $this->income_account,
-                'expense_account_id' => $this->expense_account,
-                'price_difference_account_id' => $this->price_difference_account,
-                //
-                'can_be_sold' => $this->can_be_sold,
-                'can_be_purchased' => $this->can_be_purchased,
-                'can_be_rented' => $this->can_be_rented,
-                'can_be_subscribed' => $this->can_be_subscribed,
-                'status' => $this->status,
-            ]);
-            $product->save();
-        }
+        $this->product->update([
+            'category_id' => $this->category,
+            'product_name' => $this->product_name,
+            // 'image_path' => $filePath,
+            'product_type' => $this->product_type,
+            'invoicing_policy' => $this->invoice_policy,
+            'uom_id' => $this->uom,
+            'purchase_uom_id' => $this->purchase_uom,
+            'product_price' => $this->price * 100,
+            'product_order_tax' => settings()->default_sales_tax_id,
+            'product_cost' => $this->cost * 100,
+            'product_purchase_tax' => settings()->default_purchase_tax_id,
+            'product_internal_reference' => $this->reference,
+            'product_barcode_symbology' => $this->barcode,
+            'product_quantity' => $this->qty,
+            'control_policy' => $this->control_policy,
+            'purchase_description' => $this->purchase_description,
+            'sale_description' => $this->sale_description,
+            //
+            'responsible_id' => $this->responsible,
+            'weight' => $this->weight,
+            'volume' => $this->volume,
+            'customer_lead_time' => $this->lead_time,
+            'tracking' => $this->tracking,
+            //
+            'income_account_id' => $this->income_account,
+            'expense_account_id' => $this->expense_account,
+            'price_difference_account_id' => $this->price_difference_account,
+            //
+            'can_be_sold' => $this->can_be_sold,
+            'can_be_purchased' => $this->can_be_purchased,
+            'can_be_rented' => $this->can_be_rented,
+            'can_be_subscribed' => $this->can_be_subscribed,
+            'status' => $this->status,
+        ]);
         // dd($data);
 
         // return $this->redirectRoute('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()], navigate:true);
-        return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+        return redirect()->route('inventory.products.show', ['product' => $this->product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
     public function updatedPhoto()
     {
-        $this->validate([
-            'photo' => 'image|max:1024', // 1MB Max
-        ]);
         // Store the file in the public disk
-        $this->photo->store('/assets', 'public');
-
-        $this->photo->store('/public');
 
     
         // You can then save the path or perform additional actions as needed
     }
+    #[On('duplicate-product')]
+    public function duplicateProduct(Product $product){
+        if($product->exists()){
+            $duplicate = Product::create([
+                'company_id' => $product->company_id,
+                'category_id' => $product->category_id,
+                'product_name' => $product->product_name.__('(Copie)'),
+                'image_path' => $product->image_path,
+                'product_type' => $product->product_type,
+                'invoicing_policy' => $product->invoicing_policy,
+                'uom_id' => $product->uom_id,
+                'purchase_uom_id' => $product->purchase_uom_id,
+                'product_price' => $product->product_price,
+                'product_order_tax' => $product->product_order_tax,
+                'product_cost' => $product->product_cost,
+                'product_purchase_tax' => $product->product_purchase_tax,
+                'product_internal_reference' => $product->product_internal_reference,
+                'product_barcode_symbology' => $product->product_barcode_symbology,
+                'product_quantity' => $product->product_quantity,
+                'control_policy' => $product->control_policy,
+                'purchase_description' => $product->purchase_description,
+                'sale_description' => $product->sale_description,
+                //
+                'responsible_id' => $product->responsible_id,
+                'weight' => $product->weight,
+                'volume' => $product->volume,
+                'customer_lead_time' => $product->customer_lead_time,
+                'tracking' => $product->tracking,
+                //
+                'income_account_id' => $product->income_account_id,
+                'expense_account_id' => $product->expense_account_id,
+                'price_difference_account_id' => $product->price_difference_account_id,
+                //
+                'can_be_sold' => $product->can_be_sold,
+                'can_be_purchased' => $product->can_be_purchased,
+                'can_be_rented' => $product->can_be_rented,
+                'can_be_subscribed' => $product->can_be_subscribed,
+                'status' => $product->status,
+            ]);
     
+            return redirect()->route('inventory.products.show', ['product' => $duplicate->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+        }
+    }
+    
+    
+    #[On('delete-product')]
+    public function deleteQT(Product $product)
+    {
+        $product->delete();
+        return redirect()->route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+    }
     // Taxes
 }

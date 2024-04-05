@@ -6,22 +6,34 @@
         @if(count($this->actionBarButtons()) >= 1 || count($this->statusBarButtons()) >= 1)
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
 
-            <!-- Action Bar -->
-            <div id="statusbar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
 
-                @foreach($this->actionBarButtons() as $action)
-                <x-dynamic-component
-                    :component="$action->component"
-                    :value="$action"
-                    :status="null"
-                >
-                </x-dynamic-component>
-                @endforeach
+            <!-- Status Bar -->
+            @if($this->statusBarButtons())
+                <div id="status-bar" class="k_statusbar_buttons_arrow d-none d-md-flex align-items-center align-content-around ">
 
+                    @foreach($this->statusBarButtons() as $status_button)
+                    <x-dynamic-component
+                        :component="$status_button->component"
+                        :value="$status_button"
+                        :status="$status"
+                    >
+                    </x-dynamic-component>
+                    @endforeach
+                </div>
+                <div id="status-bar" class="k_statusbar_buttons_arrow d-flex d-md-none align-items-center align-content-around ">
 
-                <div wire:dirty>Modifications non sauvegardés...</div>
-
-            </div>
+                    @foreach($this->statusBarButtons() as $status_button)
+                        @if($this->status == $status_button->primary)
+                        <x-dynamic-component
+                            :component="$status_button->component"
+                            :value="$status_button"
+                            :status="$status"
+                        >
+                        </x-dynamic-component>
+                        @endif
+                    @endforeach
+                </div>
+            @endif
 
             <!-- Status Bar -->
             @if($this->statusBarButtons())
@@ -96,6 +108,10 @@
             </div>
         </form>
 
+    </div>
+    <!-- Loading -->
+    <div class="k-loading cursor-pointer pb-1" wire:loading>
+        <p>En cours de chargement ...</p>
     </div>
 
 </div>

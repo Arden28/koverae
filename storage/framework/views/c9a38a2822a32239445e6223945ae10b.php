@@ -25,6 +25,6 @@
         <?php echo $value->label; ?>
 
     </li>
-    
+    <!--<li><hr class="dropdown-divider"></li>-->
 </div>
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/button/action/special-button.blade.php ENDPATH**/ ?>

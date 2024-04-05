@@ -1,4 +1,13 @@
-
+    /* Loading */
+    .k-loading {
+        position: fixed;
+        bottom: 0px; /* Distance from the bottom of the viewport */
+        right: 5px; /* Distance from the right of the viewport */
+        background-color: #036d73;/*rgba(0, 0, 0, 0.5);  Semi-transparent background */
+        color: white; /* Text color */
+        padding: 10px;
+        z-index: 1000; /* Ensure it stays on top of other content */
+    }
         .kover-navlink:hover{
             background-color: #E7E9ED;
         }
@@ -1661,6 +1670,13 @@
         color: #000;
         font-size: 14px;
         line-height: 18px;
+        /* font-weight: bold; */
+    }
+    .list-table .list-tr th{
+        background-color: #E7E9ED;
+        color: #000;
+        font-size: 12px;
+        line-height: 14px;
         /* font-weight: bold; */
     }
 

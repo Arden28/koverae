@@ -396,8 +396,8 @@ class SaleForm extends BaseForm
     }
 
 
-    #[On('delete-print')]
     // Print sale
+    #[On('print-sale')]
     public function print(){
         try {
             // $sale = sale::find(38);
@@ -427,7 +427,7 @@ class SaleForm extends BaseForm
             // return response($utf8Output)->download('sale-' . $sale->reference . '.pdf');
         } catch (\Exception $e) {
             Log::error('Error generating sale PDF: ' . $e->getMessage());
-            return response()->json(['error' => 'Unable to generate PDF'], 500);
+            return response()->json(['error' => 'Unable to generate Sale Invoice'], 500);
         }
     }
 

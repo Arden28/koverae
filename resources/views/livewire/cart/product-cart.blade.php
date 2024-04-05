@@ -8,13 +8,12 @@
                     <th><button>{{ __('Quantité') }}</button></th>
                     <th><button>{{ __('Prix unitaire') }}</button></th>
                     <th><button>{{ __('Réduction') }}</button></th>
-                    <th><button>{{ __('Taxe') }}</button></th>
-                    <th><button>{{ __('Hors Taxe') }}</button></th>
-                    <th><button>{{ __('Toutes taxes comprises') }}</button></th>
+                    {{-- <th><button>{{ __('Taxe') }}</button></th> --}}
+                    <th><button>{{ __('Sous total') }}</button></th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="cursor-pointer">
                 @if($cart_items->isNotEmpty())
                     @foreach($cart_items as $cart_item)
                     <tr class="k_field_list_row">
@@ -33,12 +32,9 @@
                         <td class="k_field_list">
                             <input type="text" value="{{ format_currency($cart_item->options->product_discount) }}" class="k_input">
                         </td>
-                        <td class="k_field_list">
+                        {{-- <td class="k_field_list">
                             <input type="text" value="{{ $cart_item->options->product_tax }}" class="k_input">
-                        </td>
-                        <td class="k_field_list">
-                            <input type="text" value="{{ format_currency($cart_item->options->untaxed_amount) }}" class="k_input">
-                        </td>
+                        </td> --}}
                         <td class="k_field_list">
                             <input type="text" value="{{ format_currency($cart_item->options->sub_total) }}" class="k_input">
                         </td>
@@ -68,12 +64,9 @@
                         <td class="k_field_list">
                             <input type="text" wire:model="tax.{{ $value }}" class="k_input">
                         </td>
-                        <td class="k_field_list">
+                        {{-- <td class="k_field_list">
                             <input type="text" wire:model="tax_exclusion.{{ $value }}" class="k_input">
-                        </td>
-                        <td class="k_field_list">
-                            <input type="text" wire:model="tax_exclusion.{{ $value }}" class="k_input">
-                        </td>
+                        </td> --}}
                         <td class="k_field_list">
                             <input type="text" wire:model="subtotal.{{ $value }}" class="k_input">
                         </td>
@@ -118,29 +111,30 @@
 
         <div class="k_inner_group k_subtotal_footer col-lg-2 right overflow-y-auto h-100">
 
+            @if($cart_items->isNotEmpty())
             <td class="k_td_label">
                 <span>
-                    Total HT
+                    {{ __('Total HT') }} :
                 </span>
             </td>
-            <br>
             <td class="k_list_monetary">
                 <span>
-                    (=) {{ format_currency( (convertToIntSimple(Cart::instance($this->cart_instance)->subtotal) - convertToIntSimple(Cart::instance($this->cart_instance)->tax()) ) / 100 ) }}
+                    {{-- (=) {{ format_currency( (convertToIntSimple(Cart::instance($this->cart_instance)->subtotal) - convertToIntSimple(Cart::instance($this->cart_instance)->tax()) ) / 100 ) }} --}}
+                    (=) {{ Cart::instance($this->cart_instance)->subtotal }}
                 </span>
             </td>
+            @endif
             <br class="mb-2">
-            @if($this->global_tax > 0)
+            @if($this->global_tax > 0 && $cart_items->isNotEmpty())
                 <!-- Taxes -->
                 <td class="k_td_label">
                     <label for="" class="k_text_label k_tax_total_label">
                         {{ __('Taxe') }} ({{ sales_tax()->amount }}%) :
                     </label>
                 </td>
-                <br>
                 <td class="k_list_monetary">
                     <span>
-                        (+) {{ $global_tax }}
+                        (+) {{ $this->global_tax }}
                     </span>
                 </td>
                 <br>
@@ -167,7 +161,6 @@
                         {{ __('Livraison') }} :
                     </label>
                 </td>
-                <br>
                 <td class="k_list_monetary">
                     <input type="hidden" value="{{ $shipping }}" name="shipping_amount">
                     <span>
@@ -179,12 +172,12 @@
 
             <td class="k_td_label">
                 <label for="" class="k_text_label k_tax_total_label">
-                    <b>{{ __('Total TTC') }}</b>
+                    <b>{{ __('Total') }} :</b>
                 </label>
             </td>
-            <br>
+
             @php
-                $total_with_shipping = Cart::instance($cart_instance)->total
+                $total_with_shipping = Cart::instance($cart_instance)->total();
             @endphp
 
             <td class="k_list_monetary">
@@ -193,5 +186,9 @@
                 </span>
             </td>
         </div>
+    </div>
+    <!-- Loading -->
+    <div class="k-loading cursor-pointer pb-1" wire:loading>
+        <p>En cours de chargement ...</p>
     </div>
 </div>
