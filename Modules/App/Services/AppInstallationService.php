@@ -6,6 +6,7 @@ use App\Models\Company\Company;
 use App\Models\Module\InstalledModule as ModuleInstalledModule;
 use App\Models\Module\Module;
 use App\Models\User;
+use Modules\Accounting\Entities\Journal;
 use Modules\App\Entities\Email\EmailTemplate;
 use Modules\Contact\Entities\Contact;
 use Modules\Contact\Entities\HonorificTitle;
@@ -26,6 +27,7 @@ use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
 use Modules\Inventory\Entities\Warehouse\Warehouse;
 use Modules\Inventory\Entities\Warehouse\WarehouseRoute;
 use Modules\Inventory\Entities\Warehouse\WarehouseRouteRule;
+use Modules\Invoicing\Entities\Incoterm;
 use Modules\Invoicing\Entities\Tax\Tax;
 use Modules\Sales\Entities\Price\PriceList;
 use Modules\Sales\Entities\SalesPerson;
@@ -428,7 +430,126 @@ class AppInstallationService
 
     // Facturation
     public function installInvoice($company){
-        //
+        //Conditions de paiement
+
+        // Incoterms
+        $incoterms = [
+            [
+                'company_id' => $company,
+                'code' => "EXW",
+                'name' => "À L'USINE"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "FCA",
+                'name' => "FRANCO TRANSPORTEUR"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "FAS",
+                'name' => "FRANCO LE LONG DU NAVIRE"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "FOB",
+                'name' => "FRANCO À BORD DU NAVIRE"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "CFR",
+                'name' => "COÛT ET FRET"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "CIF",
+                'name' => "COÛT, ASSURANCE ET FRET"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "CPT",
+                'name' => "PORT PAYÉ JUSQU'À"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "CIP",
+                'name' => "PORT PAYÉ, ASSURANCE COMPRISE JUSQU'À"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "DPU",
+                'name' => "RENDU AU LIEU DE DESTINATION DÉCHARGÉ"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "DAP",
+                'name' => "RENDU AU LIEU DE DESTINATION"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "DDP",
+                'name' => "RENDU DROITS ACQUITTÉS"
+            ],
+        ];
+        foreach($incoterms as $incoterm){
+            Incoterm::create($incoterm);
+        }
+
+        // Journaux Comptable
+        $journals = [
+            [
+                'company_id' => $company,
+                'name' => 'Factures clients',
+                'type' => 'sale',
+                'short_code' => 'INV'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Factures fournisseurs',
+                'type' => 'purchase',
+                'short_code' => 'BILL'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Opérations diverses',
+                'type' => 'miscellaneous',
+                'short_code' => 'MISC'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Valorisation des stocks',
+                'type' => 'miscellaneous',
+                'short_code' => 'STJ'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Différence de change',
+                'type' => 'miscellaneous',
+                'short_code' => 'EXCH'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'TVA sur encaissements',
+                'type' => 'miscellaneous',
+                'short_code' => 'CABA'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Banque',
+                'type' => 'bank',
+                'short_code' => 'BNK1'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Espèces',
+                'type' => 'cash',
+                'short_code' => 'CSH1'
+            ],
+        ];
+        foreach($journals as $journal){
+            Journal::create($journal);
+        }
+
+        // 
     }
 
     // Install Contact

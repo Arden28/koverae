@@ -19,12 +19,13 @@ return new class extends Migration
             $table->string('name');
             $table->enum('type', ['sale','purchase', 'cash', 'bank','miscellaneous'])->nullable();
             $table->string('short_code');
+            $table->unsignedBigInteger('default_account_id')->nullable();
             // Accounting Informations
                 // Sale
-                $table->unsignedBigInteger('defaul_income_account_id')->nullable();
+                $table->unsignedBigInteger('default_income_account_id')->nullable();
                 $table->boolean('dedicated_credit_sequence')->default(false);
                 // Purchase
-                $table->unsignedBigInteger('defaul_expense_account_id')->nullable();
+                $table->unsignedBigInteger('default_expense_account_id')->nullable();
                 //Cash
                 $table->unsignedBigInteger('cash_account_id')->nullable();
                 $table->unsignedBigInteger('profit_account_id')->nullable();
