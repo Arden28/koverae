@@ -276,7 +276,7 @@ class QuotationForm extends BaseForm
     public function capsules() : array
     {
         return [
-            Capsule::make('sale', 'Vente(s)', 'Les ventes générées via le devis.')->component('capsules.sale-capsule'),
+            Capsule::make('sale', 'Bons de commande', 'Les ventes générées via le devis.')->component('capsules.sale-capsule'),
             // Add more buttons as needed
         ];
     }

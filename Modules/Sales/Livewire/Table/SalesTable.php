@@ -39,7 +39,6 @@ class SalesTable extends Table
         return [
             Column::make('reference', 'Référence')->component('columns.common.show-title-link'),
             Column::make('date', 'Date de la commande')->component('columns.common.date.simple'),
-            Column::make('expected_date', 'Date prévue')->component('columns.common.date.simple'),
             Column::make('shipping_date', 'Date de livraison')->component('columns.common.date.simple'),
             Column::make('customer_id', 'Client')->component('columns.common.customer'),
             Column::make('seller_id', 'Commercial')->component('columns.common.seller'),

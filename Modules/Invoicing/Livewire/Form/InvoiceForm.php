@@ -214,7 +214,7 @@ class InvoiceForm extends BaseForm
     public function capsules() : array
     {
         return [
-            Capsule::make('sale', 'Vente', 'Les ventes ayant engendrés cette commande..')->component('capsules.sale-capsule'),
+            Capsule::make('sale', 'Bons de commande', 'Les ventes ayant engendrés cette commande..')->component('capsules.sale-capsule'),
             // Capsule::make('quotation', 'Devis', 'Les devis ayant engendrés cette commande..')->component('capsules.sale.quotation'),
             // Add more buttons as needed
         ];

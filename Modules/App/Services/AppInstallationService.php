@@ -58,6 +58,8 @@ class AppInstallationService
         // Load the app installation process
         if($moduleSlug == 'employee'){
             $this->installEmployee($companyId);
+        }elseif($moduleSlug == 'invoice'){
+            $this->installInvoice($companyId);
         }elseif($moduleSlug == 'sales'){
             $this->installSales($companyId);
         }elseif($moduleSlug == 'inventory'){
@@ -422,6 +424,11 @@ class AppInstallationService
         foreach($categories as $category){
             Category::create($category);
         }
+    }
+
+    // Facturation
+    public function installInvoice($company){
+        //
     }
 
     // Install Contact
@@ -1076,11 +1083,6 @@ class AppInstallationService
         }
 
 
-    }
-
-    // Facturation
-    public function installInvoice(Company $company){
-        //
     }
 
     public function createDashboards(int $company){

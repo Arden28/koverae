@@ -1690,6 +1690,10 @@
         max-width: 100%;
         min-width: auto;
     }
+    .k_subtotal_footer .discounts-btn{
+        width: 100%;
+        border-bottom: 1px solid #D8DADD;
+    }
 
     /* k_kanban_renderer */
     .k_kanban_renderer{

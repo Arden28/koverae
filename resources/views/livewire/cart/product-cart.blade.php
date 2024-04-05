@@ -110,6 +110,14 @@
         </div>
 
         <div class="k_inner_group k_subtotal_footer col-lg-2 right overflow-y-auto h-100">
+            
+            @if(settings()->has_discount)
+            <div class="discounts-btn mt-2 mb-2 text-end pb-2">
+                <span class="btn btn-secondary">
+                    Remise
+                </span>
+            </div>
+            @endif
 
             @if($cart_items->isNotEmpty())
             <td class="k_td_label">
@@ -117,10 +125,11 @@
                     {{ __('Total HT') }} :
                 </span>
             </td>
+            <br>
             <td class="k_list_monetary">
                 <span>
                     {{-- (=) {{ format_currency( (convertToIntSimple(Cart::instance($this->cart_instance)->subtotal) - convertToIntSimple(Cart::instance($this->cart_instance)->tax()) ) / 100 ) }} --}}
-                    (=) {{ Cart::instance($this->cart_instance)->subtotal }}
+                    (=) {{ format_currency(convertToIntSimple(Cart::instance($this->cart_instance)->subtotal) / 100 ) }}
                 </span>
             </td>
             @endif
@@ -132,9 +141,10 @@
                         {{ __('Taxe') }} ({{ sales_tax()->amount }}%) :
                     </label>
                 </td>
+                <br>
                 <td class="k_list_monetary">
                     <span>
-                        (+) {{ $this->global_tax }}
+                        (+) {{ format_currency(convertToIntSimple($this->global_tax) / 100) }}
                     </span>
                 </td>
                 <br>
@@ -161,6 +171,7 @@
                         {{ __('Livraison') }} :
                     </label>
                 </td>
+                <br>
                 <td class="k_list_monetary">
                     <input type="hidden" value="{{ $shipping }}" name="shipping_amount">
                     <span>
@@ -182,7 +193,7 @@
 
             <td class="k_list_monetary">
                 <span>
-                    (=) {{ $total_with_shipping }}
+                    (=) {{ format_currency(convertToIntSimple($total_with_shipping) / 100) }}
                 </span>
             </td>
         </div>

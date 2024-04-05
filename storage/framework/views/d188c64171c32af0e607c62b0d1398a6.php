@@ -122,6 +122,14 @@ if (isset($__slots)) unset($__slots);
         </div>
 
         <div class="k_inner_group k_subtotal_footer col-lg-2 right overflow-y-auto h-100">
+            
+            <!--[if BLOCK]><![endif]--><?php if(settings()->has_discount): ?>
+            <div class="discounts-btn mt-2 mb-2 text-end pb-2">
+                <span class="btn btn-secondary">
+                    Remise
+                </span>
+            </div>
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
             <!--[if BLOCK]><![endif]--><?php if($cart_items->isNotEmpty()): ?>
             <td class="k_td_label">
@@ -129,10 +137,11 @@ if (isset($__slots)) unset($__slots);
                     <?php echo e(__('Total HT')); ?> :
                 </span>
             </td>
+            <br>
             <td class="k_list_monetary">
                 <span>
                     
-                    (=) <?php echo e(Cart::instance($this->cart_instance)->subtotal); ?>
+                    (=) <?php echo e(format_currency(convertToIntSimple(Cart::instance($this->cart_instance)->subtotal) / 100 )); ?>
 
                 </span>
             </td>
@@ -145,9 +154,10 @@ if (isset($__slots)) unset($__slots);
                         <?php echo e(__('Taxe')); ?> (<?php echo e(sales_tax()->amount); ?>%) :
                     </label>
                 </td>
+                <br>
                 <td class="k_list_monetary">
                     <span>
-                        (+) <?php echo e($this->global_tax); ?>
+                        (+) <?php echo e(format_currency(convertToIntSimple($this->global_tax) / 100)); ?>
 
                     </span>
                 </td>
@@ -176,6 +186,7 @@ if (isset($__slots)) unset($__slots);
                         <?php echo e(__('Livraison')); ?> :
                     </label>
                 </td>
+                <br>
                 <td class="k_list_monetary">
                     <input type="hidden" value="<?php echo e($shipping); ?>" name="shipping_amount">
                     <span>
@@ -198,7 +209,7 @@ if (isset($__slots)) unset($__slots);
 
             <td class="k_list_monetary">
                 <span>
-                    (=) <?php echo e($total_with_shipping); ?>
+                    (=) <?php echo e(format_currency(convertToIntSimple($total_with_shipping) / 100)); ?>
 
                 </span>
             </td>

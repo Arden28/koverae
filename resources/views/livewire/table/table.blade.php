@@ -18,9 +18,6 @@
                         @endif
                     </th>
                 @endforeach
-                    <th class="cursor-pointer">
-
-                    </th>
             </tr>
             </thead>
             <tbody class=" bg-white">
@@ -39,7 +36,7 @@
                         </x-dynamic-component>
                     </td>
                     @endforeach
-                    <td class="text-end">
+                    {{-- <td class="text-end">
                         <span class="dropdown">
                         <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu dropdown-menu-end">
@@ -51,7 +48,7 @@
                             </a>
                         </div>
                         </span>
-                    </td>
+                    </td> --}}
                 </tr>
                 @endforeach
             </tbody>

@@ -332,7 +332,7 @@
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td class="text-right pl-0">{{ __('Taxe') }}  ({{ $invoice->tax_percentage }}%)</td>
                                 <td class="text-right pr-0">
-                                    {{ format_currency($invoice->tax_amount) }}
+                                    {{ format_currency($invoice->tax_amount / 100) }}
                                 </td>
                             </tr>
                         @endif
