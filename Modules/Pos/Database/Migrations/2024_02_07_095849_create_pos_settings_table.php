@@ -49,7 +49,7 @@ return new class extends Migration
             $table->boolean('has_line_discounts')->default(false);
             $table->boolean('has_sales_program')->default(false);
             $table->boolean('has_pricer')->default(false);
-            $table->enum('product_prices', ['tax-excluded', 'tax-included'])->default('tax-included');
+            $table->enum('product_prices', ['tax-excluded', 'tax-included'])->default('tax-excluded');
             // Bills & Receipts
             $table->boolean('has_customer_header_footer')->default(false);
             $table->boolean('has_automatic_receipt_printer')->default(false);

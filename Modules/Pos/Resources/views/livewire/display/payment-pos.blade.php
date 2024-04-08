@@ -172,7 +172,7 @@
                                 -------------------------
                             </div>
                             <div>
-                                Servi par {{ $order->cashier->user->name }}
+                                Servi par {{ $order->cashier->name }}
                             </div>
                             <div class="receipt-number">
                                 <span class="fs-1">

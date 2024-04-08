@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('parent_category_id')->nullable();
             $table->integer('available_start')->default(0);
             $table->integer('available_end')->default(24);
+            $table->string('image_path')->nullable();
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->foreign('pos_id')->references('id')->on('pos')->cascadeOnDelete();

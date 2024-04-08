@@ -23,7 +23,9 @@ class Shop extends Component
     public function render()
     {
         $product_categories = Category::isCompany(current_company()->id)->get();
-        $customers = Contact::isCompany(current_company()->id)->isCustomer()->get();
+        // $product_categories = Category::isCompany(current_company()->id)->get();
+        // $customers = Contact::isCompany(current_company()->id)->isCustomer()->get();
+        $customers = Contact::isCompany(current_company()->id)->get();
 
         return view('pos::livewire.display.shop', compact('product_categories', 'customers'))
         ->extends('pos::layouts.shop');
@@ -37,6 +39,10 @@ class Shop extends Component
     #[On('change-total-items')]
     public function changeTotalItems($items){
         $this->total_items = $items;
+    }
+
+    public function payClick(){
+        $this->dispatch('pay-click');
     }
 
     public function switchTab($tab){

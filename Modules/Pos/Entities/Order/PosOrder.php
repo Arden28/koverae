@@ -2,6 +2,7 @@
 
 namespace Modules\Pos\Entities\Order;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Pos\Database\factories\PosOrderFactory;
@@ -76,7 +77,7 @@ class PosOrder extends Model
 
     // Get Pos
     public function cashier() {
-        return $this->belongsTo(Employee::class, 'cashier_id', 'id');
+        return $this->belongsTo(User::class, 'cashier_id', 'id');
     }
 
 

@@ -2,5 +2,5 @@
     'value'
 ])
 <div>
-    {{ format_currency($value) }}
+    {{ format_currency($value / 100) }}
 </div>

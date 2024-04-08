@@ -41,7 +41,7 @@
                         <th scope="row">{{ receipt_number($order->reference) }}</th>
                         <td>{{ $order->id }}</td>
                         <td>{{ $order->customer->name }}</td>
-                        <td>{{ $order->cashier->user->name }}</td>
+                        <td>{{ $order->cashier->name }}</td>
                         <td>{{ format_currency($order->total_amount / 100) }}</td>
                         <td>{{ format_currency($order->paid_amount / 100) }}</td>
                         <td>
@@ -59,7 +59,7 @@
             </table>
         </div>
         <!-- Checkout -->
-        <div class="col-md-4">
+        <div class="col-md-4" style="height: 100vh;">
             <livewire:pos::display.refund :pos="$pos" />
         </div>
     </div>

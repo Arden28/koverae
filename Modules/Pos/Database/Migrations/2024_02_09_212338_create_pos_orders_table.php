@@ -38,7 +38,7 @@ return new class extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->foreign('pos_id')->references('id')->on('pos')->cascadeOnDelete();
             $table->foreign('pos_session_id')->references('id')->on('pos_sessions')->cascadeOnDelete();
-            $table->foreign('cashier_id')->references('id')->on('employees')->cascadeOnDelete();
+            // $table->foreign('cashier_id')->references('id')->on('employees')->cascadeOnDelete();
             $table->foreign('customer_id')->references('id')->on('contacts')->cascadeOnDelete();
 
             $table->timestamps();

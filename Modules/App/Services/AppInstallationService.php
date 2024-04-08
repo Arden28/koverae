@@ -29,53 +29,87 @@ use Modules\Inventory\Entities\Warehouse\WarehouseRoute;
 use Modules\Inventory\Entities\Warehouse\WarehouseRouteRule;
 use Modules\Invoicing\Entities\Incoterm;
 use Modules\Invoicing\Entities\Tax\Tax;
+use Modules\Pos\Entities\Coin\CoinBill;
+use Modules\Pos\Entities\Payment\PosPaymentMethod;
+use Modules\Pos\Entities\Pos\Pos;
+use Modules\Pos\Entities\Pos\PosSetting;
 use Modules\Sales\Entities\Price\PriceList;
 use Modules\Sales\Entities\SalesPerson;
 use Modules\Sales\Entities\SalesTeam;
 use Modules\Settings\Entities\Currency;
 use Modules\Settings\Entities\Setting;
 use Modules\Settings\Entities\System\SystemParameter;
+use Ramsey\Uuid\Uuid;
 
 class AppInstallationService
 {
     public function installModule(string $moduleSlug, int $companyId)
     {
         $m = Module::where('slug', $moduleSlug)->first();
+        $company = Company::find($companyId);
 
         if($m->parent_slug){
-            $parent = ModuleInstalledModule::create([
-                'company_id' => $companyId,
-                'module_slug' => $m->parent_slug,
-            ]);
+            $m_p = Module::where('slug', $m->parent_slug)->first();
 
-            $parent->save();
+            if(!$m_p->isInstalledBy($company)){
+                $parent = ModuleInstalledModule::create([
+                    'company_id' => $companyId,
+                    'module_slug' => $m->parent_slug,
+                ]);
+                $this->installAppData($companyId, $parent->module_slug);
+
+                $parent->save();
+
+                if($parent->parent_slug){
+
+                    $m_p_2 = Module::where('slug', $parent->parent_slug)->first();
+
+                    if(!$m_p_2->isInstalledBy($company)){
+                        $parent_2 = ModuleInstalledModule::create([
+                            'company_id' => $companyId,
+                            'module_slug' => $parent->parent_slug,
+                        ]);
+                        $this->installAppData($companyId, $parent_2->module_slug);
+                    }
+                }
+
+            }
         }
 
-        $module = ModuleInstalledModule::create([
-            'company_id' => $companyId,
-            'module_slug' => $moduleSlug,
-        ]);
+        if(!$m->isInstalledBy($company)){
+            $module = ModuleInstalledModule::create([
+                'company_id' => $companyId,
+                'module_slug' => $moduleSlug,
+            ]);
 
-        $module->save();
+            $module->save();
+            $this->installAppData($companyId, $moduleSlug);
+        }
+
+        return $msg = "Top";
+    }
+
+    // Install the data App
+    public function installAppData($companyId, $slug){
         // Load the app installation process
-        if($moduleSlug == 'employee'){
+        if($slug == 'employee'){
             $this->installEmployee($companyId);
-        }elseif($moduleSlug == 'invoice'){
+        }elseif($slug == 'invoice'){
             $this->installInvoice($companyId);
-        }elseif($moduleSlug == 'sales'){
+        }elseif($slug == 'sales'){
             $this->installSales($companyId);
-        }elseif($moduleSlug == 'inventory'){
+        }elseif($slug == 'inventory'){
             $this->installInventory($companyId);
-        }elseif($moduleSlug == 'purchase'){
+        }elseif($slug == 'pos'){
+            $this->installPdv($companyId);
+        }elseif($slug == 'purchase'){
             $this->installPurchase($companyId);
-        }elseif($moduleSlug == 'contact'){
+        }elseif($slug == 'contact'){
             $this->installContact($companyId);
         }
 
         // Here you can add additional installation logic specific to the module
         // For example, running module-specific seeders, creating default settings, etc.
-
-        return $module;
     }
 
     // Install the basic App: Apps, Tableaux de bord, Paramètres, ToDo, Calendrier
@@ -549,7 +583,7 @@ class AppInstallationService
             Journal::create($journal);
         }
 
-        // 
+        //
     }
 
     // Install Contact
@@ -1189,6 +1223,121 @@ class AppInstallationService
 
     }
 
+    // Point de Vente
+    public function installPdv($company){
+        // Pièces & Billets
+        $coins = [
+            [
+                'company_id' => $company,
+                'name' => '25',
+                'type' => 'coin',
+                'value' => 25
+            ],
+            [
+                'company_id' => $company,
+                'name' => '50',
+                'type' => 'coin',
+                'value' => 50
+            ],
+            [
+                'company_id' => $company,
+                'name' => '100',
+                'type' => 'coin',
+                'value' => 100
+            ],
+            [
+                'company_id' => $company,
+                'name' => '500',
+                'type' => 'coin',
+                'value' => 500
+            ],
+            [
+                'company_id' => $company,
+                'name' => '500',
+                'type' => 'bill',
+                'value' => 500
+            ],
+            [
+                'company_id' => $company,
+                'name' => '1000',
+                'type' => 'bill',
+                'value' => 1000
+            ],
+            [
+                'company_id' => $company,
+                'name' => '2000',
+                'type' => 'bill',
+                'value' => 2000
+            ],
+            [
+                'company_id' => $company,
+                'name' => '5000',
+                'type' => 'bill',
+                'value' => 5000
+            ],
+            [
+                'company_id' => $company,
+                'name' => '10000',
+                'type' => 'bill',
+                'value' => 10000
+            ],
+        ];
+        foreach($coins as $coin){
+            CoinBill::create($coin);
+        }
+
+        // Point de Vente
+        $pos = Pos::create([
+            'company_id' => $company,
+            'name' => __('Boutique'),
+            'private_key' => Uuid::uuid4(),
+        ]);
+        $pos->save();
+
+        $pos_setting = PosSetting::create([
+            'company_id' => $company,
+            'pos_id' => $pos->id,
+        ]);
+        $pos_setting->save();
+
+        // Pdv Operations logistique
+        $warehouses = Warehouse::isCompany($company)->get();
+        foreach($warehouses as $warehouse){
+            OperationType::create([
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => __('Commande du Pdv'),
+                'operation_type' => 'delivery',
+                'prefix' => 'POS',
+                'backorder' => 'ask'
+            ]);
+        }
+
+        // Mode de paiement
+        $paymentMethods = [
+            [
+                'company_id' => $company,
+                'name' => 'Espèces',
+                'journal_id' => Journal::isCompany($company)->isCode('BNK1')->first()->id,
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Banque',
+                'journal_id' => Journal::isCompany($company)->isCode('CSH1')->first()->id,
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Compte Kover',
+                // 'journal_id' => ,
+                'should_be_identified' => true,
+            ],
+        ];
+        foreach($paymentMethods as $method){
+            PosPaymentMethod::create($method);
+        }
+
+    }
+
     // Fabrication
     public function installManufacturing($company){
         // Emplacements
@@ -1206,6 +1355,7 @@ class AppInstallationService
 
     }
 
+    // Dashboards
     public function createDashboards(int $company){
 
         // Create dashboards for the company

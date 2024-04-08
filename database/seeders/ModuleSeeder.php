@@ -386,7 +386,7 @@ class ModuleSeeder extends Seeder
             [
                 'name' => 'Point de Vente',
                 'category_id' => 2,
-                'parent_slug' => 'sales',
+                'parent_slug' => 'inventory',
                 'slug' => 'pos',
                 'short_name'    =>  'Pdv',
                 'description'  =>  'Une interface adaptée pour les magasins et les restaurants',

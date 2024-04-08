@@ -97,18 +97,22 @@
             }
         }
         .product-list{
+            height: 400px;
             width: 100%;
             padding: 4px 16px 4px 16px;
             margin: 0 0 4px 0;
-            /* overflow-y: auto; */
+            overflow-y: auto;
+            min-height: auto;
+            max-height: 800px;
         }
         .product-list .product{
-            height: auto;
+            height: 215px;
             width: 18.5%;
             border: 1px solid #F9FAFB;
             padding: 0;
             min-width: auto;
             min-height: auto;
+            /* max-height: auto; */
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
         }
         @media (max-width: 380px){
@@ -138,10 +142,12 @@
             }
         }
 
-        /* .product-list .product-content{
-            width: 100%;
-            margin: 0 8px 0 8px;
-        } */
+        .product-list .product-content{
+            height: auto;
+            /* width: 100%;
+            margin: 0 8px 0 8px; */
+        }
+
         .product-list .product .product-content .product-name{
             height: auto;
             width: 100%;
@@ -276,55 +282,55 @@
                         </button>
                     </div>
                     <div class="w-75 flex-wrap d-flex">
-                        <button wire:click="updateQty(1)" class="k_price_list_button btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="updateQty(1)" class="k_price_list_button btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             1
                         </button>
-                        <button wire:click="updateQty(2)" class="btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="updateQty(2)" class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             2
                         </button>
-                        <button wire:click="updateQty(3)" class="btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="updateQty(3)" class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             3
                         </button>
-                        <button class="btn btn-light rounded-0 fw-bolder selected">
+                        <button class="btn btn-light rounded-0 fw-bolder selected"  style="width: 24.2%;" >
                             Qté
                         </button>
                         <!-- 2 -->
-                        <button wire:click="updateQty(4)" class="k_price_list_button btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="updateQty(4)" class="k_price_list_button btn btn-light rounded-0 fw-bolder"  style="width: 24.2%;">
                             4
                         </button>
-                        <button wire:click="updateQty(5)" class="btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="updateQty(5)" class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             5
                         </button>
-                        <button wire:click="updateQty(6)" class="btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="updateQty(6)" class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             6
                         </button>
-                        <button class="btn btn-light rounded-0 fw-bolder" disabled>
+                        <button class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;" disabled>
                             <i class="bi bi-percent"></i> Réduc
                         </button>
                         <!-- 3 -->
-                        <button wire:click="updateQty(7)" class="k_price_list_button btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="updateQty(7)" class="k_price_list_button btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             7
                         </button>
-                        <button wire:click="updateQty(8)" class="btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="updateQty(8)" class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             8
                         </button>
-                        <button wire:click="updateQty(9)" class="btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="updateQty(9)" class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             9
                         </button>
-                        <button class="btn btn-light rounded-0 fw-bolder" disabled>
+                        <button class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;" disabled>
                             Prix
                         </button>
                         <!-- 4 -->
-                        <button class="k_price_list_button btn btn-light rounded-0 fw-bolder">
+                        <button class="k_price_list_button btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             ÷
                         </button>
-                        <button class="btn btn-light rounded-0 fw-bolder" wire:click="updateQty(0)">
+                        <button class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;" wire:click="updateQty(0)">
                             0
                         </button>
-                        <button class="btn btn-light rounded-0 fw-bolder">
+                        <button class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             ,
                         </button>
-                        <button wire:click="backspace" class="btn btn-light rounded-0 fw-bolder">
+                        <button wire:click="backspace" class="btn btn-light rounded-0 fw-bolder" style="width: 24.2%;">
                             <i class="bi bi-backspace"></i>
                         </button>
                     </div>

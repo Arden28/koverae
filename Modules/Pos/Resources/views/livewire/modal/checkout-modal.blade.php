@@ -7,6 +7,7 @@
         </button>
       </div>
       <form wire:submit="createPos">
+        @csrf
         <div class="modal-body position-relative">
           <div class="k_form_nosheet">
               <div class="row">

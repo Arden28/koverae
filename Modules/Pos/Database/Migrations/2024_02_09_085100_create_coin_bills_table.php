@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->string('name');
             $table->decimal('value', $precision = 12, $scale = 2)->default(0.00);
+            $table->enum('type', ['bill', 'coin'])->default('bill');
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->foreign('pos_id')->references('id')->on('pos')->cascadeOnDelete();

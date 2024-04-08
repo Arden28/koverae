@@ -1,5 +1,5 @@
 <div>
-    <div class="card border-0 shadow-sm">
+    <div class="card-lg border-0 shadow-sm bg-white">
         <div class="card-body" id="left-product-side-product">
             <livewire:search.input-search/>
             <livewire:pos::display.product.filter :categories="$categories"/>
@@ -9,7 +9,7 @@
                     <span class="sr-only"></span>
                 </div>
             </div>
-            <div class="product-list row gap-2 p-1">
+            <div class="product-list row gap-2 p-1 overflow-y-auto h-screen">
                 @forelse($products as $product)
                 <article class="flex-column product position-relative d-flex align-items-start ps-0 text-start cursor-pointer transition-base">
                     <!-- Product Tag Info -->
@@ -20,9 +20,13 @@
                     <div class="badge badge-info mb-3 position-absolute" style="left:10px;top: 10px;">{{ $product->product_quantity }}</div>
                     <!-- Product Image -->
                     {{-- <img height="200" src="{{ $product->getFirstMediaUrl('images') }}" class="card-img-top" alt="Product Image"> --}}
+                    @if($product->image_path)
+                    <img wire:click.prevent="selectProduct({{ $product }})" src="{{ Storage::disk('public')->url($product->image_path) }}" class="card-img-top w-100" alt="{{ $product->product_name }}">
+                    @else
                     <img wire:click.prevent="selectProduct({{ $product }})" src="{{ asset('assets/images/default/product.png') }}" class="card-img-top w-100" alt="{{ $product->product_name }}">
+                    @endif
 
-                    <div class="product-content d-flex flex-column justify-content-between h-100 mx-2 py-1">
+                    <div class="product-content d-flex flex-column justify-content-between mx-2 py-1">
                         <!-- Product Name -->
                         <div class="product-name no-image fw-bolder overflow-hidden lh-sm" id="product_{{ $product->id }}">
                             {{ $product->product_name }}

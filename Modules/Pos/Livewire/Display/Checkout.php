@@ -71,8 +71,17 @@ class Checkout extends Component
         ]);
     }
 
-    public function proceed() {
+    #[On('pay-click')]
+    public function payClick(){
+        // Verify if a customer is selected
+        if ($this->customer != null) {
+            $this->dispatch('showCheckoutModal');
+        } else {
+            session()->flash('message', 'Please Select Customer!');
+        }
+    }
 
+    public function proceed() {
 
         // Verify if a customer is selected
         if ($this->customer != null) {

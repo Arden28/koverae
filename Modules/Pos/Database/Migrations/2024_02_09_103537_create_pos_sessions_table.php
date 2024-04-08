@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->foreign('pos_id')->references('id')->on('pos')->cascadeOnDelete();
-            $table->foreign('open_by_id')->references('id')->on('employees')->cascadeOnDelete();
+            // $table->foreign('open_by_id')->references('id')->on('employees')->cascadeOnDelete();
             $table->foreign('journal_id')->references('id')->on('journals')->cascadeOnDelete();
 
             $table->timestamps();

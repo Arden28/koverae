@@ -58,7 +58,7 @@ if (!function_exists('team')) {
 if (!function_exists('module')) {
     function module($slug) {
 
-        $team = Team::where('id', Auth::user()->team->id)->where('uuid', Auth::user()->team->uuid)->first();
+        // $team = Team::where('id', Auth::user()->team->id)->where('uuid', Auth::user()->team->uuid)->first();
 
         $module = Module::findBySlug($slug)->first();
 

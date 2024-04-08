@@ -45,7 +45,7 @@ class CheckoutModal extends ModalComponent
 
     // Create a POS sale
     public function createPos(){
-        $this->validate();
+        // $this->validate();
         try{
 
             // $this->tax_amount = convertToInt($cart->tax());

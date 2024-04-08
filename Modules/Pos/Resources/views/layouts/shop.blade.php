@@ -53,7 +53,7 @@
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <a href="{{ route('pos.ui.orders', ['subdomain' => current_company()->domain_name, 'pos' => current_pos()->id, 'session' =>current_pos()->sessions()->isOpened()->first()->unique_token]) }}" class="dropdown-item">Commandes <span class="badge bg-success"></span>
                 <a href="#" class="dropdown-item">Verrouiller</a>
-                <a href="{{ route('pos.index', ['subdomain' => current_company()->domain_name, 'menu' => 7]) }}" class="dropdown-item">Back-end</a>
+                <a href="{{ route('pos.index', ['subdomain' => current_company()->domain_name, 'menu' => 7]) }}" class="dropdown-item">{{ __('Arrière boutique') }}</a>
                 <a onclick="Livewire.dispatch('openModal', {component: 'pos::modal.close-session-modal', arguments: {session: {{ current_pos()->sessions()->isOpened()->first()->id }} }})" class="dropdown-item cursor-pointer">Fermer la session</a>
               </div>
             </div>

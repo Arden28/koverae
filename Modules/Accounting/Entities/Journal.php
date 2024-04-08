@@ -24,6 +24,11 @@ class Journal extends Model
         return $query->where('company_id', $company_id);
     }
 
+    public function scopeIsCode(Builder $query, $short_code)
+    {
+        return $query->where('short_code', $short_code);
+    }
+
 
     // protected static function newFactory()
     // {

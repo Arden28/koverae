@@ -37,7 +37,7 @@
 
     <!-- Fixed Bottom Bar -->
     <div class="fixed-bar d-flex d-lg-none">
-        <button class="btn-switch_pane rounded-0 fw-bolder review-button " id="pay-order">
+        <button class="btn-switch_pane rounded-0 fw-bolder review-button" wire:click="payClick" wire:target="payClick" id="pay-order">
             <span class="fs-1 d-block">
                 Payer
             </span>
@@ -54,6 +54,10 @@
             </span>
         </button>
     </div>
+
+    <!-- Loading -->
+    @include('includes.loading')
+
 </div>
 @section('scripts')
 

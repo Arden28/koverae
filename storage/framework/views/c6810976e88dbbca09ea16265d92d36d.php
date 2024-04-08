@@ -18,7 +18,7 @@
 } ?>
 <?php unset($__defined_vars); ?>
 <div>
-    <?php echo e(format_currency($value)); ?>
+    <?php echo e(format_currency($value / 100)); ?>
 
 </div>
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/columns/common/format_currency.blade.php ENDPATH**/ ?>

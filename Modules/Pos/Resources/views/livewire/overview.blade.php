@@ -5,7 +5,8 @@
         <div class="container-xl">
             <div class="row">
                 <!-- Notify -->
-                @include('notify::components.notify')
+                {{-- @include('notify::components.notify') --}}
+
                 @foreach ($pos as $p)
                 <div class="col-md-6" style="margin-bottom: 5px;" style="border-left: 2px solid #0E6163">
                     <div class="card">
@@ -40,13 +41,15 @@
                         <div class="card-body">
                             <div class="row g-2 align-items-center">
                                 <div class="small mt-1" style="padding: 10px 0 10px 0; ">
-                                    @if($p->isOpened())
+                                    @if($p->status == 'active')
                                     {{-- <a href="{{ route('pos.ui', ['subdomain' => current_company()->domain_name, 'pos' => $p->id, 'session' =>$p->sessions()->isOpened()->first()->unique_token]) }}" class="btn btn-outline-warning"> --}}
                                     <button wire:click.prevent="continueSession({{ $p->id }})" class="btn btn-outline-warning">
                                         Continuer la vente <span wire:loading>...</span>
                                     </button>
                                     <span class="w-auto m-2" style="font-size: 15px;">{{ $p->status == 'inactive' ? 'Fermé' : 'Ouvert' }}</span>
+                                    @if($p->sessions())
                                     <span class="w-auto m-2" style="font-size: 15px;">{{ \Carbon\Carbon::parse($p->start_date)->format('d-m-Y H:i:s') }}</span>
+                                    @endif
                                     @else
                                     <button wire:click.prevent="openSession({{ $p->id }})" class="btn btn-outline-primary k-btn-primay">
                                         Nouvelle session <span wire:loading>...</span>
@@ -65,4 +68,7 @@
         </div>
 
     </div>
+
+    <!-- Loading -->
+    @include('includes.loading')
 </div>

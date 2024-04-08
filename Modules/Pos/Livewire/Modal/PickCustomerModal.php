@@ -9,7 +9,8 @@ class PickCustomerModal extends ModalComponent
 {
     public function render()
     {
-        $customers = Contact::isCompany(current_company()->id)->isCustomer()->get();
+        $customers = Contact::isCompany(current_company()->id)->get();
+        // $customers = Contact::isCompany(current_company()->id)->isCustomer()->get();
         return view('pos::livewire.modal.pick-customer-modal', compact('customers', 'customers'));
     }
 
