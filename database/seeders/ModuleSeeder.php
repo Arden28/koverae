@@ -488,7 +488,7 @@ class ModuleSeeder extends Seeder
             //     'description'  =>  'Créer de magnifique sites web.',
             //     'version'  => 'beta',
             //     'author'    => 'Koverae',
-            //     'icon'  => 'finance',
+            //     'icon'  => 'website',
             //     'is_default'    => 0,
             //     'link'  => 'main',
             //     'path'  => null,

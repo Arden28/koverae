@@ -1,11 +1,11 @@
 @extends('layouts.error')
 
-@section('code', '500 🤕')
+{{-- @section('code', '🤕') --}}
 
 @section('title', __('Server Error'))
 
 @section('image')
-    <img src="{{ asset('assets/images/illustrations/errors/undraw_bug_fixing_oc7a.svg') }}" height="128" alt="">
+<img src="{{ asset('assets/images/illustrations/errors/torn-file.svg') }}" height="350px" alt="">
 @endsection
 
-@section('message', __('Something went wrong. Call the dev!!!'))
+@section('message', __("Une erreur c'est produite de notre côté. Si le problème persiste, veuillez contacter notre service kovers(clients)."))

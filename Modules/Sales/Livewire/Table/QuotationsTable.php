@@ -18,13 +18,22 @@ class QuotationsTable extends Table
 
     public function showRoute($id) : string
     {
-
         return route('sales.quotations.show' , ['subdomain' => current_company()->domain_name, 'quotation' => $id, 'menu' => current_menu() ]);
+    }
+
+    public function emptyTitle() : string
+    {
+        return __("Créez un nouveau devis, la première étape d'une vente !");
+    }
+
+    public function emptyText() : string
+    {
+        return __('Une fois le devis confirmé par le client, il devient un bon de commande.
+        Vous pourrez créer une facture et encaisser le paiement.');
     }
 
     public function headerName() : string
     {
-
         return 'Devis';
     }
 

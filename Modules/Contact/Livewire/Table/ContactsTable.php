@@ -23,6 +23,16 @@ class ContactsTable extends Table
         return route('contacts.show' , ['subdomain' => current_company()->domain_name, 'contact' => $id, 'menu' => current_menu() ]);
     }
 
+    public function emptyTitle() : string
+    {
+        return __("Créer un nouveau client dans votre carnet d'adresse");
+    }
+
+    public function emptyText() : string
+    {
+        return __('Koverae vous aide à facilement suivre toutes les activités liées à un client.');
+    }
+
     public function headerName() : string
     {
 

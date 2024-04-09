@@ -10,6 +10,7 @@
         <!-- Notify -->
         @include('notify::components.notify')
         <!-- Table -->
-        <livewire:contact::table.customers-table />
+        {{-- <livewire:contact::table.customers-table /> --}}
+        <livewire:contact::table.contacts-table />
     </div>
 </div>

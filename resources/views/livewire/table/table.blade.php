@@ -1,4 +1,5 @@
 <div>
+
     <!-- Table -->
     <div class="table-responsive mb-2">
         <table class="table card-table table-vcenter text-nowrap datatable">
@@ -36,6 +37,9 @@
                         </x-dynamic-component>
                     </td>
                     @endforeach
+                    <div class="centered-section ">
+
+                    </div>
                     {{-- <td class="text-end">
                         <span class="dropdown">
                         <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
@@ -51,11 +55,19 @@
                     </td> --}}
                 </tr>
                 @endforeach
+
             </tbody>
         </table>
         <div class="card-footer d-flex align-items-end ms-auto w-100">
             {{ $this->data()->links() }}
         </div>
     </div>
+    @if($this->data()->count() == 0)
+    <div class="empty k_nocontent_help bg-white">
+        <img src="{{ asset('assets/images/16.svg') }}"style="height: 350px" alt="">
+        <p class="empty-title">{{ $this->emptyTitle() }}</p>
+        <p class="empty-subtitle">{{ $this->emptyText() }}</p>
+    </div>
+    @endif
 
 </div>

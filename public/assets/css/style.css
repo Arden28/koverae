@@ -1679,7 +1679,25 @@
         line-height: 14px;
         /* font-weight: bold; */
     }
+    /* Empty Table */
+    .k_nocontent_help{
+        font-size: 17px;
+        line-height: 24px;
+        text-align: center;
+        height: 77vh;
+        width: 100%;
+        /* padding: 3px 315px 3px 315px; */
+        margin-top: -8px;
+        /* padding-top: 10%; */
+    }
+    .k_nocontent_help .empty-title{
+        font-size: 21px;
+        font-weight: 700;
+    }
 
+    @media(max-width:768px){
+
+    }
     .k_subtotal_footer{
         height: 37px;
         /* width: 170px; */

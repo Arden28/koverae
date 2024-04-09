@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('installed_dashboards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('dash_id')->nullable();
-            $table->foreignId('parent_slug')->nullable();
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('dash_id')->nullable();
+            $table->string('parent_slug')->nullable();
             $table->string('slug')->nullable();
-            $table->foreignId('app_dashboard_id')->nullable();
-            $table->foreignId('company_id');
+            $table->unsignedBigInteger('app_dashboard_id')->nullable();
             $table->timestamps();
         });
     }

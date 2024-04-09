@@ -54,6 +54,6 @@ class Dashboard extends Model
 
     // Get the app_dashboard installed belongs to the dashboard
     public function installed_dashboards(){
-        return $this->hasMany(InstalledDashboard::class, 'dash_id', 'id');
+        return $this->hasMany(InstalledDashboard::class, 'parent_slug', 'slug');
     }
 }

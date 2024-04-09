@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Dashboards\Http\Controllers\DashboardsController;
+use Modules\Dashboards\Livewire\Dashboard\Lists;
 use Modules\Dashboards\Livewire\Overview;
 
 /*
@@ -17,5 +18,5 @@ use Modules\Dashboards\Livewire\Overview;
 
 Route::prefix('dashboards')->middleware(['module:dashboards'])->name('dashboards.')->group(function() {
     Route::get('/', Overview::class)->name('index');
-    Route::get('/lists', [DashboardsController::class, 'lists'])->name('lists');
+    Route::get('/lists', Lists::class)->name('lists');
 });

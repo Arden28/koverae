@@ -464,6 +464,18 @@ class AppInstallationService
 
     // Facturation
     public function installInvoice($company){
+        // Tableaux de bords
+        $dashboards = [
+            [
+                'company_id' => $company,
+                'slug' => 'invoices_dashboard',
+                'parent_slug' => 'finances',
+            ],
+        ];
+        foreach($dashboards as $dashboard){
+            $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
+        }
+
         //Conditions de paiement
 
         // Incoterms
@@ -935,14 +947,16 @@ class AppInstallationService
             [
                 'company_id' => $company,
                 'slug' => 'sales_dashboard',
+                'parent_slug' => 'sales',
             ],
             [
                 'company_id' => $company,
                 'slug' => 'products_dashboard',
+                'parent_slug' => 'sales',
             ],
         ];
         foreach($dashboards as $dashboard){
-            $this->installDashboard($dashboard['slug'], $company);
+            $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
         }
 
         // Equipes Commerciale
@@ -1031,14 +1045,16 @@ class AppInstallationService
             [
                 'company_id' => $company,
                 'slug' => 'inventory_dashboard',
+                'parent_slug' => 'logistics',
             ],
             [
                 'company_id' => $company,
                 'slug' => 'stock_flow_dashboard',
+                'parent_slug' => 'logistics',
             ],
         ];
         foreach($dashboards as $dashboard){
-            $this->installDashboard($dashboard['slug'], $company);
+            $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
         }
 
         // Warehouse
@@ -1211,14 +1227,16 @@ class AppInstallationService
             [
                 'company_id' => $company,
                 'slug' => 'purchases_dashboard',
+                'parent_slug' => 'logistics',
             ],
             [
                 'company_id' => $company,
                 'slug' => 'suppliers_dashboard',
+                'parent_slug' => 'logistics',
             ],
         ];
         foreach($dashboards as $dashboard){
-            $this->installDashboard($dashboard['slug'], $company);
+            $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
         }
 
     }
@@ -1367,6 +1385,7 @@ class AppInstallationService
         ]);
         $dash1->save();
 
+            // Sales Dashboard App
             $sales_dashboard = AppDashboard::create([
                 'name' => 'Ventes',
                 'company_id' => $company,
@@ -1378,6 +1397,7 @@ class AppInstallationService
             ]);
             $sales_dashboard->save();
 
+            // Product Dashboard App
             $products_dashboard = AppDashboard::create([
                 'name' => 'Produits',
                 'company_id' => $company,
@@ -1389,6 +1409,7 @@ class AppInstallationService
             ]);
             $products_dashboard->save();
 
+            // POS Dashboard App
             $pos_dashboard = AppDashboard::create([
                 'name' => 'Point de vente',
                 'company_id' => $company,
@@ -1400,6 +1421,19 @@ class AppInstallationService
             ]);
             $pos_dashboard->save();
 
+            // Rental Dashboard App
+            $rental_dashboard = AppDashboard::create([
+                'name' => 'Location',
+                'company_id' => $company,
+                'parent_slug' => 'sales',
+                'slug' => 'rental_dashboard',
+                'dash_id' => $dash1->id,
+                'app_id' => 8,
+                'is_enable' => true,
+            ]);
+            $rental_dashboard->save();
+
+        // Finance
         $dash2 = Dashboard::create([
             'name' => 'Finance',
             'slug' => 'finances',
@@ -1408,6 +1442,19 @@ class AppInstallationService
         ]);
         $dash2->save();
 
+            // Comptabilité
+            $accounting = AppDashboard::create([
+                'name' => __('Comptabilité'),
+                'company_id' => $company,
+                'parent_slug' => 'finances',
+                'slug' => 'accounting_dashboard',
+                'dash_id' => $dash2->id,
+                'app_id' => 2,
+                'is_enable' => true,
+            ]);
+            $accounting->save();
+
+            // Facturation
             $invoices_dashboard = AppDashboard::create([
                 'name' => 'Facturation',
                 'company_id' => $company,
@@ -1419,6 +1466,21 @@ class AppInstallationService
             ]);
             $invoices_dashboard->save();
 
+            // Note de frais
+            $employee_expenses_dashboard = AppDashboard::create([
+                'name' => 'Note de frais',
+                'company_id' => $company,
+                'parent_slug' => 'finances',
+                'slug' => 'employee_expenses_dashboard',
+                'dash_id' => $dash2->id,
+                'app_id' => 2,
+                'is_enable' => true,
+            ]);
+            $employee_expenses_dashboard->save();
+
+
+
+        // Logistiques
         $dash3 = Dashboard::create([
             'name' => 'Logistiques',
             'slug' => 'logistics',
@@ -1427,7 +1489,7 @@ class AppInstallationService
         ]);
         $dash3->save();
 
-            // App Dashboards
+            // Purchase Dashboard App
             $purchases_dashboard = AppDashboard::create([
                 'name' => 'Achats',
                 'company_id' => $company,
@@ -1439,6 +1501,7 @@ class AppInstallationService
             ]);
             $purchases_dashboard->save();
 
+            // Suppliers Dashboard App
             $vendors_dashboard = AppDashboard::create([
                 'name' => 'Fournisseurs',
                 'company_id' => $company,
@@ -1450,6 +1513,7 @@ class AppInstallationService
             ]);
             $vendors_dashboard->save();
 
+            // On hand Inventory Dashboard App
             $inventory_on_hand_dashboard = AppDashboard::create([
                 'name' => 'Inventaire disponible',
                 'company_id' => $company,
@@ -1461,7 +1525,8 @@ class AppInstallationService
             ]);
             $inventory_on_hand_dashboard->save();
 
-            $inventory_on_hand_dashboard = AppDashboard::create([
+            //Inventory Flow
+            $inventory_flow = AppDashboard::create([
                 'name' => 'Flux des stocks',
                 'company_id' => $company,
                 'parent_slug' => 'logistics',
@@ -1470,9 +1535,22 @@ class AppInstallationService
                 'app_id' => 3,
                 'is_enable' => true,
             ]);
-            $inventory_on_hand_dashboard->save();
+            $inventory_flow->save();
+
+            // Manufacturing
+            $manufacturing = AppDashboard::create([
+                'name' => __('Fabrication'),
+                'company_id' => $company,
+                'parent_slug' => 'logistics',
+                'slug' => 'manufacturing_dashboard',
+                'dash_id' => $dash3->id,
+                'app_id' => 3,
+                'is_enable' => true,
+            ]);
+            $manufacturing->save();
 
 
+        // Services
         $dash4 = Dashboard::create([
             'name' => 'Services',
             'slug' => 'field_of_service',
@@ -1480,7 +1558,7 @@ class AppInstallationService
             'is_enable' => true,
         ]);
         $dash4->save();
-            // App Dashboards
+            // Project Dashboard App
             $projects_dashboard = AppDashboard::create([
                 'name' => 'Projets',
                 'company_id' => $company,
@@ -1492,6 +1570,7 @@ class AppInstallationService
             ]);
             $projects_dashboard->save();
 
+            // Timesheet Dash App
             $timesheets_dashboard = AppDashboard::create([
                 'name' => 'Feuille de Temps',
                 'company_id' => $company,
@@ -1503,7 +1582,7 @@ class AppInstallationService
             ]);
             $timesheets_dashboard->save();
 
-
+        // CRM
         $dash5 = Dashboard::create([
             'name' => 'CRM',
             'slug' => 'crm',
@@ -1511,7 +1590,6 @@ class AppInstallationService
             'is_enable' => true,
         ]);
         $dash5->save();
-            // App Dashboards
             //Leads
             $leads_dashboard = AppDashboard::create([
                 'name' => 'Leads',
@@ -1536,7 +1614,7 @@ class AppInstallationService
             ]);
             $leads_dashboard->save();
 
-
+        // Ressources Humaines
         $dash6 = Dashboard::create([
             'name' => 'Ressources Humaines',
             'slug' => 'human_resources',
@@ -1545,6 +1623,7 @@ class AppInstallationService
         ]);
         $dash6->save();
 
+        // Sites Web
         $dash7 = Dashboard::create([
             'name' => 'Site Internet',
             'slug' => 'website',
@@ -1552,13 +1631,70 @@ class AppInstallationService
             'is_enable' => true,
         ]);
         $dash7->save();
+
+        // Abonnements
+        $dash8 = Dashboard::create([
+            'name' => 'Abonnements',
+            'slug' => 'subscriptions',
+            'company_id' => $company,
+            'is_enable' => true,
+        ]);
+        $dash8->save();
+            // Subscriptions App Dash
+            $subscription = AppDashboard::create([
+                'name' => 'Abonnements',
+                'company_id' => $company,
+                'parent_slug' => 'subscriptions',
+                'slug' => 'subscriptions_dashboard',
+                'dash_id' => $dash8->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $subscription->save();
+            // MRR App Dash
+            $mrr = AppDashboard::create([
+                'name' => 'Evolution du MRR',
+                'company_id' => $company,
+                'parent_slug' => 'subscriptions',
+                'slug' => 'mrr_dashboard',
+                'dash_id' => $dash8->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $mrr->save();
+
+            // Retention App Dash
+            $retention = AppDashboard::create([
+                'name' => 'Rétention',
+                'company_id' => $company,
+                'parent_slug' => 'subscriptions',
+                'slug' => 'rentention_dashboard',
+                'dash_id' => $dash8->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $retention->save();
+
+            // SalesPerson App Dash
+            $salesperson = AppDashboard::create([
+                'name' => 'Commerciaux',
+                'company_id' => $company,
+                'parent_slug' => 'subscriptions',
+                'slug' => 'salesperson_dashboard',
+                'dash_id' => $dash8->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $salesperson->save();
+
     }
 
-    public function installDashboard(string $slug, int $companyID){
+    public function installDashboard(string $slug, int $companyID, string $parent){
 
         $dashboard = InstalledDashboard::create([
             'company_id' => $companyID,
             'slug' => $slug,
+            'parent_slug' => $parent,
         ]);
         $dashboard->save();
     }

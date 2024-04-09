@@ -30,6 +30,18 @@ abstract class Table extends Component
 
     public abstract function headerName() : string;
 
+    public function emptyTitle() : string{
+        return '';
+    }
+
+    public function emptyText() : string{
+        return '';
+    }
+
+    public function emptyButton() : string{
+        return '';
+    }
+
     public function createRoute() : string{
         return '';
     }

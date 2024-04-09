@@ -24,6 +24,16 @@ class SalesTeamTable extends Table
         return route('sales.teams.show' , ['subdomain' => current_company()->domain_name, 'team' => $id, 'menu' => current_menu() ]);
     }
 
+    public function emptyTitle() : string
+    {
+        return __("Créez une équipe commerciale et suivez vos performances !");
+    }
+
+    public function emptyText() : string
+    {
+        return __('Créez une équipe commerciale, rajoutez-y des membres et suivez vos performances.');
+    }
+
     public function headerName() : string
     {
 

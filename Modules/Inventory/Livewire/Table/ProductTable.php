@@ -22,6 +22,16 @@ class ProductTable extends Table
         return route('inventory.products.show' , ['subdomain' => current_company()->domain_name, 'product' => $id, 'menu' => current_menu() ]);
     }
 
+    public function emptyTitle() : string
+    {
+        return __("Créer un nouveau produit");
+    }
+
+    public function emptyText() : string
+    {
+        return __('Vous devez définir un produit pour tout ce que vous vendez ou achetez, que ce soit un produit stockable, consommable ou un service.');
+    }
+
     public function headerName() : string
     {
 

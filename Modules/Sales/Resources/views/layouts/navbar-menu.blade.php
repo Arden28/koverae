@@ -143,7 +143,7 @@
                       {{ __('Commandes') }}
                     </a>
                     <div class="dropdown-menu">
-                      <a wire:navigate href="{{ route('employee.department.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
+                      <a wire:navigate href="#" class="dropdown-item">
                         {{ __('Etiquettes') }}
                       </a>
                     </div>

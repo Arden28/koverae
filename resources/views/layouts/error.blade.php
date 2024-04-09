@@ -5,7 +5,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>@yield('title') | Koverae.com</title>
+    <title>{{ current_company()->name }}</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo/favicon.ico')}}" />
@@ -23,27 +23,27 @@
     </style>
   </head>
   <body >
-    <div class="page">
+    <div class="page bg-white">
       <div class="page-wrapper">
         <!-- Page body -->
         <div class="page-body">
           <div class="container-xl d-flex flex-column justify-content-center">
-            <div class="empty">
-              <div class="empty-img">
+            <div class="k_nocontent_help empty">
+              <div class="">
                 @yield('image')
               </div>
               <p class="empty-title">
-                @yield('code', __('Oh no'))
+                @yield('code', __('Oh non !'))
               </p>
               <p class="empty-subtitle text-muted">
                 @yield('message')
               </p>
               <div class="empty-action">
                 {{-- @auth --}}
-                <a  wire:navigate href="{{ route('main', ['subdomain' => current_company()->domain_name]) }}" class="btn btn-primary">
+                <a  wire:navigate href="{{ route('main', ['subdomain' => current_company()->domain_name]) }}" class="btn btn-primary font-weight-bold gap-1" style="background-color: #3d6a6b;">
                   <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                  <i class="bi bi-house"></i>
-                  {{ __("Retouner à l'acceuil") }}
+                  <i class="bi bi-house mr-2"></i>
+                  <span class="ml-4">{{ __("Retouner à l'acceuil") }}</span>
                 </a>
                 {{-- @endauth --}}
               </div>
