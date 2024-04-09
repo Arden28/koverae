@@ -23,7 +23,8 @@
     });
 </script>
 
-
+<!-- Livewire Chart -->
+@livewireChartsScripts
 
 <script>
     Livewire.hook('request', ({ fail }) => {

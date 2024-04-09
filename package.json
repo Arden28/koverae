@@ -18,6 +18,7 @@
     },
     "dependencies": {
         "@alpinejs/mask": "^3.13.3",
+        "apexcharts": "^3.48.0",
         "bootstrap-icons": "^1.10.5",
         "yarn": "^1.22.19"
     }

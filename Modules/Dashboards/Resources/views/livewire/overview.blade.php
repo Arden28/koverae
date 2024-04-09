@@ -85,8 +85,41 @@
                 <livewire:dashboards::dashboard-app.products-dashboard />
                 @elseif ($this->view == 'pos_dashboard')
                 <livewire:dashboards::dashboard-app.pos-dashboard />
+                @elseif ($this->view == 'rental_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'accounting_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'employee_expenses_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
                 @elseif ($this->view == 'invoices_dashboard')
                 <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'purchases_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'suppliers_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'inventory_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'stock_flow_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'manufacturing_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'projects_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'timesheets_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'leads_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'pipelines_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'subscriptions_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'mrr_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'rentention_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @elseif ($this->view == 'salesperson_dashboard')
+                <livewire:dashboards::dashboard-app.invoices-dashboard />
+                @else
                 @endif
             </div>
         </div>
