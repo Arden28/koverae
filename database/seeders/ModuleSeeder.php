@@ -430,8 +430,8 @@ class ModuleSeeder extends Seeder
                 'icon'  => 'subscription',
                 'is_default'    => 0,
                 'link'  => 'main',
-                'path'  => null,
-                'navbar_id' => null,
+                'path'  => "subscription::layouts.navbar-menu",
+                'navbar_id' => 10,
                 'enabled'   => 1
             ],
             // Task
@@ -466,20 +466,20 @@ class ModuleSeeder extends Seeder
             //     'enabled'   => 1
             // ],
 
-            // [
-            //     'name' => 'Service',
-            //     'slug' => 'field_of_service',
-            //     'short_name'    =>  'Service',
-            //     'description'  =>  'Gérez et planifier vos services.',
-            //     'version'  => 'beta',
-            //     'author'    => 'Koverae',
-            //     'icon'  => 'finance',
-            //     'is_default'    => 0,
-            //     'link'  => 'main',
-            //     'path'  => null,
-            //     'navbar_id' => null,
-            //     'enabled'   => 1
-            // ],
+            [
+                'name' => 'Service',
+                'slug' => 'field_of_service',
+                'short_name'    =>  'Service',
+                'description'  =>  'Gérez et planifier vos services.',
+                'version'  => 'beta',
+                'author'    => 'Koverae',
+                'icon'  => 'finance',
+                'is_default'    => 0,
+                'link'  => 'main',
+                'path'  => "field-of-service::layouts.navbar-menu",
+                'navbar_id' => 11,
+                'enabled'   => 1
+            ],
 
             // [
             //     'name' => 'Site Web',

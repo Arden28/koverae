@@ -90,7 +90,7 @@ class NavbarManager extends Component
             ],
             13 => [
                 'name' => 'Projet', //inclus également les feuilles de temps
-                'path' => 'invoicing::layouts.navbar-menu',
+                'path' => 'project::layouts.navbar-menu',
                 'id' => 13,
                 'slug' => 'project'
             ],
