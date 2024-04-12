@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('reference')->nullable();
             $table->boolean('personal_company')->default(true);
             $table->string('domain_name');
+            $table->string('website_url')->nullable();
             $table->boolean('is_self_hosted')->default(false); // Si le domaine est hébergé par le kover
             $table->boolean('enabled')->default(1);
             // Company Information

@@ -164,14 +164,15 @@
                 <!-- Tab Link -->
                 @if($this->tabs())
                 <div class="k_notebokk_headers">
-                    <ul class="nav nav-tabs flex-row flex-nowrap overflow-y-hidden" data-bs-toggle="tabs">
+                    <ul class="nav nav-tabs d-flex overflow-y-hidden overflow-x-auto" data-bs-toggle="tabs">
                         @foreach ($this->tabs() as $tab)
                         <li class="nav-item">
                             <a class="nav-link {{ $tab->key == 'work_info' || $tab->key == 'general' ? 'active' : '' }}" data-bs-toggle="tab" href="#{{ $tab->key }}">{{ $tab->label }}</a>
                         </li>
                         @endforeach
-                    </ul>
+                      </ul>
                 </div>
+
                 @endif
 
                 <!-- Tabs content -->

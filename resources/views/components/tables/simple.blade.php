@@ -5,8 +5,8 @@
 
 <div class="table-responsive" style="margin-top: 10px;">
     <table class="table card-table table-vcenter text-nowrap datatable">
-        <thead>
-            <tr>
+        <thead class="list-table">
+            <tr class="list-tr">
                 @foreach($this->columns() as $column)
                     <th class="cursor-pointer">
                         {{ $column->label }}

@@ -16,8 +16,16 @@
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
         <div class="row">
-        <input type="{{ $value->type }}" style="width: 30%;" wire:model="{{ $value->model }}" class="k_input col-6" id="date_0">
-            <span class="col-6" style="width: 50%; margin: 0 0 12px 0;">{{ $settings->currency->symbol }} par Unité</span>
+            @if($settings->default_currency_position == 'prefix')
+                <span class="col-6" style="width: 30%; margin: 0 0 12px 0;">{{ $settings->currency->symbol }}</span>
+                <input type="{{ $value->type }}" style="width: 50%;" wire:model="{{ $value->model }}" min="0" class="k_input" placeholder="{{ $value->placeholder }}" id="amount">
+            @else
+                <input type="{{ $value->type }}" style="width: 30%;" wire:model="{{ $value->model }}" min="0" class="k_input" placeholder="{{ $value->placeholder }}" id="amount">
+                <span class="col-6" style="width: 30%; margin: 0 0 12px 0;">{{ $settings->currency->symbol }}</span>
+                @if($this->cost)
+                <span class="col-6" style="width: 40%; margin: 0 0 12px 0;">(= {{ format_currency(calculate_ttc_price($this->cost, $this->purchase_taxes)) }} {{ __('toutes taxes comprises') }})</span>
+                @endif
+            @endif
         </div>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
     </div>

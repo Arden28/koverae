@@ -21,9 +21,9 @@
         <div class="row">
             @if($settings->default_currency_position == 'prefix')
                 <span class="col-6" style="width: 30%; margin: 0 0 12px 0;">{{ $settings->currency->symbol }}</span>
-                <input type="{{ $value->type }}" style="width: 50%;" wire:model.change="{{ $value->model }}" min="0" class="k_input" placeholder="{{ $value->placeholder }}" id="amount">
+                <input type="{{ $value->type }}" style="width: 50%;" wire:model="{{ $value->model }}" min="0" class="k_input" placeholder="{{ $value->placeholder }}" id="amount">
             @else
-                <input type="{{ $value->type }}" style="width: 30%;" wire:model.change="{{ $value->model }}" min="0" class="k_input" placeholder="{{ $value->placeholder }}" id="amount">
+                <input type="{{ $value->type }}" style="width: 30%;" wire:model="{{ $value->model }}" min="0" class="k_input" placeholder="{{ $value->placeholder }}" id="amount">
                 <span class="col-6" style="width: 30%; margin: 0 0 12px 0;">{{ $settings->currency->symbol }}</span>
                 @if($this->price)
                 <span class="col-6" style="width: 40%; margin: 0 0 12px 0;">(= {{ format_currency(calculate_ttc_price($this->price, $this->sale_taxes)) }} {{ __('toutes taxes comprises') }})</span>

@@ -270,7 +270,7 @@ class ProductForm extends SimpleAvatarForm
             Input::make('reference',"Réf interne", 'input', 'reference', 'right', 'general', 'group1'),
             Input::make('barcode',"Code-barres", 'input', 'barcode', 'right', 'general', 'group1'),
             //
-            Input::make('s',"Taxes", 'input', 'purchase_taxes', 'right', 'purchases', 'suppliers_invoice')->component('inputs.tag.sale_taxes'),
+            Input::make('taxes',"Taxes", 'input', 'purchase_taxes', 'right', 'purchases', 'suppliers_invoice')->component('inputs.tag.sale_taxes'),
             Input::make('control_policy',"Politique de contrôle", 'input', 'control_policy', 'right', 'purchases', 'suppliers_invoice')->component('inputs.select.product.control-policy'),
             Input::make('purchase_description',"Description des achats", 'input', 'purchase_description', '', 'purchases', 'purchase_description', 'Cette note sera ajoutée aux bons de commandes.')->component('inputs.textarea.tabs-middle'),
             //
@@ -299,7 +299,7 @@ class ProductForm extends SimpleAvatarForm
         $this->validate([
             'photo' => 'image|max:1024', // 1MB Max
         ]);
-        
+
         $filePath = $this->photo->store('/assets', 'public');
 
         $product = Product::create([
@@ -348,7 +348,7 @@ class ProductForm extends SimpleAvatarForm
         // $this->validate([
         //     'photo' => 'image|max:1024', // 1MB Max
         // ]);
-        
+
         // $filePath = $this->photo->store('/assets', 'public');
 
         $this->product->update([
@@ -395,7 +395,7 @@ class ProductForm extends SimpleAvatarForm
     {
         // Store the file in the public disk
 
-    
+
         // You can then save the path or perform additional actions as needed
     }
     #[On('duplicate-product')]
@@ -437,12 +437,12 @@ class ProductForm extends SimpleAvatarForm
                 'can_be_subscribed' => $product->can_be_subscribed,
                 'status' => $product->status,
             ]);
-    
+
             return redirect()->route('inventory.products.show', ['product' => $duplicate->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         }
     }
-    
-    
+
+
     #[On('delete-product')]
     public function deleteQT(Product $product)
     {

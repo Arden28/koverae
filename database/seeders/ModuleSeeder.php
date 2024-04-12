@@ -414,7 +414,7 @@ class ModuleSeeder extends Seeder
                 'is_default'    => 0,
                 'link'  => 'contacts.index',
                 'path'  => 'contact::layouts.navbar-menu',
-                'navbar_id' => null,
+                'navbar_id' => 3,
                 'enabled'   => 1
             ],
             // Subscription

@@ -131,7 +131,7 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-                <?php elseif($this->view == 'invoices_dashboard'): ?>
+                <?php elseif($this->view == 'rental_dashboard'): ?>
                 <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
@@ -148,6 +148,279 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
+                <?php elseif($this->view == 'accounting_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-4', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'employee_expenses_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-5', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'invoices_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-6', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'purchases_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-7', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'suppliers_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-8', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'inventory_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-9', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'stock_flow_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-10', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'manufacturing_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-11', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'projects_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-12', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'timesheets_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-13', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'leads_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-14', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'pipelines_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-15', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'subscriptions_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-16', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'mrr_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-17', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'rentention_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-18', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php elseif($this->view == 'salesperson_dashboard'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('dashboards::dashboard-app.invoices-dashboard', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-3919853329-19', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+                <?php else: ?>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </div>
         </div>

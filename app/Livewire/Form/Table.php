@@ -34,8 +34,7 @@ class Table{
 
     public function data()
     {
-        return $this
-            ->query()->isCompany(current_company()->id)
-            ->get();
+        // return $this->query()->isCompany(current_company()->id)
+        //     ->get();
     }
 }

@@ -63,6 +63,7 @@ class SuperUserSeeder extends Seeder
             'reference' => 'KOV',
             'personal_company' => true,
             'domain_name' => "admin",
+            'website_url' => "admin.".env('APP_DOMAIN'),
             'enabled' => 1,
             'email' => 'contact@koverae.com',
             'phone' => +242065996406,

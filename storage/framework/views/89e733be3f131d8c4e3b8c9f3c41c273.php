@@ -23,7 +23,8 @@
     });
 </script>
 
-
+<!-- Livewire Chart -->
+<script src="http://teknoji.koverae.localhost/vendor/livewire-charts/app.js"></script>
 
 <script>
     Livewire.hook('request', ({ fail }) => {
