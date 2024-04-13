@@ -3,13 +3,14 @@ body {
     width: 100%;
     margin: 0;
     padding: 0;
-    background-image: url('../images/background/background-light.svg');
+    background-image: url('../images/background/bg-1.svg');
     /* background-image: url('assets/images/background/background-5.jpg'); */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed; /* Keeps the background fixed even while scrolling */
     overflow: hidden;
 }
+
 .k_main_navbar .dropdown-toggle {
     line-height: 26px;
     text-decoration: none solid rgb(17, 24, 39);
