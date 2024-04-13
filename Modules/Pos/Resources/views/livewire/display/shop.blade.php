@@ -29,7 +29,7 @@
                 <livewire:pos::display.product.product-lists :categories="$product_categories"/>
             </div>
             <!-- Right Part -->
-            <div class="col-lg-4 gap-2 col-md-12 d-none d-lg-block" id="checkout-box">
+            <div class="col-lg-4 gap-2 col-md-12 d-lg-block" id="checkout-box">
                 <livewire:pos::display.checkout :pos="$pos" :cart-instance="'pos-order'" :customers="$customers"/>
             </div>
         </div>

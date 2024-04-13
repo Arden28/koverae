@@ -1,4 +1,4 @@
-@section('styles')
+<?php $__env->startSection('styles'); ?>
     <style>
         .fixed-bar {
             position: fixed;
@@ -179,76 +179,78 @@
             transition: opacity 0.3s ease-in-out;
         }
     </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
 <div>
     <div class="card border-0 shadow-sm" id="checkout-box">
         <div class="card-body" id="cart-body">
             <div>
-                @if (session()->has('message'))
+                <!--[if BLOCK]><![endif]--><?php if(session()->has('message')): ?>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <div class="alert-body">
-                            <span>{{ session('message') }}</span>
+                            <span><?php echo e(session('message')); ?></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
                     </div>
-                @endif
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                 <!-- Order -->
-                @if($cart_items->isNotEmpty())
+                <!--[if BLOCK]><![endif]--><?php if($cart_items->isNotEmpty()): ?>
                 <div class="order-container-bg-view overflow-y-auto flex-grow-1 d-flex flex-column text-start">
-                    @foreach($cart_items as $key => $cart_item)
+                    <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $cart_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $cart_item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <ul>
-                        <li class="orderline p-2 lh-sm cursor-pointer {{ $cart_item->id == $this->selected ? 'selected' : '' }}" wire:click.prevent="selectedItem('{{ $cart_item->rowId }}', '{{ $cart_item->id }}')">
+                        <li class="orderline p-2 lh-sm cursor-pointer <?php echo e($cart_item->id == $this->selected ? 'selected' : ''); ?>" wire:click.prevent="selectedItem('<?php echo e($cart_item->rowId); ?>', '<?php echo e($cart_item->id); ?>')">
                             <div class="d-flex">
                                 <div class="product-name w-75 d-inline-block flex-grow-1 fw-bolder pe-1 text-truncate">
                                     <span class="text-wrap">
-                                        {{ $cart_item->name }}
+                                        <?php echo e($cart_item->name); ?>
+
                                     </span>
                                 </div>
                                 <div class="product-price w-25 d-inline-block text-end price fw-bolder">
-                                    {{ format_currency($cart_item->subtotal) }}
+                                    <?php echo e(format_currency($cart_item->subtotal)); ?>
+
                                 </div>
                             </div>
                             <ul>
                                 <li class="price-per-unit">
-                                    <em class="qty fst-normal fw-bolder me-1">{{ $cart_item->qty }} </em> {{ __('Unité(s)') }} x {{ format_currency($cart_item->price) }}
+                                    <em class="qty fst-normal fw-bolder me-1"><?php echo e($cart_item->qty); ?> </em> <?php echo e(__('Unité(s)')); ?> x <?php echo e(format_currency($cart_item->price)); ?>
+
                                 </li>
-                                {{-- <li class="price-per-unit text-muted">
-                                    Avec une réduction de 15 %
-                                </li> --}}
+                                
                             </ul>
                         </li>
                     </ul>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
-                @else
+                <?php else: ?>
                 <div class="empty-cart d-flex flex-column align-items-center justify-content-center h-100 w-100 text-muted">
                     <i class="bi bi-cart-fill rotate-45" style="font-size: 60px; color: #898989;"></i>
                     <br>
                     <h3>
-                        {{ __('Cette commande est vide') }}
+                        <?php echo e(__('Cette commande est vide')); ?>
+
                     </h3>
                 </div>
-                @endif
-                @php
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                <?php
                     $total_with_shipping = (convertToInt(Cart::instance($cart_instance)->total()) / 10000) + $shipping;
-                @endphp
-                @if($cart_items->isNotEmpty())
+                ?>
+                <!--[if BLOCK]><![endif]--><?php if($cart_items->isNotEmpty()): ?>
                 <div class="order-summary w-100 py-2 px-3 bg-100 text-end fw-bolder fs-2 lh-sm">
-                    Total: <span class="total">{{ format_currency($total_with_shipping) }}</span>
+                    Total: <span class="total"><?php echo e(format_currency($total_with_shipping)); ?></span>
                     <div class="text-muted subentry">
-                        Taxes: <span class="tax">(+) {{ Cart::instance($cart_instance)->tax() }}</span>
+                        Taxes: <span class="tax">(+) <?php echo e(Cart::instance($cart_instance)->tax()); ?></span>
                     </div>
-                    @if($shipping)
+                    <!--[if BLOCK]><![endif]--><?php if($shipping): ?>
                     <div class="text-muted subentry">
-                        Livraisons: <span class="tax">(+) {{ Cart::instance($cart_instance)->tax() }}</span>
+                        Livraisons: <span class="tax">(+) <?php echo e(Cart::instance($cart_instance)->tax()); ?></span>
                     </div>
-                    @endif
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
-                @endif
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 <div class="control_buttons d-flex bg-300 border-bottom flex-wrap">
                     <button class="k_price_list_button btn btn-light rounded-0 fw-bolder" >
                         <i class="bi bi-tag-fill"></i> Liste de prix
@@ -262,7 +264,7 @@
                     <button class="btn btn-light rounded-0 fw-bolder">
                         <i class="bi bi-stars"></i> Cadeaux
                     </button>
-                    <button class="btn btn-light rounded-0 fw-bolder" {{ $this->customer ? '' : 'disabled' }}>
+                    <button class="btn btn-light rounded-0 fw-bolder" <?php echo e($this->customer ? '' : 'disabled'); ?>>
                         <i class="bi bi-stickies"></i> Note du client
                     </button>
                     <button class="btn btn-light rounded-0 fw-bolder">
@@ -276,9 +278,10 @@
                 <div class="calculator_buttons d-flex bg-300 border-bottom flex-wrap">
                     <div class=" w-25 flex-wrap d-flex" id="vertical_buttons">
                         <button onclick="Livewire.dispatch('openModal', {component: 'pos::modal.pick-customer-modal'})" class="btn btn-light rounded-0 fw-bolder h-25">
-                            <i class="bi bi-people"></i> {{ $this->customer ? Str::limit($this->customer->name, 5, '...') : 'Client' }}
+                            <i class="bi bi-people"></i> <?php echo e($this->customer ? Str::limit($this->customer->name, 5, '...') : 'Client'); ?>
+
                         </button>
-                        <button onclick="Livewire.dispatch('openModal', {component: 'pos::modal.checkout-modal', arguments: {pos: {{ $this->pos->id }},  total: {{ convertToInt(Cart::instance($this->cart_instance)->total()) / 10000 }}, customer: {{ $this->customer }} }} )" class="btn btn-light rounded-0 fw-bolder h-75 {{ $this->customer && Cart::instance($this->cart_instance)->total() > 1 ? '' : 'disabled' }}" id="pay">
+                        <button onclick="Livewire.dispatch('openModal', {component: 'pos::modal.checkout-modal', arguments: {pos: <?php echo e($this->pos->id); ?>,  total: <?php echo e(convertToInt(Cart::instance($this->cart_instance)->total()) / 10000); ?>, customer: <?php echo e($this->customer); ?> }} )" class="btn btn-light rounded-0 fw-bolder h-75 <?php echo e($this->customer && Cart::instance($this->cart_instance)->total() > 1 ? '' : 'disabled'); ?>" id="pay">
                             Payer
                         </button>
                     </div>
@@ -338,61 +341,12 @@
                 </div>
             </div>
 
-            {{-- <div class="row">
-                <div class="col-md-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>{{ __('Taxe') }} ({{ $global_tax }}%)</th>
-                                <td>(+) {{ format_currency(Cart::instance($cart_instance)->tax()) }}</td>
-                            </tr>
-                            <tr>
-                                <th>{{ __('Réduction') }} ({{ $global_discount }}%)</th>
-                                <td>(-) {{ format_currency(Cart::instance($cart_instance)->discount) }}</td>
-                            </tr>
-                            <tr>
-                                <th>{{ __('Livraison') }}</th>
-                                <input type="hidden" value="{{ $shipping }}" name="shipping_amount">
-                                <td>(+) {{ format_currency($shipping) }}</td>
-                            </tr>
-                            <tr class="" style="color: #017E84;">
-                                <th>{{ __('Grand Total') }}</th>
-                                @php
-                                    $total_with_shipping = (convertToInt(Cart::instance($cart_instance)->total()) / 10000) + $shipping;
-                                @endphp
-                                <th>
-                                    (=) {{ format_currency($total_with_shipping) }}
-                                </th>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="margin-top: 10px">
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="tax_percentage">{{ __('Taxe') }} (%)</label>
-                        <input wire:model.lazy="global_tax" type="number" class="form-control" min="0" max="100" value="{{ $global_tax }}" required>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="discount_percentage">{{ __('Réduction') }} (%)</label>
-                        <input wire:model.lazy="global_discount" type="number" class="form-control" min="0" max="100" value="{{ $global_discount }}" required>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="shipping_amount">{{ __('Livraison') }}</label>
-                        <input wire:model.lazy="shipping" type="number" class="form-control" min="0" value="0" required step="0.01">
-                    </div>
-                </div>
-            </div> --}}
+            
         </div>
     </div>
 
-    {{--Checkout Modal--}}
+    
 
 </div>
 
+<?php /**PATH C:\wamp64\www\my-startups\app.koverae\Modules/Pos\Resources/views/livewire/display/checkout.blade.php ENDPATH**/ ?>
