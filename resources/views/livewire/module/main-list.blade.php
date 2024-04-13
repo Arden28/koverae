@@ -1,8 +1,7 @@
-<div class="row">
-
+<div class="row justify-content-center text-center">
     @foreach($modules as $module)
         @if(module($module->slug))
-        <div class="col-2 col-md-2 k_draggable k_app cursor-pointer">
+        <div class="col-3 col-md-2 ml-2 k_draggable k_app cursor-pointer">
             <a wire:click.prevent="openApp({{ $module->id }})" class="k_menuitem d-flex flex-column text-decoration-none justify-content-start align-items-center w-100 rounded">
                 <img src="{{ asset('assets/images/apps/'.$module->icon.'.png') }}" alt="" class="k_app_icon rounded">
 
@@ -13,7 +12,6 @@
         </div>
         @endif
     @endforeach
-
 </div>
 
 {{-- <div class="row">

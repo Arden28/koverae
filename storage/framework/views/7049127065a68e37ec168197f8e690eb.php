@@ -1,161 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><?php echo e(current_company()->name); ?> - Koverae</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?php echo e(asset('assets/images/logo/favicon.ico')); ?>" />
-    <!-- CoreUI CSS -->
-    <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>" crossorigin="anonymous">
-    <link href="<?php echo e(asset('assets/dist/css/tabler.min.css')); ?>?166828782"  rel="stylesheet"/>
-    <link rel="stylesheet" href="<?php echo e(asset('assets/css/main.css')); ?>?166828781424">
-    <link href="<?php echo e(asset('/assets/css/style.css')); ?>?166828781425" rel="stylesheet"/>
+        <title><?php echo e(current_company()->name); ?> - Koverae</title>
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="<?php echo e(asset('assets/images/logo/favicon.ico')); ?>" />
+        <!-- CoreUI CSS -->
+        <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>" crossorigin="anonymous">
+        <link href="<?php echo e(asset('assets/dist/css/tabler.min.css')); ?>?166828782"  rel="stylesheet"/>
+        <link rel="stylesheet" href="<?php echo e(asset('assets/css/main.css?'.time())); ?>">
+        <link href="<?php echo e(asset('/assets/css/style.css?'.time())); ?>" rel="stylesheet"/>
 
-    <?php $config = (new \LaravelPWA\Services\ManifestService)->generate(); echo $__env->make( 'laravelpwa::meta' , ['config' => $config])->render(); ?>
-    <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::styles(); ?>
+        <?php $config = (new \LaravelPWA\Services\ManifestService)->generate(); echo $__env->make( 'laravelpwa::meta' , ['config' => $config])->render(); ?>
+        <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::styles(); ?>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-</head>
-<body>
-    <!-- Navbar -->
-    <header class="navbar navbar-expand-md d-print-none">
-      <div class="container-fluid">
-        <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-        </h1>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    </head>
+    <body>
 
-        <div class="navbar-nav flex-row order-md-last">
-            <div class="d-none d-md-flex">
-              <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" title="Enable dark mode" data-bs-toggle="tooltip"
-           data-bs-placement="bottom">
-                <!-- Download SVG icon from http://tabler-icons.io/i/moon -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg>
-              </a>
-              <a href="?theme=light" class="nav-link px-0 hide-theme-light" title="Enable light mode" data-bs-toggle="tooltip"
-           data-bs-placement="bottom">
-                <!-- Download SVG icon from http://tabler-icons.io/i/sun -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="4" /><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" /></svg>
-              </a>
-              <div class="nav-item dropdown d-none d-md-flex me-3">
-                <a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications">
-                  <!-- Download SVG icon from http://tabler-icons.io/i/bell -->
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" /><path d="M9 17v1a3 3 0 0 0 6 0v-1" /></svg>
-                  <span class="badge bg-red"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
-                  <div class="card">
-                    <div class="card-header">
-                      <h3 class="card-title">Last updates</h3>
-                    </div>
-                    <div class="list-group list-group-flush list-group-hoverable">
-                      <div class="list-group-item">
-                        <div class="row align-items-center">
-                          <div class="col-auto"><span class="status-dot status-dot-animated bg-red d-block"></span></div>
-                          <div class="col text-truncate">
-                            <a href="#" class="text-body d-block">Example 1</a>
-                            <div class="d-block text-muted text-truncate mt-n1">
-                              Change deprecated html tags to text decoration classes (#29604)
-                            </div>
-                          </div>
-                          <div class="col-auto">
-                            <a href="#" class="list-group-item-actions">
-                              <!-- Download SVG icon from http://tabler-icons.io/i/star -->
-                              <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="list-group-item">
-                        <div class="row align-items-center">
-                          <div class="col-auto"><span class="status-dot d-block"></span></div>
-                          <div class="col text-truncate">
-                            <a href="#" class="text-body d-block">Example 2</a>
-                            <div class="d-block text-muted text-truncate mt-n1">
-                              justify-content:between ⇒ justify-content:space-between (#29734)
-                            </div>
-                          </div>
-                          <div class="col-auto">
-                            <a href="#" class="list-group-item-actions show">
-                              <!-- Download SVG icon from http://tabler-icons.io/i/star -->
-                              <svg xmlns="http://www.w3.org/2000/svg" class="icon text-yellow" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="list-group-item">
-                        <div class="row align-items-center">
-                          <div class="col-auto"><span class="status-dot d-block"></span></div>
-                          <div class="col text-truncate">
-                            <a href="#" class="text-body d-block">Example 3</a>
-                            <div class="d-block text-muted text-truncate mt-n1">
-                              Update change-version.js (#29736)
-                            </div>
-                          </div>
-                          <div class="col-auto">
-                            <a href="#" class="list-group-item-actions">
-                              <!-- Download SVG icon from http://tabler-icons.io/i/star -->
-                              <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="list-group-item">
-                        <div class="row align-items-center">
-                          <div class="col-auto"><span class="status-dot status-dot-animated bg-green d-block"></span></div>
-                          <div class="col text-truncate">
-                            <a href="#" class="text-body d-block">Example 4</a>
-                            <div class="d-block text-muted text-truncate mt-n1">
-                              Regenerate package-lock.json (#29730)
-                            </div>
-                          </div>
-                          <div class="col-auto">
-                            <a href="#" class="list-group-item-actions">
-                              <!-- Download SVG icon from http://tabler-icons.io/i/star -->
-                              <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="nav-item dropdown">
-              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                <span class="avatar avatar-sm" style="background-image: url(./static/avatars/000m.jpg)"></span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <a href="#" class="dropdown-item">Mon compte</a>
-                <a href="#" class="dropdown-item">Mes entreprises</a>
-                <a href="#" class="dropdown-item">Me déconnecter</a>
-                <hr style="margin: 8px 0 8px 0;">
-                <a href="#" class="dropdown-item">Documentation</a>
-                <a href="#" class="dropdown-item">Support Kover</a>
-                <a href="#" class="dropdown-item">Mode sombre</a>
-              </div>
-            </div>
-          </div>
-      </div>
-    </header>
-    
-    <!-- Logo -->
-    <div class="centered-logo justify-content-center text-center align-items-center" style="height: 60px;margin: 0 0 8px 0;">
-        <img src="<?php echo e(asset('assets/images/logo/logo-black-gd.png')); ?>" alt="Koverae POS" class="navbar-brand-image" style="height: 50px">
-    </div>
-    <div class="k_home_menu col-auto">
-        <div class="container justify-content-center text-center align-items-center">
+        <!-- Header -->
 
-                
+        <!-- Logo -->
+        <div class="centered-logo justify-content-center text-center align-items-center" style="height: 60px;margin: 0 0 8px 0;">
+            <img src="<?php echo e(asset('assets/images/logo/logo-black-gd.png')); ?>" alt="Koverae Logo" class="navbar-brand-image" style="height: 45px">
+        </div>
+        <div class="k_home_menu overflow-x-hidden">
+            <div class="container justify-content-center text-center align-items-center mb-2">
+
                 <div class="database_expiration_panel">
                     <span class="k_instance_register_main">
                         Votre essai gratuit expire dans <b><?php echo e(Auth::user()->team->getTrialPeriodRemainingUsageIn('day')); ?> jours</b>. L'abonnement choisi débutéra immédiatement après la fin de votre essai.
                     </span>
                 </div>
-            <?php
+
+                <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
@@ -171,48 +52,48 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
+            </div>
         </div>
-    </div>
 
-    <!-- Tabler Core -->
-    <script src="<?php echo e(asset('assets/dist/js/tabler.min.js')); ?>?1668287865" ></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const chatButton = document.getElementById("chatButton");
-            const sideNav = document.getElementById("sideNav");
-            const closeIcon = document.getElementById("closeIcon");
+        <!-- Tabler Core -->
+        <script src="<?php echo e(asset('assets/dist/js/tabler.min.js')); ?>?1668287865" ></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const chatButton = document.getElementById("chatButton");
+                const sideNav = document.getElementById("sideNav");
+                const closeIcon = document.getElementById("closeIcon");
 
-            // Function to open the side navigation panel
-            function openNav() {
-                sideNav.classList.add("active");
-            }
-
-            // Function to close the side navigation panel
-            function closeNav() {
-                sideNav.classList.remove("active");
-            }
-
-            // Toggle navigation panel on button click
-            chatButton.addEventListener("click", function () {
-                openNav();
-            });
-
-            // Close navigation panel on close icon click
-            closeIcon.addEventListener("click", function () {
-                closeNav();
-            });
-
-            // Close navigation panel on clicking outside of it
-            document.addEventListener("click", function (event) {
-                if (!sideNav.contains(event.target) && !chatButton.contains(event.target)) {
-                    closeNav();
+                // Function to open the side navigation panel
+                function openNav() {
+                    sideNav.classList.add("active");
                 }
+
+                // Function to close the side navigation panel
+                function closeNav() {
+                    sideNav.classList.remove("active");
+                }
+
+                // Toggle navigation panel on button click
+                chatButton.addEventListener("click", function () {
+                    openNav();
+                });
+
+                // Close navigation panel on close icon click
+                closeIcon.addEventListener("click", function () {
+                    closeNav();
+                });
+
+                // Close navigation panel on clicking outside of it
+                document.addEventListener("click", function (event) {
+                    if (!sideNav.contains(event.target) && !chatButton.contains(event.target)) {
+                        closeNav();
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 
-    <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
+        <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
 
-</body>
+    </body>
 </html>
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/main.blade.php ENDPATH**/ ?>

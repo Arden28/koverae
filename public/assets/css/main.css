@@ -131,15 +131,15 @@ body {
     word-spacing: 0px;
     display: flex;
     height: 100vh; /* Adjust as needed */
-    padding: 0 16px; /* Adjust padding */
+    /*padding: 0 16px;  Adjust padding */
     box-sizing: border-box;
 }
 
 .k_home_menu .container{
     height: 488px;
     width: 850px;
-    margin: 0 215px 0 215px;
-    padding: 0 16px 0 16px;
+    /* margin: 0 215px 0 215px; */
+    /* padding: 0 16px 0 16px; */
     max-width: 850px;
     overflow-y: auto;
     scrollbar-width: none; /* Firefox */
@@ -149,7 +149,7 @@ body {
 @media (max-width: 915px) {
     .k_home_menu .container {
         width: 100%;
-        height: 60%;
+        height: 70%;
         margin: 0;
         padding: 0;
     }
@@ -181,7 +181,8 @@ body {
     border-top: 0px solid #F8E2B3;
     border-right: 0px solid #F8E2B3;
     border-left: 2px solid #F8E2B3;
-    height: 53px;
+    height: 63px;
+    min-height: auto;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -202,7 +203,7 @@ body {
 .k_draggable{
     height: 129px;
     width: 136px;
-    padding: 8px 8px 8px 8px;
+    /* padding: 8px 8px 8px 8px; */
     min-height: auto;
     max-width: 100%;
     min-width: auto;

@@ -58,9 +58,6 @@ if (isset($__slots)) unset($__slots);
             <!-- Page body -->
             <?php echo $__env->yieldContent('content'); ?>
 
-            <!-- Footer -->
-            
-
         </div>
 
     </div>

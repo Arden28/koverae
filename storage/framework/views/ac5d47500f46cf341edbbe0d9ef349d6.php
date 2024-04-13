@@ -163,9 +163,6 @@
                         <h1 class="d-flex flex-row align-items-center">
                             <?php echo e($this->reference); ?>
 
-                            <!-- Special buttons -->
-                            
-
                         </h1>
                     </div>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
@@ -253,6 +250,7 @@
                         </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                     </ul>
+
                 </div>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 <!-- Tabs content -->
