@@ -25,7 +25,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Left Part -->
-            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" id="product-box">
+            <div class="col-lg-8 col-md-12 col-sm-12 d-none col-xs-12" id="product-box">
                 <livewire:pos::display.product.product-lists :categories="$product_categories"/>
             </div>
             <!-- Right Part -->
