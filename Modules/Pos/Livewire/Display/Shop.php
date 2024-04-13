@@ -45,7 +45,7 @@ class Shop extends Component
         $this->dispatch('pay-click');
     }
 
-    public function switchTab($tab){
-        $this->activeTab = $tab;
+    public function switchToOrder(){
+        $this->show_checkout_box == true;
     }
 }

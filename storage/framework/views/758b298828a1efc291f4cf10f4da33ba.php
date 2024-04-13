@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Left Part -->
-            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" id="product-box">
+            <div class="<?php echo e($this->show_checkout_box == true ? 'd-none' : ''); ?> col-lg-8 col-md-12 col-sm-12 col-xs-12" id="product-box">
                 <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
@@ -24,7 +24,7 @@ if (isset($__slots)) unset($__slots);
 ?>
             </div>
             <!-- Right Part -->
-            <div class="col-lg-4 gap-2 col-md-12 d-none d-lg-block" id="checkout-box">
+            <div class="<?php echo e($this->show_checkout_box == false ? 'd-none' : ''); ?> col-lg-4 gap-2 col-md-12 d-lg-block" id="checkout-box">
                 <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
@@ -56,7 +56,7 @@ if (isset($__slots)) unset($__slots);
 
             </span>
         </button>
-        <button class="btn-switch_pane text-black rounded-0 fw-bolder review-button">
+        <button class="btn-switch_pane text-black rounded-0 fw-bolder review-button" wire:click="switchToOrder">
             <span class="fs-1 d-block">
                 Commande
             </span>
