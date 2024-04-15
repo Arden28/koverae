@@ -94,10 +94,10 @@
         @media (max-width: 768px) {
             #left-product-side-product{
                 padding: 0px;
+                height: 80vh;
             }
             #product-box{
                 padding: 0px;
-                height: 100vh;
             }
         }
         .product-list{
