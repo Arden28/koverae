@@ -59,7 +59,7 @@ if (isset($__slots)) unset($__slots);
                     <div class="product-content d-flex flex-column justify-content-between mx-2 py-1">
                         <!-- Product Name -->
                         <div class="product-name no-image fw-bolder overflow-hidden lh-sm" id="product_<?php echo e($product->id); ?>">
-                            <?php echo e($product->product_name); ?>
+                            <?php echo e($product->product_name ? Str::limit($product->product_name, 10, '...') : __('Produit')); ?>
 
                         </div>
                         <span class="price-tag py-1 fw-bolder" style="color: #045054;">

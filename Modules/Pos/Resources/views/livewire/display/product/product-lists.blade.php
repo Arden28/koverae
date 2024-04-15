@@ -29,7 +29,7 @@
                     <div class="product-content d-flex flex-column justify-content-between mx-2 py-1">
                         <!-- Product Name -->
                         <div class="product-name no-image fw-bolder overflow-hidden lh-sm" id="product_{{ $product->id }}">
-                            {{ $product->product_name }}
+                            {{ $product->product_name ? Str::limit($product->product_name, 10, '...') : __('Produit') }}
                         </div>
                         <span class="price-tag py-1 fw-bolder" style="color: #045054;">
                             {{ format_currency($product->product_price / 100) }}

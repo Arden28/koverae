@@ -46,6 +46,6 @@ class Shop extends Component
     }
 
     public function switchToOrder(){
-        $this->show_checkout_box == true;
+        $this->show_checkout_box = true;
     }
 }
