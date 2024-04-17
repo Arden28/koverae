@@ -63,7 +63,7 @@ if (isset($__slots)) unset($__slots);
 
                         </div>
                         <span class="price-tag py-1 fw-bolder" style="color: #045054;">
-                            <?php echo e(format_currency($product->product_price / 100)); ?>
+                            <?php echo e(format_currency(calculate_item_price($product))); ?>
 
                         </span>
                     </div>

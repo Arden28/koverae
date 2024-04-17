@@ -412,8 +412,9 @@
             cursor: text;
         }
         .k_field_tags{
-            height: 24px;
+            height: auto;
             padding: 1px 0 1px 0;
+            margin: 2px 0 2px 0;
             width: auto;
         }
         /* Tag */

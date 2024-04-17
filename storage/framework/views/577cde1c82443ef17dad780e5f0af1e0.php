@@ -300,23 +300,7 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
             </div>
         </form>
     </div>
-    <div class="k-chatter mt-2 px-1 py-1">
-        <div class="k-chatter-top position-sticky top-0 gap-2">
-            <!-- Topbar -->
-            <div class="k-chatter-topbar d-flex flex-shrink-0 flex-grow-0 px-3 overflow-x-auto">
-                <button class="btn btn-primary">Envoyer un message</button>
-                <span class="btn btn-secondary" style="margin-left: 5px;">
-                    Prendre des notes
-                </span>
-                <div class="k-chatter-topbar-grow w-50 flex-grow-1 pe-2">
-
-                </div>
-                <div class="d-flex flex-grow-1 right">
-                    <button class="btn btn-link"><i class="bi bi-paperclip" style="font-size: 18px;"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Loading -->
     <div class="k-loading cursor-pointer pb-1" wire:loading>
         <p>En cours de chargement ...</p>

@@ -136,6 +136,10 @@ class AppInstallationService
                 'company_id' => $company,
                 'module_slug' => 'contact',
             ],
+            [
+                'company_id' => $company,
+                'module_slug' => 'invoice',
+            ],
         ];
 
         foreach($apps as $app){

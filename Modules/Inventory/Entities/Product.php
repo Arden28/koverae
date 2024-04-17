@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Modules\Inventory\Entities\UoM\UnitOfMeasure;
+use Modules\Invoicing\Entities\Tax\Tax;
 use Modules\Manufacturing\Entities\BOM\BillOfMaterial;
 use Modules\Purchase\Entities\PurchaseDetail;
 use Modules\Sales\Entities\SalesDetail;
@@ -24,6 +25,12 @@ class Product extends Model implements Buyable, HasMedia
     protected $guarded = [];
 
     // protected $with = ['media'];
+
+    protected $casts = [
+        'sale_taxes' => 'array',
+        'purchase_taxes' => 'array',
+        'taxes' => 'array',
+    ];
 
     public function scopeIsCompany(Builder $query, $company_id)
     {
@@ -74,4 +81,11 @@ class Product extends Model implements Buyable, HasMedia
         return $this->belongsTo(UnitOfMeasure::class, 'uom_id', 'id');
     }
 
+    public function tax() {
+        return $this->belongsTo(Tax::class, 'product_order_tax', 'id');
+    }
+
+    public function sale_taxes() {
+        return $this->belongsToMany(Tax::class, 'sale_taxes', 'id');
+    }
 }

@@ -30,8 +30,9 @@ class ProductForm extends SimpleAvatarForm
 
     public $product_name, $product_type, $invoice_policy, $uom, $purchase_uom, $price, $sale_taxes, $cost, $purchase_taxes, $category, $reference, $barcode, $control_policy, $purchase_description, $sale_description;
 
-    public $sales_taxes =[];
-    public $purchases_taxes =[];
+    // Taxes
+    public array $sales_taxes =[], $purchases_taxes =[], $misc_taxes = [];
+
     //
     public $responsible, $weight, $volume, $lead_time, $tracking;
     //
@@ -58,10 +59,12 @@ class ProductForm extends SimpleAvatarForm
             $this->uom = $product->uom_id;
             $this->purchase_uom = $product->purchase_uom_id;
             $this->price = $product->product_price / 100;
-            $this->sale_taxes = $product->product_order_tax;
             $this->cost = $product->product_cost / 100;
-            $this->sales_taxes = explode(',', $product->product_order_tax);
-            $this->purchase_taxes = $product->product_purchase_tax;
+            // $this->sale_taxes = $product->product_order_tax;
+            // $this->sales_taxes = explode(',', $product->product_order_tax);
+            // $this->purchase_taxes = $product->product_purchase_tax;
+            $this->sales_taxes = $this->product->taxes['sale'];
+            $this->purchases_taxes = $this->product->taxes['purchase'];
             $this->reference = $product->product_internal_reference;
             $this->barcode = $product->product_barcode_symbology;
             $this->qty = $product->product_quantity;
@@ -98,10 +101,12 @@ class ProductForm extends SimpleAvatarForm
             $this->volume = 0;
             $this->lead_time = 1;
             $this->tracking = 'no_tracking';
+
             $this->sales_taxes[] = settings()->default_sales_tax_id;
             $this->purchases_taxes[] = settings()->default_purchase_tax_id;
-            $this->sale_taxes = settings()->default_sales_tax_id;
-            $this->purchase_taxes = settings()->default_purchase_tax_id;
+
+            // $this->sale_taxes = settings()->default_sales_tax_id;
+            // $this->purchase_taxes = settings()->default_purchase_tax_id;
         }
         // Update the formatted amount with XAF symbol
         // $this->price = number_format((float) $this->price, 2, ',', '.');
@@ -270,7 +275,7 @@ class ProductForm extends SimpleAvatarForm
             Input::make('reference',"Réf interne", 'input', 'reference', 'right', 'general', 'group1'),
             Input::make('barcode',"Code-barres", 'input', 'barcode', 'right', 'general', 'group1'),
             //
-            Input::make('taxes',"Taxes", 'input', 'purchase_taxes', 'right', 'purchases', 'suppliers_invoice')->component('inputs.tag.sale_taxes'),
+            Input::make('taxes',"Taxes", 'input', 'purchase_taxes', 'right', 'purchases', 'suppliers_invoice')->component('inputs.tag.purchase_taxes'),
             Input::make('control_policy',"Politique de contrôle", 'input', 'control_policy', 'right', 'purchases', 'suppliers_invoice')->component('inputs.select.product.control-policy'),
             Input::make('purchase_description',"Description des achats", 'input', 'purchase_description', '', 'purchases', 'purchase_description', 'Cette note sera ajoutée aux bons de commandes.')->component('inputs.textarea.tabs-middle'),
             //
@@ -312,9 +317,12 @@ class ProductForm extends SimpleAvatarForm
             'uom_id' => $this->uom,
             'purchase_uom_id' => $this->purchase_uom,
             'product_price' => $this->price * 100,
-            'product_order_tax' => settings()->default_sales_tax_id,
             'product_cost' => $this->cost * 100,
+            // Taxes
+            'taxes' => ['sale' => $this->sales_taxes, 'purchase' => $this->purchases_taxes, 'misc' => []],
+            'product_order_tax' => settings()->default_sales_tax_id,
             'product_purchase_tax' => settings()->default_purchase_tax_id,
+
             'product_internal_reference' => $this->reference,
             'product_barcode_symbology' => $this->barcode,
             'product_quantity' => $this->qty,
@@ -345,24 +353,31 @@ class ProductForm extends SimpleAvatarForm
     #[On('update-product')]
     public function update(){
         // $this->validate();
-        // $this->validate([
-        //     'photo' => 'image|max:1024', // 1MB Max
-        // ]);
+        if($this->photo){
+            $this->validate([
+                'photo' => 'image|max:1024', // 1MB Max
+            ]);
 
-        // $filePath = $this->photo->store('/assets', 'public');
+            $filePath = $this->photo->store('/assets', 'public');
+        }else{
+            $filePath = $this->image_path;
+        }
 
         $this->product->update([
             'category_id' => $this->category,
             'product_name' => $this->product_name,
-            // 'image_path' => $filePath,
+            'image_path' => $filePath,
             'product_type' => $this->product_type,
             'invoicing_policy' => $this->invoice_policy,
             'uom_id' => $this->uom,
             'purchase_uom_id' => $this->purchase_uom,
             'product_price' => $this->price * 100,
-            'product_order_tax' => settings()->default_sales_tax_id,
             'product_cost' => $this->cost * 100,
+            // Taxes
+            'taxes' => ['sale' => $this->sales_taxes, 'purchase' => $this->purchases_taxes, 'misc' => []],
+            'product_order_tax' => settings()->default_sales_tax_id,
             'product_purchase_tax' => settings()->default_purchase_tax_id,
+
             'product_internal_reference' => $this->reference,
             'product_barcode_symbology' => $this->barcode,
             'product_quantity' => $this->qty,
@@ -411,12 +426,15 @@ class ProductForm extends SimpleAvatarForm
                 'uom_id' => $product->uom_id,
                 'purchase_uom_id' => $product->purchase_uom_id,
                 'product_price' => $product->product_price,
-                'product_order_tax' => $product->product_order_tax,
                 'product_cost' => $product->product_cost,
+                // Taxes
+                'taxes' => ['sale' => $this->sales_taxes, 'purchase' => $this->purchases_taxes, 'misc' => []],
+                'product_order_tax' => $product->product_order_tax,
                 'product_purchase_tax' => $product->product_purchase_tax,
+
                 'product_internal_reference' => $product->product_internal_reference,
                 'product_barcode_symbology' => $product->product_barcode_symbology,
-                'product_quantity' => $product->product_quantity,
+                // 'product_quantity' => $product->product_quantity,
                 'control_policy' => $product->control_policy,
                 'purchase_description' => $product->purchase_description,
                 'sale_description' => $product->sale_description,
@@ -450,4 +468,8 @@ class ProductForm extends SimpleAvatarForm
         return redirect()->route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
     // Taxes
+    public function removeSaleTax($taxID){
+        $this->sales_taxes = array_diff($this->sales_taxes, [$taxID]);
+        return $this->sales_taxes;
+    }
 }

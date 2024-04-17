@@ -32,7 +32,7 @@
                             {{ $product->product_name ? Str::limit($product->product_name, 10, '...') : __('Produit') }}
                         </div>
                         <span class="price-tag py-1 fw-bolder" style="color: #045054;">
-                            {{ format_currency($product->product_price / 100) }}
+                            {{ format_currency(calculate_item_price($product)) }}
                         </span>
                     </div>
                 </article>

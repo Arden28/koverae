@@ -40,9 +40,8 @@
             <?php else: ?>
                 <input type="<?php echo e($value->type); ?>" style="width: 30%;" wire:model="<?php echo e($value->model); ?>" min="0" class="k_input" placeholder="<?php echo e($value->placeholder); ?>" id="amount">
                 <span class="col-6" style="width: 30%; margin: 0 0 12px 0;"><?php echo e($settings->currency->symbol); ?></span>
-                <!--[if BLOCK]><![endif]--><?php if($this->cost): ?>
-                <span class="col-6" style="width: 40%; margin: 0 0 12px 0;">(= <?php echo e(format_currency(calculate_ttc_price($this->cost, $this->purchase_taxes))); ?> <?php echo e(__('toutes taxes comprises')); ?>)</span>
-                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+
+                
             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
         </div>
         <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];

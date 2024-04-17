@@ -190,7 +190,7 @@
             </div>
         </form>
     </div>
-    <div class="k-chatter mt-2 px-1 py-1">
+    {{-- <div class="k-chatter mt-2 px-1 py-1">
         <div class="k-chatter-top position-sticky top-0 gap-2">
             <!-- Topbar -->
             <div class="k-chatter-topbar d-flex flex-shrink-0 flex-grow-0 px-3 overflow-x-auto">
@@ -206,7 +206,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Loading -->
     <div class="k-loading cursor-pointer pb-1" wire:loading>
         <p>En cours de chargement ...</p>

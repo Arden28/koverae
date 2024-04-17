@@ -47,6 +47,10 @@ return new class extends Migration
             $table->string('product_purchase_tax')->nullable();
             $table->enum('control_policy', ['ordered', 'received'])->default('received'); //Ordered: Control bills on ordered qties, received: Control bills on delivered qties
             $table->text('purchase_description')->nullable();
+            // Taxes
+            $table->text('sale_taxes')->nullable(); // Using text type to store serialized array
+            $table->text('purchase_taxes')->nullable(); // Using text type to store serialized array
+            $table->json('taxes')->nullable(); //['sale' => [], 'purchase' => [], 'misc' => []]
             // Inventory
                 //Logistics
                 $table->unsignedBigInteger('responsible_id')->nullable(); //This user will be responsible of the product's purchase order
