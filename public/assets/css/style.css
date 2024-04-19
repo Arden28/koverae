@@ -1494,6 +1494,9 @@
             min-height: auto;
             max-height: auto;
         }
+        #k_inner_table{
+            margin: 0;
+        }
         .k_group{
             margin: 0 -16px 0 -16px;
             display: flex;
@@ -1580,6 +1583,10 @@
             margin: 24px 0 16px 0;
             border-bottom: 1px solid #D8DADD;
         }
+        #k_horizontal_table_separator{
+            margin: 0;
+        }
+
         .k_field_work_permit_upload{
             height: 23px;
             margin: 0 0 5px 0;
@@ -1670,8 +1677,8 @@
     .order-table .order-tr th{
         background-color: #fff;
         color: #000;
-        font-size: 14px;
-        line-height: 18px;
+        font-size: 13px;
+        line-height: 16px;
         /* font-weight: bold; */
     }
     .list-table .list-tr th{

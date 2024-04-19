@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('warehouse_id')->nullable();
+            $table->json('warehouses')->nullable();
             $table->string('name');
             $table->enum('action', ['pull_from', 'push_to', 'pull_push', 'buy'])->nullable();
             $table->unsignedBigInteger('operation_type_id')->nullable();

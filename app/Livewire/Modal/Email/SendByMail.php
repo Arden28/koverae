@@ -26,6 +26,7 @@ class SendByMail extends ModalComponent
     public $contact;
     public $file;
 
+
     public function mount($template, $model){
         $this->model = $model;
         $this->template= $template;
@@ -46,7 +47,7 @@ class SendByMail extends ModalComponent
 
     public static function modalMaxWidth(): string
     {
-        return 'md';
+        return 'xl';
     }
 
     public function updatedEmail($value){

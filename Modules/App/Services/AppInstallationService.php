@@ -1154,12 +1154,12 @@ class AppInstallationService
             [
                 'company_id' => $company,
                 'warehouse_id' => $warehouse->id,
-                'name' => $comp->name.'-'. str()->slug($comp->name) .': Reception en 1 étape (stock)'
+                'name' => str()->slug($comp->name) .': Recevoir en 1 étape (stock)'
             ],
             [
                 'company_id' => $company,
                 'warehouse_id' => $warehouse->id,
-                'name' => $comp->name.'-'. str()->slug($comp->name) .': Reception en 1 étape (expédition)'
+                'name' => str()->slug($comp->name) .': Livrer en 1 étape (expédition)'
             ],
         ];
         foreach($routes as $route){
@@ -1226,6 +1226,7 @@ class AppInstallationService
     // Achat
     public function installPurchase($company){
 
+        $comp = Company::find($company);
         // Tableaux de bords
         $dashboards = [
             [
@@ -1241,6 +1242,15 @@ class AppInstallationService
         ];
         foreach($dashboards as $dashboard){
             $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
+        }
+
+        // Warehouse Route
+        foreach($comp->warehouses() as $warehouse){
+            WarehouseRoute::create([
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => __('Acheter')
+            ]);
         }
 
     }

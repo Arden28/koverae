@@ -19,6 +19,7 @@ use Livewire\WithFileUploads;
 use Modules\Contact\Entities\Contact;
 use Modules\Inventory\Entities\Category;
 use Modules\Inventory\Entities\Product;
+use Modules\Inventory\Entities\Product\ProductSupplier;
 use Modules\Inventory\Entities\UoM\UnitOfMeasure;
 use Modules\Inventory\Traits\ProductTrait;
 
@@ -44,6 +45,8 @@ class ProductForm extends SimpleAvatarForm
 
     public $image_path;
     public $photo = null;
+
+    public $suppliers = [];
 
     public bool $updateMode = false;
 
@@ -222,7 +225,7 @@ class ProductForm extends SimpleAvatarForm
         return  [
             // make($key, $label, $tabs = null)
             Group::make('group1',"Info", 'general')->component('tabs.group.light'),
-            Group::make('suppliers',"Fournisseurs", 'purchases')->component('tabs.group.large-table'),
+            Group::make('suppliers',"Fournisseurs", 'purchases')->component('tabs.group.large-table-alone'),
             Group::make('suppliers_invoice',"Factures Fournisseurs", 'purchases'),
             Group::make('purchase_description',"Description des achats", 'purchases'),
             //
@@ -242,7 +245,7 @@ class ProductForm extends SimpleAvatarForm
     {
         return  [
             // make($key, $label,$type, $tabs = null, $group = null)
-            Table::make('group1',"Info", 'purchases', 'suppliers'),
+            Table::make('group1',"Info", 'purchases', 'suppliers')->component('tables.product-supplier'),
             // Group::make('return',"Retours", 'general'),
         ];
     }
@@ -251,9 +254,9 @@ class ProductForm extends SimpleAvatarForm
     {
         return  [
             // make($key, $label)
-            Column::make('supplier_name',"Fournisseur"),
-            Column::make('product_cost',"Prix"),
-            Column::make('delivery_lead_time',"Delais de livraison"),
+            Column::make('supplier_name',"Fournisseur", 'group1'),
+            Column::make('product_cost',"Prix", 'group1'),
+            Column::make('delivery_lead_time',"Delais de livraison", 'group1'),
         ];
     }
 
@@ -264,7 +267,7 @@ class ProductForm extends SimpleAvatarForm
             Input::make('product_name',"Nom du produit", 'text', 'product_name', 'top-title', 'none', 'none', 'ex: Banéo 300G')->component('inputs.ke-title'),
             Input::make('product_type',"Type de produit", 'select', 'product_type', 'left', 'general', 'group1')->component('inputs.select.product.type'),
             Input::make('invoice_policy',"Politique de facturation", 'select', 'invoice_policy', 'left', 'general', 'group1', '', 'Quantité livrée: facturer les quantités livrées au client. Quantité commandée: facturer les quantités commandées par le client.')->component('inputs.select.product.invoice-policy'),
-            Input::make('invoice_policy',"", 'select', 'invoice_policy', 'left', 'general', 'group1', '', 'Quantité livrée: facturer les quantités livrées au client. Quantité commandée: facturer les quantités commandées par le client.')->component('inputs.product.comment-type-product'),
+            Input::make('product_type',"", 'select', 'product_type', 'left', 'general', 'group1', '', 'Quantité livrée: facturer les quantités livrées au client. Quantité commandée: facturer les quantités commandées par le client.')->component('inputs.product.comment-type-product'),
             Input::make('uom',"UdM", 'select', 'uom', 'left', 'general', 'group1', '', 'Unité de mesure par défaut utilisée pour toutes les opérations de stock.')->component('inputs.select.product.uom'),
             Input::make('purchase_uom',"UdM Achat", 'select', 'uom', 'left', 'general', 'group1', '', 'Unité de mesure utilisée pour les bons de commandes.')->component('inputs.select.product.uom'),
             //
@@ -347,6 +350,20 @@ class ProductForm extends SimpleAvatarForm
             'status' => $this->status,
         ]);
 
+        // Product Suppliers
+        foreach($this->suppliers as $supplier){
+            ProductSupplier::create([
+                'company_id' => current_company()->id,
+                'product_id' => $product->id,
+                'supplier_id' => $supplier['supplier'],
+                'supplier_name' => Contact::find($supplier['supplier'])->name,
+                'product_name' => $product->product_name,
+                'product_cost' => $supplier['price'] * 100,
+                'qty' => $supplier['quantity'],
+                'delivery_lead_time' => $supplier['delay'],
+            ]);
+        }
+
         return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
@@ -362,8 +379,8 @@ class ProductForm extends SimpleAvatarForm
         }else{
             $filePath = $this->image_path;
         }
-
-        $this->product->update([
+        $product = $this->product;
+        $product->update([
             'category_id' => $this->category,
             'product_name' => $this->product_name,
             'image_path' => $filePath,
@@ -401,8 +418,29 @@ class ProductForm extends SimpleAvatarForm
             'can_be_subscribed' => $this->can_be_subscribed,
             'status' => $this->status,
         ]);
+        // First delete the suppliers
+        if(ProductSupplier::isProduct($product->id)->get()->count() >= 1){
+            foreach(ProductSupplier::isProduct($product->id)->get() as $supplier){
+                $supplier->delete();
+            }
+        }
+
+        // Product Suppliers
+        foreach($this->suppliers as $supplier){
+            ProductSupplier::create([
+                'company_id' => current_company()->id,
+                'product_id' => $product->id,
+                'supplier_id' => $supplier['supplier'],
+                'supplier_name' => Contact::find($supplier['supplier'])->name,
+                'product_name' => $product->product_name,
+                'product_cost' => $supplier['price'] * 100,
+                'qty' => $supplier['quantity'],
+                'delivery_lead_time' => $supplier['delay'],
+            ]);
+        }
         // dd($data);
 
+        session()->flash('message', 'Product successfully updated.'); // Optional: flash a success message
         // return $this->redirectRoute('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()], navigate:true);
         return redirect()->route('inventory.products.show', ['product' => $this->product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
@@ -471,5 +509,11 @@ class ProductForm extends SimpleAvatarForm
     public function removeSaleTax($taxID){
         $this->sales_taxes = array_diff($this->sales_taxes, [$taxID]);
         return $this->sales_taxes;
+    }
+
+
+    #[On('product-supplier-cart')]
+    public function updateInputs($inputs){
+        $this->suppliers = $inputs;
     }
 }

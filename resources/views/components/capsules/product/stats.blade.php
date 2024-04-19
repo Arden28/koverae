@@ -5,6 +5,7 @@
     $unit = \Modules\Inventory\Entities\UoM\UnitOfMeasure::find($this->uom);
 @endphp
 <!-- Routes -->
+@if($this->product_type == 'storable')
 <div class="form-check k_radio_item" id="capsule">
     <i class="k_button_icon bi bi-graph-up"></i>
     <a style="text-decoration: none;" title="{{ $value->help }}" wire:navigate href="#" >
@@ -14,3 +15,4 @@
         </span>
     </a>
 </div>
+@endif

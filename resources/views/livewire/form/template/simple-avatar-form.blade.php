@@ -1,5 +1,15 @@
 <div>
     <div class="k_form_sheet_bg">
+
+        @if (session()->has('message'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert-body">
+                    <span>{{ session('message') }}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
             <!-- Action Bar -->
             @if($this->actionBarButtons())
@@ -17,9 +27,9 @@
                 </div>
                 <!-- Dropdown button -->
                 <div class="btn-group d-lg-none">
-                    <button type="button" class="btn buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Action
-                    </button>
+                    <span class="btn btn-dark buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Action
+                    </span>
                     <ul class="dropdown-menu">
                         @foreach($this->actionBarButtons() as $action)
                         <x-dynamic-component

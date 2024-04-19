@@ -24,6 +24,7 @@
     }
 ?>
 <!-- Routes -->
+<!--[if BLOCK]><![endif]--><?php if($this->can_be_purchased): ?>
 <div class="form-check k_radio_item" id="capsule">
     <i class="k_button_icon bi bi-credit-card"></i>
     <a style="text-decoration: none;" title="<?php echo e($value->help); ?>" wire:navigate href="#" >
@@ -34,4 +35,5 @@
         </span>
     </a>
 </div>
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/capsules/product/bought.blade.php ENDPATH**/ ?>

@@ -17,8 +17,4 @@ class ProductPackaging extends Model
      */
     protected $guarded = [];
 
-    // protected static function newFactory(): ProductPackagingFactory
-    // {
-    //     //return ProductPackagingFactory::new();
-    // }
 }

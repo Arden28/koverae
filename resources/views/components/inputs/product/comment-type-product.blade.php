@@ -2,7 +2,6 @@
     'value',
     'data'
 ])
-@if($this->product_type)
 <div class="container d-lg-flex h-auto" >
     <!-- Input Label -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0  text-break text-900">
@@ -34,5 +33,4 @@
     </div>
 </div>
 <br><br>
-@endif
 

@@ -21,13 +21,15 @@
 } ?>
 <?php unset($__defined_vars); ?>
 <!--[if BLOCK]><![endif]--><?php if($this->product_type == 'storable' || $this->product_type == 'consumable'): ?>
-<div>
-    <button class="d-none d-lg-inline-flex" type="button" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>"  id="top-button" class="btn btn-primary <?php echo e($status == $value->primary ? 'primary' : ''); ?>">
-        <span>
-            <?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>" >...</span>
-        </span>
-    </button>
-    <li class="d-lg-none"><a class="dropdown-item" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>"><?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>" >...</span></a></li>
-</div>
+    <!--[if BLOCK]><![endif]--><?php if(module('purchase')): ?>
+    <div>
+        <button class="d-none d-lg-inline-flex" type="button" onclick="Livewire.dispatch('openModal', {component: 'inventory::modal.update-quatity-modal', arguments: {product: <?php echo e($this->product); ?> } } )"  id="top-button" class="btn btn-primary <?php echo e($status == $value->primary ? 'primary' : ''); ?>">
+            <span>
+                <?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>" >...</span>
+            </span>
+        </button>
+        <li class="d-lg-none"><a class="dropdown-item" onclick="Livewire.dispatch('openModal', {component: 'inventory::modal.update-quatity-modal', arguments: {product: <?php echo e($this->product); ?> } } )"><?php echo e($value->label); ?> <span wire:loading wire:target="<?php echo e($value->action); ?>" >...</span></a></li>
+    </div>
+    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/button/action-bar/replenish-product.blade.php ENDPATH**/ ?>

@@ -3,14 +3,16 @@
     'data'
 ])
 
-<div class="table-responsive" style="margin-top: 10px;">
+<div class="table-responsive">
     <table class="table card-table table-vcenter text-nowrap datatable">
-        <thead class="list-table">
-            <tr class="list-tr">
+        <thead class="order-table">
+            <tr class="order-tr">
                 @foreach($this->columns() as $column)
+                    @if($column->table === $value->key)
                     <th class="cursor-pointer">
                         {{ $column->label }}
                     </th>
+                    @endif
                 @endforeach
                 <th></th>
             </tr>

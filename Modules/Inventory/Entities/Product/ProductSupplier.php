@@ -4,9 +4,9 @@ namespace Modules\Inventory\Entities\Product;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Inventory\Database\factories\ProductSupplierFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Inventory\Entities\Product;
 
 class ProductSupplier extends Model
 {
@@ -17,8 +17,18 @@ class ProductSupplier extends Model
      */
     protected $guarded = [];
 
-    // protected static function newFactory(): ProductSupplierFactory
-    // {
-    //     //return ProductSupplierFactory::new();
-    // }
+    public function scopeIsCompany(Builder $query, $company_id)
+    {
+        return $query->where('company_id', $company_id);
+    }
+
+    public function scopeIsProduct(Builder $query, $product_id)
+    {
+        return $query->where('product_id', $product_id);
+    }
+
+    public function product() {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
 }

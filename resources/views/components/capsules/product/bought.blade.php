@@ -8,6 +8,7 @@
     }
 @endphp
 <!-- Routes -->
+@if($this->can_be_purchased)
 <div class="form-check k_radio_item" id="capsule">
     <i class="k_button_icon bi bi-credit-card"></i>
     <a style="text-decoration: none;" title="{{ $value->help }}" wire:navigate href="#" >
@@ -17,3 +18,4 @@
         </span>
     </a>
 </div>
+@endif

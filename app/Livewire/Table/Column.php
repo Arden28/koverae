@@ -13,15 +13,17 @@ class Column
 
     public string $label;
 
-    public function __construct($key, $label)
+    public $table;
+
+    public function __construct($key, $label, $table = null)
     {
         $this->key = $key;
         $this->label = $label;
     }
 
-    public static function make($key, $label)
+    public static function make($key, $label, $table = null)
     {
-        return new static($key, $label);
+        return new static($key, $label, $table);
     }
 
     public function component($component)

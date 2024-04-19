@@ -8,6 +8,7 @@ use Modules\Inventory\Database\factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
+use Modules\Inventory\Entities\Product\ProductSupplier;
 use Modules\Inventory\Entities\UoM\UnitOfMeasure;
 use Modules\Invoicing\Entities\Tax\Tax;
 use Modules\Manufacturing\Entities\BOM\BillOfMaterial;
@@ -87,5 +88,9 @@ class Product extends Model implements Buyable, HasMedia
 
     public function sale_taxes() {
         return $this->belongsToMany(Tax::class, 'sale_taxes', 'id');
+    }
+
+    public function suppliers() {
+        return $this->hasMany(ProductSupplier::class, 'product_id', 'id');
     }
 }

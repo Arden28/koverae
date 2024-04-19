@@ -31,7 +31,7 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select  wire:model.blur="<?php echo e($value->model); ?>" class="k_input" id="<?php echo e($value->model); ?>_0">
+        <select  wire:model.blur="product_type" class="k_input" id="<?php echo e($value->model); ?>_0">
             <option value=""></option>
             <option value="storable">Produit stockable</option>
             <option value="consumable">Consommable</option>

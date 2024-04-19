@@ -12,7 +12,7 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select  wire:model.blur="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0">
+        <select  wire:model.blur="product_type" class="k_input" id="{{ $value->model }}_0">
             <option value=""></option>
             <option value="storable">Produit stockable</option>
             <option value="consumable">Consommable</option>

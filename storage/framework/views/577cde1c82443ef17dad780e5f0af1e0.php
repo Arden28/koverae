@@ -1,5 +1,15 @@
 <div>
     <div class="k_form_sheet_bg">
+
+        <!--[if BLOCK]><![endif]--><?php if(session()->has('message')): ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert-body">
+                    <span><?php echo e(session('message')); ?></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+
         <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
             <!-- Action Bar -->
             <!--[if BLOCK]><![endif]--><?php if($this->actionBarButtons()): ?>
@@ -31,9 +41,9 @@
                 </div>
                 <!-- Dropdown button -->
                 <div class="btn-group d-lg-none">
-                    <button type="button" class="btn buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Action
-                    </button>
+                    <span class="btn btn-dark buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Action
+                    </span>
                     <ul class="dropdown-menu">
                         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>

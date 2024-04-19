@@ -20,7 +20,6 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<!--[if BLOCK]><![endif]--><?php if($this->product_type): ?>
 <div class="container d-lg-flex h-auto" >
     <!-- Input Label -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0  text-break text-900">
@@ -52,6 +51,5 @@
     </div>
 </div>
 <br><br>
-<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/inputs/product/comment-type-product.blade.php ENDPATH**/ ?>
