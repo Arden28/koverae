@@ -1,9 +1,9 @@
 <div>
     <!-- Table -->
-    <div class="table-responsive card">
-        <table class="table card-table table-vcenter text-nowrap datatable">
-            <thead>
-                <tr>
+    <div class="table-responsive w-100">
+        <table class="table card-table text-nowrap">
+            <thead class="order-table">
+                <tr class="order-tr">
                     <th><button class="table-sort">{{ __('Produit') }}</button></th>
                     <th><button class="table-sort">{{ __('Description') }}</button></th>
                     <th><button class="table-sort">{{ __('Date Prévue') }}</button></th>

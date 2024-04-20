@@ -49,7 +49,7 @@
             <div class="dropdown-menu-columns">
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
-                    <a class="dropdown-item" wire:navigate href="#">
+                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Produits') }}
                     </a>
                     @if(settings()->has_variant)

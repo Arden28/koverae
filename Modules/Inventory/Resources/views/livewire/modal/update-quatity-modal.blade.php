@@ -5,6 +5,10 @@
         <span class="btn-close" wire:click="$dispatch('closeModal')"></span>
       </div>
       <div class="modal-body">
+        {{-- <form wire:submit="replenish">
+            @csrf
+
+        </form> --}}
         <div class="k_form_nosheet">
             <p>
                 La quantité actuelle de {{ $product->reference ? '['.$product->reference.']' : '' }} <b>{{ $product->product_name }}</b> est de {{ $product->product_quantity }} {{ $product->unit->name }}
@@ -49,9 +53,11 @@
                     </div>
                     <!-- Input Form -->
                     <div class="k_cell k_wrap_input flex-grow-1">
-                        <select wire:model="route" class="k-autocomplete-input-0 k_input" id="route">
+                        <select wire:model.blur="route" class="k-autocomplete-input-0 k_input" id="route">
                             <option></option>
+                            @if(module('purchase'))
                             <option value="purchase">{{ __('Acheter') }}</option>
+                            @endif
                             @if(module('manufacturing'))
                             <option value="manufacture">{{ __('Fabriquer') }}</option>
                             @endif
@@ -61,6 +67,7 @@
                     </div>
                 </div>
 
+                @if($this->route === 'purchase')
                 <!-- Suppliers -->
                 <div class="d-flex" style="margin-bottom: 8px;">
                     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
@@ -72,17 +79,21 @@
                     <div class="k_cell k_wrap_input flex-grow-1">
                         <select wire:model="supplier" class="k-autocomplete-input-0 k_input" id="supplier">
                             <option></option>
+                            @foreach ($suppliers as $supplier)
+                                <option value="{{ $supplier->id }}">{{ $supplier->contact->name }}</option>
+                            @endforeach
                         </select>
                         @error('supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
+                @endif
 
             </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" wire:click="$dispatch('closeModal')">Close</button>
-        <button class="btn btn-primary">Send message</button>
+      <div class="modal-footer p-0">
+        <button class="btn btn-secondary" wire:click="$dispatch('closeModal')">{{ __('Ignorer') }}</button>
+        <button class="btn btn-primary" wire:click.prevent="replenish">{{ __('Confirmer') }}</button>
       </div>
     </div>
 </div>

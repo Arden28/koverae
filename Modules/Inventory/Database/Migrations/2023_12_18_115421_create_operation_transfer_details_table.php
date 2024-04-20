@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('operation_transfer_id')->nullable();
+            $table->unsignedBigInteger('in_direction_to')->nullable();
             $table->string('product_name');
             $table->string('description')->nullable();
             $table->date('schedule_date')->nullable();

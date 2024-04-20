@@ -8,6 +8,7 @@ use Modules\Inventory\Database\factories\ProductFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
+use Modules\Inventory\Entities\History\InventoryMove;
 use Modules\Inventory\Entities\Product\ProductSupplier;
 use Modules\Inventory\Entities\UoM\UnitOfMeasure;
 use Modules\Invoicing\Entities\Tax\Tax;
@@ -72,6 +73,14 @@ class Product extends Model implements Buyable, HasMedia
 
     public function sold() {
         return $this->hasMany(SalesDetail::class, 'product_id', 'id');
+    }
+
+    // public function manufactured() {
+    //     return $this->hasMany(SalesDetail::class, 'product_id', 'id');
+    // }
+
+    public function moves() {
+        return $this->hasMany(InventoryMove::class, 'product_id', 'id');
     }
 
     public function bom() {

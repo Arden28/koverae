@@ -438,7 +438,6 @@ class ProductForm extends SimpleAvatarForm
                 'delivery_lead_time' => $supplier['delay'],
             ]);
         }
-        // dd($data);
 
         session()->flash('message', 'Product successfully updated.'); // Optional: flash a success message
         // return $this->redirectRoute('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()], navigate:true);

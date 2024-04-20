@@ -42,7 +42,7 @@ return new class extends Migration
             $table->unsignedBigInteger('seller_id')->nullable(); //seller in charge of this contact
             $table->string('sale_payment_term')->nullable(); //this payment term will be used instead of the defzult payment term
             $table->string('pricelist')->nullable(); //this price list will be used instead of the defzult price list
-
+            $table->unsignedBigInteger('buyer_id')->nullable(); //buyer in charge of this contact
             $table->string('purchase_payment_term')->nullable();//this payment term will be used instead of the defzult payment term
             // Fiscal
             $table->string('fiscal_position')->nullable();

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('operation_transfer_id')->nullable();
             $table->string('reference');
             $table->dateTime('date')->nullable();
             $table->unsignedBigInteger('source_location_id')->nullable();
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->foreign('source_location_id')->references('id')->on('warehouse_locations')->cascadeOnDelete();
             $table->foreign('destination_location_id')->references('id')->on('warehouse_locations')->cascadeOnDelete();
             $table->foreign('responsible_id')->references('id')->on('contacts')->cascadeOnDelete();
+            $table->foreign('operation_transfer_id')->references('id')->on('operation_transfers')->nullOnDelete();
 
             $table->timestamps();
             $table->softDeletes();

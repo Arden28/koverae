@@ -23,6 +23,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Modules\Employee\Entities\Employee;
+use Modules\Inventory\Entities\Operation\OperationTransfer;
 use Modules\Invoicing\Entities\Vendor\Bill;
 use Modules\Invoicing\Entities\Vendor\BillDetail;
 
@@ -239,6 +240,11 @@ class PurchaseForm extends BaseForm
 
     }
 
+    public function receiveOrder(){
+        $transfer = OperationTransfer::isCompany(current_company()->id)->isBelongs($this->purchase->reference)->first();
+
+        return redirect()->route('inventory.operation-transfers.show', ['subdomain' => current_company()->domain_name, 'transfer' => $transfer->id ?? null, 'menu' => current_menu()]);
+    }
 
 
 }

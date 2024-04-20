@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Contact\Entities\Contact;
 use Modules\Inventory\Entities\Product;
 
 class ProductSupplier extends Model
@@ -29,6 +30,10 @@ class ProductSupplier extends Model
 
     public function product() {
         return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function contact() {
+        return $this->belongsTo(Contact::class, 'supplier_id', 'id');
     }
 
 }

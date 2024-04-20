@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Modules\Inventory\Entities\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Modules\Purchase\Services\PurchaseLogisticService;
 use Modules\Sales\Services\QuotationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -371,9 +372,9 @@ class RequestQuotationForm extends BaseForm
                 'fiscal_position_id' => $this->fiscal_position,
                 // 'terms' => $this->terms,
                 'payment_status' => $payment_status,
-                'delivery_status' => 'Pending',
+                // 'delivery_status' => 'Pending',
                 'reception_status' => 'Pending',
-                'invoice_status' => 'Pending',
+                'invoice_status' => 'to_invoice',
                 'total_amount' => $this->total_amount / 100,
                 'paid_amount' => $this->paid_amount / 100,
                 'due_amount' => $this->total_amount / 100, //$due_amount
@@ -402,6 +403,7 @@ class RequestQuotationForm extends BaseForm
                 ]);
             }
 
+            // Launch Logistic reception
             if(module('inventory')){
                 // Launch delivery operation
                 $from = WarehouseLocation::isCompany(current_company()->id)->isType('supplier')->get()->first();
@@ -456,7 +458,7 @@ class RequestQuotationForm extends BaseForm
     }
 
     public function confirmQT(){
-                // $this->validate();
+        $this->validate();
         $request = $this->request;
 
         DB::transaction(function () {
@@ -487,7 +489,7 @@ class RequestQuotationForm extends BaseForm
                 'supplier_id' => $this->supplier,
                 'deadline_date' => $this->deadline_date,
                 'date' => now(),
-                // 'source_document' => $this->reference,
+                'source_document' => $this->source_document,
                 'expected_arrival_date' => $this->expected_arrival_date,
                 'ask_confirmation' => $this->ask_confirmation,
                 'reminder_date_before_receipt' => $this->reminder_date_before_receipt,
@@ -498,9 +500,9 @@ class RequestQuotationForm extends BaseForm
                 'fiscal_position_id' => $this->fiscal_position,
                 // 'terms' => $this->terms,
                 'payment_status' => $payment_status,
-                'delivery_status' => 'Pending',
+                // 'delivery_status' => 'Pending',
                 'reception_status' => 'Pending',
-                'invoice_status' => 'Pending',
+                'invoice_status' => 'to_invoice',
                 'total_amount' => $this->total_amount / 100,
                 'paid_amount' => $this->paid_amount / 100,
                 'due_amount' => $this->total_amount / 100, //$due_amount
@@ -528,6 +530,9 @@ class RequestQuotationForm extends BaseForm
                     'invoiced' => 0,
                 ]);
             }
+            // Launch Logistics reception
+            $purchaseService = new PurchaseLogisticService();
+            $purchaseService->launchReception($purchase);
 
             // Cart::instance('request-quotation')->store(Auth::user()->id);
             Cart::instance('request-quotation')->destroy();

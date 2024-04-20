@@ -5,6 +5,7 @@
         <span class="btn-close" wire:click="$dispatch('closeModal')"></span>
       </div>
       <div class="modal-body">
+        
         <div class="k_form_nosheet">
             <p>
                 La quantité actuelle de <?php echo e($product->reference ? '['.$product->reference.']' : ''); ?> <b><?php echo e($product->product_name); ?></b> est de <?php echo e($product->product_quantity); ?> <?php echo e($product->unit->name); ?>
@@ -64,9 +65,11 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                     <!-- Input Form -->
                     <div class="k_cell k_wrap_input flex-grow-1">
-                        <select wire:model="route" class="k-autocomplete-input-0 k_input" id="route">
+                        <select wire:model.blur="route" class="k-autocomplete-input-0 k_input" id="route">
                             <option></option>
+                            <!--[if BLOCK]><![endif]--><?php if(module('purchase')): ?>
                             <option value="purchase"><?php echo e(__('Acheter')); ?></option>
+                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                             <!--[if BLOCK]><![endif]--><?php if(module('manufacturing')): ?>
                             <option value="manufacture"><?php echo e(__('Fabriquer')); ?></option>
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
@@ -83,6 +86,7 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                 </div>
 
+                <!--[if BLOCK]><![endif]--><?php if($this->route === 'purchase'): ?>
                 <!-- Suppliers -->
                 <div class="d-flex" style="margin-bottom: 8px;">
                     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
@@ -94,6 +98,9 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                     <div class="k_cell k_wrap_input flex-grow-1">
                         <select wire:model="supplier" class="k-autocomplete-input-0 k_input" id="supplier">
                             <option></option>
+                            <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($supplier->id); ?>"><?php echo e($supplier->contact->name); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
                         </select>
                         <!--[if BLOCK]><![endif]--><?php $__errorArgs = ['supplier'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -105,13 +112,14 @@ endif;
 unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                 </div>
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
             </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" wire:click="$dispatch('closeModal')">Close</button>
-        <button class="btn btn-primary">Send message</button>
+      <div class="modal-footer p-0">
+        <button class="btn btn-secondary" wire:click="$dispatch('closeModal')"><?php echo e(__('Ignorer')); ?></button>
+        <button class="btn btn-primary" wire:click.prevent="replenish"><?php echo e(__('Confirmer')); ?></button>
       </div>
     </div>
 </div>
