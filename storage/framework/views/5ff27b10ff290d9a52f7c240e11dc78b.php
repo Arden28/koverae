@@ -56,7 +56,7 @@
             <div class="dropdown-menu-columns">
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
-                    <a class="dropdown-item" wire:navigate href="#">
+                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
                         <?php echo e(__('Produits')); ?>
 
                     </a>

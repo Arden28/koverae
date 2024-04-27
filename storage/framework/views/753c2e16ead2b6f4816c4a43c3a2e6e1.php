@@ -77,18 +77,18 @@
             <div class="dropdown-menu-columns">
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
+                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
                         <?php echo e(__('Produits')); ?>
 
                     </a>
                     <!--[if BLOCK]><![endif]--><?php if(settings()->has_variant): ?>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
+                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
                         <?php echo e(__('Variantes Produits')); ?>
 
                     </a>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     <?php if(settings()->has_pricelist_check): ?>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
+                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
                         <?php echo e(__('Listes de prix')); ?>
 
                     </a>

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Inventory\Database\factories\OperationTransferFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Inventory\Entities\History\InventoryMove;
 use Modules\Inventory\Entities\Warehouse\Warehouse;
 
 class OperationTransfer extends Model
@@ -61,6 +62,10 @@ class OperationTransfer extends Model
 
     public function details() {
         return $this->hasMany(OperationTransferDetail::class, 'operation_transfer_id', 'id');
+    }
+
+    public function moves() {
+        return $this->hasMany(InventoryMove::class, 'operation_transfer_id', 'id');
     }
 
 

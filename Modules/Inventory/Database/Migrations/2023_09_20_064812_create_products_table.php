@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('product_internal_reference')->nullable();
             $table->string('product_code')->nullable();
             $table->string('product_barcode_symbology')->nullable();
-            $table->decimal('product_quantity', $precision = 10, $scale = 2)->default(1);
+            $table->decimal('product_quantity', $precision = 10, $scale = 2)->default(0);
             $table->string('product_unit')->nullable();
             $table->integer('product_stock_alert')->default(0);
             $table->tinyInteger('product_tax_type')->nullable();

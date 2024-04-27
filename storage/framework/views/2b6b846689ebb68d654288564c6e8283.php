@@ -137,8 +137,8 @@
                         <?php echo e(__('Emplacements')); ?>
 
                     </a>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Historique de mouvements')); ?>
+                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.history', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
+                        <?php echo e(__('Historique des mouvements')); ?>
 
                     </a>
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()])); ?>">

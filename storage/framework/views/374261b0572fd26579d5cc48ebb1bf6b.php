@@ -20,7 +20,9 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<button wire:click="<?php echo e($value->action); ?>" class="k_switch_view btn btn-secondary <?php echo e($value->key == 'lists' ? 'active' : ''); ?> k_list">
+
+
+<button class="k_switch_view btn btn-secondary <?php echo e($value->key == 'lists' ? 'active' : ''); ?> k_list">
     <i class="bi <?php echo e($value->icon); ?>"></i>
 </button>
 <?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/navbar/switch-button.blade.php ENDPATH**/ ?>

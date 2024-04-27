@@ -35,7 +35,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model.live="<?php echo e($value->model); ?>" id="" class="k_input">
+        <select wire:model.blur="<?php echo e($value->model); ?>" id="" class="k_input">
             <option value=""></option>
             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $locations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $location): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <!--[if BLOCK]><![endif]--><?php if($location->parent): ?>

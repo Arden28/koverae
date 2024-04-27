@@ -36,6 +36,9 @@ use Modules\Inventory\Livewire\Warehouse\Routes\Show as WarehouseRouteShow;
 use Modules\Inventory\Livewire\Location\Lists as LocationList;
 use Modules\Inventory\Livewire\Location\Create as LocationCreate;
 use Modules\Inventory\Livewire\Location\Show as LocationShow;
+use Modules\Inventory\Livewire\Product\HistoryMovement;
+use Modules\Inventory\Livewire\Product\ProductQuantity;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,7 +65,10 @@ use Modules\Inventory\Livewire\Location\Show as LocationShow;
     Route::get('adjustment/scraps', AdjustmentScrapLists::class)->name('inventory.adjustments.scraps.index');
 
     // Products
-    Route::get('inventory/products', ProductLists::class)->name('inventory.products.index');
+    Route::get('products', ProductLists::class)->name('inventory.products.index');
+    Route::get('products/quantity/{product}', ProductQuantity::class)->name('inventory.products.quantity');
+    Route::get('products/history-movements', HistoryMovement::class)->name('inventory.products.history');
+
     // Categories
     Route::get('products/categories', CategoryLists::class)->name('inventory.products.categories.index');
 

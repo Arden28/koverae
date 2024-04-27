@@ -15,10 +15,11 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Modules\Inventory\Entities\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Modules\Purchase\Services\PurchaseLogisticService;
+use Modules\Inventory\Services\LogisticService;
 use Modules\Sales\Services\QuotationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\On;
 use Modules\Contact\Entities\Contact;
 use Modules\Purchase\Entities\Purchase;
 use Modules\Purchase\Entities\PurchaseDetail;
@@ -262,6 +263,7 @@ class RequestQuotationForm extends BaseForm
         return 'storeRequest()';
     }
 
+    #[On('create-request')]
     public function storeRequest(){
         // $this->validate();
 
@@ -285,7 +287,7 @@ class RequestQuotationForm extends BaseForm
                 'payment_term' => $this->payment_term,
                 'fiscal_position_id' => $this->fiscal_position,
                 // 'terms' => $this->terms,
-                'total_amount' => $this->total_amount / 100,
+                'total_amount' => $this->total_amount,
                 'status' => $this->status,
                 'tax_amount' => $this->tax_amount,
                 'discount_amount' => $this->discount_amount,
@@ -298,7 +300,7 @@ class RequestQuotationForm extends BaseForm
                     'request_quotation_id' => $request->id,
                     'product_id' => $cart_item->id,
                     'product_name' => $cart_item->name,
-                    'product_code' => $cart_item->options->code,
+                    'product_code' => '['.$cart_item->options->code.']',
                     'quantity' => $cart_item->qty,
                     'price' => $cart_item->price * 100,
                     'unit_price' => $cart_item->options->unit_price * 100,
@@ -323,6 +325,64 @@ class RequestQuotationForm extends BaseForm
 
             return redirect()->route('purchases.requests.show', ['subdomain' => current_company()->domain_name, 'request' => $request->id, 'menu' => current_menu()]);
         });
+    }
+
+    #[On('update-request')]
+    public function updateRequest(){
+        // $this->validate();
+            $request = $this->request;
+            $request->update([
+                // 'company_id' => current_company()->id,
+                'supplier_id' => $this->supplier,
+                'deadline_date' => $this->deadline_date,
+                // 'date' => $this->date,
+                'expected_arrival_date' => $this->expected_arrival_date,
+                'ask_confirmation' => $this->ask_confirmation,
+                'reminder_date_before_receipt' => $this->reminder_date_before_receipt,
+                'supplier_reference' => $this->supplier_reference,
+                'buyer_id' => $this->buyer,
+                'source_document' => $this->source_document,
+                'payment_term' => $this->payment_term,
+                'fiscal_position_id' => $this->fiscal_position,
+                // 'terms' => $this->terms,
+                // 'total_amount' => $this->total_amount,
+                // 'status' => $this->status,
+                // 'tax_amount' => $this->tax_amount,
+                // 'discount_amount' => $this->discount_amount,
+                // 'tax_percentage' => $this->tax_percentage,
+                // 'discount_percentage' => $this->discount_percentage,
+            ]);
+
+            // foreach (Cart::instance('request-quotation')->content() as $cart_item) {
+            //     RequestQuotationDetail::create([
+            //         'request_quotation_id' => $request->id,
+            //         'product_id' => $cart_item->id,
+            //         'product_name' => $cart_item->name,
+            //         'product_code' => '['.$cart_item->options->code.']',
+            //         'quantity' => $cart_item->qty,
+            //         'price' => $cart_item->price * 100,
+            //         'unit_price' => $cart_item->options->unit_price * 100,
+            //         'sub_total' => $cart_item->options->sub_total * 100,
+            //         'product_discount_amount' => $cart_item->options->product_discount * 100,
+            //         'product_discount_type' => $cart_item->options->product_discount_type,
+            //         'product_tax_amount' => $cart_item->options->product_tax * 100,
+            //     ]);
+            // }
+
+            // // Cart::instance('request-quotation')->store(Auth::user()->id);
+            // Cart::instance('request-quotation')->destroy();
+
+            // if($request->supplier_reference){
+            //     $contact = Contact::findOrFail($request->supplier_id);
+            //     if($contact->reference == null){
+            //         $contact->reference = $request->supplier_reference;
+            //         $contact->save();
+            //     }
+            // }
+
+            notify()->success("Nouvelle demande de Devis créée !");
+
+            return redirect()->route('purchases.requests.show', ['subdomain' => current_company()->domain_name, 'request' => $request->id, 'menu' => current_menu()]);
     }
 
     public function sendByEmail(){
@@ -375,9 +435,9 @@ class RequestQuotationForm extends BaseForm
                 // 'delivery_status' => 'Pending',
                 'reception_status' => 'Pending',
                 'invoice_status' => 'to_invoice',
-                'total_amount' => $this->total_amount / 100,
-                'paid_amount' => $this->paid_amount / 100,
-                'due_amount' => $this->total_amount / 100, //$due_amount
+                'total_amount' => $this->total_amount,
+                'paid_amount' => $this->paid_amount,
+                'due_amount' => $this->total_amount, //$due_amount
                 'status' => 'purchase_order',
                 'tax_amount' => $this->tax_amount,
                 'discount_amount' => $this->discount_amount,
@@ -403,41 +463,9 @@ class RequestQuotationForm extends BaseForm
                 ]);
             }
 
-            // Launch Logistic reception
-            if(module('inventory')){
-                // Launch delivery operation
-                $from = WarehouseLocation::isCompany(current_company()->id)->isType('supplier')->get()->first();
-                $to = WarehouseLocation::isCompany(current_company()->id)->isType('view')->isName('WH')->first();
-                $type = OperationType::isCompany(current_company()->id)->isType('receipt')->get()->first();
-
-                $transfer = OperationTransfer::create([
-                    'company_id' => current_company()->id,
-                    'contact_id' => $purchase->customer_id,
-                    'operation_type_id' => $type->id,
-                    'received_from' => $from->id,
-                    'in_direction_to' => $to->id,
-                    'schedule_date' => $purchase->expected_arrival_date,
-                    'effective_date' => $purchase->deadline_date,
-                    'source_document' => $purchase->reference,
-                    // 'responsible_id' => $purchase->responsible,
-                    'shipping_policy' => $purchase->shipping_policy,
-                    'note' => $purchase->note,
-                    'status' => 'ready',
-                ]);
-                $transfer->save();
-
-                foreach ($purchase->purchaseDetails as $detail) {
-                    $transfer_details = OperationTransferDetail::create([
-                        'company_id' => current_company()->id,
-                        'product_id' => $detail->product_id,
-                        'operation_transfer_id' => $transfer->id,
-                        'product_name' => Product::find($detail->product_id)->product_name,
-                        'demand' => $detail->quantity,
-                        'quantity' => Product::find($detail->product_id)->product_quantity,
-                    ]);
-                    $transfer_details->save();
-                }
-            }
+            // Launch Logistics reception
+            $purchaseService = new LogisticService();
+            $purchaseService->launchReception($purchase);
 
 
             // Cart::instance('request-quotation')->store(Auth::user()->id);
@@ -495,7 +523,6 @@ class RequestQuotationForm extends BaseForm
                 'reminder_date_before_receipt' => $this->reminder_date_before_receipt,
                 'supplier_reference' => $this->supplier_reference,
                 'buyer_id' => $this->buyer,
-                'source_document' => $this->source_document,
                 'payment_term' => $this->payment_term,
                 'fiscal_position_id' => $this->fiscal_position,
                 // 'terms' => $this->terms,
@@ -503,9 +530,9 @@ class RequestQuotationForm extends BaseForm
                 // 'delivery_status' => 'Pending',
                 'reception_status' => 'Pending',
                 'invoice_status' => 'to_invoice',
-                'total_amount' => $this->total_amount / 100,
-                'paid_amount' => $this->paid_amount / 100,
-                'due_amount' => $this->total_amount / 100, //$due_amount
+                'total_amount' => $this->total_amount,
+                'paid_amount' => $this->paid_amount,
+                'due_amount' => $this->total_amount, //$due_amount
                 'status' => 'purchase_order',
                 'tax_amount' => $this->tax_amount,
                 'discount_amount' => $this->discount_amount,
@@ -531,7 +558,7 @@ class RequestQuotationForm extends BaseForm
                 ]);
             }
             // Launch Logistics reception
-            $purchaseService = new PurchaseLogisticService();
+            $purchaseService = new LogisticService();
             $purchaseService->launchReception($purchase);
 
             // Cart::instance('request-quotation')->store(Auth::user()->id);

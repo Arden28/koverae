@@ -28,7 +28,9 @@ abstract class Table extends Component
         return view('livewire.table.table');
     }
 
-    public abstract function headerName() : string;
+    public function headerName() : string{
+        return '';
+    }
 
     public function emptyTitle() : string{
         return '';
@@ -50,7 +52,9 @@ abstract class Table extends Component
 
     public abstract function columns() : array;
 
-    public abstract function showRoute($id) : string;
+    public function showRoute($id) : string{
+        return '';
+    }
 
     // public abstract function showRouteTwoVariable($id, $id_b);
 

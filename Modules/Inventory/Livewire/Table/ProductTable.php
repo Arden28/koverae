@@ -10,11 +10,11 @@ use Modules\Inventory\Entities\Product;
 class ProductTable extends Table
 {
 
-    public function createRoute() : string
-    {
+    // public function createRoute() : string
+    // {
 
-        return route('inventory.products.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
-    }
+    //     return route('inventory.products.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
+    // }
 
     public function showRoute($id) : string
     {

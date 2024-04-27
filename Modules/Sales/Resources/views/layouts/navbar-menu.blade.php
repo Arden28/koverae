@@ -68,16 +68,16 @@
             <div class="dropdown-menu-columns">
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
-                    <a class="dropdown-item" wire:navigate href="{{ route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Produits') }}
                     </a>
                     @if(settings()->has_variant)
-                    <a class="dropdown-item" wire:navigate href="{{ route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Variantes Produits') }}
                     </a>
                     @endif
                     @if(settings()->has_pricelist_check)
-                    <a class="dropdown-item" wire:navigate href="{{ route('sales.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Listes de prix') }}
                     </a>
                     @endif

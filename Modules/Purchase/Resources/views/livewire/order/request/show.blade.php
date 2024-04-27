@@ -3,7 +3,7 @@
 
     <!-- Control Panel -->
     @section('control-panel')
-    <livewire:purchase::navbar.control-panel.request-quotation-form-panel :request="$request" />
+    <livewire:purchase::navbar.control-panel.request-quotation-form-panel :event="'update-request'" :request="$request" />
     @endsection
 
     <!-- Notify -->

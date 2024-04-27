@@ -20,10 +20,11 @@ return new class extends Migration
             $table->dateTime('date')->nullable();
             $table->unsignedBigInteger('source_location_id')->nullable();
             $table->unsignedBigInteger('destination_location_id')->nullable();
-            $table->decimal('quantity')->nullable();
+            $table->decimal('quantity', $precision = 10, $scale = 2)->default(0);
+            $table->decimal('demand', $precision = 10, $scale = 2)->default(0);
             $table->unsignedBigInteger('uom_id')->nullable();
             $table->unsignedBigInteger('responsible_id')->nullable();
-            $table->enum('status', ['draft', 'done'])->default('done');
+            $table->enum('status', ['draft', 'done'])->default('draft');
             $table->string('source_document')->nullable();
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();

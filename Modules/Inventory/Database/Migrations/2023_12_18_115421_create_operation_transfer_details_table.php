@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->date('schedule_date')->nullable();
             $table->date('deadline_date')->nullable();
-            $table->decimal('demand')->nullable();
-            $table->decimal('quantity')->nullable();
+            $table->decimal('demand', $precision = 10, $scale = 2)->default(0);
+            $table->decimal('quantity', $precision = 10, $scale = 2)->default(0);
             $table->boolean('picked')->default(false);
 
             $table->foreign('product_id')->references('id')->on('products')->nullOnDelete();

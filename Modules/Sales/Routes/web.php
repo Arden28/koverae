@@ -22,11 +22,6 @@ use Modules\Sales\Livewire\Team\Show as TeamShow;
 use Modules\Sales\Livewire\Team\Lists as TeamLists;
 use Modules\Sales\Livewire\Sale\Invoice\Show as InvoiceShow;
 
-use Modules\Sales\Livewire\Product\Lists as ProductLists;
-
-use Modules\Contact\Entities\Contact;
-use Modules\Sales\Entities\SalesPerson;
-
 use Modules\Sales\Livewire\SalesProgram\Lists as ProgramLists;
 use Modules\Sales\Livewire\SalesProgram\Create as ProgramCreate;
 use Modules\Sales\Livewire\SalesProgram\Show as ProgramShow;
@@ -52,8 +47,7 @@ Route::middleware(['module:sales'])->group(function() {
     Route::get('sales-programs', ProgramLists::class)->name('sales.programs.index');
     // Customers
     Route::get('sales/customers', CustomerLists::class)->name('sales.customers.index');
-    // Product
-    Route::get('products', ProductLists::class)->name('sales.products.index');
+
     // Quotations
     Route::prefix('quotations')->name('sales.quotations.')->group(function(){
         Route::get('/create', QuotationCreate::class)->name('create');

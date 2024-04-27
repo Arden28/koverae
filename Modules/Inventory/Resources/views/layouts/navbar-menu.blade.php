@@ -119,8 +119,8 @@
                     <a class="dropdown-item" wire:navigate href="{{ route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()]) }}">
                         {{ __('Emplacements') }}
                     </a>
-                    <a class="dropdown-item" wire:navigate href="{{ route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()]) }}">
-                        {{ __('Historique de mouvements') }}
+                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.history', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                        {{ __('Historique des mouvements') }}
                     </a>
                     <a class="dropdown-item" wire:navigate href="{{ route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()]) }}">
                         {{ __('Analyses de mouvement') }}

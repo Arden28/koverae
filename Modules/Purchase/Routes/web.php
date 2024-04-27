@@ -39,7 +39,7 @@ use Modules\Purchase\Livewire\Product\CategoryLists as CategoryList;
     Route::get('purchases/vendors', VendorList::class)->name('purchases.vendors.index');
 
     // Products
-    Route::get('products', ProductList::class)->name('purchases.products.index');
+    // Route::get('products', ProductList::class)->name('purchases.products.index');
     Route::get('product-categories', CategoryList::class)->name('purchases.products.categories.index');
 
     // RequestQuotation

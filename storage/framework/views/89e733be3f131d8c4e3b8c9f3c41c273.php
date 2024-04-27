@@ -24,7 +24,7 @@
 </script>
 
 <!-- Livewire Chart -->
-<script src="http://yetorium.koverae.localhost/vendor/livewire-charts/app.js"></script>
+<script src="http://admin.koverae.localhost/vendor/livewire-charts/app.js"></script>
 
 <script>
     Livewire.hook('request', ({ fail }) => {

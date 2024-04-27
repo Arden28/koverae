@@ -185,7 +185,7 @@ class ProductForm extends SimpleAvatarForm
 
         $buttons =  [
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
-            ActionBarButton::make('update_quantiy', 'Actualiser la quantité', "", 'storable')->component('button.action-bar.update-qty'),
+            ActionBarButton::make('update_quantiy', 'Mettre à jour la quantité', "", 'storable')->component('button.action-bar.update-qty'),
             ActionBarButton::make('replenish', 'Réapprovisionner', 'sale()', '')->component('button.action-bar.replenish-product'),
             ActionBarButton::make('print', 'Imprimer les étiquettes', 'preview()', ''),
             // Add more buttons as needed
@@ -439,7 +439,7 @@ class ProductForm extends SimpleAvatarForm
             ]);
         }
 
-        session()->flash('message', 'Product successfully updated.'); // Optional: flash a success message
+        // session()->flash('message', 'Le produit a.'); // Optional: flash a success message
         // return $this->redirectRoute('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()], navigate:true);
         return redirect()->route('inventory.products.show', ['product' => $this->product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
@@ -515,4 +515,8 @@ class ProductForm extends SimpleAvatarForm
     public function updateInputs($inputs){
         $this->suppliers = $inputs;
     }
+
+    // public function updateQty(){
+    //     return redirect()->route('inventory.products.quantity', ['product' => $this->product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+    // }
 }

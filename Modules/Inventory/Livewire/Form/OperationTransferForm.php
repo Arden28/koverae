@@ -18,6 +18,7 @@ use Modules\Inventory\Entities\Operation\OperationType;
 use Modules\Inventory\Entities\Product;
 use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
 use Modules\Inventory\Entities\Warehouse\Warehouse;
+use Modules\Inventory\Services\LogisticService;
 
 class OperationTransferForm extends BaseForm
 {
@@ -122,7 +123,7 @@ class OperationTransferForm extends BaseForm
 
         $buttons = [
             ActionBarButton::make('mark', 'Marquer comme à faire', 'markAsReady()', 'draft')->component('button.action-bar.if-status'),
-            ActionBarButton::make('validate', isset($this->transfer->operationType->operation_type) == 'receipt' ? 'Recevoir les produits' : 'Valider', 'validateOperation', 'ready')->component('button.action-bar.if-status'),
+            ActionBarButton::make('validate', isset($this->transfer->operationType->operation_type) === 'receipt' ? 'Recevoir les produits' : 'Valider', 'validateOperation', 'ready')->component('button.action-bar.if-status'),
             ActionBarButton::make('cancelled', 'Annuler', 'cancelOp', 'done'),
             ActionBarButton::make('storeTeam', 'Sauvegarder', $this->updateMode == false ? 'store' : "update", 'droft'),
         ];
@@ -170,7 +171,7 @@ class OperationTransferForm extends BaseForm
     }
 
     #[On('create-transfer')]
-    public function store(){
+    public function store($status = null){
         $this->validate();
 
         $transfer = OperationTransfer::create([
@@ -185,7 +186,7 @@ class OperationTransferForm extends BaseForm
             'responsible_id' => $this->responsible,
             'shipping_policy' => $this->shipping_policy,
             'note' => $this->note,
-            'status' => $this->status,
+            'status' => $status ?? $this->status,
         ]);
 
         foreach($this->inputs as $detail){
@@ -203,6 +204,10 @@ class OperationTransferForm extends BaseForm
         }
 
         $transfer->save();
+
+        // Record movement
+        $logisticService = new LogisticService();
+        $logisticService->recordStockMove($transfer);
 
         return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
 
@@ -234,12 +239,17 @@ class OperationTransferForm extends BaseForm
 
     // Mark as ready
     public function markAsReady(){
-        $transfer = $this->transfer;
-        $transfer->update([
-            'status' => 'ready'
-        ]);
-        $transfer->save();
-        return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+        if($this->transfer){
+            $transfer = $this->transfer;
+
+            $transfer->update([
+                'status' => 'ready'
+            ]);
+            $transfer->save();
+            return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+        }else{
+            $this->store('done');
+        }
     }
 
     public function validateOperation(){
@@ -253,6 +263,12 @@ class OperationTransferForm extends BaseForm
         foreach($operation->details as $detail){
             $detail->product->update([
                 'product_quantity' => $detail->product->product_quantity + $detail->demand,
+            ]);
+        }
+        if($operation->moves->last()){
+            $move = $operation->moves->latest();
+            $move->update([
+                'status' => 'done'
             ]);
         }
 
