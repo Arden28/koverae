@@ -38,6 +38,7 @@ use Modules\Inventory\Livewire\Location\Create as LocationCreate;
 use Modules\Inventory\Livewire\Location\Show as LocationShow;
 use Modules\Inventory\Livewire\Product\HistoryMovement;
 use Modules\Inventory\Livewire\Product\ProductQuantity;
+use Modules\Inventory\Livewire\Product\ProductStock;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,7 @@ use Modules\Inventory\Livewire\Product\ProductQuantity;
     Route::get('products', ProductLists::class)->name('inventory.products.index');
     Route::get('products/quantity/{product}', ProductQuantity::class)->name('inventory.products.quantity');
     Route::get('products/history-movements', HistoryMovement::class)->name('inventory.products.history');
+    Route::get('products/stocks', ProductStock::class)->name('inventory.products.stock');
 
     // Categories
     Route::get('products/categories', CategoryLists::class)->name('inventory.products.categories.index');

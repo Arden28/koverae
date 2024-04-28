@@ -47,7 +47,7 @@ if(!function_exists('current_company')){
 }
 
 if (!function_exists('team')) {
-    function team($id) {
+    function team() {
         // $team = App\Models\Team::find('id', $id)->first();
         $team = Team::where('id', Auth::user()->team->id)->where('uuid', Auth::user()->team->uuid)->first();
         return $team;
@@ -153,8 +153,6 @@ if (!function_exists('current_menu')) {
         $menu = session('current_company');
         return $menu;
 
-        // Handle the case where the array is not present in the cache
-        return $menu;
     }
 }
 
@@ -166,7 +164,7 @@ if (!function_exists('format_currency')) {
         }
 
         $settings = settings();
-        $currency = Currency::find($settings->default_currency_id);
+        $currency = settings()->currency;
         $position = $currency->symbol_position;
         $symbol = $currency->symbol;
         $decimal_separator = $currency->decimal_separator;

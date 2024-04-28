@@ -77,7 +77,6 @@
                             </a>
                         </div>
                     </div> --}}
-
                 </div>
             </div>
         </div>
@@ -103,7 +102,7 @@
     </li>
 
     <!-- Analytics -->
-    <li class="nav-item dropdown" data-turbolinks>
+    {{-- <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
           <span class="nav-link-title">
               {{ __('Rapport') }}
@@ -113,7 +112,7 @@
             <div class="dropdown-menu-columns">
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
-                    <a class="dropdown-item" wire:navigate href="{{ route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()]) }}">
+                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.stock', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Stock') }}
                     </a>
                     <a class="dropdown-item" wire:navigate href="{{ route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()]) }}">
@@ -128,7 +127,7 @@
                 </div>
             </div>
         </div>
-    </li>
+    </li> --}}
 
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
@@ -145,7 +144,7 @@
                     </a>
 
                     <div class="dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                        <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                           {{ __("Gestion d'entrepôts") }}
                         </a>
                         <div class="dropdown-menu">
@@ -169,7 +168,7 @@
                     </div>
 
                     <div class="dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                        <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                           {{ __("Produits") }}
                         </a>
                         <div class="dropdown-menu">
@@ -181,17 +180,6 @@
                             {{ __("Emballages de produits") }}
                           </a>
                           @endif
-                        </div>
-                    </div>
-
-                    <div class="dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
-                          {{ __("Unités de mesures") }}
-                        </a>
-                        <div class="dropdown-menu">
-                          <a wire:navigate href="{{ route('employee.department.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
-                            {{ __("Catégories d'unité de mesure") }}
-                          </a>
                         </div>
                     </div>
 

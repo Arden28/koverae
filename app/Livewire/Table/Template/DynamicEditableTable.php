@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Table;
+namespace App\Livewire\Table\Template;
 
 use Livewire\Component;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\WithPagination;
 
-abstract class Table extends Component
+abstract class DynamicEditableTable extends Component
 {
     use WithPagination;
 
@@ -20,15 +20,16 @@ abstract class Table extends Component
 
     public $sortDirection = 'asc';
 
-    public $ids = [];
+    public $tables = [];
 
+    public $editingIndex = null;
 
     public function render()
     {
-        return view('livewire.table.table');
+        return view('livewire.table.template.dynamic-editable-table');
     }
 
-    public function headerName() : string{
+    public function createRoute() : string{
         return '';
     }
 
@@ -41,10 +42,6 @@ abstract class Table extends Component
     }
 
     public function emptyButton() : string{
-        return '';
-    }
-
-    public function createRoute() : string{
         return '';
     }
 
@@ -81,28 +78,5 @@ abstract class Table extends Component
         $this->sortBy = $key;
         $this->sortDirection = 'asc';
     }
-
-      public function toggleCheckbox($id)
-      {
-          // If the checkbox is checked, add the id to the array
-          if (in_array($id, $this->ids)) {
-              $this->ids = array_diff($this->ids, [$id]);
-          } else {
-              $this->ids[] = $id;
-          }
-        // Toggle the presence of the ID in the array
-        // if (in_array($id, $this->ids)) {
-        //     $this->ids = array_values(array_diff($this->ids, [$id])); // Remove the ID if it's already present
-        // } else {
-        //     $this->ids[] = $id; // Add the ID if it's not present
-        // }
-      }
-
-      public function emptyArray()
-      {
-          // Empty the $ids array
-          $this->ids = [];
-      }
-
 
 }

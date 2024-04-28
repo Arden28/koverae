@@ -79,7 +79,6 @@
                     </div>
 
                     
-
                 </div>
             </div>
         </div>
@@ -107,37 +106,7 @@
     </li>
 
     <!-- Analytics -->
-    <li class="nav-item dropdown" data-turbolinks>
-        <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
-          <span class="nav-link-title">
-              <?php echo e(__('Rapport')); ?>
-
-          </span>
-        </a>
-        <div class="dropdown-menu">
-            <div class="dropdown-menu-columns">
-                <!-- Left Side -->
-                <div class="dropdown-menu-column">
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Stock')); ?>
-
-                    </a>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Emplacements')); ?>
-
-                    </a>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.history', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Historique des mouvements')); ?>
-
-                    </a>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Analyses de mouvement')); ?>
-
-                    </a>
-                </div>
-            </div>
-        </div>
-    </li>
+    
 
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
@@ -156,7 +125,7 @@
                     </a>
 
                     <div class="dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                        <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                           <?php echo e(__("Gestion d'entrepôts")); ?>
 
                         </a>
@@ -185,7 +154,7 @@
                     </div>
 
                     <div class="dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                        <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                           <?php echo e(__("Produits")); ?>
 
                         </a>
@@ -200,19 +169,6 @@
 
                           </a>
                           <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                        </div>
-                    </div>
-
-                    <div class="dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
-                          <?php echo e(__("Unités de mesures")); ?>
-
-                        </a>
-                        <div class="dropdown-menu">
-                          <a wire:navigate href="<?php echo e(route('employee.department.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
-                            <?php echo e(__("Catégories d'unité de mesure")); ?>
-
-                          </a>
                         </div>
                     </div>
 

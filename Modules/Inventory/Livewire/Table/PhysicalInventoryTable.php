@@ -4,11 +4,13 @@ namespace Modules\Inventory\Livewire\Table;
 
 use App\Livewire\Table\Column;
 use App\Livewire\Table\Table;
+use App\Livewire\Table\Template\DynamicEditableTable;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\On;
 use Modules\Inventory\Entities\Adjustment\InventoryAdjustment;
 use Modules\Inventory\Entities\History\InventoryMove;
 
-class PhysicalInventoryTable extends Table
+class PhysicalInventoryTable extends DynamicEditableTable
 {
 
     public function emptyTitle() : string
@@ -51,4 +53,10 @@ class PhysicalInventoryTable extends Table
         // $adjustment = OperationType::find($adjustment);
         $adjustment->delete();
     }
+
+    #[On('add-adjustment')]
+    public function updateInputs($inputs){
+        $this->tables = $inputs;
+    }
+
 }

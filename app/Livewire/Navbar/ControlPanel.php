@@ -19,6 +19,7 @@ abstract class ControlPanel extends Component
 
     public $currentPage;
     public $new;
+    public $add;
     public $event;
 
 

@@ -6,7 +6,14 @@
               <!-- Create Button -->
               <!--[if BLOCK]><![endif]--><?php if($this->new): ?>
               <a href="<?php echo e($new); ?>" wire:navigate class="btn btn-outline-primary k_form_button_create">
-                  Nouveau
+                  <?php echo e($createButtonLabel); ?>
+
+              </a>
+              <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+              <!--[if BLOCK]><![endif]--><?php if($this->add): ?>
+              <a wire:click="add" class="btn btn-outline-primary k_form_button_create">
+                  <?php echo e($createButtonLabel); ?>
+
               </a>
               <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 <?php

@@ -77,7 +77,7 @@ class InventorySetting extends AppSetting
             // Product
             Box::make('has_variant', 'Variantes', 'has_variant', "Vendre des variantes d'un produit en utilisant des attributs (taille, couleur, etc.)", 'product', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
             Box::make('has_uom', 'Unités de mesure', 'has_uom', "Vendre et acheter des produits dans différentes unités de mesure", 'product', true),
-            Box::make('has_packaging', 'Emballage produit', 'has_packaging', "Vendre des produits par multiple du nombre d'unités par paquet", 'product', true),
+            Box::make('has_packaging', 'Conditionnements produit', 'has_packaging', "Gérer les conditionnements de produits (exemples: pack de 12 bouteilles, boîte de 10 pièces)", 'product', true),
             //Traceability
             Box::make('has_serial_number', 'Lots et numéros de série', 'has_serial_number', "Obtenez une traçabilité complète des fournisseurs aux clients", 'traceability', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
             Box::make('has_consignment', 'Consignation', 'has_consignment', "Définir le propriétaire des produits stockés", 'traceability', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),

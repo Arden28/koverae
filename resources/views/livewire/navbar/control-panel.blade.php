@@ -6,7 +6,12 @@
               <!-- Create Button -->
               @if($this->new)
               <a href="{{ $new }}" wire:navigate class="btn btn-outline-primary k_form_button_create">
-                  Nouveau
+                  {{ $createButtonLabel }}
+              </a>
+              @endif
+              @if($this->add)
+              <a wire:click="add" class="btn btn-outline-primary k_form_button_create">
+                  {{ $createButtonLabel }}
               </a>
               @endif
                 @php
