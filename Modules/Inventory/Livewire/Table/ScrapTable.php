@@ -10,10 +10,20 @@ use Modules\Inventory\Entities\Adjustment\ScrapOrder;
 class ScrapTable extends Table
 {
 
-    public function createRoute() : string
-    {
+    // public function createRoute() : string
+    // {
 
-        return route('inventory.adjustments.scraps.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
+    //     return route('inventory.adjustments.scraps.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
+    // }
+
+    public function emptyTitle() : string
+    {
+        return __("Produits de rebut");
+    }
+
+    public function emptyText() : string
+    {
+        return __("La mise au rebut d'un produit le supprimera de votre stock. Le produit finira dans un emplacement de rebut qui pourra être utilisé à des fins de reporting.");
     }
 
     public function showRoute($id) : string

@@ -11,6 +11,7 @@ use App\Livewire\Form\Button\StatusBarButton;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Modules\Contact\Entities\Contact;
 use Modules\Inventory\Entities\Operation\OperationTransfer;
 use Modules\Inventory\Entities\Operation\OperationTransferDetail;
@@ -23,6 +24,10 @@ use Modules\Inventory\Services\LogisticService;
 class OperationTransferForm extends BaseForm
 {
     use ActionBarButtonTrait;
+
+    #[Url(as : 'type')]
+    public $transfer_type;
+
     public $transfer;
 
     public $reference, $contact, $type, $from, $to, $schedule_date, $effective_date, $source_document, $shipping_policy, $responsible, $note;
@@ -46,10 +51,12 @@ class OperationTransferForm extends BaseForm
             $this->status = $transfer->status;
             $this->updateMode = true;
         }else{
-            $this->type = OperationType::isCompany(current_company()->id)->first()->id;
             $this->schedule_date = now()->format('Y-m-d H:i:s');
-            $this->from = WarehouseLocation::isCompany(current_company()->id)->first()->id;
-            $this->to = WarehouseLocation::isCompany(current_company()->id)->first()->id;
+            if($this->transfer_type){
+                $this->type = OperationType::isCompany(current_company()->id)->isType($this->transfer_type)->first()->id;
+            }
+            // $this->from = WarehouseLocation::isCompany(current_company()->id)->first()->id;
+            // $this->to = WarehouseLocation::isCompany(current_company()->id)->first()->id;
             $this->shipping_policy = 'as_soon_as_possible';
             $this->responsible = Contact::isCompany(current_company()->id)->first()->id;
 
@@ -63,8 +70,8 @@ class OperationTransferForm extends BaseForm
         'schedule_date' => 'required|string',
         'effective_date' => 'string|nullable',
         'source_document' => 'string|nullable',
-        'from' => 'integer|required',
-        'to' => 'integer|required',
+        // 'from' => 'integer|required',
+        // 'to' => 'integer|required',
         'responsible' => 'integer|required',
         'note' => 'string|nullable',
     ];
@@ -125,7 +132,7 @@ class OperationTransferForm extends BaseForm
             ActionBarButton::make('mark', 'Marquer comme à faire', 'markAsReady()', 'draft')->component('button.action-bar.if-status'),
             ActionBarButton::make('validate', isset($this->transfer->operationType->operation_type) === 'receipt' ? 'Recevoir les produits' : 'Valider', 'validateOperation', 'ready')->component('button.action-bar.if-status'),
             ActionBarButton::make('cancelled', 'Annuler', 'cancelOp', 'done'),
-            ActionBarButton::make('storeTeam', 'Sauvegarder', $this->updateMode == false ? 'store' : "update", 'droft'),
+            // ActionBarButton::make('storeTeam', 'Sauvegarder', $this->updateMode == false ? 'store' : "update", 'droft'),
         ];
 
         // Define the custom order of button keys
@@ -237,6 +244,19 @@ class OperationTransferForm extends BaseForm
         return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
+    public function updatedType(OperationType $type){
+        if($type->isType('receipt')){
+            $this->from = WarehouseLocation::isCompany(current_company()->id)->isType('supplier')->first()->id;
+            $this->to = WarehouseLocation::isCompany(current_company()->id)->isType('internal')->first()->id;
+        }elseif($type->isType('delivery')){
+            $this->from = WarehouseLocation::isCompany(current_company()->id)->isType('internal')->first()->id;
+            $this->to = WarehouseLocation::isCompany(current_company()->id)->isType('customer')->first()->id;
+        }elseif($type->isType('manufacturing')){
+            $this->from = WarehouseLocation::isCompany(current_company()->id)->isType('production')->first()->id;
+            $this->to = WarehouseLocation::isCompany(current_company()->id)->isType('internal')->first()->id;
+        }
+    }
+
     // Mark as ready
     public function markAsReady(){
         if($this->transfer){
@@ -248,7 +268,7 @@ class OperationTransferForm extends BaseForm
             $transfer->save();
             return redirect()->route('inventory.operation-transfers.show', ['transfer' => $transfer->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         }else{
-            $this->store('done');
+            $this->store('ready');
         }
     }
 
@@ -260,15 +280,16 @@ class OperationTransferForm extends BaseForm
             'status' => 'done',
         ]);
 
+        if($operation->moves->last()){
+            $move = $operation->moves->last();
+            $move->update([
+                'status' => 'done'
+            ]);
+        }
+
         foreach($operation->details as $detail){
             $detail->product->update([
                 'product_quantity' => $detail->product->product_quantity + $detail->demand,
-            ]);
-        }
-        if($operation->moves->last()){
-            $move = $operation->moves->latest();
-            $move->update([
-                'status' => 'done'
             ]);
         }
 

@@ -17,10 +17,10 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model.live="{{ $value->model }}" id="" class="k_input">
+        <select wire:model.blur="{{ $value->model }}" id="" class="k_input">
             <option value=""></option>
             @foreach($types as $type)
-            <option value="{{ $type->id }}">{{ $type->name }}</option>
+            <option value="{{ $type->id }}" class="{{ $type->operation_type == 'internal_transfer' && !settings()->has_storage_locations ? 'd-none' : '' }}">{{ $type->name }}</option>
             @endforeach
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror

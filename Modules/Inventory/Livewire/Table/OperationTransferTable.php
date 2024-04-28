@@ -26,7 +26,7 @@ class OperationTransferTable extends Table
     public function createRoute() : string
     {
 
-        return route('inventory.operation-transfers.create' , ['subdomain' => current_company()->domain_name, 'menu' => current_menu() ]);
+        return route('inventory.operation-transfers.create' , ['subdomain' => current_company()->domain_name, 'type' => $this->type, 'menu' => current_menu() ]);
     }
 
     public function showRoute($id) : string
@@ -40,6 +40,16 @@ class OperationTransferTable extends Table
         // Set breadcrumb
 
         return "Opérations de transferts";
+    }
+
+    public function emptyTitle() : string
+    {
+        return __("Aucun transfert trouvé. Créons-en un !");
+    }
+
+    public function emptyText() : string
+    {
+        return __("Les transferts vous permettent de déplacer des produits d'un endroit à un autre.");
     }
 
     public function query() : Builder

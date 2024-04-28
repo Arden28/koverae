@@ -78,18 +78,7 @@
                         </div>
                     </div>
 
-                    <div class="dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
-                            <?php echo e(__('Approvisionnement')); ?>
-
-                        </a>
-                        <div class="dropdown-menu">
-                            <a wire:navigate href="#" class="dropdown-item">
-                                <?php echo e(__('Réapprovisionnement')); ?>
-
-                            </a>
-                        </div>
-                    </div>
+                    
 
                 </div>
             </div>

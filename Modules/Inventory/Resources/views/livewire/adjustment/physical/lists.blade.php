@@ -10,6 +10,6 @@
         <!-- Notify -->
         @include('notify::components.notify')
         <!-- Table -->
-        <livewire:inventory::table.scrap-table />
+        <livewire:inventory::table.physical-inventory-table />
     </div>
 </div>

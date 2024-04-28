@@ -67,8 +67,8 @@
                         </div>
                     </div>
 
-                    <div class="dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                    {{-- <div class="dropend">
+                        <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                             {{ __('Approvisionnement') }}
                         </a>
                         <div class="dropdown-menu">
@@ -76,7 +76,7 @@
                                 {{ __('Réapprovisionnement') }}
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

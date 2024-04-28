@@ -17,7 +17,7 @@ class OperationTransferPanel extends ControlPanel
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
         $this->currentPage = $this->type ? transfer_type($this->type) : "Transferts";
-        $this->new = route('inventory.operation-transfers.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+        $this->new = route('inventory.operation-transfers.create', ['subdomain' => current_company()->domain_name, 'type' => $this->type, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 
