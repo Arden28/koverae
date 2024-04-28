@@ -175,7 +175,7 @@
                           <a wire:navigate href="{{ route('inventory.products.categories.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                             {{ __('Catégories de produits') }}
                           </a>
-                          @if(settings()->has_package)
+                          @if(settings()->has_packaging)
                           <a wire:navigate href="{{ route('employee.department.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                             {{ __("Emballages de produits") }}
                           </a>

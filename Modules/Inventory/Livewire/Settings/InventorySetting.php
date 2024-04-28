@@ -18,7 +18,7 @@ class InventorySetting extends AppSetting
         $setting = Setting::isCompany($company)->first();
         // $setting = SettingSalesSetting::isCompany(current_company()->id)->first();
         $this->setting = $setting;
-        $this->has_packaging = $setting->has_packaging;
+        $this->has_package = $setting->has_package;
         $this->has_batch_tranfer = $setting->has_batch_tranfer;
         $this->has_warnings = $setting->has_warnings;
         $this->has_quality = $setting->has_quality;
@@ -61,7 +61,7 @@ class InventorySetting extends AppSetting
             // $key, $label, $model, $description, $block, $checkbox, $help
 
             // Catalog
-            Box::make('has_packaging', 'Paquets', 'has_packaging', "Mettez vos produits dans des packs (par exemple des colis, des cartons) et tracez-les", 'operation', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
+            Box::make('has_package', 'Paquets', 'has_package', "Mettez vos produits dans des packs (par exemple des colis, des cartons) et tracez-les", 'operation', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
             Box::make('has_batch_tranfer', 'Transfers par lots', 'has_batch_tranfer', "Traiter les transferts par lots par travailleur", 'operation', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
             Box::make('has_warnings', 'Avertissements', 'has_warnings', "Recevoir des avertissements informatifs ou bloquants sur les partenaires", 'operation', true),
             Box::make('picking_policy', 'Politique de Picking', 'picking_policy', "Quand commencer à expédier", 'operation', true)->component('blocks.boxes.inventory.picking-policy'),
