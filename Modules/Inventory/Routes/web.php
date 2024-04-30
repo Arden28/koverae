@@ -40,6 +40,14 @@ use Modules\Inventory\Livewire\Product\HistoryMovement;
 use Modules\Inventory\Livewire\Product\ProductQuantity;
 use Modules\Inventory\Livewire\Product\ProductStock;
 
+use Modules\Inventory\Livewire\Product\Packaging\Lists as PackagingList;
+use Modules\Inventory\Livewire\Product\Packaging\Create as PackagingCreate;
+use Modules\Inventory\Livewire\Product\Packaging\Show as PackagingShow;
+
+use Modules\Inventory\Livewire\Product\Attribute\Lists as AttributeList;
+use Modules\Inventory\Livewire\Product\Attribute\Create as AttributeCreate;
+use Modules\Inventory\Livewire\Product\Attribute\Show as AttributeShow;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -70,6 +78,14 @@ use Modules\Inventory\Livewire\Product\ProductStock;
     Route::get('products/quantity/{product}', ProductQuantity::class)->name('inventory.products.quantity');
     Route::get('products/history-movements', HistoryMovement::class)->name('inventory.products.history');
     Route::get('products/stocks', ProductStock::class)->name('inventory.products.stock');
+
+    Route::get('products-packaging', PackagingList::class)->name('inventory.products.packaging.list');
+    Route::get('products-packaging/create', PackagingCreate::class)->name('inventory.products.packaging.create');
+    Route::get('products-packaging/{packaging}', PackagingShow::class)->name('inventory.products.packaging.show');
+
+    Route::get('products-attributes', AttributeList::class)->name('inventory.products.attributes.list');
+    Route::get('products-attributes/create', AttributeCreate::class)->name('inventory.products.attributes.create');
+    Route::get('products-attributes/{attribute}', AttributeShow::class)->name('inventory.products.attributes.show');
 
     // Categories
     Route::get('products/categories', CategoryLists::class)->name('inventory.products.categories.index');

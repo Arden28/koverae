@@ -6,7 +6,7 @@
     <!-- Tab Content -->
 
     <!-- Others Informations -->
-    <div class="tab-pane {{ $value->key == 'general' || $value->key == 'resume' ? 'active' : '' }}" id="{{ $value->key }}" wire:ignore>
+    <div class="tab-pane {{ $value->key == 'general' || $value->key == 'resume' || $value->key == 'attributes' ? 'active' : '' }}" id="{{ $value->key }}" wire:ignore>
         <div class="row align-items-start">
 
             @foreach($this->groups() as $group)

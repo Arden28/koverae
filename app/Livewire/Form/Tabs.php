@@ -10,15 +10,18 @@ class Tabs{
 
     public string $label;
 
-    public function __construct($key, $label)
+    public $condition;
+
+    public function __construct($key, $label, $condition = null)
     {
         $this->key = $key;
         $this->label = $label;
+        $this->condition = $condition;
     }
 
-    public static function make($key, $label)
+    public static function make($key, $label, $condition = null)
     {
-        return new static($key, $label);
+        return new static($key, $label, $condition);
     }
 
 

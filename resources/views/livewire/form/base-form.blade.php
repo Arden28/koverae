@@ -89,7 +89,7 @@
                     </div>
                     @endif
                     <!-- title-->
-                    @if($this->reference)
+                    @if(isset($this->reference) && $this->reference)
                     <div class="ke_title mw-75 pe-2 ps-0" id="new-title">
                         <!-- Name -->
                         <h1 class="d-flex flex-row align-items-center">

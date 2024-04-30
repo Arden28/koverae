@@ -23,13 +23,13 @@
 <?php endif; ?>
         <form wire:submit.prevent="<?php echo e($this->form()); ?>">
             <?php echo csrf_field(); ?>
-            <!-- Action bar -->
             <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
+                <!-- Action Bar -->
+                <!--[if BLOCK]><![endif]--><?php if($this->actionBarButtons()): ?>
+                    <div id="action-bar" class="k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around flex-wrap gap-1">
 
-                <div id="statusbar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
-
-                    <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+                        <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
 <?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $action->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('dynamic-component'); ?>
@@ -38,8 +38,8 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\DynamicComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['value' => $action,'status' => null]); ?>
-                     <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['value' => $action,'status' => 'none']); ?>
+                         <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
 <?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
@@ -49,24 +49,43 @@
 <?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
 <?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
 <?php endif; ?>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
-                    <div wire:dirty>Modifications non sauvegardés...</div>
-
+                    </div>
                     <!-- Dropdown button -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Action
-                        </button>
+                    <div class="btn-group d-lg-none">
+                        <span class="btn btn-dark buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Action
+                        </span>
                         <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#"><?php echo e(__('Nouveau')); ?></a></li>
-                        <li><a class="dropdown-item" href="#"><?php echo e(__('Enregistrer')); ?></a></li>
-                        <!--<li><hr class="dropdown-divider"></li>-->
+                            <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->actionBarButtons(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>
+<?php $component = Illuminate\View\DynamicComponent::resolve(['component' => $action->component] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('dynamic-component'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\DynamicComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['value' => $action,'status' => 'none']); ?>
+                             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $attributes = $__attributesOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__attributesOriginal511d4862ff04963c3c16115c05a86a9d); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal511d4862ff04963c3c16115c05a86a9d)): ?>
+<?php $component = $__componentOriginal511d4862ff04963c3c16115c05a86a9d; ?>
+<?php unset($__componentOriginal511d4862ff04963c3c16115c05a86a9d); ?>
+<?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
+                            <!--<li><hr class="dropdown-divider"></li>-->
                         </ul>
                     </div>
-                </div>
-
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </div>
+
             <!-- Sheet Card -->
             <div class="k_form_sheet position-relative">
                 <!-- Capsule -->

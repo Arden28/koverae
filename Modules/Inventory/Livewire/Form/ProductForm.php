@@ -19,6 +19,7 @@ use Livewire\WithFileUploads;
 use Modules\Contact\Entities\Contact;
 use Modules\Inventory\Entities\Category;
 use Modules\Inventory\Entities\Product;
+use Modules\Inventory\Entities\Product\ProductPackaging;
 use Modules\Inventory\Entities\Product\ProductSupplier;
 use Modules\Inventory\Entities\UoM\UnitOfMeasure;
 use Modules\Inventory\Traits\ProductTrait;
@@ -47,6 +48,8 @@ class ProductForm extends SimpleAvatarForm
     public $photo = null;
 
     public $suppliers = [];
+
+    public $packagings = [];
 
     public bool $updateMode = false;
 
@@ -213,6 +216,7 @@ class ProductForm extends SimpleAvatarForm
         return  [
             // make($key, $label)
             Tabs::make('general','Informations Générales'),
+            Tabs::make('attributes','Attribus & Variantes', settings()->has_variant),
             Tabs::make('purchases','Achat'),
             Tabs::make('sales','Ventes'),
             Tabs::make('inventory','Inventaire'),
@@ -233,8 +237,8 @@ class ProductForm extends SimpleAvatarForm
             //
             Group::make('logistics',"Logistique", 'inventory'),
             Group::make('operations',"Opération", 'inventory'),
+            Group::make('packaging',"Conditionnement", 'inventory')->component('tabs.group.special.product-packaging'),
             Group::make('tracking',"Traçabilité", 'inventory'),
-            // Group::make('packaging',"Conditionnement", 'inventory')->component('tabs.group.large-table'),
             //
             Group::make('customer_receivables',"Créances clients", 'accounting'),
             Group::make('customer_payables',"Dettes", 'accounting'),
@@ -246,6 +250,7 @@ class ProductForm extends SimpleAvatarForm
         return  [
             // make($key, $label,$type, $tabs = null, $group = null)
             Table::make('group1',"Info", 'purchases', 'suppliers')->component('tables.product-supplier'),
+            Table::make('group2',"Info", 'inventory', 'packaging')->component('tables.product-packaging'),
             // Group::make('return',"Retours", 'general'),
         ];
     }
@@ -364,6 +369,19 @@ class ProductForm extends SimpleAvatarForm
             ]);
         }
 
+        // Product packagings
+        foreach($this->packagings as $packaging){
+            ProductPackaging::create([
+                'company_id' => current_company()->id,
+                'product_id' => $product->id,
+                'name' => $packaging['name'],
+                'contained_quantity' => $packaging['quantity'],
+                'barcode' => $packaging['barcode'],
+                'is_saleable' => $packaging['saleable'],
+                'is_buyable' => $packaging['buyable'],
+            ]);
+        }
+
         return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
@@ -418,6 +436,7 @@ class ProductForm extends SimpleAvatarForm
             'can_be_subscribed' => $this->can_be_subscribed,
             'status' => $this->status,
         ]);
+
         // First delete the suppliers
         if(ProductSupplier::isProduct($product->id)->get()->count() >= 1){
             foreach(ProductSupplier::isProduct($product->id)->get() as $supplier){
@@ -436,6 +455,26 @@ class ProductForm extends SimpleAvatarForm
                 'product_cost' => $supplier['price'] * 100,
                 'qty' => $supplier['quantity'],
                 'delivery_lead_time' => $supplier['delay'],
+            ]);
+        }
+
+        // First delete the packagings
+        if(ProductPackaging::isProduct($product->id)->get()->count() >= 1){
+            foreach(ProductPackaging::isProduct($product->id)->get() as $packaging){
+                $packaging->delete();
+            }
+        }
+
+        // Product packagings
+        foreach($this->packagings as $packaging){
+            ProductPackaging::create([
+                'company_id' => current_company()->id,
+                'product_id' => $product->id,
+                'name' => $packaging['name'],
+                'contained_quantity' => $packaging['quantity'],
+                'barcode' => $packaging['barcode'],
+                'is_saleable' => $packaging['saleable'],
+                'is_buyable' => $packaging['buyable'],
             ]);
         }
 
@@ -510,10 +549,14 @@ class ProductForm extends SimpleAvatarForm
         return $this->sales_taxes;
     }
 
-
     #[On('product-supplier-cart')]
     public function updateInputs($inputs){
         $this->suppliers = $inputs;
+    }
+
+    #[On('product-packaging-cart')]
+    public function updatePackaging($inputs){
+        $this->packagings = $inputs;
     }
 
     // public function updateQty(){

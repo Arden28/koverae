@@ -9,7 +9,7 @@
         <label class="k_form_label">
             {{ $value->label }}
             @if($value->help)
-                <sup><i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="{{ $value->help }}"></i></sup>
+                <sup><i class="bi bi-question-circle-fill" style="color: #0E6163" data-toggle="tooltip" data-placement="top" title="{{ $value->help }}"></i></sup>
             @endif :
         </label>
     </div>
@@ -17,12 +17,20 @@
     <div class="k_cell k_wrap_input flex-grow-1">
         <div class="k_field_widget k_field_boolean">
             <div class="k-checkbox form-check d-inline-block">
-                <input type="{{ $value->type }}" wire:model="{{ $value->model }}" class="form-check-input" id="{{ $value->model }}">
+                <input type="{{ $value->type }}" wire:model="{{ $value->model }}" class="form-check-input" style="color: #0E6163" id="{{ $value->model }}" onclick="checkStatus(this)">
             </div>
         </div>
+
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
-        {{-- <input type="{{ $value->type }}" wire:model="{{ $value->model }}" class="k_input" id="date_0">
-        @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror --}}
     </div>
 </div>
 
+<script>
+    function checkStatus(checkbox) {
+        if (checkbox.checked) {
+            checkbox.style.backgroundColor = '#0E6163'; // Color when checked
+        } else {
+            checkbox.style.backgroundColor = '#FFFFFF'; // Default color
+        }
+    }
+</script>

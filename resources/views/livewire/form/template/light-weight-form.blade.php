@@ -4,36 +4,41 @@
         <x-notify::notify />
         <form wire:submit.prevent="{{ $this->form() }}">
             @csrf
-            <!-- Action bar -->
             <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
+                <!-- Action Bar -->
+                @if($this->actionBarButtons())
+                    <div id="action-bar" class="k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around flex-wrap gap-1">
 
-                <div id="statusbar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
+                        @foreach($this->actionBarButtons() as $action)
+                        <x-dynamic-component
+                            :component="$action->component"
+                            :value="$action"
+                            :status="'none'"
+                        >
+                        </x-dynamic-component>
+                        @endforeach
 
-                    @foreach($this->actionBarButtons() as $action)
-                    <x-dynamic-component
-                        :component="$action->component"
-                        :value="$action"
-                        :status="null"
-                    >
-                    </x-dynamic-component>
-                    @endforeach
-
-                    <div wire:dirty>Modifications non sauvegardés...</div>
-
+                    </div>
                     <!-- Dropdown button -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Action
-                        </button>
+                    <div class="btn-group d-lg-none">
+                        <span class="btn btn-dark buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Action
+                        </span>
                         <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">{{ __('Nouveau') }}</a></li>
-                        <li><a class="dropdown-item" href="#">{{ __('Enregistrer') }}</a></li>
-                        <!--<li><hr class="dropdown-divider"></li>-->
+                            @foreach($this->actionBarButtons() as $action)
+                            <x-dynamic-component
+                                :component="$action->component"
+                                :value="$action"
+                                :status="'none'"
+                            >
+                            </x-dynamic-component>
+                            @endforeach
+                            <!--<li><hr class="dropdown-divider"></li>-->
                         </ul>
                     </div>
-                </div>
-
+                @endif
             </div>
+
             <!-- Sheet Card -->
             <div class="k_form_sheet position-relative">
                 <!-- Capsule -->

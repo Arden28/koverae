@@ -19,6 +19,7 @@ class InventorySetting extends AppSetting
         // $setting = SettingSalesSetting::isCompany(current_company()->id)->first();
         $this->setting = $setting;
         $this->has_package = $setting->has_package;
+        $this->has_packaging = $setting->has_packaging;
         $this->has_batch_tranfer = $setting->has_batch_tranfer;
         $this->has_warnings = $setting->has_warnings;
         $this->has_quality = $setting->has_quality;

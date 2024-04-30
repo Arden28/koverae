@@ -3,7 +3,7 @@
 
     <!-- Control Panel -->
     @section('control-panel')
-    <livewire:inventory::navbar.control-panel.warehouse-form-panel :warehouse="$warehouse" />
+    <livewire:inventory::navbar.control-panel.warehouse-form-panel :warehouse="$warehouse" :event="'update-warehouse'" />
     @endsection
 
     <livewire:inventory::form.warehouse-form :warehouse="$warehouse" />

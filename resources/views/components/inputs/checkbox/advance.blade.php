@@ -10,7 +10,7 @@
         <div class="k_setting_left_pane">
             <div class="k_field_widget k_field_boolean">
                 <div class="k-checkbox form-check d-inline-block">
-                    <input type="checkbox" wire:model.live="{{ $value->model }}" class="form-check-input">
+                    <input type="checkbox" wire:model.live="{{ $value->model }}" class="form-check-input" style="color: #0E6163" onclick="checkStatus(this)">
                 </div>
             </div>
         </div>
@@ -35,3 +35,13 @@
 
     </div>
 </div>
+
+<script>
+    function checkStatus(checkbox) {
+        if (checkbox.checked) {
+            checkbox.style.backgroundColor = '#0E6163'; // Color when checked
+        } else {
+            checkbox.style.backgroundColor = '#FFFFFF'; // Default color
+        }
+    }
+</script>

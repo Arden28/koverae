@@ -8,6 +8,7 @@ use App\Livewire\Form\Group;
 use App\Livewire\Form\Capsule;
 use App\Livewire\Form\Button\ActionBarButton;
 use App\Livewire\Form\Template\LightWeightForm;
+use Livewire\Attributes\On;
 use Modules\Inventory\Entities\Warehouse\Warehouse;
 use Modules\Inventory\Traits\WarehouseTrait;
 
@@ -78,6 +79,7 @@ class WarehouseForm extends LightWeightForm
         ];
     }
 
+    #[On('create-warehouse')]
     public function store(){
         $this->validate();
 
@@ -94,6 +96,7 @@ class WarehouseForm extends LightWeightForm
 
     }
 
+    #[On('update-warehouse')]
     public function update(){
         $this->validate();
 

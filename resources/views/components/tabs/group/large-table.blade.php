@@ -21,16 +21,6 @@
             @endif
         @endforeach
 
-        {{-- @foreach($this->tables() as $table)
-            @if($table->group == $value->key)
-                <x-dynamic-component
-                    :component="$table->component"
-                    :value="$table"
-                >
-                </x-dynamic-component>
-            @endif
-        @endforeach --}}
-
         @foreach($this->inputs() as $input)
             @if($input->group == $value->key)
                 <x-dynamic-component

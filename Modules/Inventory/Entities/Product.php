@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Modules\Inventory\Entities\History\InventoryMove;
+use Modules\Inventory\Entities\Product\ProductPackaging;
 use Modules\Inventory\Entities\Product\ProductSupplier;
 use Modules\Inventory\Entities\UoM\UnitOfMeasure;
 use Modules\Invoicing\Entities\Tax\Tax;
@@ -101,5 +102,9 @@ class Product extends Model implements Buyable, HasMedia
 
     public function suppliers() {
         return $this->hasMany(ProductSupplier::class, 'product_id', 'id');
+    }
+
+    public function packagings() {
+        return $this->hasMany(ProductPackaging::class, 'product_id', 'id');
     }
 }

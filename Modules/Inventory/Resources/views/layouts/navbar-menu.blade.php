@@ -96,6 +96,11 @@
                     <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Produits') }}
                     </a>
+                    @if(settings()->has_variant)
+                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                        {{ __('Variantes Produits') }}
+                    </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -176,8 +181,13 @@
                             {{ __('Catégories de produits') }}
                           </a>
                           @if(settings()->has_packaging)
-                          <a wire:navigate href="{{ route('employee.department.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
-                            {{ __("Emballages de produits") }}
+                          <a wire:navigate href="{{ route('inventory.products.packaging.list', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
+                            {{ __("Conditionnements de produits") }}
+                          </a>
+                          @endif
+                          @if(settings()->has_variant)
+                          <a wire:navigate href="{{ route('inventory.products.attributes.list', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
+                            {{ __("Attributs") }}
                           </a>
                           @endif
                         </div>

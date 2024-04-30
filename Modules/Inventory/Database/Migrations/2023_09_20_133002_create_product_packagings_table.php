@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('packet_type_id')->nullable();
             $table->string('name');
             $table->decimal('contained_quantity', $precision = 10, $scale = 2)->default(1);
             $table->string('barcode')->nullable();

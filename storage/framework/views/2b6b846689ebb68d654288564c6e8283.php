@@ -100,6 +100,12 @@
                         <?php echo e(__('Produits')); ?>
 
                     </a>
+                    <?php if(settings()->has_variant): ?>
+                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
+                        <?php echo e(__('Variantes Produits')); ?>
+
+                    </a>
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
             </div>
         </div>
@@ -163,9 +169,15 @@
                             <?php echo e(__('Catégories de produits')); ?>
 
                           </a>
-                          <?php if(settings()->has_package): ?>
-                          <a wire:navigate href="<?php echo e(route('employee.department.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
-                            <?php echo e(__("Emballages de produits")); ?>
+                          <?php if(settings()->has_packaging): ?>
+                          <a wire:navigate href="<?php echo e(route('inventory.products.packaging.list', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
+                            <?php echo e(__("Conditionnements de produits")); ?>
+
+                          </a>
+                          <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                          <?php if(settings()->has_variant): ?>
+                          <a wire:navigate href="<?php echo e(route('inventory.products.attributes.list', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
+                            <?php echo e(__("Attributs")); ?>
 
                           </a>
                           <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
