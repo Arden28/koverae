@@ -28,6 +28,16 @@ class ManufacturingOrderTable extends Table
         return "Ordres de fabrication";
     }
 
+    public function emptyTitle() : string
+    {
+        return __("Aucun ordre de fabrication trouvé. Créons-en un.");
+    }
+
+    public function emptyText() : string
+    {
+        return __("Utilisez les ordres de production pour assembler des produits finis à partir de composants spécifiques. Par exemple, fabriquer un vélo implique l'assemblage d'un cadre, de deux roues, d'un guidon et d'une selle.");
+    }
+
     public function query() : Builder
     {
         return ManufacturingOrder::query();
@@ -41,12 +51,9 @@ class ManufacturingOrderTable extends Table
             Column::make('end_date', "Fin")->component('columns.common.human-diff'),
             Column::make('product_id', "Produit")->component('columns.common.product'),
             Column::make('bom_id', "Nomenclature")->component('columns.common.bom'),
-            Column::make('responsible_id', "Responsable")->component('columns.common.customer')
+            Column::make('responsible_id', "Responsable")->component('columns.common.customer'),
+            Column::make('status', 'Status')->component('columns.common.status.manufacturing-order-status'),
         ];
     }
 
-    public function delete(ManufacturingOrder $order)
-    {
-        $order->delete();
-    }
 }

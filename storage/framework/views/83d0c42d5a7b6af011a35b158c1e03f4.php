@@ -28,7 +28,7 @@
         <div class="k_setting_left_pane">
             <div class="k_field_widget k_field_boolean">
                 <div class="k-checkbox form-check d-inline-block">
-                    <input type="checkbox" wire:model.live="<?php echo e($value->model); ?>" class="form-check-input">
+                    <input type="checkbox" wire:model.live="<?php echo e($value->model); ?>" class="form-check-input" onclick="checkStatus(this)">
                 </div>
             </div>
         </div>
@@ -53,5 +53,4 @@
             </div>
         </div>
 
-    </div>
-<?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/blocks/boxes/simple.blade.php ENDPATH**/ ?>
+    </div><?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/components/blocks/boxes/simple.blade.php ENDPATH**/ ?>

@@ -11,6 +11,7 @@ use Modules\Inventory\Entities\History\InventoryMove;
 use Modules\Inventory\Entities\Operation\OperationType;
 use Modules\Inventory\Entities\Product;
 use Modules\Inventory\Entities\UoM\UnitOfMeasure;
+use Modules\Inventory\Entities\Warehouse\Warehouse;
 use Modules\Manufacturing\Entities\BOM\BillOfMaterial;
 
 class UnbuildOrder extends Model
@@ -21,6 +22,15 @@ class UnbuildOrder extends Model
      * The attributes that are mass assignable.
      */
     protected $guarded = [];
+
+    public static function boot() {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $number = UnbuildOrder::isCompany(current_company()->id)->max('id') + 1;
+            $model->reference = make_reference_id('UB', $number);
+        });
+    }
 
     public function scopeIsCompany(Builder $query, $company_id)
     {

@@ -104,6 +104,21 @@ if (isset($__slots)) unset($__slots);
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                 <!-- Employee -->
+                <!--[if BLOCK]><![endif]--><?php if(module('manufacturing')): ?>
+                <div class="tab cursor-pointer <?php echo e($view == 'manufacturing' ? 'selected' : ''); ?>" wire:click.prevent="changePanel('manufacturing')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="<?php echo e(asset('assets/images/apps/mrp.png')); ?>" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        <?php echo e(__('Fabrication')); ?>
+
+                    </span>
+                </div>
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+
+                <!-- Employee -->
                 <!--[if BLOCK]><![endif]--><?php if(module('employee')): ?>
                 <div class="tab cursor-pointer <?php echo e($view == 'employee' ? 'selected' : ''); ?>" wire:click.prevent="changePanel('employee')">
                     <!-- App Icon -->
@@ -205,6 +220,23 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
+                <?php elseif($view == 'manufacturing'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('manufacturing::settings.manufacturing-setting', ['company' => current_company()->id]);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-4272401637-5', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
                 <?php elseif($view == 'invoicing'): ?>
 
                 <?php elseif($view == 'employee'): ?>
@@ -214,7 +246,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('settings::module.employee', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'lw-4272401637-5', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-4272401637-6', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -231,7 +263,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('settings::settings.general', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'lw-4272401637-6', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-4272401637-7', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -248,7 +280,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('settings::settings.general', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'lw-4272401637-7', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-4272401637-8', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

@@ -101,6 +101,11 @@
                         {{ __('Variantes Produits') }}
                     </a>
                     @endif
+                    @if(settings()->has_serial_number)
+                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.serials.list', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                        {{ __('Lots/Numéros de série') }}
+                    </a>
+                    @endif
                 </div>
             </div>
         </div>

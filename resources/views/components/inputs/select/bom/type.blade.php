@@ -17,7 +17,7 @@
                 <!-- Manufacture -->
                 <div>
                     <div class="form-check k_radio_item">
-                        <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" id="manufacture" value="manufacture"/>
+                        <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" id="manufacture" value="manufacture" {{ $this->blocked ? 'disabled' : '' }}/>
                         <label class="form-check-label k_form_label" for="manufacture">
                             {{ __('Fabriquer ce produit') }}
                         </label>
@@ -26,7 +26,7 @@
                 <!-- Kit -->
                 <div>
                     <div class="form-check k_radio_item">
-                        <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" id="kit" value="kit"/>
+                        <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" id="kit" value="kit" {{ $this->blocked ? 'disabled' : '' }}/>
                         <label class="form-check-label k_form_label" for="kit">
                             {{ __('Kit') }}
                         </label>
@@ -35,7 +35,7 @@
                 <!-- Subcontracting -->
                 <div>
                     <div class="form-check k_radio_item">
-                        <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" id="subcontracting" value="subcontracting"/>
+                        <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" id="subcontracting" value="subcontracting" {{ $this->blocked ? 'disabled' : '' }}/>
                         <label class="form-check-label k_form_label" for="subcontracting">
                             {{ __('Sous-traitant') }}
                         </label>

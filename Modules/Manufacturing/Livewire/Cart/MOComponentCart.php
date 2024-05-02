@@ -17,6 +17,7 @@ class MOComponentCart extends Component
     public $i = 1;
     public $cart_instance;
     public $test= 'hello';
+    public bool $blocked = false;
 
     public function mount($cartInstance, $order = null){
         $this->cart_instance = $cartInstance;
@@ -28,6 +29,7 @@ class MOComponentCart extends Component
                 }
                 $this->dispatch('manufacturing-cart', inputs: $this->inputs);
             }
+            $this->blocked = true;
         }
     }
 
@@ -80,6 +82,16 @@ class MOComponentCart extends Component
 
     public function updated(){
         $this->dispatch('manufacturing-cart', inputs: $this->inputs);
+    }
+
+    #[On('unlock-manufacturing')]
+    public function unlock(){
+        $this->blocked = false;
+    }
+
+    #[On('lock-manufacturing')]
+    public function lock(){
+        $this->blocked = true;
     }
 
 }

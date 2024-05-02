@@ -19,7 +19,7 @@
         <span>{{ $value->label }}</span>
         @if(!$value->model)
             &nbsp;&nbsp;
-            <input type="text" wire:model="reminder_date_before_receipt" value="0" min="0" class="k_input" id="reminder_date_before_receipt_0">
+            <input type="text" wire:model="reminder_date_before_receipt" value="0" min="0" class="k_input" id="reminder_date_before_receipt_0" {{ $this->blocked ? 'disabled' : '' }}>
             &nbsp;&nbsp;
             jour(s) avant
         @endif

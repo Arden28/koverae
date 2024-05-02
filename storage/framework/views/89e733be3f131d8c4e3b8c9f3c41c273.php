@@ -38,6 +38,16 @@
     })
 </script>
 
+<script>
+    function checkStatus(checkbox) {
+        if (checkbox.checked) {
+            checkbox.style.backgroundColor = '#0E6163'; // Color when checked
+        } else {
+            checkbox.style.backgroundColor = '#FFFFFF'; // Default color
+        }
+    }
+</script>
+
 <?php echo BladeUIKit\BladeUIKit::outputScripts(true); ?>
 
 <?php echo notifyJs(); ?>

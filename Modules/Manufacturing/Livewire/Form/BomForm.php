@@ -94,11 +94,16 @@ class BomForm extends BaseForm
     public function createBom(){
         //
         $this->validate();
+        if($this->reference){
+            $reference = $this->reference;
+        }else{
+            $reference = str()->slug(Product::find($this->product)->product_name);
+        }
 
         $bom = BillOfMaterial::create([
             'company_id' => current_company()->id,
-            'name' => Product::find($this->product)->product_name .':'. $this->reference,
-            'reference' => $this->reference,
+            'name' => Product::find($this->product)->product_name .':'. $reference,
+            'reference' => $reference,
             'product_id' => $this->product,
             'bom_type' => $this->bom_type,
             'quantity' => $this->quantity,

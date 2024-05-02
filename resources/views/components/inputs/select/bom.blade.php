@@ -15,7 +15,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model.change="{{ $value->model }}" id="" class="k_input">
+        <select wire:model.change="{{ $value->model }}" id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
             @foreach($boms as $bom)
             <option value="{{ $bom->id }}">{{ $bom->name }}</option>

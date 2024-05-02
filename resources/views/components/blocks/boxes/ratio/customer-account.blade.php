@@ -22,7 +22,7 @@
                     <!-- What is ordered -->
                     <div>
                         <div class="form-check k_radio_item">
-                            <input type="radio" class="form-check-input k_radio_input" wire:model.live="{{ $value->model }}" name="{{ $value->model }}" id="on_invitation" value="on_invitation"/>
+                            <input type="radio" class="form-check-input k_radio_input" wire:model.live="{{ $value->model }}" name="{{ $value->model }}" id="on_invitation" value="on_invitation" onclick="checkStatus(this)"/>
                             <label class="form-check-label k_form_label" for="on_invitation">
                                 {{ __('Sur Invitation') }}
                             </label>
@@ -31,7 +31,7 @@
                     <!-- What is free_signup -->
                     <div>
                         <div class="form-check k_radio_item">
-                            <input type="radio" class="form-check-input k_radio_input" wire:model.live="{{ $value->model }}" name="{{ $value->model }}" id="free_signup" value="free_signup"/>
+                            <input type="radio" class="form-check-input k_radio_input" wire:model.live="{{ $value->model }}" name="{{ $value->model }}" id="free_signup" value="free_signup" onclick="checkStatus(this)"/>
                             <label class="form-check-label k_form_label" for="free_signup">
                                 {{ __('Inscription gratuite') }}
                             </label>

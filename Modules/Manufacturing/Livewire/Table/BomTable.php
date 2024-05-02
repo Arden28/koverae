@@ -28,6 +28,16 @@ class BomTable extends Table
         return "Nomenclatures";
     }
 
+    public function emptyTitle() : string
+    {
+        return __("Aucune nomenclature trouvée. Créons-en une !");
+    }
+
+    public function emptyText() : string
+    {
+        return __("Une nomenclature permet de définir une liste de matières premières nécessaires à la fabrication du produit fini ; via un ordre de fabrication ou un kit de produits.");
+    }
+
     public function query() : Builder
     {
         return BillOfMaterial::query();

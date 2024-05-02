@@ -20,7 +20,7 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-    <!--[if BLOCK]><![endif]--><?php if(settings()->has_packagings): ?>
+    <!--[if BLOCK]><![endif]--><?php if(settings()->has_packaging): ?>
     <!-- Left Side -->
     <div class="k_inner_group col-md-12 col-lg-12">
         <!-- separator -->

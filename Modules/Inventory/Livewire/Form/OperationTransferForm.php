@@ -131,7 +131,7 @@ class OperationTransferForm extends BaseForm
         $buttons = [
             ActionBarButton::make('mark', 'Marquer comme à faire', 'markAsReady()', 'draft')->component('button.action-bar.if-status'),
             ActionBarButton::make('validate', isset($this->transfer->operationType->operation_type) === 'receipt' ? 'Recevoir les produits' : 'Valider', 'validateOperation', 'ready')->component('button.action-bar.if-status'),
-            ActionBarButton::make('cancelled', 'Annuler', 'cancelOp', 'done'),
+            ActionBarButton::make('cancelled', 'Annuler', 'cancelOp', 'done')->component('button.action-bar.if-status'),
             // ActionBarButton::make('storeTeam', 'Sauvegarder', $this->updateMode == false ? 'store' : "update", 'droft'),
         ];
 

@@ -56,7 +56,7 @@ class SalesTable extends Table
             Column::make('sales_team_id', 'Equipe commerciale')->component('columns.common.sales-team'),
             Column::make('total_amount', 'Total')->component('columns.common.format_currency'),
             Column::make('status', 'Statut')->component('columns.common.status.quotation-status'),
-            Column::make('status', 'Statut de la facture')->component('columns.common.status.sale-invoice-status'),
+            Column::make('invoice_status', 'Statut de la facture')->component('columns.common.status.sale-invoice-status'),
             Column::make('shipping_status', 'Statut de la livraison')->component('columns.common.status.shipping-status'),
             Column::make('due_amount', 'Montant à facturer')->component('columns.common.format_currency'),
         ];

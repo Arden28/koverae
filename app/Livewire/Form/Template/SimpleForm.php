@@ -6,6 +6,8 @@ use Livewire\Component;
 
 abstract class SimpleForm extends Component
 {
+    public bool $blocked = false;
+    
     public function render()
     {
         return view('livewire.form.template.simple-form');

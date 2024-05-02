@@ -120,5 +120,6 @@ class InventorySetting extends AppSetting
         cache()->forget('settings');
 
         notify()->success('Modifications sauvegardées');
+        return redirect()->route('settings.general', ['subdomain' => current_company()->domain_name, 'view' => 'inventory', 'menu' => current_menu()]);
     }
 }

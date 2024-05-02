@@ -9,7 +9,7 @@
         <div class="k_setting_left_pane">
             <div class="k_field_widget k_field_boolean">
                 <div class="k-checkbox form-check d-inline-block">
-                    <input type="checkbox" wire:model.live="has_pricelist" class="form-check-input">
+                    <input type="checkbox" wire:model.live="has_pricelist" class="form-check-input" onclick="checkStatus(this)">
                 </div>
             </div>
         </div>
@@ -29,13 +29,13 @@
                 <div class="k_field_widget k_field_radio k_light_label ps-3">
                     <div class="k_horizontal">
                         <div class="form-check k_radio_item">
-                            <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" value="multiple" id="multiple" />
+                            <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" value="multiple" id="multiple" onclick="checkStatus(this)" />
                             <label class="form-check-label k_form_label" for="multiple" data-bs-toggle="tooltip" data-bs-placement="right" title="Plusieurs prix par produit">
                                 {{ __('Plusieurs') }}
                             </label>
                         </div>
                         <div class="form-check k_radio_item">
-                            <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" value="advanced" id="advanced"/>
+                            <input type="radio" class="form-check-input k_radio_input" wire:model="{{ $value->model }}" name="{{ $value->model }}" value="advanced" id="advanced" onclick="checkStatus(this)"/>
                             <label class="form-check-label k_form_label" for="advanced" data-bs-toggle="tooltip" data-bs-placement="right" title="Règles tarifaires avancées (remises, formules)">
                                 {{ __('Avancée') }}
                             </label>

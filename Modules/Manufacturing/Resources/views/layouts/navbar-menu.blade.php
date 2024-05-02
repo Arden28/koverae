@@ -24,7 +24,7 @@
                     <a wire:navigate href="{{ route('manufacturing.orders.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                       {{ __('Ordres de fabrications') }}
                     </a>
-                    <a wire:navigate href="{{ route('inventory.operation-transfers.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
+                    <a wire:navigate href="{{ route('manufacturing.unbuilds.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                       {{ __('Ordres de déconstructions') }}
                     </a>
                     <a wire:navigate href="{{ route('inventory.adjustments.scraps.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">

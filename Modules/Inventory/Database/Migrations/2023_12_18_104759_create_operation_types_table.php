@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('warehouse_id')->nullable();
             $table->string('name');
-            $table->enum('operation_type', ['receipt', 'delivery', 'internal_transfer', 'manufacturing'])->default('receipt');
+            $table->enum('operation_type', ['receipt', 'delivery', 'internal_transfer', 'manufacturing', 'pos', 'dropshipping'])->default('receipt');
             $table->string('prefix')->nullable();
             $table->string('barcode')->nullable();
             $table->unsignedBigInteger('return_type_id')->nullable();

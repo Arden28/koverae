@@ -79,7 +79,6 @@ return new class extends Migration
             $table->boolean('has_receipt_reminder')->default(true);
             // Operation
             $table->boolean('has_batch_tranfer')->default(false);
-            // $table->boolean('has_warnings')->default(false);
             $table->enum('picking_policy', ['as_soon_as_possible', 'after_done'])->default('as_soon_as_possible');
             $table->boolean('has_quality')->default(false);
             $table->integer('annual_inventory_day')->default(31);
@@ -198,6 +197,13 @@ return new class extends Migration
             $table->unsignedBigInteger('stock_journal_id')->nullable();
             $table->unsignedBigInteger('stock_input_account_id')->nullable();
             $table->unsignedBigInteger('stock_output_account_id')->nullable();
+            // Manufacturing
+            $table->boolean('has_subcontracting')->default(false);
+            $table->boolean('has_workshop')->default(true);
+            $table->boolean('has_manufacturing_order_unlocked')->default(false);
+            $table->boolean('has_production_security_delay')->default(false);
+            $table->integer('production_security_delay')->default(0);
+
             // Peut être agrandi
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();

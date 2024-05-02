@@ -34,7 +34,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model.blur="<?php echo e($value->model); ?>" id="" class="k_input">
+        <select wire:model.blur="<?php echo e($value->model); ?>" id="" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
             <option value=""></option>
             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <option value="<?php echo e($type->id); ?>" class="<?php echo e($type->operation_type == 'internal_transfer' && !settings()->has_storage_locations ? 'd-none' : ''); ?>"><?php echo e($type->name); ?></option>

@@ -25,7 +25,7 @@
     $products = \Modules\Inventory\Entities\Product::isCompany(current_company()->id)->get();
 ?>
 
-<div class="d-flex" style="margin-bottom: 8px;">
+<div class="d-flex" style="margin-bottom: 8px; margin-top: 8px;">
     <!-- Customer -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         <label class="k_form_label" for="product">
@@ -34,7 +34,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model.change="<?php echo e($value->model); ?>" id="" class="k_input">
+        <select wire:model.change="<?php echo e($value->model); ?>" id="" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
             <option value=""></option>
             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <option value="<?php echo e($product->id); ?>"><?php echo e($product->product_name); ?></option>

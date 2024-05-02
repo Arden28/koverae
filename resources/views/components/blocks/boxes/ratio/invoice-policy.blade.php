@@ -22,7 +22,7 @@
                     <!-- What is ordered -->
                     <div>
                         <div class="form-check k_radio_item">
-                            <input type="radio" class="form-check-input k_radio_input" wire:model.live="invoice_policy" name="invoice_policy" id="ordered" value="ordered"/>
+                            <input type="radio" class="form-check-input k_radio_input" wire:model.live="invoice_policy" name="invoice_policy" id="ordered" value="ordered" onclick="checkStatus(this)"/>
                             <label class="form-check-label k_form_label" for="ordered">
                                 {{ __('Facturer ce qui est commandé') }}
                             </label>
@@ -31,7 +31,7 @@
                     <!-- What is delivered -->
                     <div>
                         <div class="form-check k_radio_item">
-                            <input type="radio" class="form-check-input k_radio_input" wire:model.live="invoice_policy" name="invoice_policy" id="delivered" value="delivered"/>
+                            <input type="radio" class="form-check-input k_radio_input" wire:model.live="invoice_policy" name="invoice_policy" id="delivered" value="delivered" onclick="checkStatus(this)"/>
                             <label class="form-check-label k_form_label" for="delivered">
                                 {{ __('Facturer ce qui est livré') }}
                             </label>

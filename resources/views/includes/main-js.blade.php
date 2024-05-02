@@ -38,6 +38,16 @@
     })
 </script>
 
+<script>
+    function checkStatus(checkbox) {
+        if (checkbox.checked) {
+            checkbox.style.backgroundColor = '#0E6163'; // Color when checked
+        } else {
+            checkbox.style.backgroundColor = '#FFFFFF'; // Default color
+        }
+    }
+</script>
+
 @bukScripts(true)
 
 @notifyJs

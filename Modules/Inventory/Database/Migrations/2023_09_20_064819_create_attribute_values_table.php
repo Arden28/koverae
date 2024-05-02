@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('attribute_id')->nullable();
+            $table->string('name');
+            $table->boolean('is_characteristic')->default(false);
+            $table->string('color')->nullable();
+            $table->string('image_path')->nullable();
+            $table->decimal('additional_price', $precision = 10, $scale = 2)->default(0);
+            $table->enum('status', ['active', 'inactive', 'disabled'])->default('active');
 
             $table->timestamps();
         });

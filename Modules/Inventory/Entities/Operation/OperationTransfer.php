@@ -24,10 +24,11 @@ class OperationTransfer extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $number = OperationTransfer::max('id') + 1;
-            $prefix = $model->operationType->prefix;
+            $type = $model->operationType;
+            $number = OperationTransfer::isCompany(current_company()->id)->isOperationType($type->id)->max('id') + 1;
+            // $prefix = $type->prefix;
             $warehouse = Warehouse::find($model->operationType->warehouse_id);
-            $model->reference = make_reference_with_id($warehouse->short_name, $number, $prefix);
+            $model->reference = make_reference_with_id($warehouse->short_name, $number, $type->prefix);
         });
     }
 

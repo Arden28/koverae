@@ -14,10 +14,14 @@ class AttributeValue extends Model
 
     protected $guarded = [];
 
-
     public function scopeIsCompany(Builder $query, $company_id)
     {
         return $query->where('company_id', $company_id);
+    }
+
+    public function scopeIsAttrinute(Builder $query, $attribute_id)
+    {
+        return $query->where('attribute_id', $attribute_id);
     }
 
     public function attribute() {

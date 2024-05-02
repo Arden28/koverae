@@ -6,6 +6,7 @@ use Livewire\Component;
 
 abstract class LightWeightForm extends Component
 {
+    public bool $blocked = false;
     public function render()
     {
         return view('livewire.form.template.light-weight-form');

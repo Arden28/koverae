@@ -2,7 +2,7 @@
     'value',
     'data'
 ])
-    @if(settings()->has_packagings)
+    @if(settings()->has_packaging)
     <!-- Left Side -->
     <div class="k_inner_group col-md-12 col-lg-12">
         <!-- separator -->

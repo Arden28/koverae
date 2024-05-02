@@ -11,7 +11,7 @@ use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
 
 class LogisticService{
 
-    public function recordStockMove($transfer){
+    public function recordStockMove($transfer, $status = null){
 
         foreach($transfer->details as $detail){
             InventoryMove::create([
@@ -27,7 +27,7 @@ class LogisticService{
                 'uom_id' => $detail->product->uom_id,
                 'responsible_id' => $transfer->responsible_id,
                 'source_document' => $transfer->reference,
-                'status' => 'draft'
+                'status' => $status ?? 'draft'
 
             ]);
         }
@@ -132,6 +132,103 @@ class LogisticService{
             }
 
             $this->recordStockMove($transfer);
+
+        }
+    }
+
+    public function launchManufacturing($order){
+        if(module('manufacturing')){
+
+            // Launch delivery operation
+            $from = WarehouseLocation::isCompany(current_company()->id)->isType('production')->first();
+            $to = WarehouseLocation::isCompany(current_company()->id)->isType('internal')->first();
+            $type = OperationType::isCompany(current_company()->id)->isType('manufacturing')->first();
+
+            $transfer = OperationTransfer::create([
+                'company_id' => current_company()->id,
+                'contact_id' => $order->customer_id,
+                'operation_type_id' => $type->id,
+                'received_from' => $from->id,
+                'in_direction_to' => $to->id,
+                'schedule_date' => $order->shipping_date,
+                'effective_date' => $order->shipping_date,
+                'source_document' => $order->reference,
+                'responsible_id' => $order->responsible_id,
+                'shipping_policy' => $order->shipping_policy,
+                'note' => $order->note,
+                'status' => 'ready',
+            ]);
+            $transfer->save();
+
+            foreach ($order->components as $detail) {
+                $transfer_details = OperationTransferDetail::create([
+                    'company_id' => current_company()->id,
+                    'product_id' => $detail->product_id,
+                    'operation_transfer_id' => $transfer->id,
+                    'product_name' => Product::find($detail->product_id)->product_name,
+                    'demand' => $detail->quantity,
+                    'quantity' => Product::find($detail->product_id)->product_quantity,
+                    'schedule_date' => $order->shipping_date,
+                    'deadline_date' => $order->shipping_date,
+                ]);
+                $transfer_details->save();
+            }
+
+            $this->recordStockMove($transfer, 'done');
+            // Record the manufactured product move
+            $this->launchBurningComponent($order);
+
+        }
+    }
+
+    // Record the manufactured product move
+    public function launchBurningComponent($order){
+
+        $from = WarehouseLocation::isCompany(current_company()->id)->isType('production')->first();
+        $to = WarehouseLocation::isCompany(current_company()->id)->isType('internal')->first();
+        $type = OperationType::isCompany(current_company()->id)->isType('manufacturing')->first();
+
+        InventoryMove::create([
+            'company_id' => current_company()->id,
+            'product_id' => $order->product_id,
+            'reference' => __("Production :". $order->product->product_name),
+            'date' => now(),
+            'source_location_id' => $from,
+            'destination_location_id' => $to,
+            'quantity' => $order->quantity,
+            'demand' => $order->demand,
+            'uom_id' => $order->uom_id,
+            'responsible_id' => $order->responsible_id,
+            'source_document' => $order->reference,
+
+        ]);
+    }
+
+    public function launchScrap($order){
+        if(module('inventory')){
+
+            // Launch delivery operation
+            $from = WarehouseLocation::isCompany(current_company()->id)->isType('internal')->first();
+            $to = WarehouseLocation::isCompany(current_company()->id)->isType('loss_inventory')->isName('Ajustement de stock')->first();
+            $type = OperationType::isCompany(current_company()->id)->isType('internal_transfer')->first();
+
+            $transfer = OperationTransfer::create([
+                'company_id' => current_company()->id,
+                'contact_id' => $order->customer_id,
+                'operation_type_id' => $type->id,
+                'received_from' => $from->id,
+                'in_direction_to' => $to->id,
+                'schedule_date' => $order->shipping_date,
+                'effective_date' => $order->shipping_date,
+                'source_document' => $order->reference,
+                'responsible_id' => $order->responsible,
+                'shipping_policy' => $order->shipping_policy,
+                'note' => $order->note,
+                'status' => 'done',
+            ]);
+            $transfer->save();
+
+            $this->recordStockMove($transfer, 'done');
 
         }
     }

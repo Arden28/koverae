@@ -1,11 +1,13 @@
 <div>
     <!-- Table -->
     <div class="table-responsive card">
-        <table class="table card-table table-vcenter text-nowrap datatable">
-            <thead>
-                <tr>
+        <table class="table card-table text-nowrap">
+            <thead class="order-table">
+                <tr class="order-tr">
                     <th><button class="table-sort"><?php echo e(__('Produit')); ?></button></th>
+                    <!--[if BLOCK]><![endif]--><?php if(settings()->has_storage): ?>
                     <th><button class="table-sort"><?php echo e(__('Emplacement')); ?></button></th>
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     <th><button class="table-sort"><?php echo e(__('Quantité à consommer')); ?></button></th>
                     <th><button class="table-sort"><?php echo e(__('UdM')); ?></button></th>
                     <th></th>
@@ -16,7 +18,7 @@
                 <tr class="k_field_list_row">
                     <td class="k_field_list">
                         
-                        <select wire:model.live="inputs.<?php echo e($key); ?>.product" id="" class="k_input">
+                        <select wire:model.live="inputs.<?php echo e($key); ?>.product" id="" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
                             <option value=""></option>
                             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <option value="<?php echo e($product->id); ?>"><?php echo e($product->product_name); ?></option>
@@ -31,8 +33,9 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                     </td>
+                    <!--[if BLOCK]><![endif]--><?php if(settings()->has_storage): ?>
                     <td class="k_field_list">
-                        <select wire:model.live="inputs.<?php echo e($key); ?>.location" id="" class="k_input">
+                        <select wire:model.live="inputs.<?php echo e($key); ?>.location" id="" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
                             <option value=""></option>
                             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $locations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $location): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <option value="<?php echo e($location->id); ?>"><?php echo e(location_name($location)); ?></option>
@@ -47,14 +50,14 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                     </td>
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     <td class="k_field_list">
-                        <input type="number" wire:model.blur="inputs.<?php echo e($key); ?>.quantity" class="k_input">
+                        <input type="number" wire:model.blur="inputs.<?php echo e($key); ?>.quantity" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
                     </td>
                     <td class="k_field_list">
-                        <input type="text" wire:model.blur="inputs.<?php echo e($key); ?>.uom" class="k_input disabled">
+                        <input type="text" wire:model.blur="inputs.<?php echo e($key); ?>.uom" class="k_input disabled" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
                     </td>
-                    
-                    <td class="k_field_list cursor-pointer">
+                    <td class="k_field_list cursor-pointer <?php echo e($this->blocked ? 'd-none' : ''); ?>">
                         <span wire:click.prevent="remove(<?php echo e($key); ?>)">
                             <i class="bi bi-trash"></i>
                         </span>

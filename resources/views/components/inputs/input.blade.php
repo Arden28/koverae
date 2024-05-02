@@ -15,7 +15,7 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <input type="{{ $value->type }}" wire:model="{{ $value->model }}" class="k_input" placeholder="{{ $value->placeholder }}" id="date_0">
+        <input type="{{ $value->type }}" wire:model="{{ $value->model }}" class="k_input" placeholder="{{ $value->placeholder }}" id="date_0" {{ $this->blocked ? 'disabled' : '' }}>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
     </div>
 </div>

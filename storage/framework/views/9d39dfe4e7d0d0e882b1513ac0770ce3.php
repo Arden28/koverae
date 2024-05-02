@@ -27,7 +27,7 @@
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
-[$__name, $__params] = $__split('manufacturing::cart.m-o-component-cart', ['cartInstance' => 'attribute','attribute' => $this->attribute]);
+[$__name, $__params] = $__split('inventory::cart.product-attribute-value-cart', ['cartInstance' => 'attribute','attribute' => $this->attribute]);
 
 $__html = app('livewire')->mount($__name, $__params, 'lw-1048556355-0', $__slots ?? [], get_defined_vars());
 

@@ -48,6 +48,10 @@ use Modules\Inventory\Livewire\Product\Attribute\Lists as AttributeList;
 use Modules\Inventory\Livewire\Product\Attribute\Create as AttributeCreate;
 use Modules\Inventory\Livewire\Product\Attribute\Show as AttributeShow;
 
+use Modules\Inventory\Livewire\Product\SerialNumber\Lists as SerialList;
+use Modules\Inventory\Livewire\Product\SerialNumber\Create as SerialCreate;
+use Modules\Inventory\Livewire\Product\SerialNumber\Show as SerialShow;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -79,13 +83,21 @@ use Modules\Inventory\Livewire\Product\Attribute\Show as AttributeShow;
     Route::get('products/history-movements', HistoryMovement::class)->name('inventory.products.history');
     Route::get('products/stocks', ProductStock::class)->name('inventory.products.stock');
 
+    // Product Packaging
     Route::get('products-packaging', PackagingList::class)->name('inventory.products.packaging.list');
     Route::get('products-packaging/create', PackagingCreate::class)->name('inventory.products.packaging.create');
     Route::get('products-packaging/{packaging}', PackagingShow::class)->name('inventory.products.packaging.show');
 
+    // Product Attribute
     Route::get('products-attributes', AttributeList::class)->name('inventory.products.attributes.list');
     Route::get('products-attributes/create', AttributeCreate::class)->name('inventory.products.attributes.create');
     Route::get('products-attributes/{attribute}', AttributeShow::class)->name('inventory.products.attributes.show');
+
+    // Product Serial Number
+    Route::get('products-serial-number', SerialList::class)->name('inventory.products.serials.list');
+    Route::get('products-serial-number/create', SerialCreate::class)->name('inventory.products.serials.create');
+    Route::get('products-serial-number/{lot}', SerialShow::class)->name('inventory.products.serials.show');
+
 
     // Categories
     Route::get('products/categories', CategoryLists::class)->name('inventory.products.categories.index');

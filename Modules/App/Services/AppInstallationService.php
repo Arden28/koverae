@@ -106,6 +106,8 @@ class AppInstallationService
             $this->installPurchase($companyId);
         }elseif($slug == 'contact'){
             $this->installContact($companyId);
+        }elseif($slug == 'manufacturing'){
+            $this->installManufacturing($companyId);
         }
 
         // Here you can add additional installation logic specific to the module
@@ -1373,17 +1375,30 @@ class AppInstallationService
     // Fabrication
     public function installManufacturing($company){
         // Emplacements
-        $warehouses = $company->warehouses();
+        $comp = Company::find($company);
+        $warehouses = $comp->warehouses;
+
+        // Operation Type
+        foreach($warehouses as $warehouse){
+            OperationType::create([
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => __('Production'),
+                'operation_type' => 'manufacturing',
+                'prefix' => 'MO',
+                'backorder' => 'ask'
+            ]);
+        }
+        // Location
         foreach($warehouses as $warehouse){
             WarehouseLocation::create([
                 'company_id' => $company,
                 'parent_id' => WarehouseLocation::isWarehouse($warehouse->id)->isName('Emplacements Virtuels')->first()->id,
                 'warehouse_id' => $warehouse->id,
                 'name' => 'Production',
-                'type' => 'manufacturing'
+                'type' => 'production'
             ]);
         }
-
 
     }
 

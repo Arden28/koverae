@@ -6,6 +6,10 @@ use Modules\Manufacturing\Livewire\Order\Lists as OrderList;
 use Modules\Manufacturing\Livewire\Order\Create as OrderCreate;
 use Modules\Manufacturing\Livewire\Order\Show as OrderShow;
 
+use Modules\Manufacturing\Livewire\Unbuild\Lists as UnbuildList;
+use Modules\Manufacturing\Livewire\Unbuild\Create as UnbuildCreate;
+use Modules\Manufacturing\Livewire\Unbuild\Show as UnbuildShow;
+
 use Modules\Manufacturing\Livewire\Bom\Lists as BomList;
 use Modules\Manufacturing\Livewire\Bom\Create as BomCreate;
 use Modules\Manufacturing\Livewire\Bom\Show as BomShow;
@@ -23,9 +27,13 @@ use Modules\Manufacturing\Livewire\Bom\Show as BomShow;
 
 Route::middleware(['module:manufacturing'])->group(function () {
     Route::get('manufacturing-order', OrderList::class)->name('manufacturing.orders.index');
+    Route::get('unbuild-order', UnbuildList::class)->name('manufacturing.unbuilds.index');
     Route::get('boms', BomList::class)->name('manufacturing.boms.index');
     Route::name('manufacturing.')->group(function () {
         // Manufacturing Order
+        Route::get('unbuild-order/create', UnbuildCreate::class)->name('unbuilds.create');
+        Route::get('unbuild-order/{unbuild}', UnbuildShow::class)->name('unbuilds.show');
+        // Unbuild Order
         Route::get('manufacturing-order/create', OrderCreate::class)->name('orders.create');
         Route::get('manufacturing-order/{order}', OrderShow::class)->name('orders.show');
         // Bill Of Materials

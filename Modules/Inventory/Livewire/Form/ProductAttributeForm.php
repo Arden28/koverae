@@ -2,14 +2,15 @@
 
 namespace Modules\Inventory\Livewire\Form;
 
-
 use App\Livewire\Form\BaseForm;
 use App\Livewire\Form\Input;
 use App\Livewire\Form\Tabs;
 use App\Livewire\Form\Group;
 use Livewire\Attributes\On;
+use Modules\Inventory\Entities\Product\Variant\Attribute;
+use Modules\Inventory\Entities\Product\Variant\AttributeValue;
 
-class ProductAttributeForm extends  BaseForm
+class ProductAttributeForm extends BaseForm
 {
     public $attribute;
     public $name, $display_type, $variant_method;
@@ -33,7 +34,7 @@ class ProductAttributeForm extends  BaseForm
         'name' => 'required|string',
         'display_type' => 'required|string',
         'variant_method' => 'required|string',
-        'values' => 'required|array',
+        // 'values' => 'required|array',
     ];
 
     public function inputs() : array
@@ -65,7 +66,7 @@ class ProductAttributeForm extends  BaseForm
         ];
     }
 
-    #[On('attribute-cart')]
+    #[On('product-attribute-cart')]
     public function updateInputs($inputs){
         $this->values = $inputs;
     }
@@ -73,11 +74,85 @@ class ProductAttributeForm extends  BaseForm
     #[On('create-attribute')]
     public function storeAttribute(){
         $this->validate();
+
+        $attribute = Attribute::create([
+            'company_id' => current_company()->id,
+            'name' => $this->name,
+            'display_type' => $this->display_type,
+        ]);
+
+        if($attribute->values()->count() >= 1){
+            foreach($attribute->values() as $key => $value){
+                $value->delete();
+            }
+        }
+        foreach($this->values as $key => $value){
+            AttributeValue::create([
+                'company_id' => current_company()->id,
+                'attribute_id' => $attribute->id,
+                'name' => $value['name'],
+                'additional_price' => $value['price']
+            ]);
+        }
+
+        return redirect()->route('inventory.products.attributes.show', ['attribute' => $attribute->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
     #[On('update-attribute')]
     public function updateAttribute(){
         $this->validate();
+        $attribute = $this->attribute;
+
+        $attribute->update([
+            'name' => $this->name,
+            'display_type' => $this->display_type,
+        ]);
+        $attribute->save();
+
+        if($attribute->values()->count() >= 1){
+            foreach($attribute->values() as $key => $value){
+                $value->delete();
+            }
+        }
+        foreach($this->values as $key => $value){
+            AttributeValue::create([
+                'company_id' => current_company()->id,
+                'attribute_id' => $attribute->id,
+                'name' => $value['name'],
+                'additional_price' => $value['price']
+            ]);
+        }
+
+        return redirect()->route('inventory.products.attributes.show', ['attribute' => $attribute->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
+    #[On('duplicate-attribute')]
+    public function duplicateAttribute(Attribute $attribute){
+        $this->validate();
+
+        $attribute = Attribute::create([
+            'company_id' => $attribute->company_id,
+            'name' => $attribute->name,
+            'display_type' => $attribute->display_type,
+        ]);
+
+        foreach($attribute->values() as $key => $value){
+            AttributeValue::create([
+                'company_id' => $value->company_id,
+                'attribute_id' => $value->attribute_id,
+                'name' => $value->name,
+                'additional_price' => $value->additional_price
+            ]);
+        }
+
+        return redirect()->route('inventory.products.attributes.show', ['attribute' => $attribute->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+    }
+
+    #[On('delete-attribute')]
+    public function deleteAttribute(Attribute $attribute){
+
+        $attribute->delete();
+        return redirect()->route('inventory.products.attributes.show', ['attribute' => $attribute->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+
+    }
 }

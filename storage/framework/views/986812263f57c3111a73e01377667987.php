@@ -32,7 +32,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model="<?php echo e($value->model); ?>" id="" class="k_input">
+        <select wire:model="<?php echo e($value->model); ?>" id="" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
             <option value=""></option>
             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <option value="<?php echo e($contact->id); ?>"><?php echo e($contact->name); ?></option>

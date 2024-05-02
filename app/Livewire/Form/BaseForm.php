@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Database\Eloquent\Builder;
 abstract class BaseForm extends Component
 {
+    public bool $blocked = false;
 
     public function render()
     {

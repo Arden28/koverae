@@ -3,7 +3,7 @@
 
     <!-- Control Panel -->
     @section('control-panel')
-    <livewire:manufacturing::navbar.control-panel.manufacturing-order-form-panel />
+    <livewire:manufacturing::navbar.control-panel.manufacturing-order-form-panel :event="'create-manufacturing-order'" />
     @endsection
 
     <livewire:manufacturing::form.manufacturing-order-form />

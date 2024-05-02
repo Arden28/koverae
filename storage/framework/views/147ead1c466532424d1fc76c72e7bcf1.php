@@ -24,7 +24,7 @@
     <!-- Tab Content -->
 
     <!-- Others Informations -->
-    <div class="tab-pane <?php echo e($value->key == 'general' || $value->key == 'resume' || $value->key == 'attributes' ? 'active' : ''); ?>" id="<?php echo e($value->key); ?>" wire:ignore>
+    <div class="tab-pane <?php echo e($value->key == 'general' || $value->key == 'resume' ? 'active' : ''); ?>" id="<?php echo e($value->key); ?>" wire:ignore>
         <div class="row align-items-start">
 
             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->groups(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

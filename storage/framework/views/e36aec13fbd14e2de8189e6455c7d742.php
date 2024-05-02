@@ -29,7 +29,7 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <input type="<?php echo e($value->type); ?>" wire:model="<?php echo e($value->model); ?>" class="k_input" id="date_0">
+        <input type="<?php echo e($value->type); ?>" wire:model="<?php echo e($value->model); ?>" class="k_input" id="date_0" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
         <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

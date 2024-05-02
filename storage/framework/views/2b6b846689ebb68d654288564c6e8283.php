@@ -106,6 +106,12 @@
 
                     </a>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                    <?php if(settings()->has_serial_number): ?>
+                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.serials.list', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
+                        <?php echo e(__('Lots/Numéros de série')); ?>
+
+                    </a>
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
             </div>
         </div>

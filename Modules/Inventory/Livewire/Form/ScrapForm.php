@@ -12,6 +12,7 @@ use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Modules\Inventory\Entities\Adjustment\ScrapOrder;
 use Modules\Inventory\Entities\Product;
 use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
+use Modules\Inventory\Services\LogisticService;
 
 class ScrapForm extends BaseForm
 {
@@ -62,6 +63,35 @@ class ScrapForm extends BaseForm
             return 'update';
         }
     }
+    public function actionBarButtons() : array
+    {
+        return [
+            ActionBarButton::make('validate', 'Valider', 'validate', 'draft')->component('button.action-bar.if-status'),
+            // ActionBarButton::make('storeTeam', 'Sauvegarder', $this->updateMode == false ? 'store' : "update"),
+        ];
+
+    }
+
+    public function statusBarButtons() : array
+    {
+        return [
+            StatusBarButton::make('draft', 'Brouillon', 'draft'),
+            StatusBarButton::make('done', 'Fait', 'done'),
+            StatusBarButton::make('canceled', 'Annulé', 'canceled')->component('button.status-bar.canceled'),
+            // Add more buttons as needed
+        ];
+    }
+
+    public function groups() : array
+    {
+        return  [
+            // make($key, $label, $tabs = null)
+            Group::make('base_info',"Informations Générales", 'none')->component('tabs.group.light'),
+            Group::make('general_info',"Informations Générales", 'general')->component('tabs.group.light'),
+            Group::make('other_info',"Autres Informations", 'supp_info'),
+            // Group::make('return',"Retours", 'general'),
+        ];
+    }
 
     public function inputs() : array
     {
@@ -77,40 +107,9 @@ class ScrapForm extends BaseForm
             Input::make('replenish','Réapprovisonner ces quantités', 'checkbox', 'replenish', 'right', 'none', 'base_info')->component('inputs.checkbox.simple'),
         ];
     }
-    public function groups() : array
-    {
-        return  [
-            // make($key, $label, $tabs = null)
-            Group::make('base_info',"Informations Générales", 'none')->component('tabs.group.light'),
-            Group::make('general_info',"Informations Générales", 'general')->component('tabs.group.light'),
-            Group::make('other_info',"Autres Informations", 'supp_info'),
-            // Group::make('return',"Retours", 'general'),
-        ];
-    }
-
-    public function actionBarButtons() : array
-    {
-        return [
-            ActionBarButton::make('validate', 'Valider', 'validate', ''),
-            ActionBarButton::make('storeTeam', 'Sauvegarder', $this->updateMode == false ? 'store' : "update"),
-        ];
-
-    }
-
-    public function statusBarButtons() : array
-    {
-        return [
-            StatusBarButton::make('draft', 'Brouillon', 'draft'),
-            StatusBarButton::make('done', 'Fait', 'done'),
-            StatusBarButton::make('canceled', 'Annulé', 'canceled')->component('button.status-bar.canceled'),
-            // Add more buttons as needed
-        ];
-    }
 
     public function store(){
         $this->validate();
-
-        $this->status = 'done';
 
         $scrap = ScrapOrder::create([
             'company_id' => current_company()->id,
@@ -122,11 +121,17 @@ class ScrapForm extends BaseForm
             'replenish_quantity' => $this->replenish_quantity,
             'source_document' => $this->source_document,
             'owner_id' => $this->responsible,
-            'status' => $this->status,
+            'status' => 'done',
         ]);
         $scrap->save();
-        // Update qty
-        $this->updateQty($scrap->product_id, $scrap->quantity);
+
+        // Record movement
+        $logisticService = new LogisticService();
+        $logisticService->launchScrap($scrap);
+
+        $scrap->product->update([
+            'product_quantity' => $scrap->product->product_quantity - $scrap->quantity,
+        ]);
 
 
         return redirect()->route('inventory.adjustments.scraps.show', ['scrap' => $scrap->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);

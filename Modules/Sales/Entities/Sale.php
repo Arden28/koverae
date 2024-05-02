@@ -81,7 +81,7 @@ class Sale extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $number = Sale::max('id') + 1;
+            $number = Sale::isCompany(current_company()->id)->max('id') + 1;
             $model->reference = make_reference_id('SL', $number);
         });
     }

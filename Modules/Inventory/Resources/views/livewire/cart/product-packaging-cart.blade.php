@@ -16,20 +16,20 @@
                 @foreach ($inputs as $key => $value)
                 <tr class="k_field_list_row">
                     <td class="k_field_list">
-                        <input type="number" wire:model.blur="inputs.{{ $key }}.name" min class="k_input">
+                        <input type="text" wire:model.blur="inputs.{{ $key }}.name" min class="k_input">
                         @error("inputs.{{ $key }}.name") <span class="text-danger">{{ $message }}</span> @enderror
                     </td>
                     <td class="k_field_list">
                         <input type="number" wire:model.blur="inputs.{{ $key }}.quantity" min class="k_input">
+                        <td class="k_field_list">
+                            <input type="checkbox" wire:model.blur="inputs.{{ $key }}.saleable" class="form-check-input">
+                        </td>
+                        <td class="k_field_list">
+                            <input type="checkbox" wire:model.blur="inputs.{{ $key }}.buyable" class="form-check-input">
+                        </td>
                     </td>
                     <td class="k_field_list">
                         <input type="number" wire:model.blur="inputs.{{ $key }}.barcode" min class="k_input">
-                    </td>
-                    <td class="k_field_list">
-                        <input type="checkbox" wire:model.blur="inputs.{{ $key }}.saleable" class="form-check-input">
-                    </td>
-                    <td class="k_field_list">
-                        <input type="checkbox" wire:model.blur="inputs.{{ $key }}.buyable" class="form-check-input">
                     </td>
                     <td class="k_field_list cursor-pointer">
                         <span wire:click.prevent="remove({{$key}})">

@@ -35,7 +35,7 @@ class ManufacturingOrder extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $number = ManufacturingOrder::max('id') + 1;
+            $number = ManufacturingOrder::isCompany(current_company()->id)->max('id') + 1;
             $prefix = 'MO';
             $warehouse = Warehouse::find($model->operationType->warehouse_id);
             $model->reference = make_reference_with_id($warehouse->short_name, $number, $prefix);

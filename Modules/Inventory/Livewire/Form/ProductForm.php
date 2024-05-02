@@ -216,11 +216,11 @@ class ProductForm extends SimpleAvatarForm
         return  [
             // make($key, $label)
             Tabs::make('general','Informations Générales'),
-            Tabs::make('attributes','Attribus & Variantes', settings()->has_variant),
+            Tabs::make('attributes','Attribus & Variantes', !settings()->has_variant)->component('tabs.product-attribute'),
             Tabs::make('purchases','Achat'),
             Tabs::make('sales','Ventes'),
             Tabs::make('inventory','Inventaire'),
-            Tabs::make('accounting','Comptabilité'),
+            Tabs::make('accounting','Comptabilité', !module('accounting')),
         ];
     }
 
@@ -236,9 +236,9 @@ class ProductForm extends SimpleAvatarForm
             Group::make('sale_description',"Description vente", 'sales'),
             //
             Group::make('logistics',"Logistique", 'inventory'),
-            Group::make('operations',"Opération", 'inventory'),
-            Group::make('packaging',"Conditionnement", 'inventory')->component('tabs.group.special.product-packaging'),
             Group::make('tracking',"Traçabilité", 'inventory'),
+            // Group::make('operations',"Opération", 'inventory'),
+            Group::make('packaging',"Conditionnement", 'inventory')->component('tabs.group.special.product-packaging'),
             //
             Group::make('customer_receivables',"Créances clients", 'accounting'),
             Group::make('customer_payables',"Dettes", 'accounting'),
@@ -538,7 +538,7 @@ class ProductForm extends SimpleAvatarForm
 
 
     #[On('delete-product')]
-    public function deleteQT(Product $product)
+    public function deleteProduct(Product $product)
     {
         $product->delete();
         return redirect()->route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);

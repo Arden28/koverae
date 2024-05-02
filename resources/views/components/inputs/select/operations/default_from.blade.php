@@ -18,7 +18,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model.blur="{{ $value->model }}" id="" class="k_input">
+        <select wire:model.blur="{{ $value->model }}" id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
             @foreach($locations as $location)
                 @if($location->parent)

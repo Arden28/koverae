@@ -582,14 +582,14 @@
             line-height: 21px;
             text-decoration: none solid rgb(55, 65, 81);
             word-spacing: 0px;
-            height: 100vh;
+            height: auto;
             width: 100%;
             display: flex;
             flex-direction: column; /* Adjusted to column direction */
         }
         .settings_tab{
             background-color: #F9FAFB;
-            height: 90px; /* Adjusted height for horizontal bar */
+            height: auto; /* Adjusted height for horizontal bar */
             width: 100%;
             min-height: auto;
             min-width: auto;
@@ -603,6 +603,7 @@
             border-bottom: 1px solid #D8DADD; /* Changed to bottom border */
             /* Hide the scrollbar for this section */
             overflow-x: scroll;
+            overflow-y: hidden;
             position: sticky;
         }
         .settings_tab::-webkit-scrollbar-thumb:hover {

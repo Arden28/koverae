@@ -89,6 +89,20 @@
                 @endif
 
                 <!-- Employee -->
+                @if(module('manufacturing'))
+                <div class="tab cursor-pointer {{ $view == 'manufacturing' ? 'selected' : '' }}" wire:click.prevent="changePanel('manufacturing')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="{{ asset('assets/images/apps/mrp.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        {{ __('Fabrication') }}
+                    </span>
+                </div>
+                @endif
+
+                <!-- Employee -->
                 @if(module('employee'))
                 <div class="tab cursor-pointer {{ $view == 'employee' ? 'selected' : '' }}" wire:click.prevent="changePanel('employee')">
                     <!-- App Icon -->
@@ -130,6 +144,8 @@
                 <livewire:purchase::settings.purchase-setting :company="current_company()->id" />
                 @elseif($view == 'inventory')
                     <livewire:inventory::settings.inventory-setting :company="current_company()->id" />
+                @elseif($view == 'manufacturing')
+                <livewire:manufacturing::settings.manufacturing-setting :company="current_company()->id" />
                 @elseif($view == 'invoicing')
 
                 @elseif($view == 'employee')
