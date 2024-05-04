@@ -1,7 +1,7 @@
 <div>
-    @section('title', "Page d'acceuil")
+    <?php $__env->startSection('title', "Page d'acceuil"); ?>
 
-    @section('styles')
+    <?php $__env->startSection('styles'); ?>
         <style>
             .app_list{
                 height: auto;
@@ -13,9 +13,9 @@
                 background-color: #D8DADD;
             }
         </style>
-    @endsection
+    <?php $__env->stopSection(); ?>
 
-    @section('content')
+    <?php $__env->startSection('content'); ?>
     <!-- Page body -->
     <div class="page-body">
     
@@ -39,18 +39,18 @@
             </ul>
             <div class="row bg-white app_list">
                 <!-- App -->
-                @foreach (installed_apps(current_company())->take(8) as $app)
+                <!--[if BLOCK]><![endif]--><?php $__currentLoopData = installed_apps(current_company())->take(8); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $app): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="app col-6 col-lg-3 mb-3 pt-1 pb-1 cursor-pointer">
                     <div class="d-flex gap-1">
-                        <a href="{{ route($app->module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="text-decoration-none"  wire:click.prevent="openApp({{ $app->module->id }})"   wire:target="openApp({{ $app->module->id }})">
-                            <img src="{{ asset('assets/images/apps/'.$app->module->icon.'.png') }}" height="40px" width="40px" alt="" class="app_icon rounded">
+                        <a href="<?php echo e(route($module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="text-decoration-none"  wire:click.prevent="openApp(<?php echo e($app->module->id); ?>)"   wire:target="openApp(<?php echo e($app->module->id); ?>)">
+                            <img src="<?php echo e(asset('assets/images/apps/'.$app->module->icon.'.png')); ?>" height="40px" width="40px" alt="" class="app_icon rounded">
                         </a>
-                        <a href="{{ route($app->module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="text-decoration-none font-weight-bold"  wire:click.prevent="openApp({{ $app->module->id }})"   wire:target="openApp({{ $app->module->id }})">
-                            <span>{{ $app->module->short_name }}</span>
+                        <a href="<?php echo e(route($module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="text-decoration-none font-weight-bold"  wire:click.prevent="openApp(<?php echo e($app->module->id); ?>)"   wire:target="openApp(<?php echo e($app->module->id); ?>)">
+                            <span><?php echo e($app->module->short_name); ?></span>
                         </a>
                     </div>
                 </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
             </div>
 
         </div>
@@ -59,7 +59,8 @@
             <div class="row g-2 align-items-center mb-3 mt-3">
                 <div class="col">
                     <h2 class="page-title">
-                    {{__('Insights')}}
+                    <?php echo e(__('Insights')); ?>
+
                     </h2>
                 </div>
 
@@ -70,10 +71,10 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex">
-                        <h2 class="card-title">{{__('Commandes clients entrantes')}}</h2>
+                        <h2 class="card-title"><?php echo e(__('Commandes clients entrantes')); ?></h2>
                         <div class="ms-auto">
                             <div class="dropdown">
-                            <a class="text-muted" href="#" aria-expanded="false">{{__('Par Mois')}}</a>
+                            <a class="text-muted" href="#" aria-expanded="false"><?php echo e(__('Par Mois')); ?></a>
                             </div>
                         </div>
                     </div>
@@ -107,9 +108,9 @@
 
         </div>
     </div>
-    @endsection
+    <?php $__env->stopSection(); ?>
 
-    @section('scripts')
+    <?php $__env->startSection('scripts'); ?>
 
     <script>
         // @formatter:off
@@ -1846,5 +1847,6 @@
         });
         // @formatter:on
       </script>
-    @endsection
+    <?php $__env->stopSection(); ?>
 </div>
+<?php /**PATH C:\wamp64\www\my-startups\app.koverae\resources\views/livewire/home-page.blade.php ENDPATH**/ ?>
