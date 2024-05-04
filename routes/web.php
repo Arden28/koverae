@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Modules\Settings\Livewire\General;
 use App\Http\Controllers\Api\StartKoverController;
+use App\Livewire\HomePage;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +19,8 @@ use App\Http\Controllers\Api\StartKoverController;
 */
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('main');
-    // Define more routes specific to the subdomain here
+    Route::get('/', HomePage::class)->name('main');
+    // Route::get('/', [HomeController::class, 'index'])->name('main');
 });
 
 Route::get('/dashboard', function () {

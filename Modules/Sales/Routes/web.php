@@ -11,7 +11,7 @@ use Modules\Sales\Livewire\Customer\Lists as CustomerLists;
 use Modules\Sales\Livewire\Quotation\Lists as QuotationLists;
 use Modules\Sales\Livewire\Quotation\Create as QuotationCreate;
 use Modules\Sales\Livewire\Quotation\Show as QuotationShow;
-use Modules\Sales\Entities\Quotation\Quotation;
+
 // Sale
 use Modules\Sales\Livewire\Sale\Lists as SaleLists;
 use Modules\Sales\Livewire\Sale\Create as SaleCreate;
@@ -25,6 +25,10 @@ use Modules\Sales\Livewire\Sale\Invoice\Show as InvoiceShow;
 use Modules\Sales\Livewire\SalesProgram\Lists as ProgramLists;
 use Modules\Sales\Livewire\SalesProgram\Create as ProgramCreate;
 use Modules\Sales\Livewire\SalesProgram\Show as ProgramShow;
+
+use Modules\Sales\Livewire\PriceList\Lists as PriceLists;
+use Modules\Sales\Livewire\PriceList\Create as PriceCreate;
+use Modules\Sales\Livewire\PriceList\Show as PriceShow;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +49,7 @@ Route::middleware(['module:sales'])->group(function() {
     Route::get('quotations', QuotationLists::class)->name('sales.quotations.index');
     Route::get('sales/teams', TeamLists::class)->name('sales.teams.index');
     Route::get('sales-programs', ProgramLists::class)->name('sales.programs.index');
+    Route::get('price-lists', PriceLists::class)->name('sales.pricelists.index');
     // Customers
     Route::get('sales/customers', CustomerLists::class)->name('sales.customers.index');
 
@@ -68,7 +73,12 @@ Route::middleware(['module:sales'])->group(function() {
 
         // Route::resource('teams', SalesTeamController::class);
     });
-    // Sales Team
+    // Price Lists
+    Route::prefix('price-lists')->name('sales.pricelists.')->group(function(){
+        Route::get('/create', PriceCreate::class)->name('create');
+        Route::get('/{pricelist}', PriceShow::class)->name('show');
+    });
+    // Sales Program
     Route::prefix('sales-programs')->name('sales.programs.')->group(function(){
         Route::get('/create', ProgramCreate::class)->name('create');
         Route::get('/{team}', ProgramShow::class)->name('show');

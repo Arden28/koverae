@@ -4,13 +4,10 @@
         <div class="container-xl">
           <ul class="navbar-nav">
 
-            <li class="nav-item" data-turbolinks>
-                <a class="btn" style="margin-right: 5px;" href="" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <img class="custom-image" src="{{ asset('assets/images/apps/settings.png') }}" alt="">
-                  </span>
+            <li class="nav-item">
+                <a class="nav-link kover-navlink" style="margin-right: 5px;" wire:navigate href="{{ route('main', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" >
                   <span class="nav-link-title">
-                      {{ __('Paramètres') }}
+                      {{ __("My home") }}
                   </span>
                 </a>
             </li>
@@ -33,4 +30,4 @@
         </div>
       </div>
     </div>
-  </div>
+</div>

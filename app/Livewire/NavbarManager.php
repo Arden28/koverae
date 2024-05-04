@@ -142,6 +142,12 @@ class NavbarManager extends Component
                 'id' => 21,
                 'slug' => 'apps'
             ],
+            22 => [
+                'name' => 'HomePage',
+                'path' => 'layouts.navbar-menu',
+                'id' => 22,
+                'slug' => 'apps'
+            ],
         ];
 
         // Set the navbar based on the menu variable

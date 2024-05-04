@@ -137,13 +137,14 @@ if (!function_exists('updated_menu')) {
 }
 // Current Menu
 if (!function_exists('update_menu')) {
-    function update_menu($module){
+    function update_menu($navbar){
         // Store company information in the session or a cookie
-        $menu = session(['current_menu' => $module->navbar_id]);
+        $menu = session(['current_menu' => $navbar]);
 
         return $menu;
     }
 }
+
 
 if (!function_exists('current_menu')) {
     function current_menu() {

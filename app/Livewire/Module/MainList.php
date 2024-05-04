@@ -17,7 +17,7 @@ class MainList extends Component
     public function openApp(Module $module){
         // Retrieve the current array from the cache
 
-        update_menu($module);
+        update_menu($module->navbar_id);
 
         return redirect()->route($module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }

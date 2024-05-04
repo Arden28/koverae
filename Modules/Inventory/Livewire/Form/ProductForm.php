@@ -42,7 +42,7 @@ class ProductForm extends SimpleAvatarForm
 
     public bool $can_be_sold = true, $can_be_purchased = true, $can_be_subscribed = false, $can_be_rented = false;
 
-    public $status = 'active', $qty = 1;
+    public $status = 'active', $qty = 0;
 
     public $image_path;
     public $photo = null;

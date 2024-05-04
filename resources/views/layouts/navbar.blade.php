@@ -109,10 +109,9 @@
             <div class="nav-item dropdown">
             <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" style="background-image: url(./static/avatars/000m.jpg)"></span>
-                {{-- <div class="d-none d-xl-block ps-2">
-                <div>Paweł Kuna</div>
-                <div class="mt-1 small text-muted">UI Designer</div>
-                </div> --}}
+                <div class="d-none d-xl-block ps-2">
+                <div>{{ Auth::user()->name }}</div>
+                </div>
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <a href="#" class="dropdown-item">Profile</a>
@@ -128,31 +127,6 @@
             <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
             <ul class="navbar-nav">
                 <!-- Navbar Menu -->
-                <!-- Settings -->
-                {{-- @if(request()->routeIs('settings.*'))
-                    @include('settings::layouts.navbar-menu')
-                <!-- Employee -->
-                @elseif(request()->routeIs('employee*'))
-                    @include('employee::layouts.navbar-menu')
-                <!-- Dashboards -->
-                @elseif(request()->routeIs('dashboards.*'))
-                    @include('dashboards::layouts.navbar-menu')
-                <!-- Sale -->
-                @elseif(request()->routeIs('sales.*'))
-                    @include('sales::layouts.navbar-menu')
-                <!-- Contacts -->
-                @elseif(request()->routeIs('contacts.*'))
-                    @include('contact::layouts.navbar-menu')
-                <!-- Inventory -->
-                @elseif(request()->routeIs('inventory.*'))
-                    @include('inventory::layouts.navbar-menu')
-                <!-- Purhase -->
-                @elseif(request()->routeIs('purchases.*'))
-                    @include('purchase::layouts.navbar-menu')
-                @else
-                    @include('layouts.navbar-menu')
-                @endif --}}
-                {{-- @include('purchase::layouts.navbar-menu') --}}
                 <livewire:navbar-manager :key="time()" :menu="request('menu')" />
                 <!-- Navbar Menu -->
             </ul>

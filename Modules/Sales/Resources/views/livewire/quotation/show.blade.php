@@ -1,6 +1,6 @@
 <div>
 
-    @section('title', $reference)
+    @section('title', $quotation->reference)
 
     <!-- Control Panel -->
     @section('control-panel')

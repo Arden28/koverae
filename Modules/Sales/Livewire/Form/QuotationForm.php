@@ -98,6 +98,9 @@ class QuotationForm extends BaseForm
     public $model;
     public $template;
 
+    // Quotation Cart
+    public $inputs = [];
+
 
     public function mount($quotation = null){
         if($quotation){
@@ -172,10 +175,10 @@ class QuotationForm extends BaseForm
         'date' => 'required',
         'expected_date' => 'nullable',
         'payment_term' => 'required',
-        // 'tax_percentage' => 'nullable|integer|min:0|max:100',
-        // 'discount_percentage' => 'nullable|integer|min:0|max:100',
-        // 'shipping_amount' => 'nullable|numeric',
-        // 'total_amount' => 'nullable|numeric',
+        'tax_percentage' => 'nullable|integer|min:0|max:100',
+        'discount_percentage' => 'nullable|integer|min:0|max:100',
+        'shipping_amount' => 'nullable|numeric',
+        'total_amount' => 'nullable|numeric',
         'status' => 'nullable|string|max:255',
         'note' => 'nullable|string|max:1000',
         'seller' => 'nullable',
@@ -292,6 +295,10 @@ class QuotationForm extends BaseForm
         ];
     }
 
+    #[On('quotation-cart')]
+    public function updateInputs($inputs){
+        $this->inputs = $inputs;
+    }
 
     public function form() : string
     {

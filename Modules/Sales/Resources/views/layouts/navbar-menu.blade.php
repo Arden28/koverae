@@ -77,7 +77,7 @@
                     </a>
                     @endif
                     @if(settings()->has_pricelist_check)
-                    <a class="dropdown-item" wire:navigate href="{{ route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
+                    <a class="dropdown-item" wire:navigate href="{{ route('sales.pricelists.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('Listes de prix') }}
                     </a>
                     @endif
