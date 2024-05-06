@@ -10,7 +10,7 @@
                 min-height: auto;
             }
             .app_list .app:hover{
-                background-color: #D8DADD;
+                background-color: #d8d8d8;
             }
         </style>
     @endsection
@@ -18,7 +18,7 @@
     @section('content')
     <!-- Page body -->
     <div class="page-body">
-    
+
 
         <div class="container-xl">
             <div class="row g-2 align-items-center">
@@ -29,7 +29,7 @@
                 </div>
 
             </div>
-            <ul class="nav nav-bordered mb-4">
+            <ul class="nav nav-bordered mb-1">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Mes apps</a>
                 </li>
@@ -40,12 +40,12 @@
             <div class="row bg-white app_list">
                 <!-- App -->
                 @foreach (installed_apps(current_company())->take(8) as $app)
-                <div class="app col-6 col-lg-3 mb-3 pt-1 pb-1 cursor-pointer">
+                <div class="app col-6 col-lg-3 mb-3 pt-2 pb-2 cursor-pointer rounded">
                     <div class="d-flex gap-1">
-                        <a href="{{ route($app->module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="text-decoration-none"  wire:click.prevent="openApp({{ $app->module->id }})"   wire:target="openApp({{ $app->module->id }})">
+                        <a class="text-decoration-none" wire:click="openApp({{ $app->module->id }})">
                             <img src="{{ asset('assets/images/apps/'.$app->module->icon.'.png') }}" height="40px" width="40px" alt="" class="app_icon rounded">
                         </a>
-                        <a href="{{ route($app->module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="text-decoration-none font-weight-bold"  wire:click.prevent="openApp({{ $app->module->id }})"   wire:target="openApp({{ $app->module->id }})">
+                        <a href="{{ route($app->module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="text-decoration-none font-weight-bold" wire:navigate wire:click.prevent="openApp({{ $app->module->id }})"   wire:target="openApp({{ $app->module->id }})">
                             <span>{{ $app->module->short_name }}</span>
                         </a>
                     </div>
@@ -54,7 +54,7 @@
             </div>
 
         </div>
-        
+
         <div class="container-xl">
             <div class="row g-2 align-items-center mb-3 mt-3">
                 <div class="col">
@@ -105,6 +105,11 @@
 
             </div>
 
+        </div>
+
+        <!-- Loading -->
+        <div class="k-loading cursor-pointer pb-1" wire:loading>
+            <p>En cours de chargement ...</p>
         </div>
     </div>
     @endsection
@@ -456,7 +461,7 @@
         });
         // @formatter:on
       </script>
-      
+
       <script>
         // @formatter:off
         document.addEventListener("DOMContentLoaded", function () {

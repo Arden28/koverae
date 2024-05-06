@@ -13,34 +13,31 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($inputs as $key => $value)
+                @foreach ($inputs as $index => $value)
                 <tr class="k_field_list_row">
                     <td class="k_field_list">
-                        {{-- <livewire:search.search-input-text wire:model.live="inputs.{{ $key }}.product" :key="$key" /> --}}
-                        <select wire:model.blur="inputs.{{ $key }}.product" id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
+                        <select wire:model.lazy="inputs.{{ $index }}.product" id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
                             <option value=""></option>
                             @foreach($products as $product)
                             <option value="{{ $product->id }}">{{ $product->product_name }}</option>
                             @endforeach
                         </select>
-                        @error("inputs.{{ $key }}.product") <span class="text-danger">{{ $message }}</span> @enderror
+                        @error("inputs.{{ $index }}.product") <span class="text-danger">{{ $message }}</span> @enderror
                     </td>
                     <td class="k_field_list">
-                        <input type="text" wire:model.blur="inputs.{{ $key }}.description" class="k_input" {{ $this->blocked ? 'disabled' : '' }} value="{{ $this->inputs[$key]['description'] }}">
+                        <input type="text" wire:model.lazy="inputs.{{ $index }}.description" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
                     </td>
                     <td class="k_field_list">
-                        <input type="number" wire:model.blur="inputs.{{ $key }}.quantity" class="k_input" {{ $this->blocked ? 'disabled' : '' }}  value="{{ $this->inputs[$key]['quantity'] }}">
+                        <input type="number" class="k_input" wire:model.lazy="inputs.{{ $index }}.quantity" wire:change="updateSubtotal({{ $index }})" {{ $this->blocked ? 'disabled' : '' }}>
                     </td>
                     <td class="k_field_list">
-                        {{-- <span>{{ $this->inputs[$key]['price'] }}</span> --}}
-                        <input type="text" wire:model.blur="inputs.{{ $key }}.price" class="k_input" {{ $this->blocked ? 'disabled' : '' }}  value="{{ $this->inputs[$key]['price'] }}">
+                        <input type="text" wire:model.lazy="inputs.{{ $index }}.price" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
                     </td>
                     <td class="k_field_list">
-                        <span>{{ $this->inputs[$key]['subtotal'] }}</span>
-                        {{-- <input type="text" wire:model="inputs.{{ $key }}.subtotal" class="k_input" readonly {{ $this->blocked ? 'disabled' : '' }}> --}}
+                        <input type="text" wire:model.lazy="inputs.{{ $index }}.subtotal" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
                     </td>
                     <td class="k_field_list cursor-pointer {{ $this->blocked ? 'd-none' : '' }}">
-                        <span wire:click.prevent="remove({{$key}})">
+                        <span wire:click.prevent="remove({{$index}})">
                             <i class="bi bi-trash"></i>
                         </span>
                     </td>
@@ -56,7 +53,7 @@
             </tbody>
         </table>
     </div>
-    
+
     <!-- Note and total part -->
     <div class="k_group row align-items-start mt-2">
 
@@ -69,7 +66,7 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- Order Summary -->
         <div class="k_inner_group k_subtotal_footer col-lg-2 right overflow-y-auto h-100">
             <!-- Discount -->
@@ -87,7 +84,7 @@
                     {{ __('Total HT') }} :
                 </span>
             </td>
-            
+
             <td class="k_list_monetary font-weight-bold">
                 <span>
                     {{ format_currency($this->totalHT) }}
