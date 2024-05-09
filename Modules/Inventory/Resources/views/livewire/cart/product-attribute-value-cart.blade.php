@@ -1,6 +1,6 @@
 <div>
     <!-- Table -->
-    <div class="table-responsive w-100 mb-2">
+    <div class="mb-2 table-responsive w-100 ">
         <table class="table card-table text-nowrap">
             <thead class="order-table">
                 <tr class="order-tr">
@@ -19,7 +19,7 @@
                     <td class="k_field_list">
                         <input type="number" wire:model.blur="inputs.{{ $key }}.price" min class="k_input">
                     </td>
-                    <td class="k_field_list cursor-pointer">
+                    <td class="cursor-pointer k_field_list">
                         <span wire:click.prevent="remove({{$key}})">
                             <i class="bi bi-trash"></i>
                         </span>
@@ -28,7 +28,7 @@
                 @endforeach
                 <tr class="k_field_list_row">
                     <td class="k_field_list">
-                        <span wire:click.prevent="add({{$i}})" class=" cursor-pointer" href="avoid:js">
+                        <span wire:click.prevent="add({{$i}})" class="cursor-pointer " href="avoid:js">
                             <i class="bi bi-plus-circle"></i> Ajouter une ligne
                         </span>
                     </td>

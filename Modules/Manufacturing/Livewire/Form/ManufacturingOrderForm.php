@@ -29,7 +29,7 @@ class ManufacturingOrderForm extends BaseForm
 
     public $cartInstance = 'mo';
     public $order;
-    
+
     public $reference, $status, $product, $quantity, $bom, $schedule_date, $end_date, $responsible, $uom;
     public $operationType, $component_location, $finshed_products_location, $source_document;
     // Cart component
@@ -200,7 +200,7 @@ class ManufacturingOrderForm extends BaseForm
     }
 
     public function confirmOrder(){
-        
+
         $this->validate();
 
         $order = ManufacturingOrder::create([
@@ -268,7 +268,7 @@ class ManufacturingOrderForm extends BaseForm
         $manufacture->product->update([
             'product_quantity' => $manufacture->product->product_quantity + $manufacture->quantity
         ]);
-        
+
         return redirect()->route('manufacturing.orders.show', ['order' => $manufacture->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 

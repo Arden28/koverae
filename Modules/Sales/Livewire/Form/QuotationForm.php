@@ -54,20 +54,7 @@ class QuotationForm extends BaseForm
 
     $expected_date,
 
-    $payment_term,
-    $reference,
-    $tax_percentage = 18.9,
-    $tax_amount = 0,
-    $discount_percentage = 0,
-    $discount_amount = 0,
-    $shipping_amount = 0,
-    $paid_amount = 0,
-    $due_amount = 0,
-    $total_amount = 0,
-    $payment_method = 'Cash',
-    $payment_status,
-    $status = 'quotation',
-    $note,
+    $payment_term, $reference, $tax_percentage = 18.9, $tax_amount = 0, $discount_percentage = 0, $discount_amount = 0, $shipping_amount = 0, $paid_amount = 0, $due_amount = 0, $total_amount = 0, $payment_method = 'Cash', $payment_status, $status = 'quotation', $note,
 
     $seller,
 
@@ -131,33 +118,11 @@ class QuotationForm extends BaseForm
             $this->shipping_date = $quotation->shipping_date;
             $this->shipping_policy = $quotation->shipping_policy;
             $this->shipping_status = $quotation->shipping_status;
+            // Order Details
+            // $this->inputs = $quotation->quotationDetails;
 
-            // Update the cart
-            $quotation_details = $quotation->quotationDetails;
-
-            Cart::instance('quotation')->destroy();
-
-            $cart = Cart::instance('quotation');
-
-            foreach ($quotation_details as $quotation_detail) {
-                $cart->add([
-                    'id'      => $quotation_detail->product_id,
-                    'name'    => $quotation_detail->product_name,
-                    'qty'     => $quotation_detail->quantity,
-                    'price'   => $quotation_detail->price,
-                    'weight'  => 1,
-                    'options' => [
-                        'description'  => $quotation_detail->product->description,
-                        'product_discount' => $quotation_detail->product_discount_amount,
-                        'product_discount_type' => $quotation_detail->product_discount_type,
-                        'sub_total'   => $quotation_detail->sub_total,
-                        'code'        => $quotation_detail->product_code,
-                        'stock'       => Product::findOrFail($quotation_detail->product_id)->product_quantity,
-                        'product_tax' => $quotation_detail->product_tax_amount,
-                        'unit_price'  => $quotation_detail->unit_price
-                    ]
-                ]);
-            }
+            // Block the field
+            $this->blocked = true;
         }else{
             $this->reference = "Nouveau";
             $this->date = now()->format('Y-m-d');
@@ -178,7 +143,7 @@ class QuotationForm extends BaseForm
         'tax_percentage' => 'nullable|integer|min:0|max:100',
         'discount_percentage' => 'nullable|integer|min:0|max:100',
         'shipping_amount' => 'nullable|numeric',
-        'total_amount' => 'nullable|numeric',
+        // 'total_amount' => 'required|gt:0',
         'status' => 'nullable|string|max:255',
         'note' => 'nullable|string|max:1000',
         'seller' => 'nullable',
@@ -187,6 +152,7 @@ class QuotationForm extends BaseForm
         'shipping_policy' => 'nullable',
         'shipping_date' => 'nullable',
         'shipping_status' => 'nullable|string',
+        // 'inputs' => 'required'
     ];
 
     public function inputs() : array
@@ -254,11 +220,12 @@ class QuotationForm extends BaseForm
             ActionBarButton::make('send', 'Envoyer par Email', "", 'quotation')->component('button.action-bar.send-email'),
             ActionBarButton::make('confirm', 'Confirmer', 'confirm', 'sent')->component('button.action-bar.confirmed-quotation'),
             ActionBarButton::make('preview', 'Aperçu', 'preview()', 'previewed'),
+            ActionBarButton::make('unlock',  $this->blocked ? 'Débloquer' : 'Bloquer', $this->blocked ? "unlock()" : "lock()", 'confirmed'),
             // Add more buttons as needed
         ];
 
         // Define the custom order of button keys
-        $customOrder = ['invoice', 'confirm', 'send', 'preview']; // Adjust as needed
+        $customOrder = ['invoice', 'confirm', 'send', 'preview', 'unlock']; // Adjust as needed
 
         // Change dynamicaly the display order depends on status
         return $this->sortActionButtons($buttons, $customOrder, $status);
@@ -296,8 +263,9 @@ class QuotationForm extends BaseForm
     }
 
     #[On('quotation-cart')]
-    public function updateInputs($inputs){
+    public function updateInputs($inputs, $total, $totalHT){
         $this->inputs = $inputs;
+        $this->total_amount = $total;
     }
 
     public function form() : string
@@ -309,59 +277,102 @@ class QuotationForm extends BaseForm
     // Store quotation
     public function storeQT(){
 
-        $this->validate();
+        // $this->validate();
 
-        DB::transaction(function () {
-            $cart = Cart::instance('quotation');
-            // Remove any non-numeric characters except the decimal point
-            $this->total_amount = convertToInt($cart->total());
-            $this->tax_amount = convertToInt($cart->tax());
+        $quotation = Quotation::create([
 
-            $quotation = Quotation::create([
+            'company_id' => current_company()->id,
+            'date' => $this->date,
+            'expected_date' => $this->expected_date,
+            'payment_term' => $this->payment_term,
+            'seller_id' => $this->seller ?? 1, //customer id
+            'sales_team_id' => $this->sales_team, //customer id
+            'customer_id' => $this->customer, //customer id
+            'tax_percentage' => $this->tax_percentage,
+            'discount_percentage' => $this->discount_percentage,
+            'shipping_amount' => 0,
+            'shipping_date' => $this->shipping_date,
+            'shipping_policy' => $this->shipping_policy,
+            // 'shipping_status' => $this->shipping_status,
+            'total_amount' => $this->total_amount * 100,
+            'status' => $this->status,
+            'note' => $this->note,
+            // 'tax_amount' => $this->tax_amount / 100,
+            // 'discount_amount' => $this->discount_amount / 100,
+        ]);
 
-                'company_id' => current_company()->id,
-                'date' => $this->date,
-                'expected_date' => $this->expected_date,
-                'payment_term' => $this->payment_term,
-                'seller_id' => $this->seller ?? 1, //customer id
-                'sales_team_id' => $this->sales_team, //customer id
-                'customer_id' => $this->customer, //customer id
-                'tax_percentage' => $this->tax_percentage,
-                'discount_percentage' => $this->discount_percentage,
-                'shipping_amount' => 0,
-                'shipping_date' => $this->shipping_date,
-                'shipping_policy' => $this->shipping_policy,
-                // 'shipping_status' => $this->shipping_status,
-                'total_amount' => $this->total_amount / 100,
-                'status' => $this->status,
-                'note' => $this->note,
-                'tax_amount' => $this->tax_amount / 100,
-                'discount_amount' => $this->discount_amount / 100,
+        foreach($this->inputs as $detail){
+            QuotationDetails::create([
+                'quotation_id' => $quotation->id,
+                'product_id' => $detail['product'],
+                'description' => $detail['description'],
+                'product_name' => Product::find( $detail['product'] )->product_name,
+                'product_code' => Product::find( $detail['product'] )->product_code,
+                'quantity' => $detail['quantity'],
+                'price' => $detail['price'] * 100,
+                'unit_price' => $detail['price'] * 100,
+                'sub_total' => $detail['subtotal'] * 100,
+                'product_discount_amount' => 0,
+                'product_discount_type' => 'fixed',
+                'product_tax_amount' => 0,
             ]);
+        }
 
-            foreach (Cart::instance('quotation')->content() as $cart_item) {
-                QuotationDetails::create([
-                    'quotation_id' => $quotation->id,
-                    'product_id' => $cart_item->id,
-                    'product_name' => $cart_item->name,
-                    'product_code' => $cart_item->options->code,
-                    'quantity' => $cart_item->qty,
-                    'price' => $cart_item->price * 100,
-                    'unit_price' => $cart_item->options->unit_price * 100,
-                    'sub_total' => $cart_item->options->sub_total * 100,
-                    'product_discount_amount' => $cart_item->options->product_discount * 100,
-                    'product_discount_type' => $cart_item->options->product_discount_type,
-                    'product_tax_amount' => (Tax::find($cart_item->options->product_tax)->first()->amount * $cart_item->price) * 100,
-                ]);
-            }
+        notify()->success("Nouveau Devis créé !");
 
-            // Cart::instance('quotation')->store(Auth::user()->id);
-            Cart::instance('quotation')->destroy();
+        return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
 
-            notify()->success("Nouveau Devis créé !");
+        // DB::transaction(function () {
+        //     $cart = Cart::instance('quotation');
+        //     // Remove any non-numeric characters except the decimal point
+        //     $this->total_amount = convertToInt($cart->total());
+        //     $this->tax_amount = convertToInt($cart->tax());
 
-            return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
-        });
+        //     $quotation = Quotation::create([
+
+        //         'company_id' => current_company()->id,
+        //         'date' => $this->date,
+        //         'expected_date' => $this->expected_date,
+        //         'payment_term' => $this->payment_term,
+        //         'seller_id' => $this->seller ?? 1, //customer id
+        //         'sales_team_id' => $this->sales_team, //customer id
+        //         'customer_id' => $this->customer, //customer id
+        //         'tax_percentage' => $this->tax_percentage,
+        //         'discount_percentage' => $this->discount_percentage,
+        //         'shipping_amount' => 0,
+        //         'shipping_date' => $this->shipping_date,
+        //         'shipping_policy' => $this->shipping_policy,
+        //         // 'shipping_status' => $this->shipping_status,
+        //         'total_amount' => $this->total_amount / 100,
+        //         'status' => $this->status,
+        //         'note' => $this->note,
+        //         'tax_amount' => $this->tax_amount / 100,
+        //         'discount_amount' => $this->discount_amount / 100,
+        //     ]);
+
+        //     foreach (Cart::instance('quotation')->content() as $cart_item) {
+        //         QuotationDetails::create([
+        //             'quotation_id' => $quotation->id,
+        //             'product_id' => $cart_item->id,
+        //             'product_name' => $cart_item->name,
+        //             'product_code' => $cart_item->options->code,
+        //             'quantity' => $cart_item->qty,
+        //             'price' => $cart_item->price * 100,
+        //             'unit_price' => $cart_item->options->unit_price * 100,
+        //             'sub_total' => $cart_item->options->sub_total * 100,
+        //             'product_discount_amount' => $cart_item->options->product_discount * 100,
+        //             'product_discount_type' => $cart_item->options->product_discount_type,
+        //             'product_tax_amount' => (Tax::find($cart_item->options->product_tax)->first()->amount * $cart_item->price) * 100,
+        //         ]);
+        //     }
+
+        //     // Cart::instance('quotation')->store(Auth::user()->id);
+        //     Cart::instance('quotation')->destroy();
+
+        //     notify()->success("Nouveau Devis créé !");
+
+        //     return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
+        // });
 
     }
 
@@ -370,65 +381,55 @@ class QuotationForm extends BaseForm
     public function updateQT(){
 
         $quotation = $this->quotation;
-            // $this->validate();
 
-            DB::transaction(function () use ($quotation) {
+        foreach ($quotation->quotationDetails as $quotation_detail) {
+            $quotation_detail->delete();
+        }
 
-                foreach ($quotation->quotationDetails as $quotation_detail) {
-                    $quotation_detail->delete();
-                }
+        $quotation->update([
 
-                $quotation->update([
+            // 'company_id' => current_company()->id,
+            'date' => $this->date,
+            'expected_date' => $this->expected_date,
+            'payment_term' => $this->payment_term,
+            'seller_id' => $this->seller, //customer id
+            'sales_team_id' => $this->sales_team, //customer id
+            'customer_id' => 1, //customer id
+            'tax_percentage' => $this->tax_percentage, //tax percentage
+            'discount_percentage' => $this->discount_percentage, //discount percentage
+            'discount_amount' => $this->discount_amount ?? 0, //discount percentage
+            'shipping_amount' => $this->shipping_amount,
+            'shipping_date' => $this->shipping_date,
+            'shipping_policy' => $this->shipping_policy,
+            'shipping_status' => $this->shipping_status,
+            'total_amount' => convertToInt(Cart::instance('quotation')->total()) / 100,
+            'status' => $this->status,
+            'note' => $this->note,
+            'tax_amount' => $this->tax_amount,
+            'discount_amount' => $this->discount_amount,
+        ]);
+        $quotation->save();
 
-                    // 'company_id' => current_company()->id,
-                    'date' => $this->date,
-                    'expected_date' => $this->expected_date,
-                    'payment_term' => $this->payment_term,
-                    'seller_id' => $this->seller, //customer id
-                    'sales_team_id' => $this->sales_team, //customer id
-                    'customer_id' => 1, //customer id
-                    'tax_percentage' => $this->tax_percentage, //tax percentage
-                    'discount_percentage' => $this->discount_percentage, //discount percentage
-                    'discount_amount' => $this->discount_amount ?? 0, //discount percentage
-                    'shipping_amount' => $this->shipping_amount,
-                    'shipping_date' => $this->shipping_date,
-                    'shipping_policy' => $this->shipping_policy,
-                    'shipping_status' => $this->shipping_status,
-                    'total_amount' => convertToInt(Cart::instance('quotation')->total()) / 100,
-                    'status' => $this->status,
-                    'note' => $this->note,
-                    'tax_amount' => convertToInt(Cart::instance('quotation')->tax()) / 100,
-                    'discount_amount' => $this->discount_amount,
-                ]);
-                $quotation->save();
+        foreach($this->inputs as $detail){
+            QuotationDetails::create([
+                'quotation_id' => $quotation->id,
+                'product_id' => $detail['product'],
+                'description' => $detail['description'],
+                'product_name' => Product::find( $detail['product'] )->product_name,
+                'product_code' => Product::find( $detail['product'] )->product_code,
+                'quantity' => $detail['quantity'],
+                'price' => $detail['price'] * 100,
+                'unit_price' => $detail['price'] * 100,
+                'sub_total' => $detail['subtotal'] * 100,
+                'product_discount_amount' => 0,
+                'product_discount_type' => 'fixed',
+                'product_tax_amount' => 0,
+            ]);
+        }
 
-                // Remove any non-numeric characters except the decimal point
-                // $this->total_amount = convertToInt($cart->total());
-                // $this->tax_amount = convertToInt($cart->tax());
+        notify()->success("Votre devis a été mis à jour !");
+        return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
 
-                foreach (Cart::instance('quotation')->content() as $cart_item) {
-                    QuotationDetails::create([
-                        'quotation_id' => $quotation->id,
-                        'product_id' => $cart_item->id,
-                        'product_name' => $cart_item->name,
-                        'product_code' => $cart_item->options->code,
-                        'quantity' => $cart_item->qty,
-                        'price' => $cart_item->price * 100,
-                        'unit_price' => $cart_item->options->unit_price * 100,
-                        'sub_total' => $cart_item->options->sub_total * 100,
-                        'product_discount_amount' => $cart_item->options->product_discount * 100,
-                        'product_discount_type' => $cart_item->options->product_discount_type,
-                        'product_tax_amount' => (Tax::find($cart_item->options->product_tax)->first()->amount * $cart_item->price) * 100,
-                    ]);
-                }
-
-                Cart::instance('quotation')->destroy();
-            });
-
-            return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
-
-        // notify()->success("Votre devis a été créer !");
-        // return redirect()->route('sales.quotations.index', ->subdomain' => current_company()->domain_name]);
     }
 
     // Confirm the quotation and create a sale
@@ -438,108 +439,188 @@ class QuotationForm extends BaseForm
             $this->quotation->update([
                 'status' => 'sale_order'
             ]);
-            $this->sale();
+            $this->confirmQT();
         }else{
             $this->sale();
         }
         // $this->status = 'sale_order';
     }
 
+    // Confirm quotation by creating a sale
+    public function confirmQT(){
+
+        $due_amount = $this->total_amount - $this->paid_amount;
+
+        if (isset($this->payment_method)) {
+            // Access the payment_method key
+            $paymentMethod = $this->payment_method;
+        } else {
+            // Set a default value for payment_method
+            $paymentMethod = 'Cash';
+        }
+        if ($due_amount == $this->total_amount) {
+            $payment_status = 'Unpaid';
+        } elseif ($due_amount > 0) {
+            $payment_status = 'Partial';
+        } else {
+            $payment_status = 'Paid';
+        }
+
+        $sale = Sale::create([
+
+            'company_id' => current_company()->id,
+            'date' => $this->date,
+            'seller_id' => $this->seller, //customer id
+            'sales_team_id' => $this->sales_team, //customer id
+            'customer_id' => $this->customer, //customer id
+            'tax_percentage' => $this->tax_percentage,
+            'discount_percentage' => $this->discount_percentage,
+            'shipping_amount' => 0,
+            'shipping_date' => $this->shipping_date,
+            'shipping_policy' => $this->shipping_policy,
+            // 'shipping_status' => 'Pending',
+            'payment_term' => $this->payment_term,
+            'payment_status' => $payment_status,
+            'payment_method' => $paymentMethod,
+            'paid_amount' => 0,
+            'due_amount' => $this->total_amount * 100, //On va remplacer cela par le prix TTC
+            'total_amount' => $this->total_amount * 100,
+            'status' => 'to_invoice',
+            'note' => $this->note,
+            'tax_amount' => $this->tax_amount,
+            'discount_amount' => $this->discount_amount,
+            'quotation_id' => $this->quotation->id ?? null
+        ]);
+
+        // Sales Details
+        foreach ($this->quotation->quotationDetails as $detail) {
+            $sale_details = SalesDetail::create([
+                'sale_id' => $sale->id,
+                'product_id' => $detail->product_id,
+                'product_name' => $detail->product_name,
+                'product_code' => $detail->product_code,
+                'quantity' => $detail->quantity,
+                'price' => $detail->price,
+                'unit_price' => $detail->price,
+                'sub_total' => $detail->sub_total,
+                'product_discount_amount' => 0,
+                // 'product_discount_type' => $detail->options->product_discount_type,
+                'product_tax_amount' => 0,
+            ]);
+            $sale_details->save();
+
+            if(!module('inventory')){
+                $product = Product::findOrFail($detail->product_id);
+                $product->update([
+                    'product_quantity' => $product->product_quantity - $detail->qty
+                ]);
+            }
+
+        }
+
+        if($this->quotation){
+            $this->quotation->status = 'sale_order';
+            $this->quotation->save();
+        }
+
+        if(module('inventory')){
+            $logisticService = new LogisticService();
+            $logisticService->launchDelivery($sale);
+        }
+
+        notify()->success("Nouveau bon de commande créé !");
+
+        return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'menu' => current_menu()]);
+    }
+
     // Confirm the sale from quotation
     public function sale(){
 
-        // $this->validate();
+        $this->validate();
 
-        DB::transaction(function () {
-            $cart = Cart::instance('quotation');
+        $due_amount = $this->total_amount - $this->paid_amount;
 
-            // Remove any non-numeric characters except the decimal point
-            $this->total_amount = convertToInt($cart->total());
-            $this->tax_amount = convertToInt($cart->tax());
-
-            $due_amount = $this->total_amount - $this->paid_amount;
-
-            if (isset($this->payment_method)) {
-                // Access the payment_method key
-                $paymentMethod = $this->payment_method;
-            } else {
-                // Set a default value for payment_method
-                $paymentMethod = 'Cash';
-            }
-            if ($due_amount == $this->total_amount) {
-                $payment_status = 'Unpaid';
-            } elseif ($due_amount > 0) {
-                $payment_status = 'Partial';
-            } else {
-                $payment_status = 'Paid';
-            }
+        if (isset($this->payment_method)) {
+            // Access the payment_method key
+            $paymentMethod = $this->payment_method;
+        } else {
+            // Set a default value for payment_method
+            $paymentMethod = 'cash';
+        }
+        if ($due_amount == $this->total_amount) {
+            $payment_status = 'unpaid';
+        } elseif ($due_amount > 0) {
+            $payment_status = 'partial';
+        } else {
+            $payment_status = 'paid';
+        }
 
 
-            $sale = Sale::create([
+        $sale = Sale::create([
 
-                'company_id' => current_company()->id,
-                'date' => $this->date,
-                'seller_id' => $this->seller, //customer id
-                'sales_team_id' => $this->sales_team, //customer id
-                'customer_id' => $this->customer, //customer id
-                'tax_percentage' => $this->tax_percentage,
-                'discount_percentage' => $this->discount_percentage,
-                'shipping_amount' => 0,
-                'shipping_date' => $this->shipping_date,
-                'shipping_policy' => $this->shipping_policy,
-                // 'shipping_status' => 'Pending',
-                'payment_term' => $this->payment_term,
-                'payment_status' => $payment_status,
-                'payment_method' => $paymentMethod,
-                'paid_amount' => 0,
-                'due_amount' => $this->total_amount / 100, //On va remplacer cela par le prix TTC
-                'total_amount' => $this->total_amount / 100,
-                'status' => 'to_invoice',
-                'note' => $this->note,
-                'tax_amount' => $this->tax_amount / 100,
-                'discount_amount' => $this->discount_amount,
-                'quotation_id' => $this->quotation->id ?? null
+            'company_id' => current_company()->id,
+            'date' => $this->date,
+            'seller_id' => $this->seller, //customer id
+            'sales_team_id' => $this->sales_team, //customer id
+            'customer_id' => $this->customer, //customer id
+            'tax_percentage' => $this->tax_percentage,
+            'discount_percentage' => $this->discount_percentage,
+            'shipping_amount' => 0,
+            'shipping_date' => $this->shipping_date,
+            'shipping_policy' => $this->shipping_policy,
+            // 'shipping_status' => 'Pending',
+            'payment_term' => $this->payment_term,
+            'payment_status' => $payment_status,
+            'payment_method' => $paymentMethod,
+            'paid_amount' => 0,
+            'due_amount' => $this->total_amount * 100, //On va remplacer cela par le prix TTC
+            'total_amount' => $this->total_amount * 100,
+            'status' => 'to_invoice',
+            'note' => $this->note,
+            'tax_amount' => $this->tax_amount * 100,
+            'discount_amount' => $this->discount_amount * 100,
+            // 'quotation_id' => $this->quotation->id ?? null
+        ]);
+
+        foreach ($this->inputs as $detail) {
+            $sale_details = SalesDetail::create([
+                'sale_id' => $sale->id,
+                'product_id' => $detail['product'],
+                'description' => $detail['description'],
+                'product_name' => Product::find( $detail['product'] )->product_name,
+                'product_code' => Product::find( $detail['product'] )->product_code,
+                'quantity' => $detail['quantity'],
+                'price' => $detail['price'] * 100,
+                'unit_price' => $detail['price'] * 100,
+                'sub_total' => $detail['subtotal'] * 100,
+                'product_discount_amount' => 0,
+                'product_discount_type' => 'fixed',
+                'product_tax_amount' => 0,
             ]);
+            $sale_details->save();
 
-            foreach (Cart::instance('quotation')->content() as $cart_item) {
-                $sale_details = SalesDetail::create([
-                    'sale_id' => $sale->id,
-                    'product_id' => $cart_item->id,
-                    'product_name' => $cart_item->name,
-                    'product_code' => $cart_item->options->code,
-                    'quantity' => $cart_item->qty,
-                    'price' => $cart_item->price * 100,
-                    'unit_price' => $cart_item->options->unit_price * 100,
-                    'sub_total' => $cart_item->options->sub_total * 100,
-                    'product_discount_amount' => $cart_item->options->product_discount * 100,
-                    'product_discount_type' => $cart_item->options->product_discount_type,
-                    'product_tax_amount' => $cart_item->options->product_tax * 100,
-                ]);
-                $sale_details->save();
-
-                $product = Product::findOrFail($cart_item->id);
+            if(!module('inventory')){
+                $product = Product::findOrFail($detail->product_id);
                 $product->update([
-                    'product_quantity' => $product->product_quantity - $cart_item->qty
+                    'product_quantity' => $product->product_quantity - $detail->qty
                 ]);
-
             }
 
-            if($this->quotation){
-                $this->quotation->status = 'sale_order';
-                $this->quotation->save();
-            }
+        }
 
+        if($this->quotation){
+            $this->quotation->status = 'sale_order';
+            $this->quotation->save();
+        }
+
+        if(module('inventory')){
             $logisticService = new LogisticService();
             $logisticService->launchDelivery($sale);
+        }
 
+        notify()->success("Nouveau bon de commande créé !");
 
-            // Cart::instance('quotation')->store(Auth::user()->id);
-            Cart::instance('quotation')->destroy();
-
-            notify()->success("Nouveau bon de commande créé !");
-
-            return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'menu' => current_menu()]);
-        });
+        return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'menu' => current_menu()]);
 
     }
 
@@ -658,5 +739,14 @@ class QuotationForm extends BaseForm
         return redirect()->route('sales.quotations.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
+    public function unlock(){
+        $this->blocked = false;
+        $this->dispatch('unlock-quotation');
+    }
+
+    public function lock(){
+        $this->blocked = true;
+        $this->dispatch('lock-quotation');
+    }
 }
 

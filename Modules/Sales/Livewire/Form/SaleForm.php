@@ -78,6 +78,10 @@ class SaleForm extends BaseForm
     public $model, $quotation;
     public $template;
 
+    // Sale Cart
+    public $inputs = [];
+
+
     public function mount($sale){
 
         $this->sale= $sale;
@@ -109,34 +113,12 @@ class SaleForm extends BaseForm
             $this->shipping_date = $sale->shipping_date;
             $this->shipping_policy = $sale->shipping_policy;
             $this->shipping_status = $sale->shipping_status;
+            // Order Details
+            // $this->inputs = $sale->quotationDetails;,
 
-            // Update the cart
-            $sale_details = $sale->saleDetails;
+            // Block the field
+            $this->blocked = true;
 
-            Cart::instance('sale')->destroy();
-
-            $cart = Cart::instance('sale');
-
-            foreach ($sale_details as $sale_detail) {
-                $cart->add([
-                    'id'      => $sale_detail->product_id,
-                    'name'    => $sale_detail->product_name,
-                    'qty'     => $sale_detail->quantity,
-                    'price'   => $sale_detail->price / 100,
-                    'weight'  => 1,
-                    'options' => [
-                        'product_discount' => $sale_detail->product_discount_amount / 100,
-                        'product_discount_type' => $sale_detail->product_discount_type,
-                        'sub_total'   => $sale_detail->sub_total / 100,
-                        'code'        => $sale_detail->product_code,
-                        'stock'       => Product::findOrFail($sale_detail->product_id)->product_quantity,
-                        'product_tax' => $sale_detail->product_tax_amount,
-                        'unit_price'  => $sale_detail->unit_price / 100
-                    ]
-                ]);
-
-                // $cart->destroy();
-            }
     }
 
     public function inputs() : array
@@ -176,7 +158,7 @@ class SaleForm extends BaseForm
     {
         return  [
             // make($key, $label)
-            Tabs::make('order','Commande')->component('tabs.order'),
+            Tabs::make('order','Lignes de commande')->component('tabs.sale-order'),
             Tabs::make('other','Autres Informations'),
             Tabs::make('summary','Note')->component('tabs.note.summary'),
         ];
@@ -205,6 +187,7 @@ class SaleForm extends BaseForm
             ActionBarButton::make('preview', 'Aperçu', 'preview()', 'previewed'),
             ActionBarButton::make('cancel', 'Annuler', 'canceled', 'cancelled'),
             ActionBarButton::make('make-quotation', 'Définir un devis', '', 'canceled')->component('button.action-bar.canceled.simple'),
+            ActionBarButton::make('unlock',  $this->blocked ? 'Débloquer' : 'Bloquer', $this->blocked ? "unlock()" : "lock()", 'confirmed'),
             // Add more buttons as needed
         ];
 
@@ -261,62 +244,62 @@ class SaleForm extends BaseForm
             }
             $sale_detail->delete();
         }
-        DB::transaction(function() use ($sale) {
+        $sale->update([
+            'date' => $this->date,
+            'payment_status' => $this->payment_status,
+            'payment_term' => $this->payment_term,
+            'payment_method' => $this->payment_method,
+            'seller_id' => $this->seller, //customer id
+            'sales_team_id' => $this->sales_team, //customer id
+            'customer_id' => 1, //customer id
+            'tax_percentage' => 18.9,
+            'discount_percentage' => 0,
+            'shipping_amount' => 0,
+            'shipping_date' => $this->shipping_date,
+            'shipping_policy' => $this->shipping_policy,
+            'shipping_status' => $this->shipping_status,
+            'total_amount' => $this->total_amount * 100,
+            'paid_amount' => $this->paid_amount,
+            'due_amount' => $this->total_amount * 100, //$due_amount
+            'status' => $this->status,
+            // 'status' => $this->status,
+            'note' => $this->note,
+            'tax_amount' => 0,
+            'discount_amount' => 0,
+        ]);
 
-            $sale->update([
-                'date' => $this->date,
-                'payment_status' => $this->payment_status,
-                'payment_term' => $this->payment_term,
-                'payment_method' => $this->payment_method,
-                'seller_id' => $this->seller, //customer id
-                'sales_team_id' => $this->sales_team, //customer id
-                'customer_id' => 1, //customer id
-                'tax_percentage' => 18.9,
-                'discount_percentage' => 0,
-                'shipping_amount' => 0,
-                'shipping_date' => $this->shipping_date,
-                'shipping_policy' => $this->shipping_policy,
-                'shipping_status' => $this->shipping_status,
-                'total_amount' => convertToInt(Cart::instance('sale')->total()) / 100,
-                'paid_amount' => $this->paid_amount,
-                'due_amount' => convertToInt(Cart::instance('sale')->total()) / 100, //$due_amount
-                'status' => $this->status,
-                // 'status' => $this->status,
-                'note' => $this->note,
-                'tax_amount' => convertToInt(Cart::instance('sale')->tax()),
-                'discount_amount' => 0,
+        foreach ($this->inputs as $detail) {
+
+            SalesDetail::create([
+                'sale_id' => $sale->id,
+                'product_id' => $detail['product'],
+                'description' => $detail['description'],
+                'product_name' => Product::find( $detail['product'] )->product_name,
+                'product_code' => Product::find( $detail['product'] )->product_code,
+                'quantity' => $detail['quantity'],
+                'price' => $detail['price'] * 100,
+                'unit_price' => $detail['price'] * 100,
+                'sub_total' => $detail['subtotal'] * 100,
+                'product_discount_amount' => 0,
+                'product_discount_type' => 'fixed',
+                'product_tax_amount' => 0,
             ]);
 
-            foreach (Cart::instance('sale')->content() as $cart_item) {
-
-                SalesDetail::create([
-                    'sale_id' => $sale->id,
-                    'product_id' => $cart_item->id,
-                    'product_name' => $cart_item->name,
-                    'product_code' => $cart_item->options->code,
-                    'quantity' => $cart_item->qty,
-                    'price' => $cart_item->price * 100,
-                    'unit_price' => $cart_item->options->unit_price * 100,
-                    'sub_total' => $cart_item->options->sub_total * 100,
-                    'product_discount_amount' => $cart_item->options->product_discount * 100,
-                    'product_discount_type' => $cart_item->options->product_discount_type,
-                    'product_tax_amount' => $cart_item->options->product_tax * 100,
+            if ($this->shipping_status == 'shipped' && !module('inventory') || $this->shipping_status == 'completed' && !module('inventory')) {
+                $product = Product::findOrFail($detail['product']);
+                $product->update([
+                    'product_quantity' => $product->product_quantity - $detail['quantity']
                 ]);
-
-                if ($this->shipping_status == 'Shipped' || $this->shipping_status == 'Completed') {
-                    $product = Product::findOrFail($cart_item->id);
-                    $product->update([
-                        'product_quantity' => $product->product_quantity - $cart_item->qty
-                    ]);
-                }
             }
-
-            Cart::instance('sale')->destroy();
-
-
-        });
+        }
 
         return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'menu' => current_menu()]);
+    }
+
+    #[On('sale-cart')]
+    public function updateInputs($inputs, $total, $totalHT){
+        $this->inputs = $inputs;
+        $this->total_amount = $total;
     }
 
     // Cancel sale order
@@ -437,6 +420,16 @@ class SaleForm extends BaseForm
         // $sale = sale::find($sale);
         $sale->delete();
         return redirect()->route('sales.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+    }
+
+    public function unlock(){
+        $this->blocked = false;
+        $this->dispatch('unlock-sale');
+    }
+
+    public function lock(){
+        $this->blocked = true;
+        $this->dispatch('lock-sale');
     }
 
 }

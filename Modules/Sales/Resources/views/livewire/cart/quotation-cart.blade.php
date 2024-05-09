@@ -16,7 +16,7 @@
                 @foreach ($inputs as $index => $value)
                 <tr class="k_field_list_row">
                     <td class="k_field_list">
-                        <select wire:model.lazy="inputs.{{ $index }}.product" id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
+                        <select wire:model.lazy="inputs.{{ $index }}.product" wire:change="updateProduct({{ $index }}, $event.target.value)"  id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
                             <option value=""></option>
                             @foreach($products as $product)
                             <option value="{{ $product->id }}">{{ $product->product_name }}</option>
@@ -25,16 +25,16 @@
                         @error("inputs.{{ $index }}.product") <span class="text-danger">{{ $message }}</span> @enderror
                     </td>
                     <td class="k_field_list">
-                        <input type="text" wire:model.lazy="inputs.{{ $index }}.description" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
+                        <span>{!! $this->inputs[$index]['description'] !!}</span>
                     </td>
                     <td class="k_field_list">
-                        <input type="number" class="k_input" wire:model.lazy="inputs.{{ $index }}.quantity" wire:change="updateSubtotal({{ $index }})" {{ $this->blocked ? 'disabled' : '' }}>
+                        <input type="number" class="k_input" wire:model.lazy="inputs.{{ $index }}.quantity" wire:change='updateSubtotal({{ $index }})' wire:key {{ $this->blocked ? 'disabled' : '' }}>
                     </td>
                     <td class="k_field_list">
-                        <input type="text" wire:model.lazy="inputs.{{ $index }}.price" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
+                        <span>{{ $this->inputs[$index]['price'] }}</span>
                     </td>
                     <td class="k_field_list">
-                        <input type="text" wire:model.lazy="inputs.{{ $index }}.subtotal" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
+                        <span wire:model.lazy="inputs.{{ $index }}.subtotal" wire:change='updateSubtotal({{ $index }})'>{{ $this->inputs[$index]['subtotal'] }}</span>
                     </td>
                     <td class="k_field_list cursor-pointer {{ $this->blocked ? 'd-none' : '' }}">
                         <span wire:click.prevent="remove({{$index}})">
@@ -43,9 +43,9 @@
                     </td>
                 </tr>
                 @endforeach
-                <tr class="k_field_list_row">
+                <tr class="k_field_list_row {{ $this->blocked ? 'd-none' : '' }}" wire:ignore>
                     <td class="k_field_list">
-                        <span wire:click.prevent="add({{$i}})" class=" cursor-pointer" href="avoid:js">
+                        <span wire:click.prevent="add({{$i}})" class="cursor-pointer " href="avoid:js">
                             <i class="bi bi-plus-circle"></i> Ajouter une ligne
                         </span>
                     </td>
@@ -55,12 +55,12 @@
     </div>
 
     <!-- Note and total part -->
-    <div class="k_group row align-items-start mt-2">
+    <div class="mt-2 k_group row align-items-start">
 
-        <div class="k_inner_group col-lg-10">
-            <div class="k_cell flex-grow-0 flex-sm-grow-0">
+        <div class="k_inner_group col-lg-9">
+            <div class="flex-grow-0 k_cell flex-sm-grow-0">
                 <div class="note-editable" id="note_1">
-                    <textarea wire:model="term" id="term" style="width: 75%; padding-left: 5px; padding-top:10px;" id="" cols="30" rows="5" class="k_input textearea" placeholder="Termes & conditions">
+                    <textarea wire:model="term" id="term" style="width: 75%; padding-left: 5px; padding-top:10px;" id="" cols="30" rows="7" class="k_input textearea" placeholder="Termes & conditions">
                         {!! $term !!}
                     </textarea>
                 </div>
@@ -68,10 +68,10 @@
         </div>
 
         <!-- Order Summary -->
-        <div class="k_inner_group k_subtotal_footer col-lg-2 right overflow-y-auto h-100">
+        <div class="overflow-y-auto k_inner_group k_subtotal_footer col-lg-3 right h-100">
             <!-- Discount -->
             @if(settings()->has_discount)
-            <div class="discounts-btn mt-2 mb-2 text-end pb-2">
+            <div class="pb-2 mt-2 mb-2 discounts-btn text-end">
                 <span class="btn btn-secondary">
                     Remise
                 </span>
@@ -86,7 +86,7 @@
             </td>
 
             <td class="k_list_monetary font-weight-bold">
-                <span>
+                <span class="k_total_taxes">
                     {{ format_currency($this->totalHT) }}
                 </span>
             </td>
@@ -94,13 +94,13 @@
             <br>
             <!-- Taxes -->
             @if($this->taxes)
-            <td class="k_td_label ml-1">
+            <td class="ml-1 k_td_label">
                 <label for="" class="k_text_label k_tax_total_label">
-                    {{ __('Taxe') }} {{ sales_tax()->amount }}% :
+                    {{ __('Taxe') }} :
                 </label>
             </td>
             <td class="k_list_monetary">
-                <span>
+                <span class="k_total_taxes">
                     {{ format_currency($this->taxes) }}
                 </span>
             </td>
@@ -115,8 +115,8 @@
             </td>
 
             <td class="k_list_monetary">
-                <span class="font-weight-bolder">
-                    (=) <b>{{ format_currency($this->total) }}</b>
+                <span class="font-weight-bolder total-price {{ $this->taxes ? 'with-border' : '' }}">
+                    {{ format_currency($this->total) }}
                 </span>
             </td>
 
@@ -124,7 +124,7 @@
 
     </div>
     <!-- Loading -->
-    <div class="k-loading cursor-pointer pb-1" wire:loading>
+    <div class="pb-1 cursor-pointer k-loading" wire:loading>
         <p>En cours de chargement ...</p>
     </div>
 </div>

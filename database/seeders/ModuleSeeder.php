@@ -445,7 +445,7 @@ class ModuleSeeder extends Seeder
                 'author'    => 'Koverae',
                 'icon'  => 'todo',
                 'is_default'    => 1,
-                'link'  => 'task.index',
+                'link'  => 'main',
                 'path'  => 'task::layouts.navbar-menu',
                 'navbar_id' => 5,
                 'enabled'   => 1

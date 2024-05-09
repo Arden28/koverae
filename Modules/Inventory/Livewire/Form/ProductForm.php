@@ -216,7 +216,7 @@ class ProductForm extends SimpleAvatarForm
         return  [
             // make($key, $label)
             Tabs::make('general','Informations Générales'),
-            Tabs::make('attributes','Attribus & Variantes', !settings()->has_variant)->component('tabs.product-attribute'),
+            // Tabs::make('attributes','Attribus & Variantes', !settings()->has_variant)->component('tabs.product-attribute'),
             Tabs::make('purchases','Achat'),
             Tabs::make('sales','Ventes'),
             Tabs::make('inventory','Inventaire'),
