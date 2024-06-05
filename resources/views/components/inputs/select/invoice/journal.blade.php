@@ -16,7 +16,7 @@
             @endif :
         </label>
     </div>
-    <div class="k_cell k_wrap_input flex-grow-1">
+    <div class="k_cell k_wrap_input flex-grow-1" {{ $this->blocked ? 'disabled' : '' }}>
         <select wire:model="{{ $value->model }}" id="" class="k_input">
             <option value=""></option>
             @foreach($types as $type)

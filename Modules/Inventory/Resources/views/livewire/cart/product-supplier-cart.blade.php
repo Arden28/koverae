@@ -1,13 +1,13 @@
 <div>
     <!-- Table -->
-    <div class="table-responsive w-100 mb-2">
+    <div class="mb-2 table-responsive w-100">
         <table class="table card-table text-nowrap">
             <thead class="order-table">
                 <tr class="order-tr">
-                    <th><button class="table-sort">{{ __('Fournisseur') }}</button></th>
-                    <th><button class="table-sort">{{ __('Quantité') }}</button></th>
-                    <th><button class="table-sort">{{ __('Prix') }}</button></th>
-                    <th><button class="table-sort">{{ __('Delais de livraison') }}</button></th>
+                    <th><button class="table-sort">{{ __('translator::inventory.form.product.cart.supplier.name') }}</button></th>
+                    <th><button class="table-sort">{{ __('translator::inventory.form.product.cart.supplier.quantity') }}</button></th>
+                    <th><button class="table-sort">{{ __('translator::inventory.form.product.cart.supplier.price') }}</button></th>
+                    <th><button class="table-sort">{{ __('translator::inventory.form.product.cart.supplier.delivery-lead-time') }}</button></th>
                     <th></th>
                 </tr>
             </thead>
@@ -35,7 +35,7 @@
                     {{-- <td class="k_field_list">
                         {{ $inputs[$key]['quantity'] * 2 }} {{ $inputs[$key]['supplier'] }} : {{ $inputs[$key]['quantity'] * 50 }}
                     </td> --}}
-                    <td class="k_field_list cursor-pointer">
+                    <td class="cursor-pointer k_field_list">
                         <span wire:click.prevent="remove({{$key}})">
                             <i class="bi bi-trash"></i>
                         </span>
@@ -44,8 +44,8 @@
                 @endforeach
                 <tr class="k_field_list_row">
                     <td class="k_field_list">
-                        <span wire:click.prevent="add({{$i}})" class=" cursor-pointer" href="avoid:js">
-                            <i class="bi bi-plus-circle"></i> Ajouter une ligne
+                        <span wire:click.prevent="add({{$i}})" class="cursor-pointer " href="avoid:js">
+                            <i class="bi bi-plus-circle"></i> {{ __('translator::inventory.form.product.cart.supplier.add-line') }}
                         </span>
                     </td>
                 </tr>

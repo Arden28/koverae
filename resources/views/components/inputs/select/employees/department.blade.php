@@ -14,7 +14,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model="{{ $value->model }}" id="" class="k_input">
+        <select wire:model="{{ $value->model }}" id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
             @foreach($departments as $department)
             <option value="{{ $department->id }}">{{ $department->name }}</option>

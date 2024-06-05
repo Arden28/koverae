@@ -25,6 +25,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Modules\App\Entities\Email\EmailTemplate;
+use Modules\App\Services\Files\FileDownloadService;
 use Modules\Inventory\Traits\OperationTransferTrait;
 use Modules\Invoicing\Entities\Customer\Invoice;
 use Modules\Invoicing\Entities\Customer\InvoiceDetails;
@@ -125,31 +126,31 @@ class SaleForm extends BaseForm
     {
         return  [
             // make($key, $label, $type, $model, $position, $tab, $group)
-            Input::make('customer','Client', 'select', 'customer', 'left', 'none', 'none')->component('inputs.select.contact'),
-            Input::make('date','Date', 'date', 'date', 'right', 'none', 'none'),
-            Input::make('payment_term','Modalité de paiement', 'select', 'payment_term', 'right', 'none', 'none')->component('inputs.select.payment_term'),
+            Input::make('customer',__('translator::components.inputs.customer.label'), 'select', 'customer', 'left', 'none', 'none')->component('inputs.select.contact'),
+            Input::make('date',__('translator::components.inputs.date.label'), 'date', 'date', 'right', 'none', 'none'),
+            Input::make('payment_term',__('translator::components.inputs.payment-term.label'), 'select', 'payment_term', 'right', 'none', 'none')->component('inputs.select.payment_term'),
 
             //Note
-            Input::make('note','Modalité de paiement', 'textarea', 'note', '', 'summary', 'none', 'Note interne')->component('inputs.textarea.tabs-middle'),
+            Input::make('note',__('translator::components.inputs.note.label'), 'textarea', 'note', '', 'summary', 'none', __('translator::components.inputs.note.placeholder'))->component('inputs.textarea.tabs-middle'),
 
             // Sales
-            Input::make('salesTeams','Equipe de vente', 'select', 'sales_team', '', 'other', 'sales')->component('inputs.select.sales_teams'),
-            Input::make('seller','Commercial(e)', 'select', 'seller', '', 'other', 'sales')->component('inputs.select.sales.seller'),
-            Input::make('tags','Tag(s)', 'select', 'tags', '', 'other', 'sales')->component('inputs.select.sales.tags'),
+            Input::make('salesTeams',__('translator::components.inputs.sales-teams.label'), 'select', 'sales_team', '', 'other', 'sales')->component('inputs.select.sales_teams'),
+            Input::make('seller',__('translator::components.inputs.seller.label'), 'select', 'seller', '', 'other', 'sales')->component('inputs.select.sales.seller'),
+            Input::make('tags',__('translator::components.inputs.tags.label'), 'select', 'tags', '', 'other', 'sales')->component('inputs.select.sales.tags'),
 
             // Shipping
-            Input::make('shipping_policy','Politique de livraison', 'select', 'shipping_policy', '', 'other', 'delivery')->component('inputs.select.shipping.policy'),
-            Input::make('shipping_date','Date de livraison', 'date', 'shipping_date', '', 'other', 'delivery'),
-            Input::make('shipping_status','Status', 'select', 'shipping_status', '', 'other', 'delivery')->component('inputs.select.shipping.status'),
+            Input::make('shipping_policy',__('translator::components.inputs.delivery-policy.label'), 'select', 'shipping_policy', '', 'other', 'delivery')->component('inputs.select.shipping.policy'),
+            Input::make('shipping_date',__('translator::components.inputs.delivery-date.label'), 'date', 'shipping_date', '', 'other', 'delivery'),
+            Input::make('shipping_status',__('translator::components.inputs.delivery-status.label'), 'select', 'shipping_status', '', 'other', 'delivery')->component('inputs.select.shipping.status'),
 
             // Invoicing
-            Input::make('fiscal_position',"Position fiscale", 'text', 'fiscal_position', '', 'other', 'invoicing'),
+            Input::make('fiscal_position',__('translator::components.inputs.tax-position.label'), 'text', 'fiscal_position', '', 'other', 'invoicing'),
 
             // Tracking
-            Input::make('source_document',"Document d'origine", 'text', 'source_document', '', 'other', 'tracking'),
-            Input::make('campaign',"Campagne", 'select', 'campaign', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
-            Input::make('medium',"Moyen", 'select', 'medium', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
-            Input::make('source',"Source", 'select', 'source', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
+            Input::make('source_document',__('translator::components.inputs.original-document.label'), 'text', 'source_document', '', 'other', 'tracking'),
+            Input::make('campaign',__('translator::components.inputs.campaign.label'), 'select', 'campaign', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
+            Input::make('medium',__('translator::components.inputs.medium.label'), 'select', 'medium', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
+            Input::make('source',__('translator::components.inputs.source.label'), 'select', 'source', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
 
         ];
     }
@@ -158,9 +159,9 @@ class SaleForm extends BaseForm
     {
         return  [
             // make($key, $label)
-            Tabs::make('order','Lignes de commande')->component('tabs.sale-order'),
-            Tabs::make('other','Autres Informations'),
-            Tabs::make('summary','Note')->component('tabs.note.summary'),
+            Tabs::make('order',__('translator::sales.form.sale.tabs.orders'))->component('tabs.sale-order'),
+            Tabs::make('other',__('translator::sales.form.sale.tabs.others')),
+            Tabs::make('summary',__('translator::sales.form.sale.tabs.note'))->component('tabs.note.summary'),
         ];
     }
 
@@ -168,10 +169,10 @@ class SaleForm extends BaseForm
     {
         return  [
             // make($key, $label, $tabs)
-            Group::make('sales','Ventes', 'other'),
-            Group::make('delivery','Livraison', 'other'),
-            Group::make('invoicing','Facturation', 'other'),
-            Group::make('tracking','Suivi', 'other'),
+            Group::make('sales',__('translator::sales.form.sale.groups.sales'), 'other'),
+            Group::make('delivery',__('translator::sales.form.sale.groups.delivery'), 'other'),
+            Group::make('invoicing',__('translator::sales.form.sale.groups.invoicing'), 'other'),
+            Group::make('tracking',__('translator::sales.form.sale.groups.tracking'), 'other'),
         ];
     }
 
@@ -182,12 +183,12 @@ class SaleForm extends BaseForm
         $buttons = [
             // key, label, action, primary
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
-            ActionBarButton::make('invoice', 'Créer une facture', "createInvoice", $this->status)->component('button.action-bar.invoice.create-sale-invoice'),
-            ActionBarButton::make('send', 'Envoyer par email', '', 'sent')->component('button.action-bar.send-email'),
-            ActionBarButton::make('preview', 'Aperçu', 'preview()', 'previewed'),
-            ActionBarButton::make('cancel', 'Annuler', 'canceled', 'cancelled'),
-            ActionBarButton::make('make-quotation', 'Définir un devis', '', 'canceled')->component('button.action-bar.canceled.simple'),
-            ActionBarButton::make('unlock',  $this->blocked ? 'Débloquer' : 'Bloquer', $this->blocked ? "unlock()" : "lock()", 'confirmed'),
+            ActionBarButton::make('invoice', __('translator::sales.form.sale.actions.invoice'), "createInvoice", $this->status)->component('button.action-bar.invoice.create-sale-invoice'),
+            ActionBarButton::make('send', __('translator::sales.form.sale.actions.send-email'), '', 'sent')->component('button.action-bar.send-email'),
+            ActionBarButton::make('preview', __('translator::sales.form.sale.actions.preview'), 'preview()', 'previewed'),
+            ActionBarButton::make('cancel', __('translator::sales.form.sale.actions.cancel'), 'canceled', 'cancelled'),
+            ActionBarButton::make('make-quotation', __('translator::sales.form.sale.actions.make-quotation'), '', 'canceled')->component('button.action-bar.canceled.simple'),
+            ActionBarButton::make('unlock',  $this->blocked ? __('translator::sales.form.sale.actions.unlock') : __('translator::sales.form.sale.actions.lock'), $this->blocked ? "unlock()" : "lock()", 'confirmed'),
             // Add more buttons as needed
         ];
 
@@ -203,10 +204,10 @@ class SaleForm extends BaseForm
     public function statusBarButtons() : array
     {
         return [
-            StatusBarButton::make('quotation', 'Devis', 'quotation'),
-            StatusBarButton::make('sent', 'Envoyé', 'sent'),
-            StatusBarButton::make('sale_order', 'Bon de commande', 'sale_order')->component('button.status-bar.default-selected'),
-            StatusBarButton::make('canceled', 'Annulée', 'canceled')->component('button.status-bar.canceled'),
+            StatusBarButton::make('quotation', __('translator::sales.form.sale.status.quotation'), 'quotation'),
+            StatusBarButton::make('sent', __('translator::sales.form.sale.status.sent'), 'sent'),
+            StatusBarButton::make('sale_order', __('translator::sales.form.sale.status.order'), 'sale_order')->component('button.status-bar.default-selected'),
+            StatusBarButton::make('canceled', __('translator::sales.form.sale.status.canceled'), 'canceled')->component('button.status-bar.canceled'),
             // Add more buttons as needed
         ];
     }
@@ -214,9 +215,9 @@ class SaleForm extends BaseForm
     public function capsules() : array
     {
         return [
-            Capsule::make('shipping', 'Livraison', 'Les livraisons engendrées par cette commande.')->component('capsules.sale.delivery'),
-            Capsule::make('quotation', 'Devis', 'Les devis ayant engendrés cette commande.')->component('capsules.sale.quotation'),
-            Capsule::make('invoice', 'Factures', 'Les factures ayant été engendrées par cette commande.')->component('capsules.invoice.sale-invoice'),
+            Capsule::make('shipping', __('translator::sales.form.sale.capsules.shippings.name'), __('translator::sales.form.sale.capsules.shippings.text'))->component('capsules.sale.delivery'),
+            Capsule::make('quotation', __('translator::sales.form.sale.capsules.quotations.name'), __('translator::sales.form.sale.capsules.quotations.text'))->component('capsules.sale.quotation'),
+            Capsule::make('invoice', __('translator::sales.form.sale.capsules.invoices.name'), __('translator::sales.form.sale.capsules.invoices.text'))->component('capsules.invoice.sale-invoice'),
             // Add more buttons as needed
         ];
     }
@@ -292,6 +293,8 @@ class SaleForm extends BaseForm
                 ]);
             }
         }
+
+        notify()->success(__('translator::sales.form.sale.messages.success.sale-update'));
 
         return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'menu' => current_menu()]);
     }
@@ -371,7 +374,7 @@ class SaleForm extends BaseForm
 
         }
 
-        Cart::instance('sale')->destroy();
+        notify()->success(__('translator::sales.form.sale.messages.success.invoice-create'));
 
         // Redirect to invoice
         return redirect()->route('sales.invoices.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'invoice' => $invoice->id, 'menu' => current_menu()]);
@@ -382,36 +385,30 @@ class SaleForm extends BaseForm
     // Print sale
     #[On('print-sale')]
     public function print(){
-        try {
-            // $sale = sale::find(38);
 
-            if (!$this->sale) {
-                throw new \Exception('sale not found');
-            }
-
-            $sale = Sale::findOrFail($this->sale->id);
-
-            $customer = Contact::findOrFail($sale->customer_id);
-            $seller = SalesPerson::findOrFail($sale->seller_id);
-            $company = current_company();
-
-            $pdf = Pdf::loadView('sales::print-sale', [
-                'sale' => $sale,
-                'customer' => $customer,
-                'seller' => $seller,
-                'company' => $company
-            ])->setPaper('a4');
-
-            return response()->streamDownload(function () use ($pdf) {
-                echo $pdf->output(); // Echo download contents directly...
-            }, 'Devis -' . $sale->reference . '.pdf');
-
-
-            // return response($utf8Output)->download('sale-' . $sale->reference . '.pdf');
-        } catch (\Exception $e) {
-            Log::error('Error generating sale PDF: ' . $e->getMessage());
-            return response()->json(['error' => 'Unable to generate Sale Invoice'], 500);
+        if (!$this->sale) {
+            throw new \Exception('sale not found');
         }
+
+        $sale = Sale::findOrFail($this->sale->id);
+
+        $customer = Contact::findOrFail($sale->customer_id);
+        $seller = SalesPerson::findOrFail($sale->seller_id);
+        $company = current_company();
+
+        $fileName = 'Commande - '. $sale->reference; // The desired file name of the downloaded PDF
+        $view = 'sales::print-sale'; // Example view that you want to convert to PDF
+        $data = [
+            'sale' => $sale,
+            'customer' => $customer,
+            'seller' => $seller,
+            'company' => $company
+        ]; // Data to be passed to the view
+
+        $fileDownloadService = new FileDownloadService();
+
+        // Use the downloadPdf method from the service
+        return $fileDownloadService->downloadPdf($fileName, $view, $data);
     }
 
     #[On('delete-sale')]

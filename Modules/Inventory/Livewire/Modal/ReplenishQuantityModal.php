@@ -83,7 +83,7 @@ class ReplenishQuantityModal extends ModalComponent
         ]);
         $rfq_detail->save();
 
-        session()->flash('message', "L'ordre de réapprovisionnement suivant a été généré : ".$rfq->reference); // Optional: flash a success message
+        session()->flash('message', __('translator::components.modals.replenish-qty.messages.replenish-success', ['reference' => $rfq->reference])); // Optional: flash a success message
 
         $this->closeModal();
     }

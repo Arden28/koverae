@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('request_id')->nullable();
             $table->string('reference')->nullable();
             $table->foreignId('blanket_order_id')->nullable();
             $table->dateTime('date')->nullable();

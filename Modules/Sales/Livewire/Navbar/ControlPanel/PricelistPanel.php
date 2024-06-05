@@ -12,7 +12,7 @@ class PricelistPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Listes de prix";
+        $this->currentPage = __('translator::sales.control.pricelist.current_page_list');
         if(settings()->has_pricelist_check){
             $this->new = route('sales.pricelists.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         }

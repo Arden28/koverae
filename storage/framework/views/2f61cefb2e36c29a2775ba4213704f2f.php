@@ -21,10 +21,12 @@
 } ?>
 <?php unset($__defined_vars); ?>
 <div>
-    <li class="dropdown-item cursor-pointer" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>">
+    <li class="cursor-pointer dropdown-item" wire:click="<?php echo e($value->action); ?>" wire:target="<?php echo e($value->action); ?>">
         <?php echo $value->label; ?>
 
     </li>
-    <!--<li><hr class="dropdown-divider"></li>-->
+    <!--[if BLOCK]><![endif]--><?php if($value->separator): ?>
+    <li><hr class="separator"></li>
+    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 </div>
 <?php /**PATH D:\My Laravel Project\koverae-app\resources\views/components/button/action/special-button.blade.php ENDPATH**/ ?>

@@ -5,7 +5,7 @@
 
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- Input Label -->
-    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0  text-break text-900">
+    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         <label class="k_form_label">
             {{ $value->label }}
             @if($value->help)
@@ -17,7 +17,7 @@
     <div class="k_cell k_wrap_input flex-grow-1">
         <div class="k_field_widget k_field_boolean">
             <div class="k-checkbox form-check d-inline-block">
-                <input type="{{ $value->type }}" wire:model="{{ $value->model }}" class="form-check-input" style="color: #0E6163" id="{{ $value->model }}" onclick="checkStatus(this)">
+                <input type="{{ $value->type }}" wire:model="{{ $value->model }}" class="form-check-input" style="color: #0E6163" id="{{ $value->model }}" onclick="checkStatus(this)" {{ $this->blocked ? 'disabled' : '' }}>
             </div>
         </div>
 

@@ -6,7 +6,7 @@
                 <img class="custom-image" src="<?php echo e(asset('assets/images/apps/sales.png')); ?>" alt="">
             </span>
           <span class="nav-link-title">
-              <?php echo e(__('Ventes')); ?>
+              <?php echo e(__('translator::sales.navbar.module')); ?>
 
           </span>
         </a>
@@ -15,7 +15,7 @@
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
           <span class="nav-link-title">
-              <?php echo e(__('Commandes')); ?>
+            <?php echo e(__('translator::sales.navbar.orders.name')); ?>
 
           </span>
         </a>
@@ -24,19 +24,19 @@
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.quotations.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Devis')); ?>
+                        <?php echo e(__('translator::sales.navbar.orders.quotation')); ?>
 
                     </a>
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Commandes')); ?>
+                        <?php echo e(__('translator::sales.navbar.orders.order')); ?>
 
                     </a>
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.customers.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Clients')); ?>
+                        <?php echo e(__('translator::sales.navbar.orders.customer')); ?>
 
                     </a>
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.teams.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Equipes commerciales')); ?>
+                        <?php echo e(__('translator::sales.navbar.orders.teams')); ?>
 
                     </a>
                 </div>
@@ -48,7 +48,7 @@
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
           <span class="nav-link-title">
-              <?php echo e(__('A Facturer')); ?>
+            <?php echo e(__('translator::sales.navbar.to_invoice.name')); ?>
 
           </span>
         </a>
@@ -57,7 +57,7 @@
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.index', ['subdomain' => current_company()->domain_name, 'to' => 'to_invoice', 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Commandes à facturer')); ?>
+                        <?php echo e(__('translator::sales.navbar.to_invoice.orders')); ?>
 
                     </a>
                 </div>
@@ -69,7 +69,7 @@
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
           <span class="nav-link-title">
-              <?php echo e(__('Produits')); ?>
+            <?php echo e(__('translator::sales.navbar.product.name')); ?>
 
           </span>
         </a>
@@ -78,27 +78,30 @@
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Produits')); ?>
+                        <?php echo e(__('translator::sales.navbar.product.products')); ?>
 
                     </a>
                     <!--[if BLOCK]><![endif]--><?php if(settings()->has_variant): ?>
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('inventory.products.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Variantes Produits')); ?>
+                        <?php echo e(__('translator::sales.navbar.product.variants')); ?>
 
                     </a>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     <?php if(settings()->has_pricelist_check): ?>
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.pricelists.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Listes de prix')); ?>
+                        <?php echo e(__('translator::sales.navbar.product.pricelists')); ?>
 
                     </a>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     <?php if(settings()->has_sale_program): ?>
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.programs.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Remises & Fidélité')); ?>
+                        <?php echo e(__('translator::sales.navbar.product.discounts')); ?>
 
                     </a>
-                    
+                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.programs.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
+                        <?php echo e(__('translator::sales.navbar.product.giftcards')); ?>
+
+                    </a>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
             </div>
@@ -109,7 +112,7 @@
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
           <span class="nav-link-title">
-              <?php echo e(__('Analyses')); ?>
+            <?php echo e(__('translator::sales.navbar.report.name')); ?>
 
           </span>
         </a>
@@ -117,20 +120,20 @@
             <div class="dropdown-menu-columns">
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.quotations.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Ventes')); ?>
+                    <a class="dropdown-item" wire:navigate href="#">
+                        <?php echo e(__('translator::sales.navbar.report.sales')); ?>
 
                     </a>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.quotations.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Vendeurs')); ?>
+                    <a class="dropdown-item" wire:navigate href="#">
+                        <?php echo e(__('translator::sales.navbar.report.sellers')); ?>
 
                     </a>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.quotations.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Clients')); ?>
+                    <a class="dropdown-item" wire:navigate href="#">
+                        <?php echo e(__('translator::sales.navbar.report.customers')); ?>
 
                     </a>
-                    <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.quotations.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Produits')); ?>
+                    <a class="dropdown-item" wire:navigate href="#">
+                        <?php echo e(__('translator::sales.navbar.report.products')); ?>
 
                     </a>
                 </div>
@@ -141,7 +144,7 @@
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
           <span class="nav-link-title">
-              <?php echo e(__('Configuration')); ?>
+            <?php echo e(__('translator::sales.navbar.configuration.name')); ?>
 
           </span>
         </a>
@@ -150,37 +153,37 @@
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('settings.general', ['subdomain' => current_company()->domain_name, 'page' => 'sales', 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Paramètre')); ?>
+                        <?php echo e(__('translator::sales.navbar.configuration.setting')); ?>
 
                     </a>
                     <a class="dropdown-item" wire:navigate href="<?php echo e(route('sales.teams.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>">
-                        <?php echo e(__('Equipes Commerciales')); ?>
+                        <?php echo e(__('translator::sales.navbar.configuration.sales_teams')); ?>
 
                     </a>
 
-                    <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
-                      <?php echo e(__('Commandes')); ?>
+                    <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                        <?php echo e(__('translator::sales.navbar.configuration.orders.name')); ?>
 
                     </a>
                     <div class="dropdown-menu">
                       <a wire:navigate href="#" class="dropdown-item">
-                        <?php echo e(__('Etiquettes')); ?>
+                        <?php echo e(__('translator::sales.navbar.configuration.orders.tags')); ?>
 
                       </a>
                     </div>
                     <div class="dropend">
-                        <a class="dropdown-item dropdown-toggle" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
-                          <?php echo e(__('Produits')); ?>
+                        <a class="dropdown-item" href="#sidebar-cards" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                            <?php echo e(__('translator::sales.navbar.configuration.products.name')); ?>
 
                         </a>
                         <div class="dropdown-menu">
                             <a wire:navigate href="<?php echo e(route('purchases.products.categories.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
-                              <?php echo e(__('Catégories produits')); ?>
+                                <?php echo e(__('translator::sales.navbar.configuration.products.categories')); ?>
 
                             </a>
                             <!--[if BLOCK]><![endif]--><?php if(settings()->has_variant): ?>
                             <a wire:navigate href="<?php echo e(route('purchases.products.categories.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
-                                <?php echo e(__('Attributs')); ?>
+                                <?php echo e(__('translator::sales.navbar.configuration.products.attributes')); ?>
 
                             </a>
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->

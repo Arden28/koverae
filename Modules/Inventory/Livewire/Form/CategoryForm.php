@@ -7,6 +7,7 @@ use App\Livewire\Form\Capsule;
 use App\Livewire\Form\Button\ActionBarButton;
 use App\Livewire\Form\Group;
 use App\Livewire\Form\Template\LightWeightForm;
+use Livewire\Attributes\On;
 use Modules\Inventory\Entities\Category;
 
 class CategoryForm extends LightWeightForm
@@ -49,23 +50,15 @@ class CategoryForm extends LightWeightForm
         }
     }
 
-    public function actionBarButtons() : array
-    {
-        return  [
-            ActionBarButton::make('new', 'Nouveau', 'new()'),
-            ActionBarButton::make('store', 'Sauvegarder', $this->updateMode == false ? 'store' : "update"),
-        ];
-    }
-
     public function inputs() : array
     {
         return  [
             // make($key, $label, $type, $model, $position, $tab, $group, $placeholder = null, $help = null)
-            Input::make('name', "Nom de la catégorie", 'text', 'name', 'top-title', 'none', 'none', 'par ex: Chips')->component('inputs.category.ke-title'),
-            Input::make('cost_method', 'Méthode de coût', 'checkbox', 'cost_method', 'left', 'none', 'stock')->component('inputs.select.category.cost-method'),
-            Input::make('income_account',"Compte de revenue", 'select', 'income_account', 'left', 'none', 'accounting')->component('inputs.select.accounting.income-account'),
-            Input::make('expense_account',"Compte de charge", 'select', 'expense_account', 'left', 'none', 'accounting')->component('inputs.select.accounting.charge-account'),
-            Input::make('packaging',"Réserve des conditionnement", 'select', 'packaging', 'left', 'none', 'logistic')->component('inputs.select.category.reserve-packaging'),
+            Input::make('name', __('translator::components.inputs.product-category-name.label'), 'text', 'name', 'top-title', 'none', 'none', __('translator::components.inputs.product-category-name.placeholder'))->component('inputs.category.ke-title'),
+            Input::make('cost_method', __('translator::components.inputs.cost-method.label'), 'checkbox', 'cost_method', 'left', 'none', 'stock')->component('inputs.select.category.cost-method'),
+            Input::make('income_account',__('translator::components.inputs.income-account.label'), 'select', 'income_account', 'left', 'none', 'accounting')->component('inputs.select.accounting.income-account'),
+            Input::make('expense_account',__('translator::components.inputs.expense-account.label'), 'select', 'expense_account', 'left', 'none', 'accounting')->component('inputs.select.accounting.charge-account'),
+            Input::make('packaging',__('translator::components.inputs.reserve-packaging.label'), 'select', 'packaging', 'left', 'none', 'logistic')->component('inputs.select.category.reserve-packaging'),
         ];
     }
 
@@ -73,8 +66,8 @@ class CategoryForm extends LightWeightForm
     {
         return  [
             // make($key, $label, $tabs = null)
-            Group::make('stock',"Valorisation du stock")->component('tabs.group.large'),
-            Group::make('logistic',"Logistique")->component('tabs.group.large'),
+            Group::make('stock',__('translator::inventory.form.product-category.groups.stock'))->component('tabs.group.large'),
+            Group::make('logistic',__('translator::inventory.form.product-category.groups.logistics'))->component('tabs.group.large'),
             // Group::make('accounting',"Propriété du compte")->component('tabs.group.large'),
         ];
     }
@@ -82,7 +75,7 @@ class CategoryForm extends LightWeightForm
     public function capsules() : array
     {
         return [
-            //
+            Capsule::make('sale', __('translator::inventory.form.product-category.capsules.products.name'), __('translator::inventory.form.product-category.capsules.products.text'))->component('capsules.product-category.product-capsule'),
         ];
     }
 
@@ -90,6 +83,7 @@ class CategoryForm extends LightWeightForm
         return redirect()->route('inventory.products.categories.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
+    #[On('create-category')]
     public function store(){
         $this->validate();
 
@@ -106,6 +100,7 @@ class CategoryForm extends LightWeightForm
 
     }
 
+    #[On('update-category')]
     public function update(){
         $this->validate();
         $category = $this->category;

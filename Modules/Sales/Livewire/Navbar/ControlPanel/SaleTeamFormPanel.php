@@ -18,7 +18,7 @@ class SaleTeamFormPanel extends ControlPanel
             $this->team = $team;
             $this->currentPage = $team->name;
         }else{
-            $this->currentPage = 'Nouveau';
+            $this->currentPage = __('translator::sales.control.team.current_page_new');
         }
         $this->new = route('sales.teams.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';

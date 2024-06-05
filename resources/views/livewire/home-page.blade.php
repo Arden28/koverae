@@ -29,7 +29,7 @@
                 </div>
 
             </div>
-            <ul class="nav nav-bordered mb-1">
+            <ul class="mb-1 nav nav-bordered">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Mes apps</a>
                 </li>
@@ -37,26 +37,13 @@
                     <a class="nav-link" href="#">Favoris</a>
                 </li>
             </ul>
-            <div class="row bg-white app_list">
-                <!-- App -->
-                @foreach (installed_apps(current_company())->take(8) as $app)
-                <div class="app col-6 col-lg-3 mb-3 pt-2 pb-2 cursor-pointer rounded">
-                    <div class="d-flex gap-1">
-                        <a class="text-decoration-none" wire:click="openApp({{ $app->module->id }})">
-                            <img src="{{ asset('assets/images/apps/'.$app->module->icon.'.png') }}" height="40px" width="40px" alt="" class="app_icon rounded">
-                        </a>
-                        <a href="{{ route($app->module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="text-decoration-none font-weight-bold" wire:navigate wire:click.prevent="openApp({{ $app->module->id }})"   wire:target="openApp({{ $app->module->id }})">
-                            <span>{{ $app->module->short_name }}</span>
-                        </a>
-                    </div>
-                </div>
-                @endforeach
-            </div>
+            <!-- App -->
+            <livewire:module.main-list />
 
         </div>
 
         <div class="container-xl">
-            <div class="row g-2 align-items-center mb-3 mt-3">
+            <div class="mt-3 mb-3 row g-2 align-items-center">
                 <div class="col">
                     <h2 class="page-title">
                     {{__('Insights')}}
@@ -108,7 +95,7 @@
         </div>
 
         <!-- Loading -->
-        <div class="k-loading cursor-pointer pb-1" wire:loading>
+        <div class="pb-1 cursor-pointer k-loading" wire:loading>
             <p>En cours de chargement ...</p>
         </div>
     </div>

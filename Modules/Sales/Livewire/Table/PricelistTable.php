@@ -17,13 +17,12 @@ class PricelistTable extends Table
 
     public function emptyTitle() : string
     {
-        return __("Créer une nouvelle liste de prix !");
+        return __('translator::sales.table.pricelist.empty.title');
     }
 
     public function emptyText() : string
     {
-        return __("Un prix est un ensemble de prix de vente ou de règles permettant de calculer le prix des lignes de commande en fonction des produits, des catégories de produits, des dates et des quantités commandées. C'est l'outil parfait pour gérer plusieurs prix, remises saisonnières, etc.
-                    Vous pouvez assigner des listes de prix à vos clients ou en sélectionnez une quand vous créez un nouveau devis de vente.");
+        return  __('translator::sales.table.pricelist.empty.text');
     }
 
     public function headerName() : string
@@ -39,8 +38,8 @@ class PricelistTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('name', 'Nom de la liste de prix')->component('columns.common.show-title-link'),
-            Column::make('discount_policy', 'Politique de remise')->component('columns.common.pricelist.discount-policy'),
+            Column::make('name', __('translator::sales.table.pricelist.name'))->component('columns.common.show-title-link'),
+            Column::make('discount_policy', __('translator::sales.table.pricelist.policy'))->component('columns.common.pricelist.discount-policy'),
         ];
     }
 }

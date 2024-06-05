@@ -1,5 +1,5 @@
 <div>
-    @section('title', "Toutes les catégories produits")
+    @section('title', __('translator::inventory.form.product-category.page-title-list'))
 
     <!-- Control Panel -->
     @section('control-panel')

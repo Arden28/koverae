@@ -12,10 +12,10 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select  wire:model="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0">
+        <select  wire:model="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
-            <option value="ordered">Sur la base des quantités commandées</option>
-            <option value="received">Sur la base des quantités livrées</option>
+            <option value="ordered">{{ __('translator::components.inputs.control-policy.select.ordered') }}</option>
+            <option value="received">{{ __('translator::components.inputs.control-policy.select.received') }}</option>
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
     </div>

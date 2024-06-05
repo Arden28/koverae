@@ -98,7 +98,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'fr',
+    'fallback_locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +180,7 @@ return [
         Modules\Employee\Providers\EmployeeServiceProvider::class,
         Modules\Dashboards\Providers\DashboardsServiceProvider::class,
         Modules\Contact\Providers\ContactServiceProvider::class,
+        Modules\App\Providers\FileDownloadServiceProvider::class,
     ])->toArray(),
 
     /*

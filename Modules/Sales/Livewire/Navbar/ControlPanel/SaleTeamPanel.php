@@ -12,7 +12,7 @@ class SaleTeamPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Equipes commerciales";
+        $this->currentPage = __('translator::sales.control.team.current_page_list');
         $this->new = route('sales.teams.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }

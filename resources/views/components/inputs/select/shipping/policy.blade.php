@@ -12,13 +12,13 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select  wire:model="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0">
+        <select  wire:model="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
             <option value="after_done">
-                {{ __('Lorsque tous les produits sont prêts') }}
+                {{ __('translator::components.inputs.delivery-policy.select.after_done') }}
             </option>
             <option value="as_soon_as_possible">
-                {{ __('Dès que possible') }}
+                {{ __('translator::components.inputs.delivery-policy.select.as_soon_as_possible') }}
             </option>
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror

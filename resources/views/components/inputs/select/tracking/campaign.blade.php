@@ -12,7 +12,7 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model="{{ $value->model }}" class="k-autocomplete-input-0 k_input" id="company_id_0">
+        <select wire:model="{{ $value->model }}" class="k-autocomplete-input-0 k_input" id="company_id_0" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror

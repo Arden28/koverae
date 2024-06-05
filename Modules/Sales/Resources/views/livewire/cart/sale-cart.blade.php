@@ -4,11 +4,11 @@
         <table class="table card-table text-nowrap">
             <thead class="order-table">
                 <tr class="order-tr">
-                    <th><button class="table-sort">{{ __('Produit') }}</button></th>
-                    <th><button class="table-sort">{{ __('Description') }}</button></th>
-                    <th><button class="table-sort">{{ __('Quantité') }}</button></th>
-                    <th><button class="table-sort">{{ __('Prix unitaire') }}</button></th>
-                    <th><button class="table-sort">{{ __('Hors taxes') }}</button></th>
+                    <th><button class="table-sort">{{ __('translator::sales.form.sale.cart.product') }}</button></th>
+                    <th><button class="table-sort">{{ __('translator::sales.form.sale.cart.description') }}</button></th>
+                    <th><button class="table-sort">{{ __('translator::sales.form.sale.cart.quantity') }}</button></th>
+                    <th><button class="table-sort">{{ __('translator::sales.form.sale.cart.price') }}</button></th>
+                    <th><button class="table-sort">{{ __('translator::sales.form.sale.cart.wt') }}</button></th>
                     <th></th>
                 </tr>
             </thead>
@@ -47,7 +47,7 @@
                 <tr class="k_field_list_row {{ $this->blocked ? 'd-none' : '' }}">
                     <td class="k_field_list">
                         <span wire:click.prevent="add({{$i}})" class="cursor-pointer " href="avoid:js">
-                            <i class="bi bi-plus-circle"></i> Ajouter une ligne
+                            <i class="bi bi-plus-circle"></i> {{ __('translator::sales.form.quotation.cart.line') }}
                         </span>
                     </td>
                 </tr>
@@ -61,7 +61,7 @@
         <div class="k_inner_group col-lg-9">
             <div class="flex-grow-0 k_cell flex-sm-grow-0">
                 <div class="note-editable" id="note_1">
-                    <textarea wire:model="term" id="term" style="width: 75%; padding-left: 5px; padding-top:10px;" id="" cols="30" rows="7" class="k_input textearea" placeholder="Termes & conditions">
+                    <textarea wire:model="term" id="term" {{ $this->blocked ? 'disabled' : '' }} style="width: 75%; padding-left: 5px; padding-top:10px;" id="" cols="30" rows="7" class="k_input textearea" placeholder="{{ __('translator::components.carts.summary.conditions') }}">
                         {!! $term !!}
                     </textarea>
                 </div>
@@ -74,7 +74,7 @@
             @if(settings()->has_discount)
             <div class="pb-2 mt-2 mb-2 discounts-btn text-end">
                 <span class="btn btn-secondary">
-                    Remise
+                    {{ __('translator::components.carts.summary.discount') }}
                 </span>
             </div>
             @endif
@@ -82,7 +82,7 @@
             @if($this->taxes)
             <td class="k_td_label">
                 <span>
-                    {{ __('Total HT') }} :
+                    {{ __('translator::components.carts.summary.total_wt') }} :
                 </span>
             </td>
 
@@ -97,7 +97,7 @@
             @if($this->taxes)
             <td class="ml-1 k_td_label">
                 <label for="" class="k_text_label k_tax_total_label">
-                    {{ __('Taxe') }} :
+                    {{ __('translator::components.carts.summary.taxes') }} :
                 </label>
             </td>
             <td class="k_list_monetary">
@@ -111,7 +111,7 @@
             <!-- Total amount -->
             <td class="k_td_label">
                 <label for="" class="k_text_label k_tax_total_label">
-                    {{ __('Total') }} :
+                    {{ __('translator::components.carts.summary.total') }} :
                 </label>
             </td>
 
@@ -126,6 +126,6 @@
     </div>
     <!-- Loading -->
     <div class="pb-1 cursor-pointer k-loading" wire:loading>
-        <p>En cours de chargement ...</p>
+        <p>{{ __('translator::components.loading.text') }}</p>
     </div>
 </div>

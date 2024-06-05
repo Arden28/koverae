@@ -25,12 +25,12 @@ class ContactsTable extends Table
 
     public function emptyTitle() : string
     {
-        return __("Créer un nouveau client dans votre carnet d'adresse");
+        return __("translator::contacts.table.customer.empty.title");
     }
 
     public function emptyText() : string
     {
-        return __('Koverae vous aide à facilement suivre toutes les activités liées à un client.');
+        return __('translator::contacts.table.customer.empty.text');
     }
 
     public function headerName() : string
@@ -47,11 +47,11 @@ class ContactsTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('name', 'Nom')->component('columns.common.show-title-link'),
-            Column::make('phone', 'Télephone'),
-            Column::make('email', 'Email'),
-            Column::make('city', 'Ville'),
-            Column::make('country', 'Pays'),
+            Column::make('name', __('translator::contacts.table.customer.name'))->component('columns.common.show-title-link'),
+            Column::make('phone', __('translator::contacts.table.customer.phone')),
+            Column::make('email', __('translator::contacts.table.customer.email')),
+            Column::make('city', __('translator::contacts.table.customer.city')),
+            Column::make('country', __('translator::contacts.table.customer.country')),
             // Column::make('created_at', 'Rejoinds depuis')->component('columns.common.human-diff'),
         ];
     }

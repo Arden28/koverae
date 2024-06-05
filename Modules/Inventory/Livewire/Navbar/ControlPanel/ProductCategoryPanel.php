@@ -13,7 +13,7 @@ class ProductCategoryPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Catégories de produits";
+        $this->currentPage = __('translator::inventory.control.product-category.current_page_list');
         $this->new = route('inventory.products.categories.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }

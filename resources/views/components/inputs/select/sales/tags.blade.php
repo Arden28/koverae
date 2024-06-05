@@ -12,7 +12,7 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select  wire:model="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0">
+        <select  wire:model="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
             {{-- @foreach (\Modules\Sales\Entities\SalesPerson::isCompany(current_company()->id)->get() as $seller)
                 <option value="{{ $seller->id }}">{{ $seller->user->name }}</option>

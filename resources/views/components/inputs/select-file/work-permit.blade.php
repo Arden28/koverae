@@ -5,7 +5,7 @@
 
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- Input Label -->
-    <div class="k_cell k_wrap_label flex-grow-1  text-break text-900">
+    <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
         <label class="k_form_label">
             {{ $value->label }}
             @if($value->help)
@@ -14,7 +14,7 @@
         </label>
     </div>
     <!-- Input Form -->
-    <div class="k_cell k_wrap_input flex-grow-1">
+    <div class="k_cell k_wrap_input flex-grow-1 {{ $this->blocked ? 'd-none' : '' }}">
         <div class="k_field_widget k_field_work_permit_upload">
             <label for="" class="k_select_field_button btn btn-secondary">
                 <span>

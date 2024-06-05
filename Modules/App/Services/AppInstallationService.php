@@ -36,6 +36,7 @@ use Modules\Pos\Entities\Pos\PosSetting;
 use Modules\Sales\Entities\Price\PriceList;
 use Modules\Sales\Entities\SalesPerson;
 use Modules\Sales\Entities\SalesTeam;
+use Modules\Sales\Entities\SalesTeamMember;
 use Modules\Settings\Entities\Currency;
 use Modules\Settings\Entities\Setting;
 use Modules\Settings\Entities\System\SystemParameter;
@@ -267,7 +268,7 @@ class AppInstallationService
         $system_parameter = SystemParameter::create([
             'company_id' => $company,
             'database_create_date' => now(),
-            'database_expiration_date' => now()->addDays(8),
+            'database_expiration_date' => now()->addDays(14),
         ]);
         $system_parameter->save();
 
@@ -965,17 +966,26 @@ class AppInstallationService
             $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
         }
 
-        // Equipes Commerciale
+        $comp = Company::find($company);
+        $user = $comp->users()->first();
+
+
+        // Sales Team
         $salesTeam = SalesTeam::create([
             'company_id' => $company,
             'name' => 'Ventes',
         ]);
         $salesTeam->save();
 
-        $comp = Company::find($company);
-        $user = $comp->users()->first();
+        // Sales Team Members
+        $members = SalesTeamMember::create([
+            'company_id' => $company,
+            'sales_team_id' => $salesTeam->id,
+            'user_id' => $user->id,
+        ]);
+        $members->save();
 
-        // Commercial
+        // Sellers
         $seller = SalesPerson::create([
             'company_id' => $company,
             'user_id' => $user->id,
@@ -983,7 +993,7 @@ class AppInstallationService
         ]);
         $seller->save();
 
-        // Liste de prix
+        // Pricelists
         $pricelist = PriceList::create([
             'company_id' => $company,
             'name' => 'Liste de prix XAF par défaut',
@@ -992,21 +1002,19 @@ class AppInstallationService
 
         // Modèles d'emails
         $emails = [
+            // Send Quotation
             [
                 'company_id' => $company,
                 'apply_to' => 'quotation',
-                'name' => 'Ventes: Envoyer le devis',
-                'model_class' => 'bon de commande',
-                'subject' => '{company_name} Commande Ref ({reference})',
-                'content' => "Bonjour,
+                'name' => 'Sales: Send Quotation',
+                'model_class' => 'sale_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Hello,
                             <br>
-                            Votre facture pro forma pour le devis {reference} d'un montant de <b>{total_amount}</b> est disponible.
-                            <br>
-                            <br>
-                            N'hésitez pas à nous contacter si vous avez des questions concernant ce devis.
+                            Your quotation {reference} amounting in <b>{total_amount}</b> is ready for review.
                             <br>
                             <br>
-                            Merci pour votre confiance.
+                            Do not hesitate to contact us if you have any questions.
                             <br>
                             <br>
                             --
@@ -1014,19 +1022,109 @@ class AppInstallationService
                 'sender_email' => $user->email,
 
             ],
+
+            // Send Order Confirmation
             [
                 'company_id' => $company,
                 'apply_to' => 'sale_order',
-                'name' => 'Ventes: Confirmation de commande',
-                'model_class' => 'bon de commande',
-                'subject' => '{company_name} Commande Ref ({reference})',
-                'content' => "Bonjour,
+                'name' => 'Sales: Order Confirmation',
+                'model_class' => 'sale_order',
+                'subject' => '{company_name} Commande (Ref {reference})',
+                'content' => "Hello,
                             <br>
-                            Votre commande {reference} d'un montant de <b>{total_amount}</b> a été confirmée.
+                            Your order {reference} amounting in <b>{total_amount}</b> has been confirmed.
                             <br>
                             <br>
-                            Merci de votre confiance !
-                            N'hésitez pas à nous contacter si vous avez des questions.
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+
+            // Send Payment Confirmation
+            [
+                'company_id' => $company,
+                'apply_to' => 'payment-confirmation-sale',
+                'name' => 'Sales: Payment Done',
+                'model_class' => 'sale_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Hello,
+                            <br>
+                            A payment with reference amounting <b>{paid_amount}</b> for your order {reference} has been confirmed.
+                            <br>
+                            {due_amount} remains to be paid.
+                            <br>
+                            <br>
+                            Thank you for your trust!
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+
+            // Send Order Cancelled
+            [
+                'company_id' => $company,
+                'apply_to' => 'cancel-order',
+                'name' => 'Sales: Payment Done',
+                'model_class' => 'sale_order',
+                'subject' => '{company_name} Order Cancelled (Ref {reference})',
+                'content' => "Dear {customer_name} ,
+                            <br>
+                            Please be advised that your Quotation {reference} has been cancelled. Therefore, you should not be charged further for this order. If any refund is necessary, this will be executed at best convenience.
+                            <br>
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+
+            // Send Invoice
+            [
+                'company_id' => $company,
+                'apply_to' => 'journal-entry-invoice',
+                'name' => 'Facture: Envoie',
+                'model_class' => 'account_move',
+                'subject' => '{company_name} Facture Ref ({reference})',
+                'content' => "Dear {customer_name},
+                            <br>
+                            Here is your invoice {reference} (with reference: {sale_reference}) amounting in <b>{total_amount}</b> from {company_name}. Please remit payment at your earliest convenience.
+                            <br>
+                            <br>
+                            Please use the following communication for your payment: {reference}.
+                            <br>
+                            <br>
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+
+            // Send Credit Note
+            [
+                'company_id' => $company,
+                'apply_to' => 'journal-entry-credit',
+                'name' => 'Facture: Envoie',
+                'model_class' => 'account_move',
+                'subject' => '{company_name} Credit Note (Ref {reference})',
+                'content' => "Dear {customer_name},
+                            <br>
+                            Here is your credit note {reference} (with reference: {sale_reference}) amounting in <b>{total_amount}</b> from {company_name}.
+                            <br>
+                            <br>
+                            Do not hesitate to contact us if you have any questions.
                             <br>
                             <br>
                             --
@@ -1251,13 +1349,81 @@ class AppInstallationService
             WarehouseRoute::create([
                 'company_id' => $company,
                 'warehouse_id' => $warehouse->id,
-                'name' => __('Acheter')
+                'name' => __('Buy')
             ]);
+        }
+
+        $user = $comp->users()->first();
+        // Email Templates
+        $emails = [
+            [
+                'company_id' => $company,
+                'apply_to' => 'requestion-quotation',
+                'name' => 'Purchase: Request For Quotation',
+                'model_class' => 'purchase_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Dear {supplier_name},
+                            <br>
+                            Here is in attachment a request for quotation <b>{reference}</b> from {company_name}.
+                            <br>
+                            <br>
+                            If you have any questions, please do not hesitate to contact us.
+                            <br>
+                            <br>
+                            Best regards,
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+            [
+                'company_id' => $company,
+                'apply_to' => 'purchase',
+                'name' => 'Purchase: Purchase Order',
+                'model_class' => 'purchase_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Dear {supplier_name},
+                            <br>
+                            Here is in attachment a request for quotation <b>{reference}</b> amounting in <b>{total_amount}</b> from {company_name}.
+                            <br>
+                            <br>
+                            The receipt is expected for {expected_date}.
+                            <br>
+                            <br>
+                            Could you please acknowledge the receipt of this order?
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+            [
+                'company_id' => $company,
+                'apply_to' => 'vendor-reminder',
+                'name' => 'Purchase: Vendor Reminder',
+                'model_class' => 'purchase_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Dear {supplier_name},
+                            <br>
+                            Here is a reminder that the delivery of the purchase order <b>{reference}</b> is expected for <b>{expected_date}</b>. Could you please confirm it will be delivered on time?
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+        ];
+        foreach($emails as $email){
+            EmailTemplate::create($email);
         }
 
     }
 
-    // Point de Vente
+    // Point of Sales
     public function installPdv($company){
         // Pièces & Billets
         $coins = [

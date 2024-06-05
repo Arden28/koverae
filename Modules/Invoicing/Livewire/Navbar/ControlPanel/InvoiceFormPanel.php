@@ -29,9 +29,11 @@ class InvoiceFormPanel extends ControlPanel
     public function actionButtons() : array
     {
         return [
-            ActionButton::make('print', '<i class="bi bi-printer"></i> Imprimer', 'printINV()'),
-            ActionButton::make('change', 'Changer de client', ''),
-            ActionButton::make('paiement-link', '<i class="bi bi-link"></i> Générer un lien de paiement', ''),
+            ActionButton::make('print', '<i class="bi bi-printer"></i> '.__('translator::sales.control.invoice.actions.print'), 'printINV()', true),
+            ActionButton::make('delete', '<i class="bi bi-trash"></i> '.__('translator::sales.control.invoice.actions.delete'), '', true),
+            ActionButton::make('share', __('translator::sales.control.invoice.actions.generateLink'), ""),
+            ActionButton::make('share', __('translator::sales.control.invoice.actions.share'), ""),
+            ActionButton::make('transform', __('translator::sales.control.invoice.actions.transform'), "")
             // ActionButton::make('delete', '<i class="bi bi-trash"></i> Supprimer', 'deleteINV()'),
             // Add more buttons as needed
         ];

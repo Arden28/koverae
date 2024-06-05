@@ -10,7 +10,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model="{{ $value->model }}" id="" class="k_input">
+        <select wire:model="{{ $value->model }}" id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
             <option value="Africa/Abidjan">Africa/Abidjan GMT+0:00</option>
             <option value="Africa/Accra">Africa/Accra GMT+0:00</option>

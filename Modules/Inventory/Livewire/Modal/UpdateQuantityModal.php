@@ -19,7 +19,7 @@ class UpdateQuantityModal extends ModalComponent
     }
 
     protected $rules = [
-        'quantity' => 'integer|required|min:1',
+        'quantity' => 'required|min:1',
     ];
 
     public static function modalMaxWidth(): string
@@ -41,7 +41,7 @@ class UpdateQuantityModal extends ModalComponent
             'product_quantity' => $this->quantity,
         ]);
 
-        session()->flash('message', 'La quantité a bien été modifiée.'); // Optional: flash a success message
+        session()->flash('message', __('translator::components.modals.update-qty.messages.updated-success')); // Optional: flash a success message
         return redirect()->route('inventory.products.show', ['product' => $this->product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 }

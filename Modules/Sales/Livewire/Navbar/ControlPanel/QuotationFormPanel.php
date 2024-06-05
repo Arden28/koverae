@@ -8,6 +8,7 @@ use App\Livewire\Navbar\ControlPanel;
 class QuotationFormPanel extends ControlPanel
 {
     public $quotation;
+    public $status = 'quotation';
 
     public function mount($quotation = null, $event = null)
     {
@@ -19,8 +20,9 @@ class QuotationFormPanel extends ControlPanel
         if($quotation){
             $this->quotation = $quotation;
             $this->currentPage = $quotation->reference;
+            $this->status = $quotation->status;
         }else{
-            $this->currentPage = 'Nouveau';
+            $this->currentPage = __('translator::sales.control.quotation.current_page_new');
         }
         $this->new = route('sales.quotations.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
@@ -29,9 +31,11 @@ class QuotationFormPanel extends ControlPanel
     public function actionButtons() : array
     {
         return [
-            ActionButton::make('print', '<i class="bi bi-printer"></i> Imprimer', 'printQT()'),
-            ActionButton::make('duplicate', 'Dupliquer', 'duplicateQT()'),
-            ActionButton::make('delete', '<i class="bi bi-trash"></i> Supprimer', 'deleteQT()'),
+            ActionButton::make('print', '<i class="bi bi-printer"></i> '.__('translator::sales.control.quotation.actions.print'), 'printQT()'),
+            ActionButton::make('duplicate', __('translator::sales.control.quotation.actions.duplicate'), 'duplicateQT()'),
+            ActionButton::make('delete', '<i class="bi bi-trash"></i> '.__('translator::sales.control.quotation.actions.delete'), 'deleteQT()', true),
+            ActionButton::make('mark_as_sent', __('translator::sales.control.quotation.actions.markAsSent'), "markAsSent()", false, 'sent')->component('button.action.if-status'),
+            ActionButton::make('share', __('translator::sales.control.quotation.actions.share'), "")
             // Add more buttons as needed
         ];
     }
@@ -46,6 +50,10 @@ class QuotationFormPanel extends ControlPanel
 
     public function deleteQT(){
         $this->dispatch('delete-quotation', $this->quotation->id);
+    }
+
+    public function markAsSent(){
+        return $this->dispatch('mas-quotation');
     }
 
 }

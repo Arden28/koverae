@@ -12,14 +12,14 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select  wire:model.blur="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0">
+        <select  wire:model.blur="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
             @if($this->product_type == 'storable' || $this->product_type == 'consumable')
-                <option value="delivered">Quantité livrée</option>
-                <option value="ordered">Quantité commandée</option>
+                <option value="delivered">{{ __('translator::components.inputs.invoicing-policy.select.delivered') }}</option>
+                <option value="ordered">{{ __('translator::components.inputs.invoicing-policy.select.ordered') }}</option>
             @else
-                <option value="prepaid">Prix fixe / Prépayé</option>
-                <option value="ordered">Quantité commandée</option>
+                <option value="prepaid">{{ __('translator::components.inputs.invoicing-policy.select.prepaid') }}</option>
+                <option value="ordered">{{ __('translator::components.inputs.invoicing-policy.select.ordered') }}</option>
             @endif
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror

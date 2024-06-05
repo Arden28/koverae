@@ -11,24 +11,24 @@
     <div class="k_address_format">
         <div class="row">
             <div class="col-12" style="margin-bottom: 10px;">
-                <input type="text" wire:model="street" id="street" class="k_input" placeholder="Rue 1....">
+                <input type="text" wire:model="street" id="street" class="k_input" {{ $this->blocked ? 'disabled' : '' }} placeholder="Rue 1....">
             </div>
             <div class="col-12" style="margin-bottom: 10px;">
-                <input type="text" wire:model="street2" id="street2_0" class="k_input" placeholder="Rue 2......">
+                <input type="text" wire:model="street2" id="street2_0" class="k_input" {{ $this->blocked ? 'disabled' : '' }} placeholder="Rue 2......">
             </div>
             <div class="col-4 d-flex align-items-center" style="margin-bottom: 10px;">
-                <input type="text" wire:model="city" id="city_0" class="k_input" placeholder="Ville">
+                <input type="text" wire:model="city" id="city_0" class="k_input" {{ $this->blocked ? 'disabled' : '' }} placeholder="Ville">
             </div>
             <div class="col-4 d-flex align-items-center" style="margin-bottom: 10px;">
-                <select name="" class="k_input" id="state_id_0">
+                <select name="" class="k_input" {{ $this->blocked ? 'disabled' : '' }} id="state_id_0">
                     <option value="">{{ __('Département') }}</option>
                 </select>
             </div>
             <div class="col-4 d-flex align-items-center" style="margin-bottom: 10px;">
-                <input type="text" wire:model="zip" id="zip_0" class="k_input" placeholder="Code postal">
+                <input type="text" wire:model="zip" id="zip_0" class="k_input" {{ $this->blocked ? 'disabled' : '' }} placeholder="Code postal">
             </div>
             <div class="col-12" style="margin-bottom: 10px;">
-                <select name="" class="k_input" id="country_id_0">
+                <select name="" class="k_input" {{ $this->blocked ? 'disabled' : '' }} id="country_id_0">
                     <option value="">{{ __('Pays') }}</option>
                 </select>
             </div>

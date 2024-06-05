@@ -11,7 +11,7 @@ class SalePanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Bons de commandes";
+        $this->currentPage = __('translator::sales.control.sale.current_page_list');
         $this->new = route('sales.quotations.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }

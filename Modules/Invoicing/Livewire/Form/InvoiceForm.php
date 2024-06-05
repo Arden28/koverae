@@ -24,6 +24,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
+use Modules\App\Services\Files\FileDownloadService;
+use Modules\App\Services\LinkService\LinkGenerationService;
 use Modules\Invoicing\Entities\Customer\InvoiceDetails;
 
 class InvoiceForm extends BaseForm
@@ -67,102 +69,75 @@ class InvoiceForm extends BaseForm
 
     public $journal;
 
-    public function mount($sale, $invoice){
-        // dd($invoice->id, $sale->id);
-        // Cart::instance('quotation')->destroy();
+    protected $fileDownloadService;
 
-        Cart::instance('sale')->destroy();
+    public function mount($sale, $invoice = null){
 
-        $this->invoice = $invoice;
-        $this->sale = $sale;
-            // Set values
-            $this->customer = $invoice->customer_id;
-            $this->customer_name = Contact::findOrFail($invoice->customer_id)->name;
-            $this->customer_reference = Contact::findOrFail($invoice->customer_id)->reference;
-            $this->date = Carbon::parse($invoice->date)->format('Y-m-d');
-            $this->due_date = Carbon::parse($invoice->due_date)->format('Y-m-d');
-            $this->payment_reference = $invoice->payment_reference;
-            $this->payment_term = $invoice->payment_term;
-            $this->payment_status = $invoice->payment_status;
-            $this->payment_method = $invoice->payment_method;
-            $this->reference = $invoice->reference;
-            $this->tax_percentage = $invoice->tax_percentage;
-            $this->tax_amount = $invoice->tax_amount;
-            $this->discount_percentage = $invoice->discount_percentage;
-            $this->shipping_amount = $invoice->shipping_amount;
-            $this->total_amount = $invoice->total_amount;
-            $this->paid_amount = $invoice->paid_amount;
-            $this->due_amount = $invoice->total_amount;
-            $this->status = $invoice->status;
-            // Accounting
-            $this->journal = $invoice->journal_id;
-            // $this->note = $invoice->note;
-            $this->seller = $invoice->seller_id;
-            $this->sales_team = $invoice->sales_team_id;
-            $this->shipping_date = $invoice->shipping_date;
-            // $this->journal_name = Journal::findOrFail($invoice->journal_id)->name;
+        if($invoice){
 
-            // Update the cart
-            $invoice_details = $invoice->invoiceDetails;
-
-
-
-            $cart = Cart::instance('sale');
-
-            foreach ($invoice_details as $invoice_detail) {
-                $cart->add([
-                    'id'      => $invoice_detail->product_id,
-                    'name'    => $invoice_detail->product_name,
-                    'qty'     => $invoice_detail->quantity,
-                    'price'   => $invoice_detail->price / 100,
-                    'weight'  => 1,
-                    'options' => [
-                        'product_discount' => $invoice_detail->product_discount_amount / 100,
-                        'product_discount_type' => $invoice_detail->product_discount_type,
-                        'sub_total'   => $invoice_detail->sub_total / 100,
-                        'code'        => $invoice_detail->product_code,
-                        'stock'       => Product::findOrFail($invoice_detail->product_id)->product_quantity,
-                        'product_tax' => $invoice_detail->product_tax_amount,
-                        'unit_price'  => $invoice_detail->unit_price / 100
-                    ]
-                ]);
-
-                // $cart->destroy();
+            if($invoice->status == 'posted'){
+                $this->blocked = true;
             }
+
+            $this->invoice = $invoice;
+            $this->sale = $sale;
+                // Set values
+                $this->customer = $invoice->customer_id;
+                $this->customer_name = Contact::findOrFail($invoice->customer_id)->name;
+                $this->customer_reference = Contact::findOrFail($invoice->customer_id)->reference;
+                $this->date = Carbon::parse($invoice->date)->format('Y-m-d');
+                $this->due_date = Carbon::parse($invoice->due_date)->format('Y-m-d');
+                $this->payment_reference = $invoice->payment_reference;
+                $this->payment_term = $invoice->payment_term;
+                $this->payment_status = $invoice->payment_status;
+                $this->payment_method = $invoice->payment_method;
+                $this->reference = $invoice->reference;
+                $this->tax_percentage = $invoice->tax_percentage;
+                $this->tax_amount = $invoice->tax_amount;
+                $this->discount_percentage = $invoice->discount_percentage;
+                $this->shipping_amount = $invoice->shipping_amount;
+                $this->total_amount = $invoice->total_amount;
+                $this->paid_amount = $invoice->paid_amount;
+                $this->due_amount = $invoice->total_amount;
+                $this->status = $invoice->status;
+                // Accounting
+                $this->journal = $invoice->journal_id;
+                // $this->note = $invoice->note;
+                $this->seller = $invoice->seller_id;
+                $this->sales_team = $invoice->sales_team_id;
+                $this->shipping_date = $invoice->shipping_date;
+                // $this->journal_name = Journal::findOrFail($invoice->journal_id)->name;
+
+        }
+
+            // $linkGenerator = new LinkGenerationService();
+            // dd($linkGenerator->generatePaymentLink(str()->uuid()->toString(), $this->paid_amount /100, $this->invoice->id));
+
     }
 
     public function inputs() : array
     {
         return  [
             // make($key, $label, $type, $model, $position, $tab, $group)
-            Input::make('customer','Client', 'select', 'customer', 'left', 'none', 'none')->component('inputs.select.contact'),
-            Input::make('date','Date', 'date', 'date', 'right', 'none', 'none')->component('inputs.date.complete_readonly'),
-            Input::make('payment_reference','Référence de paiement', 'text', 'payment_reference', 'right', 'none', 'none'),
-            Input::make('payment_term','Modalité de paiement', 'select', 'payment_term', 'right', 'none', 'none')->component('inputs.select.payment_term'),
-            Input::make('journal','Journal', 'select', 'journal', 'right', 'none', 'none')->component('inputs.invoice.journal'),
+            Input::make('customer',__('translator::components.inputs.customer.label'), 'select', 'customer', 'left', 'none', 'none')->component('inputs.select.contact'),
+            Input::make('date',__('translator::components.inputs.date.label'), 'date', 'date', 'right', 'none', 'none')->component('inputs.date.local'),
+            Input::make('payment_reference',__('translator::components.inputs.payment-reference.label'), 'text', 'payment_reference', 'right', 'none', 'none'),
+            Input::make('payment_term',__('translator::components.inputs.payment-term.label'), 'select', 'payment_term', 'right', 'none', 'none')->component('inputs.select.payment_term'),
+            Input::make('journal',__('translator::components.inputs.journal.label'), 'select', 'journal', 'right', 'none', 'none')->component('inputs.invoice.journal'),
 
             //Note
-            Input::make('note','Modalité de paiement', 'textarea', 'note', '', 'summary', 'none', 'Note interne')->component('inputs.textarea.tabs-middle'),
+            Input::make('note',__('translator::components.inputs.note.label'), 'textarea', 'note', '', 'summary', 'none', __('translator::components.inputs.note.placeholder'))->component('inputs.textarea.tabs-middle'),
 
             // Invoice
-            Input::make('salesTeams','Equipe de vente', 'select', 'sales_team', '', 'other', 'invoice')->component('inputs.select.sales_teams'),
-            Input::make('seller','Commercial(e)', 'select', 'seller', '', 'other', 'invoice')->component('inputs.select.sales.seller'),
-            Input::make('bank_account','Compte bancaire destinataire', 'text', 'bank_account', '', 'other', 'invoice'),
-            Input::make('customer_reference','Référence client', 'text', 'customer_reference', '', 'other', 'invoice'),
-            Input::make('shipping_date','Date de livraison', 'text', 'shipping_date', '', 'other', 'invoice')->component('inputs.date.disable-date'),
-
-            // Shipping
-            Input::make('shipping_policy','Politique de livraison', 'select', 'shipping_policy', '', 'other', 'delivery')->component('inputs.select.shipping.policy'),
-            Input::make('shipping_status','Status', 'select', 'shipping_status', '', 'other', 'delivery')->component('inputs.select.shipping.status'),
+            Input::make('customer_reference',__('translator::components.inputs.customer-reference.label'), 'text', 'customer_reference', '', 'other', 'invoice'),
+            Input::make('salesTeams',__('translator::components.inputs.sales-teams.label'), 'select', 'sales_team', '', 'other', 'sales')->component('inputs.select.sales_teams'),
+            Input::make('seller',__('translator::components.inputs.seller.label'), 'select', 'seller', '', 'other', 'sales')->component('inputs.select.sales.seller'),
+            Input::make('bank_account',__('translator::components.inputs.customer-bank-account.label'), 'text', 'bank_account', '', 'other', 'invoice'),
+            Input::make('shipping_date',__('translator::components.inputs.delivery-date.label'), 'text', 'shipping_date', '', 'other', 'invoice')->component('inputs.date.disable-date'),
 
             // Invoicing
-            Input::make('fiscal_position',"Position fiscale", 'text', 'fiscal_position', '', 'other', 'invoicing'),
+            Input::make('fiscal_position',__('translator::components.inputs.tax-position.label'), 'text', 'fiscal_position', '', 'other', 'invoicing'),
 
-            // Tracking
-            Input::make('source_document',"Document d'origine", 'text', 'source_document', '', 'other', 'tracking'),
-            Input::make('campaign',"Campagne", 'select', 'campaign', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
-            Input::make('medium',"Moyen", 'select', 'medium', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
-            Input::make('source',"Source", 'select', 'source', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
 
         ];
     }
@@ -171,9 +146,9 @@ class InvoiceForm extends BaseForm
     {
         return  [
             // make($key, $label)
-            Tabs::make('order','Ligne de facture')->component('tabs.order'),
-            Tabs::make('accounting_entry','Ecritures comptables'),
-            Tabs::make('other','Autres Informations'),
+            Tabs::make('order',__('translator::sales.form.invoice.tabs.order'))->component('tabs.invoice-line'),
+            Tabs::make('accounting_entry',__('translator::sales.form.invoice.tabs.accounting_entry')),
+            Tabs::make('other',__('translator::sales.form.invoice.tabs.other')),
         ];
     }
 
@@ -181,7 +156,7 @@ class InvoiceForm extends BaseForm
     {
         return  [
             // make($key, $label, $tabs)
-            Group::make('invoice','Facture', 'other'),
+            Group::make('invoice',__('translator::sales.form.invoice.groups.invoice'), 'other'),
             // Group::make('delivery','Comptabilité', 'other'),
         ];
     }
@@ -193,12 +168,11 @@ class InvoiceForm extends BaseForm
         $buttons = [
             // key, label, action, primary
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
-            ActionBarButton::make('register_payment', 'Enregistrer un paiement', "registerPayment", 'posted')->component('button.action-bar.invoice.register-payment'),
-            ActionBarButton::make('preview', 'Aperçu', 'preview()', 'posted')->component('button.action-bar.if-status'),
-            // ActionBarButton::make('cancel', 'Annuler', 'canceled', 'cancelled'),
-            ActionBarButton::make('draft', 'Remettre en brouillon', '', 'posted')->component('button.action-bar.if-status'),
-            ActionBarButton::make('confirm', 'Confirmer', 'confirm', 'draft')->component('button.action-bar.invoice.confirm'),
-            ActionBarButton::make('cancel', 'Annuler', 'cancel', 'draft')->component('button.action-bar.if-status'),
+            ActionBarButton::make('register_payment', __('translator::sales.form.invoice.actions.register-payment'), "registerPayment", 'posted')->component('button.action-bar.invoice.register-payment'),
+            ActionBarButton::make('preview', __('translator::sales.form.invoice.actions.preview'), 'preview()', 'posted')->component('button.action-bar.if-status'),
+            ActionBarButton::make('draft', __('translator::sales.form.invoice.actions.draft'), '', 'posted')->component('button.action-bar.if-status'),
+            ActionBarButton::make('confirm', __('translator::sales.form.invoice.actions.confirm'), 'confirm', 'draft')->component('button.action-bar.invoice.confirm'),
+            ActionBarButton::make('cancel', __('translator::sales.form.invoice.actions.cancel'), 'cancel', 'draft')->component('button.action-bar.if-status'),
             // Add more buttons as needed
         ];
 
@@ -214,7 +188,7 @@ class InvoiceForm extends BaseForm
     public function capsules() : array
     {
         return [
-            Capsule::make('sale', 'Bons de commande', 'Les ventes ayant engendrés cette commande..')->component('capsules.sale-capsule'),
+            Capsule::make('sale', __('translator::sales.form.invoice.capsules.orders.name'), __('translator::sales.form.invoice.capsules.orders.text'))->component('capsules.sale-capsule'),
             // Capsule::make('quotation', 'Devis', 'Les devis ayant engendrés cette commande..')->component('capsules.sale.quotation'),
             // Add more buttons as needed
         ];
@@ -225,9 +199,9 @@ class InvoiceForm extends BaseForm
     public function statusBarButtons() : array
     {
         return [
-            StatusBarButton::make('draft', 'Brouillon', 'draft'),
-            StatusBarButton::make('posted', 'Comptabilisé', 'posted'),
-            StatusBarButton::make('canceled', 'Annulée', 'canceled')->component('button.status-bar.canceled'),
+            StatusBarButton::make('draft', __('translator::sales.form.invoice.status.draft'), 'draft'),
+            StatusBarButton::make('posted', __('translator::sales.form.invoice.status.posted'), 'posted'),
+            StatusBarButton::make('canceled', __('translator::sales.form.invoice.status.canceled'), 'canceled')->component('button.status-bar.canceled'),
             // Add more buttons as needed
         ];
     }
@@ -315,32 +289,27 @@ class InvoiceForm extends BaseForm
     // Print Invoice
     public function print(Invoice $invoice){
 
-        try {
-
-            if (!$invoice) {
-                throw new \Exception('Facture non trouvée');
-            }
-
-            $customer = Contact::findOrFail($invoice->customer_id);
-            $seller = SalesPerson::findOrFail($invoice->seller->id);
-            $company = current_company();
-
-            $pdf = Pdf::loadView('sales::print-invoice', [
-                'invoice' => $invoice,
-                'customer' => $customer,
-                'seller' => $seller,
-                'company' => $company
-            ])->setPaper('a4');
-
-            return response()->streamDownload(function () use ($pdf) {
-                echo $pdf->output(); // Echo download contents directly...
-            }, 'Facture - ' . str_replace('/', '_', $invoice->reference) . '.pdf'); //replace / by _
-
-            // return response($utf8Output)->download('invoice-' . $invoice->reference . '.pdf');
-        } catch (\Exception $e) {
-            Log::error('Error generating invoice PDF: ' . $e->getMessage());
-            return response()->json(['error' => 'Unable to generate PDF'], 500);
+        if (!$invoice) {
+            throw new \Exception('Facture non trouvée');
         }
+
+        $customer = Contact::findOrFail($invoice->customer_id);
+        $seller = SalesPerson::findOrFail($invoice->seller->id);
+        $company = current_company();
+        $view = 'sales::print-invoice'; // Example view that you want to convert to PDF
+        $data = [
+            'invoice' => $invoice,
+            'customer' => $customer,
+            'seller' => $seller,
+            'company' => $company
+        ]; // Data to be passed to the view
+
+        $fileName = 'Facture - '. $invoice->reference; // The desired file name of the downloaded PDF
+
+        $fileDownloadService = new FileDownloadService();
+
+        // Use the downloadPdf method from the service
+        return $fileDownloadService->downloadPdf($fileName, $view, $data);
     }
 
     #[On('delete-invoice')]
@@ -350,4 +319,6 @@ class InvoiceForm extends BaseForm
         $invoice->delete();
         return redirect()->route('sales.invoices.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
+
+
 }

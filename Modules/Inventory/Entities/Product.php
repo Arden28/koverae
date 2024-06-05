@@ -11,6 +11,7 @@ use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Modules\Inventory\Entities\History\InventoryMove;
 use Modules\Inventory\Entities\Product\ProductPackaging;
 use Modules\Inventory\Entities\Product\ProductSupplier;
+use Modules\Inventory\Entities\Product\ProductTax;
 use Modules\Inventory\Entities\UoM\UnitOfMeasure;
 use Modules\Invoicing\Entities\Tax\Tax;
 use Modules\Manufacturing\Entities\BOM\BillOfMaterial;
@@ -94,6 +95,11 @@ class Product extends Model implements Buyable, HasMedia
 
     public function tax() {
         return $this->belongsTo(Tax::class, 'product_order_tax', 'id');
+    }
+
+    // Product Taxes
+    public function taxes() {
+        return $this->hasMany(ProductTax::class, 'product_id', 'id');
     }
 
     public function sale_taxes() {

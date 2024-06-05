@@ -161,7 +161,7 @@
         <table class="table mt-5">
             <tbody>
                 <tr>
-                    <td class="border-0 pl-0" width="70%">
+                    <td class="pl-0 border-0" width="70%">
                         <h4 class="text-uppercase">
                             <strong>{{ current_company()->name }}</strong>
                         </h4>
@@ -204,24 +204,24 @@
 
                         @if(current_company()->rccm)
                             <p class="company-rccm">
-                                {{ __('TVA') }}: {{ current_company()->rccm }}
+                                {{ __('RCCM') }}: {{ current_company()->rccm }}
                             </p>
                         @endif
 
                         @if(current_company()->niu)
                             <p class="company-niu">
-                                {{ __('TVA') }}: {{ current_company()->niu }}
+                                {{ __('NIU') }}: {{ current_company()->niu }}
                             </p>
                         @endif
 
                     </td>
-                    <td class="border-0 pl-0" width="60%">
+                    <td class="pl-0 border-0" width="60%">
                         <h4 class="text-uppercase cool-gray">
-                            <strong>{{ __('Facture') }} {{ $invoice->reference }}</strong>
+                            <strong>{{ $invoice->reference }}</strong>
                         </h4>
                         <p>{{ __('Date de la facture') }}: <strong>{{ \Carbon\Carbon::parse($invoice->date)->format('d/m/Y') }}</strong></p>
                         <p>{{ __("Date d'échéance") }}: <strong>{{ \Carbon\Carbon::parse($invoice->expected_date)->format('d/m/Y') }}</strong></p>
-                        <p>{{ __("Vendeur") }}: {{ $seller->user->name }}</p>
+                        <p>{{ __("Origine") }}: {{ $invoice->sale->reference }}</p>
                     </td>
                 </tr>
             </tbody>
@@ -231,7 +231,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="border-0 border-top-1 pl-0 party-header">
+                    <th class="pl-0 border-0 border-top-1 party-header">
                     </th>
                 </tr>
             </thead>
@@ -271,7 +271,7 @@
                 <table class="table table-items">
                     <thead>
                         <tr>
-                            <th scope="col" class="border-0 pl-0">{{ __('Description') }}</th>
+                            <th scope="col" class="pl-0 border-0">{{ __('Description') }}</th>
                             <th scope="col" class="text-center border-0">{{ __('Quantité') }}</th>
                             <th scope="col" class="text-right border-0">{{ __('Prix Unitaire') }}</th>
                             @if($invoice->product_discount_percentage)
@@ -280,7 +280,7 @@
                             @if($invoice->tax_percentage)
                                 <th scope="col" class="text-right border-0">{{ __('Taxe') }}</th>
                             @endif
-                            <th scope="col" class="text-right border-0 pr-0">{{ __('Sub total') }}</th>
+                            <th scope="col" class="pr-0 text-right border-0">{{ __('Sub total') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -308,7 +308,7 @@
                                 {{ format_currency($item->product_tax_amount ?? 0) }}
                             </td>
 
-                            <td class="text-right pr-0">
+                            <td class="pr-0 text-right">
                                 {{ format_currency($item->sub_total / 100) }}
                             </td>
                         </tr>
@@ -319,8 +319,8 @@
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Réduction') }} ({{ $invoice->discount_percentage }})%</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('Réduction') }} ({{ $invoice->discount_percentage }})%</td>
+                                <td class="pr-0 text-right">
                                     {{ format_currency($invoice->discount_amount / 100) }}
                                 </td>
                             </tr>
@@ -330,8 +330,8 @@
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Taxe') }}  ({{ $invoice->tax_percentage }}%)</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('Taxe') }}  ({{ $invoice->tax_percentage }}%)</td>
+                                <td class="pr-0 text-right">
                                     {{ format_currency($invoice->tax_amount / 100) }}
                                 </td>
                             </tr>
@@ -341,8 +341,8 @@
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('invoices::invoice.tax_rate') }}</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('invoices::invoice.tax_rate') }}</td>
+                                <td class="pr-0 text-right">
                                     {{ $invoice->tax_percentage }}%
                                 </td>
                             </tr>
@@ -352,8 +352,8 @@
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Livraison') }}</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('Livraison') }}</td>
+                                <td class="pr-0 text-right">
                                     {{ format_currency($invoice->shipping_amount / 100) }}
                                 </td>
                             </tr>
@@ -362,8 +362,8 @@
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Montant hors taxe') }}</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('Montant hors taxe') }}</td>
+                                <td class="pr-0 text-right">
                                     {{ format_currency($invoice->total_amount / 100) }}
                                 </td>
                             </tr>
@@ -371,8 +371,8 @@
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Total') }}</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('Total') }}</td>
+                                <td class="pr-0 text-right">
                                     {{ format_currency($invoice->total_amount / 100) }}
                                 </td>
                             </tr>
@@ -382,8 +382,8 @@
                                     <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                     <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                     <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                                    <td class="text-right pl-0">Payé le {{ \Carbon\Carbon::parse($payment->date)->format('d/m/Y') }}</td>
-                                    <td class="text-right pr-0">
+                                    <td class="pl-0 text-right">Payé le {{ \Carbon\Carbon::parse($payment->date)->format('d/m/Y') }}</td>
+                                    <td class="pr-0 text-right">
                                         {{ format_currency($payment->amount / 100) }}
                                     </td>
                                 </tr>
@@ -394,8 +394,8 @@
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Montant dû') }}</td>
-                                <td class="text-right pr-0 total-amount">
+                                <td class="pl-0 text-right">{{ __('Montant dû') }}</td>
+                                <td class="pr-0 text-right total-amount">
                                     {{ format_currency($invoice->due_amount / 100) }}
                                 </td>
                             </tr>
@@ -416,12 +416,6 @@
                 <p>
                     Délai de paiement: {{ payment_term($invoice->payment_term) }}
                 </p>
-
-                @if($invoice->shipping_date)
-                <p>
-                    Date de livraison prévue: {{ \Carbon\Carbon::parse($invoice->shipping_date)->format('d/m/Y') }}
-                </p>
-                @endif
 
                 <script type="text/php">
                     if (isset($pdf) && $PAGE_COUNT > 1) {

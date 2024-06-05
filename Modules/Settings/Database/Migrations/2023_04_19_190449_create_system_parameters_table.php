@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('system_parameters', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
-            $table->string('account_online_distribution_mode')->nullable(); //trial or production
+            $table->enum('account_online_distribution_mode', ['trial', 'production'])->nullable(); //trial or production
             $table->string('account_payment_enable_portal_payment')->nullable();
             $table->boolean('auth_signup_reset_password')->default(true);
             $table->date('database_create_date');
@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('database_expiration_reason')->nullable();
             $table->string('database_secret')->nullable();
             $table->string('database_uuid')->nullable();
+            $table->enum('database_type', ['demo', 'test', 'production', 'partnership '])->default('demo');
+            $table->enum('database_status', ['active', 'suspended', 'delete', 'blocked'])->default('active');
             $table->boolean('default_digest_email')->default(true);
             $table->integer('default_digest_id')->default(1);
             $table->boolean('hr_presence_login')->default(false);

@@ -25,13 +25,12 @@ class SalesTable extends Table
 
     public function emptyTitle() : string
     {
-        return __("Créez un nouveau devis, la première étape d'une vente !");
+        return __('translator::sales.table.sale.empty_title');
     }
 
     public function emptyText() : string
     {
-        return __('Une fois le devis confirmé par le client, il devient un bon de commande.
-        Vous pourrez créer une facture et encaisser le paiement.');
+        return __('translator::sales.table.sale.empty.text');
     }
 
     public function headerName() : string
@@ -48,17 +47,17 @@ class SalesTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('reference', 'Référence')->component('columns.common.show-title-link'),
-            Column::make('date', 'Date de la commande')->component('columns.common.date.simple'),
-            Column::make('shipping_date', 'Date de livraison')->component('columns.common.date.simple'),
-            Column::make('customer_id', 'Client')->component('columns.common.customer'),
-            Column::make('seller_id', 'Commercial')->component('columns.common.seller'),
-            Column::make('sales_team_id', 'Equipe commerciale')->component('columns.common.sales-team'),
-            Column::make('total_amount', 'Total')->component('columns.common.format_currency'),
-            Column::make('status', 'Statut')->component('columns.common.status.quotation-status'),
-            Column::make('invoice_status', 'Statut de la facture')->component('columns.common.status.sale-invoice-status'),
-            Column::make('shipping_status', 'Statut de la livraison')->component('columns.common.status.shipping-status'),
-            Column::make('due_amount', 'Montant à facturer')->component('columns.common.format_currency'),
+            Column::make('reference', __('translator::sales.table.sale.reference'))->component('columns.common.show-title-link'),
+            Column::make('date', __('translator::sales.table.sale.date'))->component('columns.common.date.simple'),
+            Column::make('shipping_date', __('translator::sales.table.sale.shipping_date'))->component('columns.common.date.simple'),
+            Column::make('customer_id', __('translator::sales.table.sale.customer'))->component('columns.common.customer'),
+            Column::make('seller_id', __('translator::sales.table.sale.seller'))->component('columns.common.seller'),
+            Column::make('sales_team_id', __('translator::sales.table.sale.sale_team'))->component('columns.common.sales-team'),
+            Column::make('total_amount', __('translator::sales.table.sale.total'))->component('columns.common.format_currency'),
+            Column::make('status', __('translator::sales.table.sale.status'))->component('columns.common.status.quotation-status'),
+            Column::make('invoice_status', __('translator::sales.table.sale.invoice_status'))->component('columns.common.status.sale-invoice-status'),
+            Column::make('shipping_status', __('translator::sales.table.sale.shipping_status'))->component('columns.common.status.shipping-status'),
+            // Column::make('due_amount', 'Montant à facturer')->component('columns.common.format_currency'),
         ];
     }
 

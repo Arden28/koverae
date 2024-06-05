@@ -25,8 +25,8 @@ class OperationTransferForm extends BaseForm
 {
     use ActionBarButtonTrait;
 
-    #[Url(as : 'type')]
-    public $transfer_type;
+    #[Url(as : 'type', keep: true)]
+    public $transfer_type = '';
 
     public $transfer;
 
@@ -41,6 +41,7 @@ class OperationTransferForm extends BaseForm
             $this->reference = $transfer->reference;
             $this->contact = $transfer->contact_id;
             $this->type = $transfer->operation_type_id;
+            $this->transfer_type = $transfer->operationType->operation_type;
             $this->schedule_date = Carbon::parse($transfer->schedule_date)->format('Y-m-d H:i:s');
             $this->from = $transfer->received_from;
             $this->to = $transfer->in_direction_to;
@@ -50,6 +51,9 @@ class OperationTransferForm extends BaseForm
             $this->note = $transfer->note;
             $this->status = $transfer->status;
             $this->updateMode = true;
+            if($this->status == 'done'){
+                $this->blocked = true;
+            }
         }else{
             $this->schedule_date = now()->format('Y-m-d H:i:s');
             if($this->transfer_type){
@@ -130,7 +134,7 @@ class OperationTransferForm extends BaseForm
 
         $buttons = [
             ActionBarButton::make('mark', 'Marquer comme à faire', 'markAsReady()', 'draft')->component('button.action-bar.if-status'),
-            ActionBarButton::make('validate', isset($this->transfer->operationType->operation_type) === 'receipt' ? 'Recevoir les produits' : 'Valider', 'validateOperation', 'ready')->component('button.action-bar.if-status'),
+            ActionBarButton::make('validate', $this->transfer_type === 'receipt' ? 'Recevoir les produits' : 'Valider', 'validateOperation', 'ready')->component('button.action-bar.if-status'),
             ActionBarButton::make('cancelled', 'Annuler', 'cancelOp', 'done')->component('button.action-bar.if-status'),
             // ActionBarButton::make('storeTeam', 'Sauvegarder', $this->updateMode == false ? 'store' : "update", 'droft'),
         ];
@@ -245,6 +249,8 @@ class OperationTransferForm extends BaseForm
     }
 
     public function updatedType(OperationType $type){
+        $this->transfer_type = $type->operation_type;
+
         if($type->isType('receipt')){
             $this->from = WarehouseLocation::isCompany(current_company()->id)->isType('supplier')->first()->id;
             $this->to = WarehouseLocation::isCompany(current_company()->id)->isType('internal')->first()->id;
@@ -292,6 +298,7 @@ class OperationTransferForm extends BaseForm
                 'product_quantity' => $detail->product->product_quantity + $detail->demand,
             ]);
         }
+
 
         return redirect()->route('inventory.operation-transfers.show', ['transfer' => $operation->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }

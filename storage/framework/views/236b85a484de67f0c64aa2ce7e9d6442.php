@@ -1,5 +1,5 @@
 <div>
-    <?php $__env->startSection('title', __('Devis')); ?>
+    <?php $__env->startSection('title', __('translator::sales.form.quotation.page-title-list')); ?>
 
     <!-- Control Panel -->
     <?php $__env->startSection('control-panel'); ?>

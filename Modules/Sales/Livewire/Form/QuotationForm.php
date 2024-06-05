@@ -34,6 +34,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Modules\App\Entities\Email\EmailTemplate;
+use Modules\App\Services\Files\FileDownloadService;
+use Modules\App\Services\LinkGenerationService;
 use Modules\Inventory\Entities\Operation\OperationTransfer;
 use Modules\Inventory\Entities\Operation\OperationTransferDetail;
 use Modules\Inventory\Entities\Operation\OperationType;
@@ -70,7 +72,7 @@ class QuotationForm extends BaseForm
 
     $shipping_date,
 
-    $shipping_status;
+    $shipping_status = 'unshipped';
 
     public $updateMode = false;
 
@@ -94,7 +96,8 @@ class QuotationForm extends BaseForm
 
             $this->quotation = $quotation;
 
-            $this->model = $quotation;
+            $this->template = EmailTemplate::isCompany(current_company()->id)->applyTo('quotation')->first()->id;
+            $this->model = $this->quotation;
             // $this->template = EmailTemplate::isCompany(current_company()->id)->applyTo('quotation')->first()->id;
 
             $this->sale = $quotation->sale;
@@ -118,13 +121,14 @@ class QuotationForm extends BaseForm
             $this->shipping_date = $quotation->shipping_date;
             $this->shipping_policy = $quotation->shipping_policy;
             $this->shipping_status = $quotation->shipping_status;
+
             // Order Details
             // $this->inputs = $quotation->quotationDetails;
 
             // Block the field
             $this->blocked = true;
         }else{
-            $this->reference = "Nouveau";
+            $this->reference = __('translator::sales.form.quotation.reference');
             $this->date = now()->format('Y-m-d');
             $this->expected_date = now()->addDays(7)->format('Y-m-d');
             $this->payment_term = 'immediate_payment';
@@ -137,9 +141,9 @@ class QuotationForm extends BaseForm
 
     protected $rules = [
         'customer' => 'required',
-        'date' => 'required',
+        'date' => 'nullable',
         'expected_date' => 'nullable',
-        'payment_term' => 'required',
+        'payment_term' => 'nullable',
         'tax_percentage' => 'nullable|integer|min:0|max:100',
         'discount_percentage' => 'nullable|integer|min:0|max:100',
         'shipping_amount' => 'nullable|numeric',
@@ -159,32 +163,32 @@ class QuotationForm extends BaseForm
     {
         return  [
             // make($key, $label, $type, $model, $position, $tab, $group)
-            Input::make('customer','Client', 'select', 'customer', 'left', 'none', 'none')->component('inputs.select.contact'),
-            Input::make('date','Date', 'date', 'date', 'right', 'none', 'none'),
-            Input::make('expiration','Expiration', 'date', 'expected_date', 'right', 'none', 'none'),
-            Input::make('payment_term','Modalité de paiement', 'select', 'payment_term', 'right', 'none', 'none')->component('inputs.select.payment_term'),
+            Input::make('customer',__('translator::components.inputs.customer.label'), 'select', 'customer', 'left', 'none', 'none')->component('inputs.select.contact'),
+            Input::make('date',__('translator::components.inputs.date.label'), 'date', 'date', 'right', 'none', 'none'),
+            Input::make('expiration',__('translator::components.inputs.expiration-date.label'), 'date', 'expected_date', 'right', 'none', 'none'),
+            Input::make('payment_term',__('translator::components.inputs.payment-term.label'), 'select', 'payment_term', 'right', 'none', 'none')->component('inputs.select.payment_term'),
 
             //Note
-            Input::make('note','Modalité de paiement', 'textarea', 'note', '', 'summary', 'none', 'Note interne')->component('inputs.textarea.tabs-middle'),
+            Input::make('note',__('translator::components.inputs.note.label'), 'textarea', 'note', '', 'summary', 'none', __('translator::components.inputs.note.placeholder'))->component('inputs.textarea.tabs-middle'),
 
             // Sales
-            Input::make('salesTeams','Equipe de vente', 'select', 'sales_team', '', 'other', 'sales')->component('inputs.select.sales_teams'),
-            Input::make('seller','Commercial(e)', 'select', 'seller', '', 'other', 'sales')->component('inputs.select.sales.seller'),
-            Input::make('tags','Tag(s)', 'select', 'tags', '', 'other', 'sales')->component('inputs.select.sales.tags'),
+            Input::make('salesTeams',__('translator::components.inputs.sales-teams.label'), 'select', 'sales_team', '', 'other', 'sales')->component('inputs.select.sales_teams'),
+            Input::make('seller',__('translator::components.inputs.seller.label'), 'select', 'seller', '', 'other', 'sales')->component('inputs.select.sales.seller'),
+            Input::make('tags',__('translator::components.inputs.tags.label'), 'select', 'tags', '', 'other', 'sales')->component('inputs.select.sales.tags'),
 
             // Shipping
-            Input::make('shipping_policy','Politique de livraison', 'select', 'shipping_policy', '', 'other', 'delivery')->component('inputs.select.shipping.policy'),
-            Input::make('shipping_date','Date de livraison', 'date', 'shipping_date', '', 'other', 'delivery'),
-            Input::make('shipping_status','Status', 'select', 'shipping_status', '', 'other', 'delivery')->component('inputs.select.shipping.status'),
+            Input::make('shipping_policy',__('translator::components.inputs.delivery-policy.label'), 'select', 'shipping_policy', '', 'other', 'delivery')->component('inputs.select.shipping.policy'),
+            Input::make('shipping_date',__('translator::components.inputs.delivery-date.label'), 'date', 'shipping_date', '', 'other', 'delivery'),
+            Input::make('shipping_status',__('translator::components.inputs.delivery-status.label'), 'select', 'shipping_status', '', 'other', 'delivery')->component('inputs.select.shipping.status'),
 
             // Invoicing
-            Input::make('fiscal_position',"Position fiscale", 'text', 'fiscal_position', '', 'other', 'invoicing'),
+            Input::make('fiscal_position',__('translator::components.inputs.tax-position.label'), 'text', 'fiscal_position', '', 'other', 'invoicing'),
 
             // Tracking
-            Input::make('source_document',"Document d'origine", 'text', 'source_document', '', 'other', 'tracking'),
-            Input::make('campaign',"Campagne", 'select', 'campaign', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
-            Input::make('medium',"Moyen", 'select', 'medium', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
-            Input::make('source',"Source", 'select', 'source', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
+            Input::make('source_document',__('translator::components.inputs.original-document.label'), 'text', 'source_document', '', 'other', 'tracking'),
+            Input::make('campaign',__('translator::components.inputs.campaign.label'), 'select', 'campaign', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
+            Input::make('medium',__('translator::components.inputs.medium.label'), 'select', 'medium', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
+            Input::make('source',__('translator::components.inputs.source.label'), 'select', 'source', '', 'other', 'tracking')->component('inputs.select.tracking.campaign'),
 
         ];
     }
@@ -193,9 +197,9 @@ class QuotationForm extends BaseForm
     {
         return  [
             // make($key, $label)
-            Tabs::make('order','Commande')->component('tabs.quotation-order'),
-            Tabs::make('other','Autres Informations'),
-            Tabs::make('summary','Note')->component('tabs.note.summary'),
+            Tabs::make('order', __('translator::sales.form.quotation.tabs.orders'))->component('tabs.quotation-order'),
+            Tabs::make('other',__('translator::sales.form.quotation.tabs.others')),
+            Tabs::make('summary',__('translator::sales.form.quotation.tabs.note'))->component('tabs.note.summary'),
         ];
     }
 
@@ -203,10 +207,10 @@ class QuotationForm extends BaseForm
     {
         return  [
             // make($key, $label, $tabs)
-            Group::make('sales','Ventes', 'other'),
-            Group::make('delivery','Livraison', 'other'),
-            Group::make('invoicing','Facturation', 'other'),
-            Group::make('tracking','Suivi', 'other'),
+            Group::make('sales',__('translator::sales.form.quotation.groups.sales'), 'other'),
+            Group::make('delivery',__('translator::sales.form.quotation.groups.delivery'), 'other'),
+            Group::make('invoicing',__('translator::sales.form.quotation.groups.invoicing'), 'other'),
+            Group::make('tracking',__('translator::sales.form.quotation.groups.tracking'), 'other'),
         ];
     }
 
@@ -217,10 +221,10 @@ class QuotationForm extends BaseForm
         $buttons = [
             // key, label, action, primary
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
-            ActionBarButton::make('send', 'Envoyer par Email', "", 'quotation')->component('button.action-bar.send-email'),
-            ActionBarButton::make('confirm', 'Confirmer', 'confirm', 'sent')->component('button.action-bar.confirmed-quotation'),
-            ActionBarButton::make('preview', 'Aperçu', 'preview()', 'previewed'),
-            ActionBarButton::make('unlock',  $this->blocked ? 'Débloquer' : 'Bloquer', $this->blocked ? "unlock()" : "lock()", 'confirmed'),
+            ActionBarButton::make('send', __('translator::sales.form.quotation.actions.send-email'), "", 'quotation')->component('button.action-bar.send-email'),
+            ActionBarButton::make('confirm', __('translator::sales.form.quotation.actions.confirm'), 'confirm', 'sent')->component('button.action-bar.confirmed-quotation'),
+            ActionBarButton::make('preview', __('translator::sales.form.quotation.actions.preview'), 'preview()', 'previewed'),
+            ActionBarButton::make('unlock',  $this->blocked ? __('translator::sales.form.quotation.actions.unlock') : __('translator::sales.form.quotation.actions.lock'), $this->blocked ? "unlock()" : "lock()", 'confirmed'),
             // Add more buttons as needed
         ];
 
@@ -236,10 +240,10 @@ class QuotationForm extends BaseForm
     public function statusBarButtons() : array
     {
         return [
-            StatusBarButton::make('quotation', 'Devis', 'quotation'),
-            StatusBarButton::make('sent', 'Envoyé', 'sent'),
-            StatusBarButton::make('sale_order', 'Bon de commande', 'sale_order'),
-            StatusBarButton::make('canceled', 'Annulé', 'canceled')->component('button.status-bar.canceled'),
+            StatusBarButton::make('quotation', __('translator::sales.form.quotation.status.quotation'), 'quotation'),
+            StatusBarButton::make('sent', __('translator::sales.form.quotation.status.sent'), 'sent'),
+            StatusBarButton::make('sale_order', __('translator::sales.form.quotation.status.order'), 'sale_order'),
+            StatusBarButton::make('canceled', __('translator::sales.form.quotation.status.canceled'), 'canceled')->component('button.status-bar.canceled'),
             // Add more buttons as needed
         ];
     }
@@ -247,7 +251,7 @@ class QuotationForm extends BaseForm
     public function capsules() : array
     {
         return [
-            Capsule::make('sale', 'Bons de commande', 'Les ventes générées via le devis.')->component('capsules.sale-capsule'),
+            Capsule::make('sale', __('translator::sales.form.quotation.capsules.sales.name'), __('translator::sales.form.quotation.capsules.sales.text'))->component('capsules.sale-capsule'),
             // Add more buttons as needed
         ];
     }
@@ -318,7 +322,7 @@ class QuotationForm extends BaseForm
             ]);
         }
 
-        notify()->success("Nouveau Devis créé !");
+        notify()->success(__('translator::sales.form.quotation.messages.success.quotation-create'));
 
         return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
 
@@ -369,7 +373,7 @@ class QuotationForm extends BaseForm
         //     // Cart::instance('quotation')->store(Auth::user()->id);
         //     Cart::instance('quotation')->destroy();
 
-        //     notify()->success("Nouveau Devis créé !");
+        //     notify()->success(__('translator::sales.form.quotation.messages.success.quotation-create'));
 
         //     return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
         // });
@@ -406,7 +410,6 @@ class QuotationForm extends BaseForm
             'status' => $this->status,
             'note' => $this->note,
             'tax_amount' => $this->tax_amount,
-            'discount_amount' => $this->discount_amount,
         ]);
         $quotation->save();
 
@@ -456,14 +459,14 @@ class QuotationForm extends BaseForm
             $paymentMethod = $this->payment_method;
         } else {
             // Set a default value for payment_method
-            $paymentMethod = 'Cash';
+            $paymentMethod = 'cash';
         }
         if ($due_amount == $this->total_amount) {
-            $payment_status = 'Unpaid';
+            $payment_status = 'unpaid';
         } elseif ($due_amount > 0) {
-            $payment_status = 'Partial';
+            $payment_status = 'partial';
         } else {
-            $payment_status = 'Paid';
+            $payment_status = 'paid';
         }
 
         $sale = Sale::create([
@@ -483,8 +486,8 @@ class QuotationForm extends BaseForm
             'payment_status' => $payment_status,
             'payment_method' => $paymentMethod,
             'paid_amount' => 0,
-            'due_amount' => $this->total_amount * 100, //On va remplacer cela par le prix TTC
-            'total_amount' => $this->total_amount * 100,
+            'due_amount' => $this->quotation->total_amount * 100, //On va remplacer cela par le prix TTC
+            'total_amount' => $this->quotation->total_amount * 100,
             'status' => 'to_invoice',
             'note' => $this->note,
             'tax_amount' => $this->tax_amount,
@@ -500,9 +503,9 @@ class QuotationForm extends BaseForm
                 'product_name' => $detail->product_name,
                 'product_code' => $detail->product_code,
                 'quantity' => $detail->quantity,
-                'price' => $detail->price,
-                'unit_price' => $detail->price,
-                'sub_total' => $detail->sub_total,
+                'price' => $detail->price * 100,
+                'unit_price' => $detail->price * 100,
+                'sub_total' => $detail->sub_total * 100,
                 'product_discount_amount' => 0,
                 // 'product_discount_type' => $detail->options->product_discount_type,
                 'product_tax_amount' => 0,
@@ -510,9 +513,9 @@ class QuotationForm extends BaseForm
             $sale_details->save();
 
             if(!module('inventory')){
-                $product = Product::findOrFail($detail->product_id);
+                $product = Product::findOrFail($sale_details->product_id);
                 $product->update([
-                    'product_quantity' => $product->product_quantity - $detail->qty
+                    'product_quantity' => $product->product_quantity - $sale_details->quantity
                 ]);
             }
 
@@ -528,7 +531,7 @@ class QuotationForm extends BaseForm
             $logisticService->launchDelivery($sale);
         }
 
-        notify()->success("Nouveau bon de commande créé !");
+        notify()->success( __('translator::sales.form.quotation.messages.success.quotation-create'));
 
         return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'menu' => current_menu()]);
     }
@@ -536,7 +539,7 @@ class QuotationForm extends BaseForm
     // Confirm the sale from quotation
     public function sale(){
 
-        $this->validate();
+        // $this->validate();
 
         $due_amount = $this->total_amount - $this->paid_amount;
 
@@ -545,7 +548,7 @@ class QuotationForm extends BaseForm
             $paymentMethod = $this->payment_method;
         } else {
             // Set a default value for payment_method
-            $paymentMethod = 'cash';
+            $paymentMethod = 'c';
         }
         if ($due_amount == $this->total_amount) {
             $payment_status = 'unpaid';
@@ -600,9 +603,9 @@ class QuotationForm extends BaseForm
             $sale_details->save();
 
             if(!module('inventory')){
-                $product = Product::findOrFail($detail->product_id);
+                $product = Product::findOrFail($sale_details->product_id);
                 $product->update([
-                    'product_quantity' => $product->product_quantity - $detail->qty
+                    'product_quantity' => $product->product_quantity - $sale_details->quantity
                 ]);
             }
 
@@ -618,7 +621,7 @@ class QuotationForm extends BaseForm
             $logisticService->launchDelivery($sale);
         }
 
-        notify()->success("Nouveau bon de commande créé !");
+        notify()->success(__('translator::sales.form.quotation.messages.success.quotation-create'));
 
         return redirect()->route('sales.show', ['subdomain' => current_company()->domain_name, 'sale' => $sale->id, 'menu' => current_menu()]);
 
@@ -639,95 +642,79 @@ class QuotationForm extends BaseForm
     #[On('print-quotation')]
     // Print Quotation
     public function print(){
-        try {
-            // $quotation = Quotation::find(38);
 
-            if (!$this->quotation) {
-                throw new \Exception('Quotation not found');
-            }
-
-            $quotation = Quotation::findOrFail($this->quotation->id);
-
-            $customer = Contact::findOrFail($quotation->customer_id);
-            $seller = SalesPerson::findOrFail($quotation->seller_id);
-            $company = current_company();
-
-            $pdf = Pdf::loadView('sales::print-quotation', [
-                'quotation' => $quotation,
-                'customer' => $customer,
-                'seller' => $seller,
-                'company' => $company
-            ])->setPaper('a4');
-
-            return response()->streamDownload(function () use ($pdf) {
-                echo $pdf->output(); // Echo download contents directly...
-            }, 'Devis -' . $quotation->reference . '.pdf');
-
-
-            // return response($utf8Output)->download('quotation-' . $quotation->reference . '.pdf');
-        } catch (\Exception $e) {
-            Log::error('Error generating quotation PDF: ' . $e->getMessage());
-            return response()->json(['error' => 'Unable to generate PDF'], 500);
+        if (!$this->quotation) {
+            throw new \Exception('Quotation not found');
         }
+
+        $quotation = Quotation::findOrFail($this->quotation->id);
+
+        $customer = Contact::findOrFail($quotation->customer_id);
+        $seller = SalesPerson::findOrFail($quotation->seller_id);
+        $company = current_company();
+
+        $fileName = 'Devis - '. $quotation->reference; // The desired file name of the downloaded PDF
+        $view = 'sales::print-quotation'; // Example view that you want to convert to PDF
+        $data = [
+            'quotation' => $quotation,
+            'customer' => $customer,
+            'seller' => $seller,
+            'company' => $company
+        ]; // Data to be passed to the view
+
+        $fileDownloadService = new FileDownloadService();
+
+        // Use the downloadPdf method from the service
+        return $fileDownloadService->downloadPdf($fileName, $view, $data);
     }
 
     #[On('duplicate-quotation')]
     // Duplicate quotation
     public function duplicateQT(){
 
-        $this->validate();
+        // $this->validate();
 
-        DB::transaction(function () {
-            $cart = Cart::instance('quotation');
-            // Remove any non-numeric characters except the decimal point
-            $this->total_amount = convertToInt($cart->total());
-            $this->tax_amount = convertToInt($cart->tax());
+        $quotation = Quotation::create([
 
-            $quotation = Quotation::create([
+            'company_id' => current_company()->id,
+            'date' => $this->date,
+            'expected_date' => $this->expected_date,
+            'payment_term' => $this->payment_term,
+            'seller_id' => $this->seller ?? 1, //customer id
+            'sales_team_id' => $this->sales_team, //customer id
+            'customer_id' => $this->customer, //customer id
+            'tax_percentage' => $this->tax_percentage,
+            'discount_percentage' => $this->discount_percentage,
+            'shipping_amount' => 0,
+            'shipping_date' => $this->shipping_date,
+            'shipping_policy' => $this->shipping_policy,
+            'shipping_status' => $this->shipping_status,
+            'total_amount' => $this->quotation->total_amount * 100,
+            'status' => $this->status,
+            'note' => $this->note,
+            'tax_amount' => $this->tax_amount,
+            'discount_amount' => $this->discount_amount,
+        ]);
 
-                'company_id' => current_company()->id,
-                'date' => $this->date,
-                'expected_date' => $this->expected_date,
-                'payment_term' => $this->payment_term,
-                'seller_id' => $this->seller ?? 1, //customer id
-                'sales_team_id' => $this->sales_team, //customer id
-                'customer_id' => $this->customer, //customer id
-                'tax_percentage' => $this->tax_percentage,
-                'discount_percentage' => $this->discount_percentage,
-                'shipping_amount' => 0,
-                'shipping_date' => $this->shipping_date,
-                'shipping_policy' => $this->shipping_policy,
-                'shipping_status' => $this->status,
-                'total_amount' => $this->total_amount / 100,
-                'status' => $this->status,
-                'note' => $this->note,
-                'tax_amount' => $this->tax_amount,
-                'discount_amount' => $this->discount_amount,
+        foreach ($this->quotation->quotationDetails as $detail) {
+            QuotationDetails::create([
+                'quotation_id' => $quotation->id,
+                'product_id' => $detail->id,
+                'product_name' => $detail->product_name,
+                'product_code' => $detail->product_code,
+                'quantity' => $detail->quantity,
+                'price' => $detail->price * 100,
+                'unit_price' => $detail->unit_price *100,
+                'sub_total' => $detail->sub_total * 100,
+                'product_discount_amount' => $detail->product_discount_amount,
+                'product_discount_type' => $detail->product_discount_type,
+                'product_tax_amount' => $detail->product_tax_amount,
             ]);
+        }
 
-            foreach (Cart::instance('quotation')->content() as $cart_item) {
-                QuotationDetails::create([
-                    'quotation_id' => $quotation->id,
-                    'product_id' => $cart_item->id,
-                    'product_name' => $cart_item->name,
-                    'product_code' => $cart_item->options->code,
-                    'quantity' => $cart_item->qty,
-                    'price' => $cart_item->price * 100,
-                    'unit_price' => $cart_item->options->unit_price * 100,
-                    'sub_total' => $cart_item->options->sub_total * 100,
-                    'product_discount_amount' => $cart_item->options->product_discount * 100,
-                    'product_discount_type' => $cart_item->options->product_discount_type,
-                    'product_tax_amount' => $cart_item->options->product_tax * 100,
-                ]);
-            }
+        notify()->success(__('translator::sales.form.quotation.messages.success.quotation-create'));
 
-            // Cart::instance('quotation')->store(Auth::user()->id);
-            Cart::instance('quotation')->destroy();
-
-            notify()->success("Nouveau Devis créé !");
-
-            return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
-        });
+        return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
 
     }
 
@@ -736,6 +723,8 @@ class QuotationForm extends BaseForm
     {
         // $quotation = Quotation::find($quotation);
         $quotation->delete();
+        notify()->success(__('translator::sales.form.quotation.messages.success.quotation-create'));
+
         return redirect()->route('sales.quotations.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
@@ -748,5 +737,27 @@ class QuotationForm extends BaseForm
         $this->blocked = true;
         $this->dispatch('lock-quotation');
     }
-}
 
+    #[On('mas-quotation')]
+    public function markAsSent(){
+
+        $this->status == 'sent';
+
+        if($this->quotation){
+            $quotation = Quotation::findOrFail($this->quotation->id);
+            $quotation->update([
+               'status' =>'sent',
+            ]);
+            $quotation->save();
+            $this->status = $quotation->status;
+
+            notify()->success(__('translator::sales.form.quotation.messages.success.quotation-sent'));
+
+            return redirect()->route('sales.quotations.show', ['subdomain' => current_company()->domain_name, 'quotation' => $quotation->id, 'menu' => current_menu()]);
+
+        }else{
+            $this->storeQT();
+        }
+    }
+
+}

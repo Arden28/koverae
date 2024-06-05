@@ -10,7 +10,7 @@
 @if(isset($this->customer) || isset($this->supplier))
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- Input Label -->
-    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0  text-break text-900">
+    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         <label class="k_form_label">
             {{ $value->label }} :
         </label>
@@ -29,7 +29,7 @@
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model="{{ $value->model }}" id="" class="k_input">
+        <select wire:model="{{ $value->model }}" id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
             @foreach($contacts as $contact)
             <option value="{{ $contact->id }}">{{ $contact->name }}</option>

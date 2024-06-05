@@ -18,7 +18,7 @@ class SalesProgramFormPanel extends ControlPanel
             $this->program = $program;
             $this->currentPage = $program->name;
         }else{
-            $this->currentPage = 'Nouveau';
+            $this->currentPage = __('translator::sales.control.sale.current_page_new');
         }
         $this->new = route('sales.programs.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';

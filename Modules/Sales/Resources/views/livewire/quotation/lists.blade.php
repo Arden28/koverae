@@ -1,5 +1,5 @@
 <div>
-    @section('title', __('Devis'))
+    @section('title', __('translator::sales.form.quotation.page-title-list'))
 
     <!-- Control Panel -->
     @section('control-panel')

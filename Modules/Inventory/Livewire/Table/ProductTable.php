@@ -24,18 +24,18 @@ class ProductTable extends Table
 
     public function emptyTitle() : string
     {
-        return __("Créer un nouveau produit");
+        return __('translator::inventory.table.product.empty.title');
     }
 
     public function emptyText() : string
     {
-        return __('Vous devez définir un produit pour tout ce que vous vendez ou achetez, que ce soit un produit stockable, consommable ou un service.');
+        return __('translator::inventory.table.product.empty.text');
     }
 
     public function headerName() : string
     {
 
-        return "Produits";
+        return "Products";
     }
 
     public function query() : Builder
@@ -46,15 +46,15 @@ class ProductTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('product_name', "Nom du produit")->component('columns.common.show-title-link'),
-            Column::make('product_internal_reference', "Référence interne"),
-            Column::make('category_id', "Catégorie")->component('columns.common.product.category'),
-            Column::make('product_barcode_symbology', "Code-barres"),
-            Column::make('responsible_id', "Responsable")->component('columns.common.product.responsible'),
-            Column::make('product_price', "Prix de vente")->component('columns.common.product.format_currency'),
-            Column::make('product_cost', "Coût")->component('columns.common.product.format_currency'),
-            Column::make('product_type', "Type de produit")->component('columns.common.product.type'),
-            Column::make('product_quantity', "En stock"),
+            Column::make('product_name', __('translator::inventory.table.product.name'))->component('columns.common.show-title-link'),
+            Column::make('product_internal_reference', __('translator::inventory.table.product.internal-reference')),
+            Column::make('category_id', __('translator::inventory.table.product.category'))->component('columns.common.product.category'),
+            Column::make('product_barcode_symbology', __('translator::inventory.table.product.barcode')),
+            Column::make('responsible_id', __('translator::inventory.table.product.responsible'))->component('columns.common.product.responsible'),
+            Column::make('product_price', __('translator::inventory.table.product.price'))->component('columns.common.product.format_currency'),
+            Column::make('product_cost', __('translator::inventory.table.product.cost'))->component('columns.common.product.format_currency'),
+            Column::make('product_type', __('translator::inventory.table.product.type'))->component('columns.common.product.type'),
+            Column::make('product_quantity', __('translator::inventory.table.product.quantity')),
         ];
     }
 

@@ -21,7 +21,7 @@ class SaleFormPanel extends ControlPanel
 
             $this->currentPage = $sale->reference;
         }else{
-            $this->currentPage = 'Nouveau';
+            $this->currentPage = __('translator::sales.control.sale.current_page_new');
         }
         $this->new = route('sales.quotations.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
@@ -30,9 +30,11 @@ class SaleFormPanel extends ControlPanel
     public function actionButtons() : array
     {
         return [
-            ActionButton::make('print', '<i class="bi bi-printer"></i> Imprimer', 'printSL()'),
-            ActionButton::make('duplicate', 'Dupliquer', 'duplicateSL()'),
-            ActionButton::make('delete', '<i class="bi bi-trash"></i> Supprimer', 'deleteSL()'),
+            ActionButton::make('print', '<i class="bi bi-printer"></i> '.__('translator::sales.control.sale.actions.print'), 'printSL()', true),
+            ActionButton::make('duplicate', __('translator::sales.control.sale.actions.duplicate'), 'duplicateSL()'),
+            ActionButton::make('delete', '<i class="bi bi-trash"></i> '.__('translator::sales.control.sale.actions.delete'), 'deleteSL()', true),
+            ActionButton::make('share', __('translator::sales.control.sale.actions.generateLink'), ""),
+            ActionButton::make('share', __('translator::sales.control.sale.actions.share'), "")
             // Add more buttons as needed
         ];
     }

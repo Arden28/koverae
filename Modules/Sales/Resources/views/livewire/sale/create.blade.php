@@ -1,14 +1,14 @@
 <div>
-    @section('title', __('Nouveau Bon de Commande'))
+    @section('title', __('translator::sales.form.sale.page-title-new'))
 
     <!-- Notify -->
     @include('notify::components.notify')
     <form wire:submit.prevent="storeSale()">
         @csrf
         <!-- Status bar -->
-        <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
+        <div class="pb-2 mb-0 k_form_statusbar position-relative d-flex justify-content-between mb-md-2 pb-md-0">
 
-            <div id="statusbar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
+            <div id="statusbar" class="flex-wrap gap-1 k_statusbar_buttons d-flex align-items-center align-content-around">
 
                 <button type="button"  class="btn btn-primary primary">
                     <span>
@@ -73,11 +73,11 @@
         </div>
         <!-- Sheet Card -->
         <div class="k_form_sheet_bg position-relative">
-            <div class="row justify-content-between position-relative w-100 m-0 mb-2">
+            <div class="m-0 mb-2 row justify-content-between position-relative w-100">
                 <!-- title-->
                 <div class="ke_title mw-75 pe-2 ps-0" id="new-title">
                     <!-- Name -->
-                    <h1 class="d-flex flex-row align-items-center">
+                    <h1 class="flex-row d-flex align-items-center">
                         {{__('Nouvelle vente')}}
                     </h1>
                 </div>
@@ -163,7 +163,7 @@
 
             <div class="k_notebokk_headers">
                 <!-- Tab Link -->
-                <ul class="nav nav-tabs flex-row flex-nowrap" data-bs-toggle="tabs">
+                <ul class="flex-row nav nav-tabs flex-nowrap" data-bs-toggle="tabs">
                     <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab" href="#order">{{ __('Commande') }}</a>
                     </li>
@@ -192,7 +192,7 @@
                         <div class="k_inner_group col-lg-6">
                             <!-- separator -->
                             <div class="g-col-sm-2">
-                                <div class="k_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                <div class="mt-4 mb-3 k_horizontal_separator text-uppercase fw-bolder small">
                                     {{ __('Ventes') }}
                                 </div>
                             </div>
@@ -249,7 +249,7 @@
                         <div class="k_inner_group col-lg-6">
                             <!-- separator -->
                             <div class="g-col-sm-2">
-                                <div class="k_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                <div class="mt-4 mb-3 k_horizontal_separator text-uppercase fw-bolder small">
                                     {{ __('Livraison') }}
                                 </div>
                             </div>
@@ -291,7 +291,7 @@
                         <div class="k_inner_group col-lg-6">
                             <!-- separator -->
                             <div class="g-col-sm-2">
-                                <div class="k_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                <div class="mt-4 mb-3 k_horizontal_separator text-uppercase fw-bolder small">
                                     {{ __('Tracking') }}
                                 </div>
                             </div>

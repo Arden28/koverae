@@ -13,11 +13,11 @@
             {{ $value->label }}
             @if($value->help)
                 <sup><i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="{{ $value->help }}"></i></sup>
-            @endif :
+            @endif
         </label>
     </div>
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model.blur="{{ $value->model }}" id="" class="k_input">
+        <select wire:model.blur="{{ $value->model }}" id="" class="k_input" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
             @foreach($units as $unit)
             <option value="{{ $unit->id }}">{{ $unit->name }}</option>

@@ -13,5 +13,6 @@
     "Point": true,
     "Manufacutring": true,
     "Manufacturing": true,
-    "Pos": true
+    "Pos": true,
+    "Translator": true
 }

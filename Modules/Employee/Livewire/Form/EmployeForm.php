@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Modules\Employee\Entities\Employee;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\On;
 
 class EmployeForm extends SimpleAvatarForm

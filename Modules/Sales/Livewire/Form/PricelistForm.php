@@ -24,12 +24,12 @@ class PricelistForm extends BaseForm
             $this->country_group = $pricelist->country_group_id;
         }
     }
-    
+
     public function tabs() : array
     {
         return  [
             // make($key, $label)
-            Tabs::make('pricelist-rule','Règles de prix'),
+            Tabs::make('pricelist-rule',__('translator::sales.form.pricelist.tabs.rules')),
             // Tabs::make('configuration','Configuration'),
         ];
     }
@@ -38,9 +38,9 @@ class PricelistForm extends BaseForm
     {
         return  [
             // make($key, $label, $tabs = null)
-            Group::make('base_info',"Informations Générales", 'none')->component('tabs.group.light'),
-            Group::make('availability',"Disponibilité", 'confuguration')->component('tabs.group.light'),
-            Group::make('discount',"Remises", 'confuguration'),
+            Group::make('base_info',__('translator::sales.form.pricelist.groups.base_info'), 'none')->component('tabs.group.light'),
+            Group::make('availability',__('translator::sales.form.pricelist.groups.availability'), 'confuguration')->component('tabs.group.light'),
+            Group::make('discount',__('translator::sales.form.pricelist.groups.discount'), 'confuguration'),
             // Group::make('return',"Retours", 'general'),
         ];
     }
@@ -49,7 +49,7 @@ class PricelistForm extends BaseForm
     {
         return  [
             // make($key, $label, $transfer, $model, $position, $tab, $group, $placeholder = null, $help = null)
-            Input::make('name',"", 'text', 'name', 'left', 'none', 'base_info', __("par ex: Revendeurs Brazzaville"))->component('inputs.ke-title'),
+            Input::make('name',"", 'text', 'name', 'left', 'none', 'base_info', __('translator::components.inputs.pricelist-name.placeholder'))->component('inputs.ke-title'),
         ];
     }
 

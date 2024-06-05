@@ -11,11 +11,11 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model="{{ $value->model }}" class="k-autocomplete-input-0 k_input" id="company_id_0">
+        <select wire:model="{{ $value->model }}" class="k-autocomplete-input-0 k_input" id="company_id_0" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
-            <option value="standard">{{ __('Prix Standard') }}</option>
-            <option value="fifo">{{ __('Premier entré, Premier sorti (FIFO)') }}</option>
-            <option value="avco">{{ __('Coût moyen (AVCO)') }}</option>
+            <option value="standard">{{ __('translator::components.inputs.cost-method.select.standard') }}</option>
+            <option value="fifo">{{ __('translator::components.inputs.cost-method.select.fifo') }}</option>
+            <option value="avco">{{ __('translator::components.inputs.cost-method.select.avco') }}</option>
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
     </div>

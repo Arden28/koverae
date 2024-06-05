@@ -36,7 +36,7 @@ class ProductCategoryTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('category_name', "Nom du produit")->component('columns.common.show-title-link'),
+            Column::make('category_name', __('translator::inventory.table.product-category.name'))->component('columns.common.show-title-link'),
         ];
     }
 

@@ -1,6 +1,6 @@
 <div>
 
-    @section('title', __('Equipes Commerciales'))
+    @section('title', __('translator::sales.form.team.page-title-list'))
 
     <!-- Control Panel -->
     @section('control-panel')

@@ -11,10 +11,10 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select wire:model="{{ $value->model }}" class="k-autocomplete-input-0 k_input" id="company_id_0">
+        <select wire:model="{{ $value->model }}" class="k-autocomplete-input-0 k_input" id="company_id_0" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
-            <option value="only_full">{{ __('Réserver seulement des conditionnement entier') }}</option>
-            <option value="partial">{{ __('Réserver des conditionnements partiels') }}</option>
+            <option value="only_full">{{ __('translator::components.inputs.reserve-packaging.select.only_full') }}</option>
+            <option value="partial">{{ __('translator::components.inputs.reserve-packaging.select.partial') }}</option>
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
     </div>

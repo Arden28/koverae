@@ -29,7 +29,7 @@
                 </div>
 
             </div>
-            <ul class="nav nav-bordered mb-1">
+            <ul class="mb-1 nav nav-bordered">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Mes apps</a>
                 </li>
@@ -37,26 +37,28 @@
                     <a class="nav-link" href="#">Favoris</a>
                 </li>
             </ul>
-            <div class="row bg-white app_list">
-                <!-- App -->
-                <!--[if BLOCK]><![endif]--><?php $__currentLoopData = installed_apps(current_company())->take(8); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $app): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <div class="app col-6 col-lg-3 mb-3 pt-2 pb-2 cursor-pointer rounded">
-                    <div class="d-flex gap-1">
-                        <a class="text-decoration-none" wire:click="openApp(<?php echo e($app->module->id); ?>)">
-                            <img src="<?php echo e(asset('assets/images/apps/'.$app->module->icon.'.png')); ?>" height="40px" width="40px" alt="" class="app_icon rounded">
-                        </a>
-                        <a href="<?php echo e(route($app->module->link, ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="text-decoration-none font-weight-bold" wire:navigate wire:click.prevent="openApp(<?php echo e($app->module->id); ?>)"   wire:target="openApp(<?php echo e($app->module->id); ?>)">
-                            <span><?php echo e($app->module->short_name); ?></span>
-                        </a>
-                    </div>
-                </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
-            </div>
+            <!-- App -->
+            <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('module.main-list', []);
+
+$__html = app('livewire')->mount($__name, $__params, 'lw-4217507463-0', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
 
         </div>
 
         <div class="container-xl">
-            <div class="row g-2 align-items-center mb-3 mt-3">
+            <div class="mt-3 mb-3 row g-2 align-items-center">
                 <div class="col">
                     <h2 class="page-title">
                     <?php echo e(__('Insights')); ?>
@@ -109,7 +111,7 @@
         </div>
 
         <!-- Loading -->
-        <div class="k-loading cursor-pointer pb-1" wire:loading>
+        <div class="pb-1 cursor-pointer k-loading" wire:loading>
             <p>En cours de chargement ...</p>
         </div>
     </div>

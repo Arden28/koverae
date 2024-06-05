@@ -2,14 +2,21 @@
     'value',
     'data'
 ])
-<div class="container d-lg-flex h-auto" >
+<div class="container h-auto d-lg-flex" >
     <!-- Input Label -->
-    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0  text-break text-900">
+    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         <br>
     </div>
     <!-- Input Form -->
-    <div class="k_cell k_wrap_input flex-grow-1 text-muted h-auto">
-        @if($this->product_type == 'storable')
+    <div class="h-auto k_cell k_wrap_input flex-grow-1 text-muted">
+        @if($this->product_type == 'consumable' )
+        <span style="margin: 0 0 0 30px;">
+            Les produits stockables sont des articles physiques pour lesquels les quantités en stock sont gérées
+            <br />
+            Vous pouvez les facturer avant qu'ils ne soient livrés.
+        </span>
+        @endif
+        {{-- @if($this->product_type == 'storable' )
         <span style="margin: 0 0 0 30px;">
             Les produits stockables sont des articles physiques pour lesquels les quantités en stock sont gérées
             <br />
@@ -29,8 +36,7 @@
         <span style="">
             Facturez les quantités commandées dès que ce service est vendu.
         </span>
-        @endif
+        @endif --}}
     </div>
 </div>
-<br><br>
 

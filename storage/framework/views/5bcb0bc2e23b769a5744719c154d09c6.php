@@ -4,7 +4,7 @@
 <!-- CSS files -->
     <link href="<?php echo e(asset('assets/dist/css/tabler.min.css?'.time() )); ?>?()"  rel="stylesheet"/>
     
-    <link href="<?php echo e(asset('/assets/css/style.css?'.time() )); ?>" rel="stylesheet"/>
+    <link href="<?php echo e(asset('/assets/css/style.css?v=123456787652')); ?>" rel="stylesheet"/>
 
 <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">

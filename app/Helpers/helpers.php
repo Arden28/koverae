@@ -139,6 +139,7 @@ if (!function_exists('updated_menu')) {
 if (!function_exists('update_menu')) {
     function update_menu($navbar){
         // Store company information in the session or a cookie
+        session()->forget('current_menu');
         $menu = session(['current_menu' => $navbar]);
 
         return $menu;

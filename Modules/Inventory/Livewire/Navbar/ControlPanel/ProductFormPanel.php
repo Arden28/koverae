@@ -20,7 +20,7 @@ class ProductFormPanel extends ControlPanel
             $this->product = $product;
             $this->currentPage = $product->product_name;
         }else{
-            $this->currentPage = 'Nouveau Produit';
+            $this->currentPage = __('translator::inventory.control.product.current_page_new');
         }
         $this->new = route('inventory.products.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
@@ -29,8 +29,9 @@ class ProductFormPanel extends ControlPanel
     public function actionButtons() : array
     {
         return [
-            ActionButton::make('duplicate', '<i class="bi bi-copy"></i> Dupliquer', 'duplicateProduct()'),
-            ActionButton::make('delete', '<i class="bi bi-trash"></i> Supprimer', 'deleteProduct()'),
+            ActionButton::make('archive', '<i class="bi bi-inboxes"></i>'.__('translator::inventory.control.product.actions.archive'), ''),
+            ActionButton::make('duplicate', __('translator::inventory.control.product.actions.duplicate'), 'duplicateProduct()'),
+            ActionButton::make('delete', '<i class="bi bi-trash"></i>'.__('translator::inventory.control.product.actions.delete'), 'deleteProduct()'),
             // Add more buttons as needed
         ];
     }

@@ -24,7 +24,7 @@ class QuotationCart extends Component
 
             if(count($quotation->quotationDetails) >= 1){
                 foreach($quotation->quotationDetails as $detail){
-                    $this->inputs[] = ['key' => $detail->id, 'product' => $detail->product_id, 'description' => $detail->description, 'quantity' => $detail->quantity, 'price' => $detail->price / 100, 'subtotal' => $detail->sub_total / 100];
+                    $this->inputs[] = ['key' => $detail->id, 'product' => $detail->product_id, 'description' => $detail->description, 'quantity' => $detail->quantity, 'price' => $detail->price, 'subtotal' => $detail->sub_total];
                 }
                 $this->dispatch('quotation-cart', inputs: $this->inputs, total: $quotation->total_amount / 100,  totalHT: $quotation->total_amount / 100);
             }

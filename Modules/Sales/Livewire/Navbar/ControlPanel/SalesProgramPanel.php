@@ -12,7 +12,7 @@ class SalesProgramPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Remises & Fidélités";
+        $this->currentPage = __('translator::sales.control.sale.current_page_list');
         $this->new = route('sales.programs.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }

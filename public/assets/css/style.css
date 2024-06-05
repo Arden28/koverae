@@ -160,7 +160,33 @@
     width: auto;
     margin: 4px 0 4px 0;
     padding: 8px 0 8px 0;
+    border: 1px solid #d8dadd;
 }
+.k_control_panel_breadcrumbs
+    .k_last_breadcrumb_item
+    .k_cp_action_menus
+    .k_dropdown_menu
+    .separator {
+    border-bottom: 1px solid #d8dadd;
+}
+
+.k_control_panel_breadcrumbs
+    .k_last_breadcrumb_item
+    .k_cp_action_menus
+    .k_dropdown_menu
+    .separator {
+    margin: 5px 0px 5px 0px;
+}
+
+.k_control_panel_breadcrumbs
+    .k_last_breadcrumb_item
+    .k_cp_action_menus
+    .k_dropdown_menu {
+    margin: 0 4px 0 0;
+    width: 250px;
+    min-width: auto;
+}
+
 .k_control_panel_breadcrumbs
     .k_last_breadcrumb_item
     .k_cp_action_menus
@@ -232,6 +258,8 @@
     width: 118px;
     margin: 0 -10px 0 0;
 }
+/* Dropdown Action */
+
 .k_searchview {
     height: 34px;
     width: 383px;
@@ -1367,7 +1395,7 @@
     text-decoration: none solid rgb(55, 65, 81);
     word-spacing: 0px;
     width: 100%;
-    padding: 8px 8px 8px 8px;
+    padding: 4px 4px 4px 4px;
 }
 .k_kanban_card {
     background-color: #ffffff;
@@ -1437,7 +1465,7 @@
     max-width: auto;
     min-height: auto;
     min-width: auto;
-    margin: 0 0 24px 0;
+    margin: 0 0 12px 0;
     display: flex;
 }
 .k_kanban_view .k_kanban_renderer {

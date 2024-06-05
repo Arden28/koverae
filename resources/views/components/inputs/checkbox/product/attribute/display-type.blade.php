@@ -15,11 +15,11 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Cette valeur est appliquée par défaut sur tous les nouveaux produits. Ceci peut être modifié dans la fiche du produit.">
+        <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Cette valeur est appliquée par défaut sur tous les nouveaux produits. Ceci peut être modifié dans la fiche du produit.">
             <!-- What is ordered -->
             <div>
                 <div class="form-check k_radio_item">
-                    <input type="radio" class="form-check-input k_radio_input" wire:model.blur="{{ $value->model }}" name="{{ $value->model }}" id="ordered" value="ordered"/>
+                    <input type="radio" class="form-check-input k_radio_input" wire:model.blur="{{ $value->model }}" name="{{ $value->model }}" id="ordered" value="ordered" {{ $this->blocked ? 'disabled' : '' }}/>
                     <label class="form-check-label k_form_label" for="ordered">
                         {{ __('Facturer ce qui est commandé') }}
                     </label>
@@ -28,7 +28,7 @@
             <!-- What is delivered -->
             <div>
                 <div class="form-check k_radio_item">
-                    <input type="radio" class="form-check-input k_radio_input" wire:model.blur="{{ $value->model }}" name="{{ $value->model }}" id="delivered" value="delivered"/>
+                    <input type="radio" class="form-check-input k_radio_input" wire:model.blur="{{ $value->model }}" name="{{ $value->model }}" id="delivered" value="delivered" {{ $this->blocked ? 'disabled' : '' }}/>
                     <label class="form-check-label k_form_label" for="delivered">
                         {{ __('Facturer ce qui est livré') }}
                     </label>

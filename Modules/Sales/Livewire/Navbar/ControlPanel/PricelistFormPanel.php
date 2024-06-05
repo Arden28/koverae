@@ -18,9 +18,9 @@ class PricelistFormPanel extends ControlPanel
 
         if($pricelist){
             $this->pricelist = $pricelist;
-            $this->currentPage = $pricelist->reference;
+            $this->currentPage = $pricelist->name;
         }else{
-            $this->currentPage = 'Nouveau';
+            $this->currentPage = __('translator::sales.control.pricelist.current_page_new');
         }
         if(settings()->has_pricelist_check){
             $this->new = route('sales.pricelists.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);

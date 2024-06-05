@@ -26,12 +26,12 @@ class SalesTeamTable extends Table
 
     public function emptyTitle() : string
     {
-        return __("Créez une équipe commerciale et suivez vos performances !");
+        return __('translator::sales.table.team.empty.title');
     }
 
     public function emptyText() : string
     {
-        return __('Créez une équipe commerciale, rajoutez-y des membres et suivez vos performances.');
+        return __('translator::sales.table.team.empty.title');
     }
 
     public function headerName() : string
@@ -48,10 +48,10 @@ class SalesTeamTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('name', 'Nom')->component('columns.common.show-title-link'),
-            Column::make('email_alias', 'Alias'),
-            Column::make('team_leader_id', "Chef d'équipe")->component('columns.common.sales.sales-team-leader'),
-            Column::make('invoice_target', 'Objectif de facturation')->component('columns.common.format_currency'),
+            Column::make('name', __('translator::sales.table.team.name'))->component('columns.common.show-title-link'),
+            Column::make('email_alias', __('translator::sales.table.team.alias')),
+            Column::make('team_leader_id', __('translator::sales.table.team.leader'))->component('columns.common.sales.sales-team-leader'),
+            Column::make('invoice_target', __('translator::sales.table.team.goal'))->component('columns.common.format_currency'),
         ];
     }
 
@@ -61,4 +61,3 @@ class SalesTeamTable extends Table
         $team->delete();
     }
 }
-

@@ -10,6 +10,7 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "blade-ui-kit/blade-ui-kit": "^0.4.0",
         "bpuig/laravel-subby": "^7.0",
+        "glhd/gretel": "^1.8",
         "guzzlehttp/guzzle": "^7.2",
         "hallindavid/manny": "^1.02",
         "hardevine/shoppingcart": "^3.2",

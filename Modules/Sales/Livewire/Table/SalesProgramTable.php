@@ -37,9 +37,9 @@ class SalesProgramTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('name', 'Nom du programme')->component('columns.common.show-title-link'),
-            Column::make('type', 'Type de programme'),
-            Column::make('id', "Point de Ventes"),
+            Column::make('name', __('translator::sales.table.program.name'))->component('columns.common.show-title-link'),
+            Column::make('type', __('translator::sales.table.program.type')),
+            Column::make('id', __('translator::sales.table.program.pos')),
         ];
     }
 

@@ -1,5 +1,5 @@
 <div>
-    @section('title', __('Nouvelle liste de prix'))
+    @section('title', __('translator::sales.form.pricelist.page-title-new'))
 
     <!-- Control Panel -->
     @section('control-panel')

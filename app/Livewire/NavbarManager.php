@@ -155,8 +155,8 @@ class NavbarManager extends Component
             $menu = session('current_menu');
         }
         $this->menu = $menu;
-        // $this->menu = $this->navbar['id'];
         $this->navbar = $navbarMapping[$this->menu] ?? abort(404);
+        $this->menu = $this->navbar['id'];
     }
 
     public function render()

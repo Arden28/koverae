@@ -11,15 +11,17 @@ use App\Livewire\Form\Button\ActionBarButton;
 use App\Livewire\Form\Button\StatusBarButton;
 use App\Livewire\Form\Button\ActionButton;
 use App\Livewire\Form\Capsule;
+use Livewire\Attributes\On;
 use Modules\Sales\Entities\SalesTeam;
 
 class SalesTeamForm extends SimpleForm
 {
-    public $team;
+    public SalesTeam $team;
 
     public $name, $leader, $alias, $invoice_target, $leaders;
 
     public $domain_email;
+    public $members;
 
     public $updateMode = false;
 
@@ -45,6 +47,7 @@ class SalesTeamForm extends SimpleForm
             $emailParts = explode('@', $alias);
             $this->alias = $emailParts[0];
             $this->invoice_target = $this->team->invoice_target;
+            $this->members = $this->team->members;
             // $this->leaders = Employee::isCompany(current_company()->id)->get();
         }
     }
@@ -62,10 +65,10 @@ class SalesTeamForm extends SimpleForm
     {
         return  [
             // make($key, $label, $type, $model, $position, $tab, $group, $placeholder = null, $help = null)
-            Input::make('name', "Nom de l'équipe", 'text', 'name', 'top-title', 'none', 'none', 'ex: Equipe Commerciale')->component('inputs.ke-title'),
-            Input::make('team_leader_id',"Chef d'équipe", 'select', 'leader', 'left', 'none', 'team')->component('inputs.select.sales.seller'),
-            Input::make('alias_email','Alias', 'text', 'alias', 'left', 'none', 'team', 'none')->component('inputs.email-alias'),
-            Input::make('invoice_target','Objectif', 'text', 'invoice_target', 'left', 'none', 'team', 'none', "Objectif de revenus pour le mois en cours (total hors taxe des factures confirmées)")->component('inputs.invoice-target'),
+            Input::make('name', __('translator::components.inputs.sale-team-name.label'), 'text', 'name', 'top-title', 'none', 'none', __('translator::components.inputs.sale-team-name.placeholder'))->component('inputs.ke-title'),
+            Input::make('team_leader_id',__('translator::components.inputs.sale-team-leader.label'), 'select', 'leader', 'left', 'none', 'team')->component('inputs.select.sales.seller'),
+            Input::make('alias_email',__('translator::components.inputs.email-alias.label'), 'text', 'alias', 'left', 'none', 'team', 'none')->component('inputs.email-alias'),
+            Input::make('invoice_target',__('translator::components.inputs.invoice-target.label'), 'text', 'invoice_target', 'left', 'none', 'team', 'none', __('translator::components.inputs.invoice-target.title'))->component('inputs.invoice-target'),
         ];
     }
 
@@ -73,7 +76,7 @@ class SalesTeamForm extends SimpleForm
     {
         return  [
             // make($key, $label)
-            Tabs::make('member','Membres')->component('tabs.member'),
+            Tabs::make('member',__('translator::sales.form.team.tabs.members'))->component('tabs.member'),
         ];
     }
 
@@ -81,7 +84,7 @@ class SalesTeamForm extends SimpleForm
     {
         return  [
             // make($key, $label, $tabs = null)
-            Group::make('team',"Détail de l'équipe", 'none'),
+            Group::make('team',__('translator::sales.form.team.groups.team'), 'none'),
         ];
     }
 
@@ -114,6 +117,7 @@ class SalesTeamForm extends SimpleForm
         ];
     }
 
+    #[On('create-team')]
     public function storeTeam(){
         $this->validate();
 
@@ -129,23 +133,33 @@ class SalesTeamForm extends SimpleForm
 
     }
 
-    public function update($team){
-        $this->validate();
-        $team = SalesTeam::find($team);
 
-        $team->update([
+    #[On('update-team')]
+    public function update(){
+        $this->validate();
+        // $team = SalesTeam::find($team);
+
+        $this->team->update([
             'company_id' => current_company()->id,
             'name' => $this->name,
             'team_leader_id' => $this->leader,
             'email_alias' => $this->alias.'@'.$this->domain_email,
             'invoice_target' => $this->invoice_target,
         ]);
+        $this->team->save();
 
         notify()->success('message', 'Equipe mise à jour.');
+        return redirect()->route('sales.teams.show', ['subdomain' => current_company()->domain_name, 'menu' => current_menu(), 'team' => $this->team->id]);
 
     }
 
     public function new(){
         return $this->redirect(route('sales.teams.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]), navigate:true);
+    }
+
+    // Update Members
+    #[On('update-members')]
+    public function actualizeMembers(){
+        $this->members = $this->team->members;
     }
 }

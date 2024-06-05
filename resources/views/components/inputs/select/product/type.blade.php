@@ -12,12 +12,12 @@
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
-        <select  wire:model.blur="product_type" class="k_input" id="{{ $value->model }}_0">
+        <select  wire:model.blur="{{ $value->model }}" class="k_input" id="{{ $value->model }}_0" {{ $this->blocked ? 'disabled' : '' }}>
             <option value=""></option>
-            <option value="storable">Produit stockable</option>
-            <option value="consumable">Consommable</option>
-            <option value="service">Service</option>
-            <option value="booking_fee">Frais de réservation</option>
+            <option value="storable">{{ __('translator::components.inputs.product-type.select.storable') }}</option>
+            <option value="consumable">{{ __('translator::components.inputs.product-type.select.consumable') }}</option>
+            <option value="service">{{ __('translator::components.inputs.product-type.select.service') }}</option>
+            <option value="booking_fee">{{ __('translator::components.inputs.product-type.select.booking-fee') }}</option>
         </select>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
     </div>

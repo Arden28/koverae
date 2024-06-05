@@ -171,15 +171,6 @@ class ProductForm extends SimpleAvatarForm
         }
     }
 
-    public function actionButtons() : array
-    {
-        return [
-            ActionButton::make('print', '<i class="bi bi-printer"></i> Imprimer', 'print()'),
-            ActionButton::make('duplicate', 'Dupliquer', 'duplicate'),
-            ActionButton::make('delete', 'Supprimer', 'delete'),
-            // Add more buttons as needed
-        ];
-    }
 
     // Action Bar Button
     public function actionBarButtons() : array
@@ -188,9 +179,9 @@ class ProductForm extends SimpleAvatarForm
 
         $buttons =  [
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
-            ActionBarButton::make('update_quantiy', 'Mettre à jour la quantité', "", 'storable')->component('button.action-bar.update-qty'),
-            ActionBarButton::make('replenish', 'Réapprovisionner', 'sale()', '')->component('button.action-bar.replenish-product'),
-            ActionBarButton::make('print', 'Imprimer les étiquettes', 'preview()', ''),
+            ActionBarButton::make('update_quantiy', __('translator::inventory.form.product.actions.update-qty'), "", 'storable')->component('button.action-bar.update-qty'),
+            ActionBarButton::make('replenish', __('translator::inventory.form.product.actions.replenish'), 'sale()', '')->component('button.action-bar.replenish-product'),
+            ActionBarButton::make('print', __('translator::inventory.form.product.actions.print'), 'preview()', ''),
             // Add more buttons as needed
         ];
 
@@ -204,10 +195,11 @@ class ProductForm extends SimpleAvatarForm
     public function capsules() : array
     {
         return [
-            Capsule::make('on_hand', 'En stock', 'Quantités disponibles.')->component('capsules.product.stock'),
-            Capsule::make('prevision', 'Prévisions', 'Prévisions de stock.')->component('capsules.product.stats'),
-            Capsule::make('bought', 'Acheté', 'Quantités achetées.')->component('capsules.product.bought'),
-            Capsule::make('sold', 'Vendu', 'Quantités vendues.')->component('capsules.product.sold'),
+            Capsule::make('on_hand', __('translator::inventory.form.product.capsules.on-hand.name'), __('translator::inventory.form.product.capsules.on-hand.text'))->component('capsules.product.stock'),
+            Capsule::make('prevision', __('translator::inventory.form.product.capsules.prevision.name'), __('translator::inventory.form.product.capsules.prevision.text'))->component('capsules.product.stats'),
+            Capsule::make('bought', __('translator::inventory.form.product.capsules.bought.name'), __('translator::inventory.form.product.capsules.bought.text'))->component('capsules.product.bought'),
+            Capsule::make('sold', __('translator::inventory.form.product.capsules.sold.name'), __('translator::inventory.form.product.capsules.sold.text'))->component('capsules.product.sold'),
+            Capsule::make('bom', __('translator::inventory.form.product.capsules.bom.name'), __('translator::inventory.form.product.capsules.bom.text'))->component('capsules.product.bom'),
         ];
     }
 
@@ -215,12 +207,12 @@ class ProductForm extends SimpleAvatarForm
     {
         return  [
             // make($key, $label)
-            Tabs::make('general','Informations Générales'),
+            Tabs::make('general',__('translator::inventory.form.product.tabs.general')),
             // Tabs::make('attributes','Attribus & Variantes', !settings()->has_variant)->component('tabs.product-attribute'),
-            Tabs::make('purchases','Achat'),
-            Tabs::make('sales','Ventes'),
-            Tabs::make('inventory','Inventaire'),
-            Tabs::make('accounting','Comptabilité', !module('accounting')),
+            Tabs::make('purchases',__('translator::inventory.form.product.tabs.purchase')),
+            Tabs::make('sales',__('translator::inventory.form.product.tabs.sale')),
+            Tabs::make('inventory',__('translator::inventory.form.product.tabs.inventory')),
+            Tabs::make('accounting',__('translator::inventory.form.product.tabs.accounting'), !module('accounting')),
         ];
     }
 
@@ -228,20 +220,20 @@ class ProductForm extends SimpleAvatarForm
     {
         return  [
             // make($key, $label, $tabs = null)
-            Group::make('group1',"Info", 'general')->component('tabs.group.light'),
-            Group::make('suppliers',"Fournisseurs", 'purchases')->component('tabs.group.large-table-alone'),
-            Group::make('suppliers_invoice',"Factures Fournisseurs", 'purchases'),
-            Group::make('purchase_description',"Description des achats", 'purchases'),
+            Group::make('group1',__('translator::inventory.form.product.groups.general'), 'general')->component('tabs.group.light'),
+            Group::make('suppliers',__('translator::inventory.form.product.groups.supplier'),'purchases')->component('tabs.group.large-table-alone'),
+            Group::make('suppliers_invoice',__('translator::inventory.form.product.groups.supplier-invoice'), 'purchases'),
+            Group::make('purchase_description',__('translator::inventory.form.product.groups.purchase-description'), 'purchases'),
             //
-            Group::make('sale_description',"Description vente", 'sales'),
+            Group::make('sale_description',__('translator::inventory.form.product.groups.sale-description'), 'sales'),
             //
-            Group::make('logistics',"Logistique", 'inventory'),
-            Group::make('tracking',"Traçabilité", 'inventory'),
+            Group::make('logistics',__('translator::inventory.form.product.groups.logistics'), 'inventory'),
+            Group::make('tracking',__('translator::inventory.form.product.groups.tracking'), 'inventory'),
             // Group::make('operations',"Opération", 'inventory'),
-            Group::make('packaging',"Conditionnement", 'inventory')->component('tabs.group.special.product-packaging'),
+            Group::make('packaging',__('translator::inventory.form.product.groups.packaging'), 'inventory')->component('tabs.group.special.product-packaging'),
             //
-            Group::make('customer_receivables',"Créances clients", 'accounting'),
-            Group::make('customer_payables',"Dettes", 'accounting'),
+            Group::make('customer_receivables',__('translator::inventory.form.product.groups.customer-receivable'), 'accounting'),
+            Group::make('customer_payables',__('translator::inventory.form.product.groups.customer-payable'), 'accounting'),
         ];
     }
 
@@ -269,36 +261,36 @@ class ProductForm extends SimpleAvatarForm
     {
         return  [
             // make($key, $label, $type, $model, $position, $tab, $group, $placeholder, $help)
-            Input::make('product_name',"Nom du produit", 'text', 'product_name', 'top-title', 'none', 'none', 'ex: Banéo 300G')->component('inputs.ke-title'),
-            Input::make('product_type',"Type de produit", 'select', 'product_type', 'left', 'general', 'group1')->component('inputs.select.product.type'),
-            Input::make('invoice_policy',"Politique de facturation", 'select', 'invoice_policy', 'left', 'general', 'group1', '', 'Quantité livrée: facturer les quantités livrées au client. Quantité commandée: facturer les quantités commandées par le client.')->component('inputs.select.product.invoice-policy'),
+            Input::make('product_name',__('translator::components.inputs.product-name.label'), 'text', 'product_name', 'top-title', 'none', 'none', __('translator::components.inputs.product-name.placeholder'))->component('inputs.ke-title'),
+            Input::make('product_type',__('translator::components.inputs.product-type.label'), 'select', 'product_type', 'left', 'general', 'group1')->component('inputs.select.product.type'),
+            Input::make('invoice_policy',__('translator::components.inputs.invoicing-policy.label'), 'select', 'invoice_policy', 'left', 'general', 'group1', '', 'Quantité livrée: facturer les quantités livrées au client. Quantité commandée: facturer les quantités commandées par le client.')->component('inputs.select.product.invoice-policy'),
             Input::make('product_type',"", 'select', 'product_type', 'left', 'general', 'group1', '', 'Quantité livrée: facturer les quantités livrées au client. Quantité commandée: facturer les quantités commandées par le client.')->component('inputs.product.comment-type-product'),
-            Input::make('uom',"UdM", 'select', 'uom', 'left', 'general', 'group1', '', 'Unité de mesure par défaut utilisée pour toutes les opérations de stock.')->component('inputs.select.product.uom'),
-            Input::make('purchase_uom',"UdM Achat", 'select', 'uom', 'left', 'general', 'group1', '', 'Unité de mesure utilisée pour les bons de commandes.')->component('inputs.select.product.uom'),
+            Input::make('uom',__('translator::components.inputs.uom.label'), 'select', 'uom', 'left', 'general', 'group1', '', 'Unité de mesure par défaut utilisée pour toutes les opérations de stock.')->component('inputs.select.product.uom'),
+            // Input::make('purchase_uom',__('translator::components.inputs.uom-purchase.label'), 'select', 'uom', 'left', 'general', 'group1', '', 'Unité de mesure utilisée pour les bons de commandes.')->component('inputs.select.product.uom'),
             //
-            Input::make('price',"Prix de vente", 'number', 'price', 'right', 'general', 'group1', "0.00")->component('inputs.product.product-price'),
-            Input::make('sale_taxes',"Taxes à la vente", 'input', 'sale_taxes', 'right', 'general', 'group1')->component('inputs.tag.sale_taxes'),
-            Input::make('cost',"Coût", 'number', 'cost', 'right', 'general', 'group1', "0.00")->component('inputs.product.product-cost'),
-            Input::make('category',"Catégorie", 'input', 'category', 'right', 'general', 'group1')->component('inputs.select.product.categories'),
-            Input::make('reference',"Réf interne", 'input', 'reference', 'right', 'general', 'group1'),
-            Input::make('barcode',"Code-barres", 'input', 'barcode', 'right', 'general', 'group1'),
+            Input::make('price',__('translator::components.inputs.sale-price.label'), 'number', 'price', 'right', 'general', 'group1', "0.00")->component('inputs.product.product-price'),
+            Input::make('sale_taxes',__('translator::components.inputs.customer-taxes.label'), 'input', 'sale_taxes', 'right', 'general', 'group1')->component('inputs.tag.sale_taxes'),
+            Input::make('cost',__('translator::components.inputs.cost.label'), 'number', 'cost', 'right', 'general', 'group1', "0.00")->component('inputs.product.product-cost'),
+            Input::make('category',__('translator::components.inputs.product-category.label'), 'input', 'category', 'right', 'general', 'group1')->component('inputs.select.product.categories'),
+            Input::make('reference',__('translator::components.inputs.internal-reference.label'), 'input', 'reference', 'right', 'general', 'group1'),
+            Input::make('barcode',__('translator::components.inputs.barcode.label'), 'input', 'barcode', 'right', 'general', 'group1'),
             //
-            Input::make('taxes',"Taxes", 'input', 'purchase_taxes', 'right', 'purchases', 'suppliers_invoice')->component('inputs.tag.purchase_taxes'),
-            Input::make('control_policy',"Politique de contrôle", 'input', 'control_policy', 'right', 'purchases', 'suppliers_invoice')->component('inputs.select.product.control-policy'),
-            Input::make('purchase_description',"Description des achats", 'input', 'purchase_description', '', 'purchases', 'purchase_description', 'Cette note sera ajoutée aux bons de commandes.')->component('inputs.textarea.tabs-middle'),
+            Input::make('taxes',__('translator::components.inputs.supplier-taxes.label'), 'input', 'purchase_taxes', 'right', 'purchases', 'suppliers_invoice')->component('inputs.tag.purchase_taxes'),
+            Input::make('control_policy',__('translator::components.inputs.control-policy.label'), 'input', 'control_policy', 'right', 'purchases', 'suppliers_invoice')->component('inputs.select.product.control-policy'),
+            Input::make('purchase_description',__('translator::components.inputs.purchase-description.label'), 'input', 'purchase_description', '', 'purchases', 'purchase_description', __('translator::components.inputs.purchase-description.placeholder'))->component('inputs.textarea.tabs-middle'),
             //
-            Input::make('sale_description',"Description vente", 'input', 'sale_description', '', 'sales', 'sale_description', 'Cette note sera ajoutée aux commandes et factures.')->component('inputs.textarea.tabs-middle'),
+            Input::make('sale_description',"Description vente", 'input', 'sale_description', '', 'sales', 'sale_description', __('translator::components.inputs.sale-description.placeholder'))->component('inputs.textarea.tabs-middle'),
             //
-            Input::make('responsible',"Responsable", 'select', 'responsible', 'left', 'sales', 'logistics')->component('inputs.select.contact'),
-            Input::make('weight',"Poids", 'input', 'weight', 'left', 'sales', 'logistics')->component('inputs.uom.weight'),
-            Input::make('volume',"Volume", 'input', 'volume', 'left', 'sales', 'logistics')->component('inputs.uom.volume'),
-            Input::make('lead_time',"Délai de livraison au client", 'input', 'lead_time', 'left', 'sales', 'logistics')->component('inputs.product.delivery-delay'),
+            Input::make('responsible',__('translator::components.inputs.responsible.label'), 'select', 'responsible', 'left', 'sales', 'logistics')->component('inputs.select.contact'),
+            Input::make('weight',__('translator::components.inputs.weight.label'), 'input', 'weight', 'left', 'sales', 'logistics')->component('inputs.uom.weight'),
+            Input::make('volume',__('translator::components.inputs.volume.label'), 'input', 'volume', 'left', 'sales', 'logistics')->component('inputs.uom.volume'),
+            Input::make('lead_time',__('translator::components.inputs.customer-lead-time.label'), 'input', 'lead_time', 'left', 'sales', 'logistics')->component('inputs.product.delivery-delay'),
             //
-            Input::make('tracking',"Suivis", 'select', 'tracking', 'left', 'sales', 'tracking')->component('inputs.select.product.tracking'),
+            Input::make('tracking',__('translator::components.inputs.product-tracking.label'), 'select', 'tracking', 'left', 'sales', 'tracking')->component('inputs.select.product.tracking'),
             //
-            Input::make('income_account',"Compte de revenue", 'select', 'income_account', 'left', 'accounting', 'customer_receivables')->component('inputs.select.accounting.income-account'),
-            Input::make('expense_account',"Compte de charge", 'select', 'expense_account', 'left', 'accounting', 'customer_payables')->component('inputs.select.accounting.charge-account'),
-            Input::make('price_difference_account',"Compte d'écart de prix", 'select', 'price_difference_account', 'left', 'accounting', 'customer_payables')->component('inputs.select.accounting.charge-account'),
+            Input::make('income_account',__('translator::components.inputs.incpme-account.label'), 'select', 'income_account', 'left', 'accounting', 'customer_receivables')->component('inputs.select.accounting.income-account'),
+            Input::make('expense_account',__('translator::components.inputs.expense-account.label'), 'select', 'expense_account', 'left', 'accounting', 'customer_payables')->component('inputs.select.accounting.charge-account'),
+            Input::make('price_difference_account',__('translator::components.inputs.price-variance-account.label'), 'select', 'price_difference_account', 'left', 'accounting', 'customer_payables')->component('inputs.select.accounting.charge-account'),
         ];
     }
 
@@ -384,6 +376,20 @@ class ProductForm extends SimpleAvatarForm
 
         return redirect()->route('inventory.products.show', ['product' => $product->id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
+
+    public function updated($name, $value)
+    {
+        $this->product->update([
+            $name => $value,
+        ]);
+    }
+
+    // Method to update product_type for testing
+    public function updateProductType($type)
+    {
+        $this->product_type = $type;
+    }
+
 
     #[On('update-product')]
     public function update(){

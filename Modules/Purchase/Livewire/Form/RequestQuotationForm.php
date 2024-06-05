@@ -13,6 +13,7 @@ use App\Livewire\Form\Button\StatusBarButton;
 use App\Livewire\Form\Capsule;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
+use Carbon\Carbon;
 use Modules\Inventory\Entities\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Modules\Inventory\Services\LogisticService;
@@ -20,6 +21,7 @@ use Modules\Sales\Services\QuotationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
+use Modules\App\Entities\Email\EmailTemplate;
 use Modules\Contact\Entities\Contact;
 use Modules\Purchase\Entities\Purchase;
 use Modules\Purchase\Entities\PurchaseDetail;
@@ -67,11 +69,15 @@ class RequestQuotationForm extends BaseForm
     $shipping_amount = 0;
     // public $qty = 1;
 
+    // Request For Quotation Cart
+    public $inputs = [];
+
 
     public $updateMode = false;
 
 
-    public $isModified = false;
+    public $template, $model;
+
     public function mount ($request = null){
         if($request){
 
@@ -80,13 +86,15 @@ class RequestQuotationForm extends BaseForm
             $this->request = $request;
 
             $this->status = $request->status;
+            $this->model = $this->request;
+            $this->template = EmailTemplate::isCompany(current_company()->id)->applyTo('quotation')->first()->id;
 
             $this->reference = $request->reference;
             $this->supplier = $request->supplier_id;
             $this->supplier_reference = Contact::findOrFail($request->supplier_id)->reference;
             $this->date = $request->date;
-            $this->deadline_date = $request->deadline_date;
-            $this->expected_arrival_date = $request->expected_arrival_date;
+            $this->deadline_date = Carbon::parse($request->deadline_date)->format('Y-m-d H:i:s');
+            $this->expected_arrival_date = Carbon::parse($request->expected_arrival_date)->format('Y-m-d H:i:s');
             $this->ask_confirmation = $request->ask_confirmation;
             $this->reminder_date_before_receipt = $request->reminder_date_before_receipt;
             // Purchase
@@ -97,37 +105,13 @@ class RequestQuotationForm extends BaseForm
             $this->payment_term = $request->payment_term;
             $this->fiscal_position = $request->fiscal_position_id;
 
+            // Block the field
+            $this->blocked = true;
 
-            // Update the cart
-            $request_details = $request->RequestQuotationDetails;
-
-            Cart::instance('request-quotation')->destroy();
-
-            $cart = Cart::instance('request-quotation');
-
-            foreach ($request_details as $request_detail) {
-                $cart->add([
-                    'id'      => $request_detail->product_id,
-                    'name'    => $request_detail->product_name,
-                    'qty'     => $request_detail->quantity,
-                    'price'   => $request_detail->price,
-                    'weight'  => 1,
-                    'options' => [
-                        'description'  => $request_detail->product->description,
-                        'product_discount' => $request_detail->product_discount_amount,
-                        'product_discount_type' => $request_detail->product_discount_type,
-                        'sub_total'   => $request_detail->sub_total,
-                        'code'        => $request_detail->product_code,
-                        'stock'       => Product::findOrFail($request_detail->product_id)->product_quantity,
-                        'product_tax' => $request_detail->product_tax_amount,
-                        'unit_price'  => $request_detail->unit_price
-                    ]
-                ]);
-            }
         }else{
             $this->date = now()->format('Y-m-d H:i:s');
             $this->deadline_date = now()->format('Y-m-d H:i:s');
-            $this->expected_arrival_date = now()->format('Y-m-d H:i:s');
+            $this->expected_arrival_date = now()->addDays(7)->format('Y-m-d H:i:s');
             $this->payment_term = 'immediate_payment';
             // Buyer
             $this->buyer = Contact::isCompany(current_company()->id)->first()->id;
@@ -152,6 +136,12 @@ class RequestQuotationForm extends BaseForm
         'fiscal_position' => 'nullable',
 
     ];
+
+    #[On('rfq-cart')]
+    public function updateInputs($inputs, $total, $totalHT){
+        $this->inputs = $inputs;
+        $this->total_amount = $total;
+    }
 
     public function updatedSupplier($value)
     {
@@ -208,8 +198,7 @@ class RequestQuotationForm extends BaseForm
         $status = $this->status;
 
         $buttons = [
-            ActionBarButton::make('send', 'Envoyer par Email', 'sendByEmail()', 'request'),
-            ActionBarButton::make('print', 'Imprimer', 'confirmQT()', 'request'),
+            ActionBarButton::make('send', 'Envoyer par Email', '', 'request')->component('button.action-bar.send-email'),
             ActionBarButton::make('confirm', 'Comfirmer la commande', $this->request ? 'confirmQT()': 'storePO()', 'sent'),
             ActionBarButton::make('cancel', 'Annuler', 'cancel()', 'cancelled'),
             // Add more buttons as needed
@@ -268,10 +257,6 @@ class RequestQuotationForm extends BaseForm
         // $this->validate();
 
         DB::transaction(function () {
-            $cart = Cart::instance('request-quotation');
-            // Remove any non-numeric characters except the decimal point
-            $this->total_amount = convertToInt($cart->total());
-            $this->tax_amount = convertToInt($cart->tax());
 
             $request = RequestQuotation::create([
                 'company_id' => current_company()->id,
@@ -287,7 +272,7 @@ class RequestQuotationForm extends BaseForm
                 'payment_term' => $this->payment_term,
                 'fiscal_position_id' => $this->fiscal_position,
                 // 'terms' => $this->terms,
-                'total_amount' => $this->total_amount,
+                'total_amount' => $this->total_amount * 100,
                 'status' => $this->status,
                 'tax_amount' => $this->tax_amount,
                 'discount_amount' => $this->discount_amount,
@@ -295,24 +280,22 @@ class RequestQuotationForm extends BaseForm
                 'discount_percentage' => $this->discount_percentage,
             ]);
 
-            foreach (Cart::instance('request-quotation')->content() as $cart_item) {
+            foreach ($this->inputs as $detail) {
                 RequestQuotationDetail::create([
                     'request_quotation_id' => $request->id,
-                    'product_id' => $cart_item->id,
-                    'product_name' => $cart_item->name,
-                    'product_code' => '['.$cart_item->options->code.']',
-                    'quantity' => $cart_item->qty,
-                    'price' => $cart_item->price * 100,
-                    'unit_price' => $cart_item->options->unit_price * 100,
-                    'sub_total' => $cart_item->options->sub_total * 100,
-                    'product_discount_amount' => $cart_item->options->product_discount * 100,
-                    'product_discount_type' => $cart_item->options->product_discount_type,
-                    'product_tax_amount' => $cart_item->options->product_tax * 100,
+                    'product_id' => $detail['product'],
+                    'description' => $detail['description'],
+                    'product_name' => Product::find( $detail['product'] )->product_name,
+                    'product_code' => Product::find( $detail['product'] )->product_code ?? '',
+                    'quantity' => $detail['quantity'],
+                    'price' => $detail['price'] * 100,
+                    'unit_price' => $detail['price'] * 100,
+                    'sub_total' => $detail['subtotal'] * 100,
+                    'product_discount_amount' => 0,
+                    'product_discount_type' => 'fixed',
+                    'product_tax_amount' => 0,
                 ]);
             }
-
-            // Cart::instance('request-quotation')->store(Auth::user()->id);
-            Cart::instance('request-quotation')->destroy();
 
             if($request->supplier_reference){
                 $contact = Contact::findOrFail($request->supplier_id);
@@ -331,6 +314,11 @@ class RequestQuotationForm extends BaseForm
     public function updateRequest(){
         // $this->validate();
             $request = $this->request;
+
+            foreach ($request->RequestQuotationDetails as $request_detail) {
+                $request_detail->delete();
+            }
+
             $request->update([
                 // 'company_id' => current_company()->id,
                 'supplier_id' => $this->supplier,
@@ -345,40 +333,31 @@ class RequestQuotationForm extends BaseForm
                 'payment_term' => $this->payment_term,
                 'fiscal_position_id' => $this->fiscal_position,
                 // 'terms' => $this->terms,
-                // 'total_amount' => $this->total_amount,
-                // 'status' => $this->status,
-                // 'tax_amount' => $this->tax_amount,
-                // 'discount_amount' => $this->discount_amount,
-                // 'tax_percentage' => $this->tax_percentage,
-                // 'discount_percentage' => $this->discount_percentage,
+                'total_amount' => $this->total_amount,
+                'status' => $this->status,
+                'tax_amount' => $this->tax_amount,
+                'discount_amount' => $this->discount_amount,
+                'tax_percentage' => $this->tax_percentage,
+                'discount_percentage' => $this->discount_percentage,
             ]);
+            $request->save();
 
-            // foreach (Cart::instance('request-quotation')->content() as $cart_item) {
-            //     RequestQuotationDetail::create([
-            //         'request_quotation_id' => $request->id,
-            //         'product_id' => $cart_item->id,
-            //         'product_name' => $cart_item->name,
-            //         'product_code' => '['.$cart_item->options->code.']',
-            //         'quantity' => $cart_item->qty,
-            //         'price' => $cart_item->price * 100,
-            //         'unit_price' => $cart_item->options->unit_price * 100,
-            //         'sub_total' => $cart_item->options->sub_total * 100,
-            //         'product_discount_amount' => $cart_item->options->product_discount * 100,
-            //         'product_discount_type' => $cart_item->options->product_discount_type,
-            //         'product_tax_amount' => $cart_item->options->product_tax * 100,
-            //     ]);
-            // }
-
-            // // Cart::instance('request-quotation')->store(Auth::user()->id);
-            // Cart::instance('request-quotation')->destroy();
-
-            // if($request->supplier_reference){
-            //     $contact = Contact::findOrFail($request->supplier_id);
-            //     if($contact->reference == null){
-            //         $contact->reference = $request->supplier_reference;
-            //         $contact->save();
-            //     }
-            // }
+            foreach($this->inputs as $detail){
+                RequestQuotation::create([
+                    'quotation_id' => $request->id,
+                    'product_id' => $detail['product'],
+                    'description' => $detail['description'],
+                    'product_name' => Product::find( $detail['product'] )->product_name,
+                    'product_code' => Product::find( $detail['product'] )->product_code,
+                    'quantity' => $detail['quantity'],
+                    'price' => $detail['price'] * 100,
+                    'unit_price' => $detail['price'] * 100,
+                    'sub_total' => $detail['subtotal'] * 100,
+                    'product_discount_amount' => 0,
+                    'product_discount_type' => 'fixed',
+                    'product_tax_amount' => 0,
+                ]);
+            }
 
             notify()->success("Nouvelle demande de Devis créée !");
 
@@ -391,29 +370,16 @@ class RequestQuotationForm extends BaseForm
     }
 
     public function storePO(){
-                // $this->validate();
-
-        DB::transaction(function () {
-            $cart = Cart::instance('request-quotation');
-            // Remove any non-numeric characters except the decimal point
-            $this->total_amount = convertToInt($cart->total());
-            $this->tax_amount = convertToInt($cart->tax());
+        // $this->validate();
 
             $due_amount = $this->total_amount - $this->paid_amount;
 
-            if (isset($this->payment_method)) {
-                // Access the payment_method key
-                $paymentMethod = $this->payment_method;
-            } else {
-                // Set a default value for payment_method
-                $paymentMethod = 'Cash';
-            }
             if ($due_amount == $this->total_amount) {
-                $payment_status = 'Unpaid';
+                $payment_status = 'unpaid';
             } elseif ($due_amount > 0) {
-                $payment_status = 'Partial';
+                $payment_status = 'partial';
             } else {
-                $payment_status = 'Paid';
+                $payment_status = 'paid';
             }
 
             $purchase = Purchase::create([
@@ -435,37 +401,40 @@ class RequestQuotationForm extends BaseForm
                 // 'delivery_status' => 'Pending',
                 'reception_status' => 'Pending',
                 'invoice_status' => 'to_invoice',
-                'total_amount' => $this->total_amount,
-                'paid_amount' => $this->paid_amount,
-                'due_amount' => $this->total_amount, //$due_amount
+                'paid_amount' => 0,
+                'due_amount' => $this->total_amount * 100, //On va remplacer cela par le prix TTC
+                'total_amount' => $this->total_amount * 100,
                 'status' => 'purchase_order',
-                'tax_amount' => $this->tax_amount,
-                'discount_amount' => $this->discount_amount,
+                // 'terms' => $this->note,
+                'tax_amount' => $this->tax_amount * 100,
+                'discount_amount' => $this->discount_amount * 100,
                 'tax_percentage' => $this->tax_percentage,
                 'discount_percentage' => $this->discount_percentage,
             ]);
 
-            foreach (Cart::instance('request-quotation')->content() as $cart_item) {
+            foreach ($this->inputs as $detail) {
                 PurchaseDetail::create([
                     'purchase_id' => $purchase->id,
-                    'product_id' => $cart_item->id,
-                    'product_name' => $cart_item->name,
-                    'product_code' => $cart_item->options->code,
-                    'quantity' => $cart_item->qty,
-                    'price' => $cart_item->price * 100,
-                    'unit_price' => $cart_item->options->unit_price * 100,
-                    'sub_total' => $cart_item->options->sub_total * 100,
-                    'product_discount_amount' => $cart_item->options->product_discount * 100,
-                    'product_discount_type' => $cart_item->options->product_discount_type,
-                    'product_tax_amount' => $cart_item->options->product_tax * 100,
+                    'product_id' => $detail['product'],
+                    'description' => $detail['description'],
+                    'product_name' => Product::find( $detail['product'] )->product_name,
+                    'product_code' => Product::find( $detail['product'] )->product_code,
+                    'quantity' => $detail['quantity'],
+                    'price' => $detail['price'] * 100,
+                    'unit_price' => $detail['price'] * 100,
+                    'sub_total' => $detail['subtotal'] * 100,
+                    'product_discount_amount' => 0,
+                    'product_discount_type' => 'fixed',
+                    'product_tax_amount' => 0,
                     'received' => 0,
                     'invoiced' => 0,
                 ]);
             }
-
-            // Launch Logistics reception
-            $purchaseService = new LogisticService();
-            $purchaseService->launchReception($purchase);
+            if(module('inventory')){
+                // Launch Logistics reception
+                $purchaseService = new LogisticService();
+                $purchaseService->launchReception($purchase);
+            }
 
 
             // Cart::instance('request-quotation')->store(Auth::user()->id);
@@ -482,104 +451,97 @@ class RequestQuotationForm extends BaseForm
             notify()->success("Nouvelle commande créée !");
 
             return redirect()->route('purchases.show', ['subdomain' => current_company()->domain_name, 'purchase' => $purchase->id, 'menu' => current_menu()]);
-        });
+
     }
 
     public function confirmQT(){
         $this->validate();
-        $request = $this->request;
 
-        DB::transaction(function () {
-            $cart = Cart::instance('request-quotation');
-            // Remove any non-numeric characters except the decimal point
-            $this->total_amount = convertToInt($cart->total());
-            $this->tax_amount = convertToInt($cart->tax());
+        $due_amount = $this->total_amount - $this->paid_amount;
 
-            $due_amount = $this->total_amount - $this->paid_amount;
+        if ($due_amount == $this->total_amount) {
+            $payment_status = 'unpaid';
+        } elseif ($due_amount > 0) {
+            $payment_status = 'partial';
+        } else {
+            $payment_status = 'paid';
+        }
 
-            if (isset($this->payment_method)) {
-                // Access the payment_method key
-                $paymentMethod = $this->payment_method;
-            } else {
-                // Set a default value for payment_method
-                $paymentMethod = 'Cash';
-            }
-            if ($due_amount == $this->total_amount) {
-                $payment_status = 'Unpaid';
-            } elseif ($due_amount > 0) {
-                $payment_status = 'Partial';
-            } else {
-                $payment_status = 'Paid';
-            }
+        $purchase = Purchase::create([
+            'company_id' => current_company()->id,
+            'supplier_id' => $this->supplier,
+            'deadline_date' => $this->deadline_date,
+            'date' => now(),
+            'source_document' => $this->source_document,
+            'expected_arrival_date' => $this->expected_arrival_date,
+            'ask_confirmation' => $this->ask_confirmation,
+            'reminder_date_before_receipt' => $this->reminder_date_before_receipt,
+            'supplier_reference' => $this->supplier_reference,
+            'buyer_id' => $this->buyer,
+            'payment_term' => $this->payment_term,
+            'fiscal_position_id' => $this->fiscal_position,
+            // 'terms' => $this->terms,
+            'payment_status' => $payment_status,
+            // 'delivery_status' => 'Pending',
+            'reception_status' => 'pending',
+            'invoice_status' => 'to_invoice',
+            'total_amount' => $this->total_amount * 100,
+            'paid_amount' => $this->paid_amount * 100,
+            'due_amount' => $this->total_amount * 100, //$due_amount
+            'status' => 'purchase_order',
+            'tax_amount' => $this->tax_amount,
+            'discount_amount' => $this->discount_amount,
+            'tax_percentage' => $this->tax_percentage,
+            'discount_percentage' => $this->discount_percentage,
+        ]);
 
-            $purchase = Purchase::create([
-                'company_id' => current_company()->id,
-                'supplier_id' => $this->supplier,
-                'deadline_date' => $this->deadline_date,
-                'date' => now(),
-                'source_document' => $this->source_document,
-                'expected_arrival_date' => $this->expected_arrival_date,
-                'ask_confirmation' => $this->ask_confirmation,
-                'reminder_date_before_receipt' => $this->reminder_date_before_receipt,
-                'supplier_reference' => $this->supplier_reference,
-                'buyer_id' => $this->buyer,
-                'payment_term' => $this->payment_term,
-                'fiscal_position_id' => $this->fiscal_position,
-                // 'terms' => $this->terms,
-                'payment_status' => $payment_status,
-                // 'delivery_status' => 'Pending',
-                'reception_status' => 'Pending',
-                'invoice_status' => 'to_invoice',
-                'total_amount' => $this->total_amount,
-                'paid_amount' => $this->paid_amount,
-                'due_amount' => $this->total_amount, //$due_amount
-                'status' => 'purchase_order',
-                'tax_amount' => $this->tax_amount,
-                'discount_amount' => $this->discount_amount,
-                'tax_percentage' => $this->tax_percentage,
-                'discount_percentage' => $this->discount_percentage,
+        foreach ($this->request->RequestQuotationDetails as $detail) {
+            PurchaseDetail::create([
+                'purchase_id' => $purchase->id,
+                'product_id' => $detail->product_id,
+                'product_name' => $detail->product_name,
+                'product_code' => $detail->product_code,
+                'quantity' => $detail->quantity,
+                'price' => $detail->price * 100,
+                'unit_price' => $detail->price * 100,
+                'sub_total' => $detail->sub_total * 100,
+                'product_discount_amount' => 0,
+                // 'product_discount_type' => $detail->options->product_discount_type,
+                'product_tax_amount' => 0,
+                'received' => 0,
+                'invoiced' => 0,
             ]);
-
-            foreach (Cart::instance('request-quotation')->content() as $cart_item) {
-                PurchaseDetail::create([
-                    'purchase_id' => $purchase->id,
-                    'product_id' => $cart_item->id,
-                    'product_name' => $cart_item->name,
-                    'product_code' => $cart_item->options->code,
-                    'quantity' => $cart_item->qty,
-                    'price' => $cart_item->price * 100,
-                    'unit_price' => $cart_item->options->unit_price * 100,
-                    'sub_total' => $cart_item->options->sub_total * 100,
-                    'product_discount_amount' => $cart_item->options->product_discount * 100,
-                    'product_discount_type' => $cart_item->options->product_discount_type,
-                    'product_tax_amount' => $cart_item->options->product_tax * 100,
-                    'received' => 0,
-                    'invoiced' => 0,
-                ]);
-            }
+        }
+        if(module('inventory')){
             // Launch Logistics reception
             $purchaseService = new LogisticService();
             $purchaseService->launchReception($purchase);
+        }
 
-            // Cart::instance('request-quotation')->store(Auth::user()->id);
-            Cart::instance('request-quotation')->destroy();
-
-            if($purchase->supplier_reference){
-                $contact = Contact::findOrFail($purchase->supplier_id);
-                if($contact->reference == null){
-                    $contact->reference = $purchase->supplier_reference;
-                    $contact->save();
-                }
+        if($purchase->supplier_reference){
+            $contact = Contact::findOrFail($purchase->supplier_id);
+            if($contact->reference == null){
+                $contact->reference = $purchase->supplier_reference;
+                $contact->save();
             }
+        }
 
-            notify()->success("Nouvelle commande créée !");
+        notify()->success("Nouvelle commande créée !");
 
-            return redirect()->route('purchases.show', ['subdomain' => current_company()->domain_name, 'purchase' => $purchase->id, 'menu' => current_menu()]);
-        });
+        return redirect()->route('purchases.show', ['subdomain' => current_company()->domain_name, 'purchase' => $purchase->id, 'menu' => current_menu()]);
+
     }
 
     public function askConfirmation(){
         $this->ask_confirmation = true;
+    }
+
+    // Cancel the order
+    public function cancelOrder(){
+        $this->request->update([
+            'status' => 'cancelled',
+        ]);
+        $this->status == 'cancelled';
     }
 
 }

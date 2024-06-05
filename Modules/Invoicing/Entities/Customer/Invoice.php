@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Invoicing\Entities\Payment\InvoicePayment;
+use Modules\Sales\Entities\Sale;
 use Modules\Sales\Entities\SalesPerson;
 
 class Invoice extends Model
@@ -40,6 +41,11 @@ class Invoice extends Model
 
     public function invoicePayments() {
         return $this->hasMany(InvoicePayment::class, 'customer_invoice_id', 'id');
+    }
+
+    // Get seller
+    public function sale() {
+        return $this->belongsTo(Sale::class, 'sale_id', 'id');
     }
 
     // Get seller

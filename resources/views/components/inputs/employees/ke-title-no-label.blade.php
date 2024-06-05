@@ -3,8 +3,8 @@
 ])
 <div>
     <!-- Name -->
-    <h1 class="d-flex flex-row align-items-center">
-        <input type="text"wire:model="{{ $value->model }}" class="k_input" id="name_k" placeholder="{{ $value->label }}">
+    <h1 class="flex-row d-flex align-items-center">
+        <input type="text"wire:model="{{ $value->model }}" class="k_input" id="name_k" placeholder="{{ $value->label }}" {{ $this->blocked ? 'disabled' : '' }}>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
     </h1>
     <!-- Job Title -->

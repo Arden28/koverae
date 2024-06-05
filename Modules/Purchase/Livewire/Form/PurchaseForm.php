@@ -13,6 +13,7 @@ use App\Livewire\Form\Capsule;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Modules\Inventory\Entities\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 use Modules\Contact\Entities\Contact;
 use Modules\Purchase\Entities\Purchase;
@@ -37,6 +38,8 @@ class PurchaseForm extends BaseForm
     public bool $ask_confirmation = false, $reminder_date_before_receipt = false, $updateMode = false;
     // Cart
     public $total_amount = 0, $paid_amount = 0, $due_amount = 0, $tax_percentage = 18.9, $tax_amount = 0, $discount_percentage = 0, $discount_amount = 0, $shipping_amount = 0, $qty = 1;
+    // Purchase Cart
+    public $inputs = [];
 
     public function mount($purchase){
         $this->purchase = $purchase;
@@ -51,33 +54,8 @@ class PurchaseForm extends BaseForm
         $this->source_document = $purchase->source_document;
         $this->fiscal_position = $purchase->fiscal_position;
         $this->term = $purchase->terms;
+        $this->blocked = true;
 
-        // Update the cart
-        $purchase_details = $purchase->purchaseDetails;
-
-        Cart::instance('purchase')->destroy();
-
-        $cart = Cart::instance('purchase');
-
-        foreach ($purchase_details as $purchase_detail) {
-            $cart->add([
-                'id'      => $purchase_detail->product_id,
-                'name'    => $purchase_detail->product_name,
-                'qty'     => $purchase_detail->quantity,
-                'price'   => $purchase_detail->price,
-                'weight'  => 1,
-                'options' => [
-                    'description'  => $purchase_detail->product->description,
-                    'product_discount' => $purchase_detail->product_discount_amount,
-                    'product_discount_type' => $purchase_detail->product_discount_type,
-                    'sub_total'   => $purchase_detail->sub_total,
-                    'code'        => $purchase_detail->product_code,
-                    'stock'       => Product::findOrFail($purchase_detail->product_id)->product_quantity,
-                    'product_tax' => $purchase_detail->product_tax_amount,
-                    'unit_price'  => $purchase_detail->unit_price
-                ]
-            ]);
-        }
     }
 
     protected $rules= [
@@ -97,6 +75,12 @@ class PurchaseForm extends BaseForm
         'fiscal_position' => 'nullable',
 
     ];
+
+    #[On('purchase-cart')]
+    public function updateInputs($inputs, $total, $totalHT){
+        $this->inputs = $inputs;
+        $this->total_amount = $total;
+    }
 
     // Inputs
     public function inputs() : array
@@ -148,16 +132,16 @@ class PurchaseForm extends BaseForm
         $status = $this->status;
 
         $buttons = [
-            ActionBarButton::make('reception', 'Recevoir les produits', 'receiveOrder()', 'purchase_order'),
+            ActionBarButton::make('reception', 'Recevoir ', 'receiveOrder()', 'purchase_order'),
             ActionBarButton::make('invoice', 'Créer une facture fournisseur', 'createInvoice', 'purchase_order')->component('button.action-bar.invoice-button'),
-            ActionBarButton::make('send', 'Envoyer par email', 'sendByEmail()', ''),
-            ActionBarButton::make('lock', 'Verouiller', 'lock()', ''),
-            ActionBarButton::make('cancel', 'Annuler', 'cancel()', 'cancelled'),
+            ActionBarButton::make('send', 'Envoyer par Email', '', '')->component('button.action-bar.send-email'),
+            ActionBarButton::make('lock', $this->blocked == true ? 'Dévérouiller' : 'Vérouiller', 'lock()', ''),
+            ActionBarButton::make('cancel', 'Annuler', 'cancelOrder()', 'cancelled'),
             // Add more buttons as needed
         ];
 
         // Define the custom order of button keys
-        $customOrder = ['reception', 'invoice', 'send', 'lock']; // Adjust as needed
+        $customOrder = ['reception', 'invoice', 'send', 'lock', 'cancel']; // Adjust as needed
 
         // Change dynamicaly the display order depends on status
         return $this->sortActionButtons($buttons, $customOrder, $status);
@@ -172,7 +156,7 @@ class PurchaseForm extends BaseForm
             StatusBarButton::make('request', 'Demande de prix', 'request'),
             StatusBarButton::make('sent', 'Envoyé', 'sent'),
             StatusBarButton::make('purchase_order', 'Bon de commande fournisseur', 'purchase_order'),
-            StatusBarButton::make('canceled', 'Annulé', 'canceled')->component('button.status-bar.canceled'),
+            StatusBarButton::make('canceled', 'Annulé', 'cancelled')->component('button.status-bar.canceled'),
             // Add more buttons as needed
         ];
     }
@@ -246,5 +230,12 @@ class PurchaseForm extends BaseForm
         return redirect()->route('inventory.operation-transfers.show', ['subdomain' => current_company()->domain_name, 'transfer' => $transfer->id ?? null, 'menu' => current_menu()]);
     }
 
+    // Cancel the order
+    public function cancelOrder(){
+        $this->purchase->update([
+            'status' => 'cancelled',
+        ]);
+        $this->status == 'cancelled';
+    }
 
 }

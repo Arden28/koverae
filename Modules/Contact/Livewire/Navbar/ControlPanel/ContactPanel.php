@@ -12,7 +12,7 @@ class ContactPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Contacts";
+        $this->currentPage = __('translator::contacts.control.contact.current_page_list');
         $this->new = route('contacts.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }

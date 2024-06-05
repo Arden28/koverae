@@ -14,6 +14,7 @@ class OperationDetailCart extends Component
     public $i = 1;
     public $cart_instance;
     public $test= 'hello';
+    public $blocked = false;
 
     public function mount($cartInstance, $transfer = null){
         $this->cart_instance = $cartInstance;
@@ -25,6 +26,7 @@ class OperationDetailCart extends Component
                 }
                 $this->dispatch('operation-cart', inputs: $this->inputs);
             }
+            $this->blocked = true;
         }
     }
 

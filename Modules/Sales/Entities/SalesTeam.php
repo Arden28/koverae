@@ -38,6 +38,10 @@ class SalesTeam extends Model
         return $this->hasMany(Sale::class, 'sales_team_id', 'id');
     }
 
+    public function members(){
+        return $this->hasMany(SalesTeamMember::class, 'sales_team_id', 'id');
+    }
+
     // protected static function newFactory()
     // {
     //     return \Modules\Sales\Database\factories\SalesTeamFactory::new();

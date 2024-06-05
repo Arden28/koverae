@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('supplier_id');
             $table->string('reference')->nullable();
             $table->foreignId('blanket_order_id')->nullable();
-            $table->date('date')->nullable();
-            $table->date('deadline_date')->nullable();
-            $table->date('expected_arrival_date')->nullable();
+            $table->dateTime('date')->nullable();
+            $table->dateTime('deadline_date')->nullable();
+            $table->dateTime('expected_arrival_date')->nullable();
             $table->boolean('ask_confirmation')->default(false);
             $table->integer('reminder_date_before_receipt')->nullable();
             //
@@ -36,13 +36,13 @@ return new class extends Migration
             $table->string('supplier_reference')->nullable();
             $table->string('payment_term')->nullable();
             $table->foreignId('fiscal_position_id')->nullable();
-            $table->string('status')->default('pending');
+            $table->enum('status', ['request', 'invoiced', 'cancelled'])->default('request');
             $table->text('terms')->nullable();
 
             // Email
             $table->unsignedBigInteger('email_template_id')->nullable();
 
-            $table->foreign('supplier_id')->references('id')->on('contacts')->cascadeOnDelete();
+            // $table->foreign('supplier_id')->references('id')->on('contacts')->cascadeOnDelete();
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();

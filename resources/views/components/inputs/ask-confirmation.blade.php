@@ -5,14 +5,14 @@
 
 <div class="d-flex" style="margin-bottom: 8px;">
     <!-- Input Label -->
-    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0  text-break text-900">
+    <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
 
     </div>
     <!-- Input Form -->
     <div class="k_cell k_wrap_input flex-grow-1">
         <div class="k_field_widget k_field_boolean">
             <div class="k-checkbox form-check d-inline-block">
-                <input type="checkbox" wire:model="{{ $value->model }}" class="form-check-input">
+                <input type="checkbox" wire:model="{{ $value->model }}" class="form-check-input" {{ $this->blocked ? 'disabled' : '' }}>
             </div>
             @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
         </div>
