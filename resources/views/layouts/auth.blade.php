@@ -10,9 +10,9 @@
     <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo/favicon.ico')}}" />
 
     <!-- CSS files -->
-    <link href="{{ asset('assets/dist/css/tabler.min.css')}}?1668287865" rel="stylesheet"/>
-    <link href="{{ asset('assets/dist/css/tabler-vendors.min.css')}}?1668287865" rel="stylesheet"/>
-    <link href="{{ asset('assets/css/style.css')}}?1668287864" rel="stylesheet"/>
+    <link href="{{ asset('assets/dist/css/tabler.min.css?'.time())}}" rel="stylesheet"/>
+    {{-- <link href="{{ asset('assets/dist/css/tabler-vendors.min.css?'.time())}}" rel="stylesheet"/> --}}
+    <link href="{{ asset('assets/css/style.css?'.time())}}" rel="stylesheet"/>
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
@@ -24,12 +24,10 @@
       </style>
 </head>
 <body>
-
     <main class="page-content">
-        <div class="d-flex justify-center">
+        <div class="justify-content-lg-center d-flex">
             @yield('content')
         </div>
     </main>
-
 </body>
 </html>

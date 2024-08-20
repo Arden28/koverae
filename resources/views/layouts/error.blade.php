@@ -23,7 +23,7 @@
     </style>
   </head>
   <body >
-    <div class="page bg-white">
+    <div class="bg-white page">
       <div class="page-wrapper">
         <!-- Page body -->
         <div class="page-body">
@@ -40,9 +40,9 @@
               </p>
               <div class="empty-action">
                 {{-- @auth --}}
-                <a  wire:navigate href="{{ route('main', ['subdomain' => current_company()->domain_name]) }}" class="btn btn-primary font-weight-bold gap-1" style="background-color: #3d6a6b;">
+                <a  wire:navigate href="{{ route('main', ['subdomain' => current_company()->domain_name]) }}" class="gap-1 btn btn-primary font-weight-bold" style="background-color: #3d6a6b;">
                   <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                  <i class="bi bi-house mr-2"></i>
+                  <i class="mr-2 bi bi-house"></i>
                   <span class="ml-4">{{ __("Retouner à l'acceuil") }}</span>
                 </a>
                 {{-- @endauth --}}

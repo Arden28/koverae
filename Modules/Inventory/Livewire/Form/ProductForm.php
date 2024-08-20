@@ -181,7 +181,7 @@ class ProductForm extends SimpleAvatarForm
             // ActionBarButton::make('invoice', 'Créer une facture', 'storeQT()', 'sale_order'),
             ActionBarButton::make('update_quantiy', __('translator::inventory.form.product.actions.update-qty'), "", 'storable')->component('button.action-bar.update-qty'),
             ActionBarButton::make('replenish', __('translator::inventory.form.product.actions.replenish'), 'sale()', '')->component('button.action-bar.replenish-product'),
-            ActionBarButton::make('print', __('translator::inventory.form.product.actions.print'), 'preview()', ''),
+            ActionBarButton::make('print', __('translator::inventory.form.product.actions.print'), '', '')->component('button.action-bar.product.print-label'),
             // Add more buttons as needed
         ];
 
@@ -379,12 +379,14 @@ class ProductForm extends SimpleAvatarForm
 
     public function updated($name, $value)
     {
-        $this->product->update([
-            $name => $value,
-        ]);
+        if($this->product){
+            $this->product->update([
+                $name => $value,
+            ]);
+        }
     }
 
-    // Method to update product_type for testing
+    // Method to update product_type fo r testing
     public function updateProductType($type)
     {
         $this->product_type = $type;

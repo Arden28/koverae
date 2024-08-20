@@ -30,6 +30,8 @@ use Modules\Sales\Livewire\PriceList\Lists as PriceLists;
 use Modules\Sales\Livewire\PriceList\Create as PriceCreate;
 use Modules\Sales\Livewire\PriceList\Show as PriceShow;
 
+use Modules\Sales\Livewire\Analysis\SalesAnalysis;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -83,6 +85,10 @@ Route::middleware(['module:sales'])->group(function() {
         Route::get('/create', ProgramCreate::class)->name('create');
         Route::get('/{team}', ProgramShow::class)->name('show');
     });
+
+    // Analysis
+    Route::get('sales/analysis/', SalesAnalysis::class)->name('sales.analysis');
+
 
     // Route::get('/', 'SalesController@index');
     // Route::get('quotations/create', [QuotationController::class, 'create'])->name('quotations.create');

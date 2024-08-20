@@ -484,5 +484,15 @@ return [
             ]
 
         ],
+    ],
+    // Pages
+    'page' => [
+        'sales-analysis' => [
+            'title' => 'Sales Analysis'
+        ]
+    ],
+    'settings' => [
+        
     ]
+        
 ];

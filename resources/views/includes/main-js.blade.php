@@ -1,8 +1,8 @@
 <script src="{{ asset('js/app.js') }}" crossorigin="anonymous"></script>
 
 <!-- Libs JS -->
-<script src="{{ asset('assets/dist/libs/list.js/dist/list.min.js')}}?1668287865" ></script>
-<script src="{{ asset('assets/dist/libs/apexcharts/dist/apexcharts.min.js')}}?1668287865" ></script>
+<script src="{{ asset('assets/libs/list.js/dist/list.min.js')}}?1668287865" ></script>
+<script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js')}}?1668287865" ></script>
 
 <!-- Alpine Plugins -->
 {{-- <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script> --}}
@@ -46,6 +46,17 @@
             checkbox.style.backgroundColor = '#FFFFFF'; // Default color
         }
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var dropdown = document.getElementById('dropdownMenuButton');
+      var dropdownMenu = document.querySelector('.dropdown-menu');
+
+      // Prevent closing on click inside
+      dropdownMenu.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
 </script>
 
 @bukScripts(true)

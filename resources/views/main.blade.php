@@ -23,11 +23,11 @@
         <!-- Header -->
 
         <!-- Logo -->
-        <div class="centered-logo justify-content-center text-center align-items-center" style="height: 60px;margin: 0 0 8px 0;">
+        <div class="text-center centered-logo justify-content-center align-items-center" style="height: 60px;margin: 0 0 8px 0;">
             <img src="{{ asset('assets/images/logo/logo-black-gd.png') }}" alt="Koverae Logo" class="navbar-brand-image" style="height: 45px">
         </div>
-        <div class="k_home_menu overflow-x-hidden">
-            <div class="container justify-content-center text-center align-items-center mb-2">
+        <div class="overflow-x-hidden k_home_menu">
+            <div class="container mb-2 text-center justify-content-center align-items-center">
 
                 <div class="database_expiration_panel">
                     <span class="k_instance_register_main">

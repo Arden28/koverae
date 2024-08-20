@@ -26,6 +26,7 @@ class Module extends Model
     {
         return $query->where('slug', $slug);
     }
+
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'installed_modules', 'module_slug', 'team_id');
@@ -74,7 +75,6 @@ class Module extends Model
     }
 
     // Parent App
-
     public function parent(){
         return $this->belongsTo(Module::class, 'parent_slug', 'slug');
     }

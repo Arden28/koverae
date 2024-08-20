@@ -377,6 +377,27 @@ return [
             'messages' => [
                 'replenish-success' => 'The following replenishment order has been generated :reference',
             ]
+        ],
+        'print-label' => [
+            'title' => 'Select labels layout',
+            'qty' => 'Quantity',
+            'format' => [
+                'label' => 'Format',
+                'select' => [
+                    'dymo' => 'Dymo',
+                    '2x7' => '2x7 with price',
+                    '4x7' => '4x7 with price',
+                    'zpl' => 'ZPL Labels with price',
+                ]
+            ],
+            'pricelist' => [
+                'label' => 'Pricelist',
+            ],
+            'extra' => 'Additional Content',
+            'buttons' => [
+               'confirm' => 'Confirm',
+                'discard' => 'Discard',
+            ],
         ]
 
     ],

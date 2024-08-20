@@ -2132,7 +2132,10 @@ input[type="text"] {
     } */
 /* AUTH PAGE */
 
-/* Auth */
+/* ***************
+ *  PAGE
+ *
+************** */
 .page-content {
     font-size: 14px;
     line-height: 22px;
@@ -2147,36 +2150,10 @@ input[type="text"] {
     min-width: auto;
 }
 
-.k_website_login {
-    height: 512px;
-    width: 350px;
-    border: 1px solid #ffffff;
-    margin: 48px 457px 0 457px;
-    padding: 0 0 10px 0;
-    min-height: auto;
-    max-width: 350px;
-}
-
-.k_website_login .k_logo {
-    /* background-color: #ffffff; */
-    background-image: url("../images/logo/logo-1.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 50px;
-    width: 100px;
-    margin: 24px 127px 0 127px;
-    min-height: auto;
-    min-width: auto;
-    position: relative;
-}
-
-.k_website_login .card-body {
-    /* height: 451px; */
-    width: 348px;
-    padding: 15px 15px 15px 15px;
-    min-height: auto;
-    min-width: auto;
-}
+/* ***************
+ *  ALERT
+ *
+************** */
 .k-alert {
     font-size: 12px;
     line-height: 19px;
@@ -2185,27 +2162,81 @@ input[type="text"] {
     word-spacing: 0px;
     background-color: #d1ecf1;
     color: #0e6163;
-    height: 87px;
+    height: auto;
     width: 318.667px;
     border: 1px solid #b9e3ea;
     margin: 0 0 16px 0;
     padding: 16px 16px 16px 16px;
+    min-height: auto;
     position: relative;
+}
+
+/* ***************
+ *  LOGIN PAGE
+ *
+************** */
+
+.k_website_login {
+    height: 512px;
+    /* width: auto; */
+    border: 1px solid #ffffff;
+    margin: 48px 457px 0 457px;
+    padding: 0 0 10px 0;
+    max-height: auto;
+    min-width: 350px;
+    max-width: 350px;
+}
+
+.k_website_login .k_logo {
+    background-image: url("assets/images/logo/logo-black.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: auto;
+    width: 110px;
+    margin: 16px 127px 0 127px;
+    min-height: auto;
+    min-width: auto;
+    position: relative;
+}
+#k-logo{
+    height: auto;
+    width: 125px;
+}
+
+.k_website_login .card-body {
+    /* height: 451px; */
+    width: 348px;
+    padding: 15px 15px 15px 15px;
+    /* min-height: auto; */
+    /* min-width: auto; */
 }
 
 .k_login_form {
     height: 314px;
-    width: 318px;
+    width: 100%;
     border-top: 1px solid #e9ecef;
     margin: 15px 0 0 0;
     padding: 10px 0 0 0;
     max-width: 400px;
 }
+@media (min-width: 430px){
+    .k_login_form{
+
+    }
+}
 
 .k_login_form .field-login {
-    height: 66px;
-    width: 318px;
-    margin: 0 0 16px 0;
+    height: auto;
+    width: auto;
+    margin: 0 0 8px 0;
+}
+.k-checkbox {
+    height: 16px;
+    width: 16px;
+    margin: 0 0 2px 0;
+    padding: 0 0 0 21px;
+    /* min-height: 21px; */
+    background-color: #b9e3ea;
 }
 
 .k_login_form .field-password {
@@ -2269,12 +2300,35 @@ input[type="text"] {
     cursor: pointer;
 }
 
+/* OTP INPUT */
+
+.input-field {
+    flex-direction: row;
+    column-gap: 10px;
+}
+.input-field input {
+    height: 55px;
+    width: 45px;
+    border-radius: 6px;
+    outline: none;
+    font-size: 1.125rem;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+.input-field input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.input-field input::-webkit-inner-spin-button,
+.input-field input::-webkit-outer-spin-button {
+    display: none;
+}
+
 /* Responsive Styles */
 @media (max-width: 1270px) {
     /* Adjust the max-width and other values as needed */
 
     .k_website_login {
-        width: 80%; /* Make the container width responsive */
+        /* width: 80%; Make the container width responsive */
         margin: 48px auto 0 auto; /* Center the container horizontally */
     }
 
@@ -2299,6 +2353,7 @@ input[type="text"] {
         margin: 10px 0; /* Adjust margin for spacing */
     }
 }
+
 /* For Tablet */
 
 /*********

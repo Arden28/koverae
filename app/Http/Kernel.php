@@ -22,7 +22,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         // Check Subdomain
-        \App\Http\Middleware\CheckSubdomain::class,
+        \App\Http\Middleware\IdentifyKover::class,
     ];
 
     /**

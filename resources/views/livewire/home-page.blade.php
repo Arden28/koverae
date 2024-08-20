@@ -17,24 +17,22 @@
 
     @section('content')
     <!-- Page body -->
-    <div class="page-body">
-
+    <section class="page-body">
 
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                    Apps
+                    {{ __('My Apps') }}
                     </h2>
                 </div>
-
             </div>
             <ul class="mb-1 nav nav-bordered">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Mes apps</a>
+                    <a class="nav-link active" id="my-app-tab" data-bs-toggle="tab" data-bs-target="#my-app" type="button" role="tab" aria-controls="my-app" aria-selected="true" >{{ __('My Apps') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Favoris</a>
+                    <a class="nav-link" id="my-favourite-tab" data-bs-toggle="tab" data-bs-target="#my-favourite" type="button" role="tab" aria-controls="my-favourite" aria-selected="true">{{ __('My Favourites') }}</a>
                 </li>
             </ul>
             <!-- App -->
@@ -98,7 +96,7 @@
         <div class="pb-1 cursor-pointer k-loading" wire:loading>
             <p>En cours de chargement ...</p>
         </div>
-    </div>
+    </section>
     @endsection
 
     @section('scripts')

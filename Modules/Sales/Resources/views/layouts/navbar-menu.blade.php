@@ -105,7 +105,7 @@
             <div class="dropdown-menu-columns">
                 <!-- Left Side -->
                 <div class="dropdown-menu-column">
-                    <a class="dropdown-item" wire:navigate href="#">
+                    <a class="dropdown-item" wire:navigate href="{{ route('sales.analysis', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}">
                         {{ __('translator::sales.navbar.report.sales') }}
                     </a>
                     <a class="dropdown-item" wire:navigate href="#">
