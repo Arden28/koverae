@@ -8,17 +8,17 @@
         <!-- Right pane -->
         <div class="k_setting_right_pane">
             <div class="mt12">
-                <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                     <span>{{ $value->label }}</span>
                 </div>
-                <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                     <span>
                         {{ $value->description }}
                     </span>
                 </div>
             </div>
             <div class="mt16">
-                <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Cette valeur est appliquée par défaut sur tous les nouveaux produits. Ceci peut être modifié dans la fiche du produit.">
+                <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Cette valeur est appliquée par défaut sur tous les nouveaux produits. Ceci peut être modifié dans la fiche du produit.">
                     <!-- What is ordered -->
                     <div>
                         <div class="form-check k_radio_item">

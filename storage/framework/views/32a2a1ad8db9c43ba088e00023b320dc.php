@@ -61,6 +61,7 @@ if (isset($__slots)) unset($__slots);
         </div>
 
     </div>
+    
 </body>
 </html>
 <?php /**PATH D:\My Laravel Startup\koverae\resources\views/layouts/master.blade.php ENDPATH**/ ?>

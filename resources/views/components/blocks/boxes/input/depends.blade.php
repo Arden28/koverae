@@ -1,7 +1,7 @@
 @props([
     'value'
 ])
-
+@if($value->parent)
 <div class="mt-3 ps-3">
     @if($value->label)
     <span>
@@ -21,3 +21,4 @@
     {{-- @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror --}}
     <i class="cursor-pointer bi bi-arrow-right-short fw-bold"></i>
 </div>
+@endif

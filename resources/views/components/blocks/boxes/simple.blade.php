@@ -36,23 +36,35 @@
                     </span>
                 </div>
                 @endif
-                @if($value->actions)
-                <div class="mt-2 d-block"   >
-                    @foreach($value->actions as $action)
-                    <a
-                        @if($action['is_link'] == true)
-                        wire:navigate href="{{ $action['action'] }}"
+                
+                <!-- Box Inputs -->
+                @if($this->inputs())
+                @foreach($this->inputs() as $input)
+                @if($input->box == $value->key)
+                    <x-dynamic-component
+                        :component="$input->component"
+                        :value="$input"
+                    >
+                    </x-dynamic-component>
+                @endif
+                @endforeach
+                @endif
+                
+                <!-- Box Actions -->
+                @if($this->actions())
+                <div class="mt-2 d-block">
+                    @foreach($this->actions() as $action)
+                        @if($action->box == $value->key)
+                            <x-dynamic-component
+                                :component="$action->component"
+                                :value="$action"
+                            >
+                            </x-dynamic-component>
                         @endif
-                        @if($action['is_link'] == false)
-                            wire:click="{{ $action['action'] }}" wire:target="{{ $action['action'] }}"
-                        @endif
-                        class="outline-none btn btn-link k_web_settings_access_rights">
-                        <i class="bi {{ $action['icon'] }} k_button_icon"></i> <span>{{ $action['label'] }}</span>
-                    </a>
-                    <br>
                     @endforeach
                 </div>
                 @endif
+                
             </div>
         </div>
 

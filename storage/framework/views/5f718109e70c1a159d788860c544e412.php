@@ -12,6 +12,9 @@
                 <button wire:click="cancelUpdate" wire:target="cancelUpdate" class="btn btn-secondary k_form_button_cancel">
                     <?php echo e(__('Discard')); ?> <span wire:loading wire:target="cancelUpdate">...</span></span>
                 </button>
+                <!--[if BLOCK]><![endif]--><?php if($this->change): ?>
+                <span class=""><?php echo e(__('Usaved changes')); ?></span>
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </div>
                 <div class="min-w-0 gap-2 k_last_breadcrumb_item active align-items-center lh-sm">
                     <div class="gap-1 d-flex text-truncate">
@@ -30,5 +33,11 @@
 
       </div>
     </div>
+    
+    <!-- Loading -->
+    <div class="pb-1 cursor-pointer k-loading" wire:loading>
+        <p>En cours de chargement ...</p>
+    </div>
+    
 </div>
 <?php /**PATH D:\My Laravel Startup\koverae\resources\views/livewire/navbar/template/simple.blade.php ENDPATH**/ ?>

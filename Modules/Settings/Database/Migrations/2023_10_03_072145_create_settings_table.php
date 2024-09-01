@@ -22,17 +22,20 @@ return new class extends Migration
             // Statistics
             $table->boolean('has_digest_email')->default(true);
             // Contact
-            $table->boolean('has_partner_autocomplete')->default(false);
+            $table->boolean('has_quick_find')->default(true);
             // Permissions
             $table->enum('has_customer_account', ['on_invitation', 'free_signup'])->default('free_signup');
-            $table->boolean('has_reset_password')->default(false);
-            $table->boolean('has_default_access_right')->default(false);
+            $table->boolean('has_reset_password')->default(true);
+            $table->boolean('has_default_access_right')->default(true);
+            $table->boolean('has_import_from_xls')->default(true);
             // Integrations
             $table->boolean('has_mail_plugin')->default(false);
             $table->boolean('has_oauth_authentication')->default(false);
             $table->boolean('has_geo_localization')->default(false);
+            $table->enum('geolocation_provider', ['open_street_map', 'google_place_map'])->default('open_street_map');
             $table->boolean('has_google_authentification')->default(false);
             $table->string('google_authentification_client_id')->nullable();
+            $table->string('open_street_map_client_id')->nullable();
             $table->boolean('has_linkedin_authentification')->default(false);
             $table->boolean('has_recaptcha')->default(false);
             $table->boolean('has_cloudfare_turnstile')->default(false);

@@ -12,6 +12,9 @@
                 <button wire:click="cancelUpdate" wire:target="cancelUpdate" class="btn btn-secondary k_form_button_cancel">
                     {{ __('Discard') }} <span wire:loading wire:target="cancelUpdate">...</span></span>
                 </button>
+                @if($this->change)
+                <span class="">{{ __('Usaved changes') }}</span>
+                @endif
             </div>
                 <div class="min-w-0 gap-2 k_last_breadcrumb_item active align-items-center lh-sm">
                     <div class="gap-1 d-flex text-truncate">
@@ -29,4 +32,10 @@
 
       </div>
     </div>
+    
+    <!-- Loading -->
+    <div class="pb-1 cursor-pointer k-loading" wire:loading>
+        <p>En cours de chargement ...</p>
+    </div>
+    
 </div>

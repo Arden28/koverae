@@ -15,6 +15,7 @@ use Modules\Employee\Entities\Department;
 use Modules\Employee\Entities\Employee;
 use Modules\Employee\Entities\Job;
 use Modules\Inventory\Entities\Warehouse\Warehouse;
+use Modules\Settings\Entities\Setting;
 // use Modules\Pos\Traits\HasPos;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -48,6 +49,14 @@ class Company extends CompanyModel implements HasMedia
     public function modules()
     {
         return $this->belongsToMany(Module::class, 'installed_modules', 'module_slug', 'team_id');
+    }
+
+    /**
+     * Get settings for the company.
+     */
+    public function setting()
+    {
+        return $this->hasOne(Setting::class, 'company_id', 'id');
     }
 
     /**

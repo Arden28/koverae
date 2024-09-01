@@ -18,4 +18,12 @@ abstract class AppSetting extends Component
     public function boxes() : array{
         return [];
     }
+    
+    public function inputs() : array{
+        return [];
+    }
+    
+    public function actions() : array{
+        return [];
+    }
 }

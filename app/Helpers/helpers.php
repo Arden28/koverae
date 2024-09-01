@@ -296,3 +296,78 @@ if (!function_exists('receipt_number')) {
         return $number;
     }
 }
+
+if (!function_exists('modelToSelectOptions')) {
+    /**
+     * Convert model collection to key-value pairs for select options.
+     *
+     * @param  \Illuminate\Database\Eloquent\Collection $collection
+     * @param  string $valueField The attribute to use for option values
+     * @param  string $textField The attribute to use for option text
+     * @return array
+     */
+    function modelToSelectOptions($collection, $valueField = 'id', $textField = 'name')
+    {
+        return $collection->pluck($textField, $valueField)->toArray();
+    }
+}
+
+if (!function_exists('toSelectOptions')) {
+    /**
+     * Convert a model collection or an array to key-value pairs for select options.
+     *
+     * @param  mixed $data The data to convert, can be an Eloquent collection or an array
+     * @param  string $valueField The attribute or key to use for option values
+     * @param  string $textField The attribute or key to use for option text
+     * @return array
+     */
+    function toSelectOptions($data, $valueField = 'id', $textField = 'name')
+    {
+        if (is_array($data)) {
+            // If it's an array, transform it assuming it's an array of arrays or objects
+            return array_column($data, $textField, $valueField);
+        } elseif ($data instanceof \Illuminate\Database\Eloquent\Collection) {
+            // If it's an Eloquent Collection, use pluck
+            return $data->pluck($textField, $valueField)->toArray();
+        }
+
+        return [];
+    }
+}
+
+if (!function_exists('toRadioOptions')) {
+    /**
+     * Convert a model collection or an array to radio input options.
+     *
+     * @param  mixed $data The data to convert, can be an Eloquent collection or an array
+     * @param  string $valueField The attribute or key to use for option values
+     * @param  string $textField The attribute or key to use for option text
+     * @param  mixed $checkedValue The value of the radio button that should be checked by default
+     * @return array
+     */
+    function toRadioOptions($data, $valueField = 'id', $textField = 'name', $checkedValue = null)
+    {
+        $options = [];
+        if (is_array($data)) {
+            // Handle the array data
+            foreach ($data as $item) {
+                $options[] = [
+                    'value' => $item[$valueField],
+                    'label' => $item[$textField],
+                    'checked' => ($item[$valueField] == $checkedValue)
+                ];
+            }
+        } elseif ($data instanceof \Illuminate\Database\Eloquent\Collection) {
+            // Handle the Eloquent Collection
+            foreach ($data as $item) {
+                $options[] = [
+                    'value' => $item->$valueField,
+                    'label' => $item->$textField,
+                    'checked' => ($item->$valueField == $checkedValue)
+                ];
+            }
+        }
+
+        return $options;
+    }
+}

@@ -12,10 +12,10 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<?php if (isset($component)) { $__componentOriginal8470ada03c5d1e15d322de02acf9cec4 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal8470ada03c5d1e15d322de02acf9cec4 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.blocks.boxes.email.digest','data' => ['value' => $value]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('blocks.boxes.email.digest'); ?>
+<?php if (isset($component)) { $__componentOriginal5551673406bce24b1bf5606edf825c7d = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5551673406bce24b1bf5606edf825c7d = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.blocks.boxes.input.simple','data' => ['value' => $value]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('blocks.boxes.input.simple'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
@@ -27,11 +27,11 @@
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
-<?php if (isset($__attributesOriginal8470ada03c5d1e15d322de02acf9cec4)): ?>
-<?php $attributes = $__attributesOriginal8470ada03c5d1e15d322de02acf9cec4; ?>
-<?php unset($__attributesOriginal8470ada03c5d1e15d322de02acf9cec4); ?>
+<?php if (isset($__attributesOriginal5551673406bce24b1bf5606edf825c7d)): ?>
+<?php $attributes = $__attributesOriginal5551673406bce24b1bf5606edf825c7d; ?>
+<?php unset($__attributesOriginal5551673406bce24b1bf5606edf825c7d); ?>
 <?php endif; ?>
-<?php if (isset($__componentOriginal8470ada03c5d1e15d322de02acf9cec4)): ?>
-<?php $component = $__componentOriginal8470ada03c5d1e15d322de02acf9cec4; ?>
-<?php unset($__componentOriginal8470ada03c5d1e15d322de02acf9cec4); ?>
-<?php endif; ?><?php /**PATH D:\My Laravel Startup\koverae\storage\framework\views/a5711c20bf60753e3872a4d5326fef79.blade.php ENDPATH**/ ?>
+<?php if (isset($__componentOriginal5551673406bce24b1bf5606edf825c7d)): ?>
+<?php $component = $__componentOriginal5551673406bce24b1bf5606edf825c7d; ?>
+<?php unset($__componentOriginal5551673406bce24b1bf5606edf825c7d); ?>
+<?php endif; ?><?php /**PATH D:\My Laravel Startup\koverae\storage\framework\views/c0f741093b13d88f5cf9fbf142f3b82b.blade.php ENDPATH**/ ?>
