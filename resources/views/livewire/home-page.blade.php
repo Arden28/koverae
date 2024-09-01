@@ -19,32 +19,62 @@
     <!-- Page body -->
     <section class="page-body">
 
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
+        <!-- My To Dos -->
+        <div class="mb-4 container-xl">
+            <div class="mb-2 row g-2 align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                    {{ __('My Apps') }}
+                    {{ __('My To Dos') }}
                     </h2>
                 </div>
             </div>
             <ul class="mb-1 nav nav-bordered">
                 <li class="nav-item">
-                    <a class="nav-link active" id="my-app-tab" data-bs-toggle="tab" data-bs-target="#my-app" type="button" role="tab" aria-controls="my-app" aria-selected="true" >{{ __('My Apps') }}</a>
+                    <a class="nav-link active" id="my-task-tab" data-bs-toggle="tab" data-bs-target="#my-task" type="button" role="tab" aria-controls="my-task" aria-selected="true" ><b>{{ __('My Tasks') }} (2)</b></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="my-favourite-tab" data-bs-toggle="tab" data-bs-target="#my-favourite" type="button" role="tab" aria-controls="my-favourite" aria-selected="true">{{ __('My Favourites') }}</a>
+                    <a class="nav-link" id="my-situation-tab" data-bs-toggle="tab" data-bs-target="#my-situation" type="button" role="tab" aria-controls="my-situation" aria-selected="true"><b>{{ __('My Situations') }} (0)</b></a>
                 </li>
             </ul>
             <!-- App -->
-            <livewire:module.main-list />
+            <div class="tab-content" id="nav-tabContent">
+                <!-- Tasks -->
+                {{-- <div class="mt-2 app_list tab-pane fade show active" id="my-task" role="tabpanel" aria-labelledby="my-task-tab">
+                    <div class="row">
+                        <!-- Tasks -->
+                        <div class="mt-1 rounded col-md-3 col-6">
+                            <div class="p-2 card">
+                                <div class="card-title">
+                                    Release of Sale Order 3554
+                                </div>
+                                <div class="card-subtitle">
+                                    <span>{{ __('Priority: ') }} <b style="color: #095c5e;">{{ __('Medium') }}</b></span>
+                                    <br>
+                                    <span class="text-black">{{ __('Created By') }}: {{ auth()->user()->name }}</span>
+                                </div>
+                                <span>{{ __('Task created ') }} 7 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+                <div class="p-3 mt-2 bg-white shadow app_list tab-pane fade show active" id="my-task" role="tabpanel" aria-labelledby="my-task-tab">
+                    {{ __("You have no current tasks.") }}
+                </div>
+                <div class="p-3 mt-3 bg-white rounded shadow app_list tab-pane fade" id="my-situation" role="tabpanel" aria-labelledby="my-situation-tab">
+                    {{ __("You have no current situation.") }}
+                </div>
+            </div>
 
         </div>
 
+        <!-- My Apps -->
+        <livewire:module.main-list />
+
         <div class="container-xl">
-            <div class="mt-3 mb-3 row g-2 align-items-center">
+            <div class="mb-3 row g-2 align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                    {{__('Insights')}}
+                    {{__('My Insights')}}
                     </h2>
                 </div>
 
@@ -55,10 +85,10 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex">
-                        <h2 class="card-title">{{__('Commandes clients entrantes')}}</h2>
+                        <h2 class="card-title">{{__('Incoming customer orders')}}</h2>
                         <div class="ms-auto">
                             <div class="dropdown">
-                            <a class="text-muted" href="#" aria-expanded="false">{{__('Par Mois')}}</a>
+                            <a class="text-muted" href="#" aria-expanded="false">{{__('Per Month')}}</a>
                             </div>
                         </div>
                     </div>
@@ -71,14 +101,14 @@
                   <div class="card">
                   <div class="card-body">
                       <div class="d-flex">
-                          <h2 class="card-title">Flux de trésorie</h2>
+                          <h2 class="card-title">{{ __('Cashflow') }}</h2>
                           <div class="ms-auto">
                               <div class="dropdown">
-                                <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cette semaine</a>
+                                <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ __('This Week') }}</a>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item active" href="#">Cette semaine</a>
-                                    <a class="dropdown-item" href="#">Ce mois</a>
-                                    <a class="dropdown-item" href="#">3 derniers mois</a>
+                                    <a class="dropdown-item active" href="#">{{ __('This Week') }}</a>
+                                    <a class="dropdown-item" href="#">{{ __('This Month') }}</a>
+                                    <a class="dropdown-item" href="#">{{ __('3 Last Months') }}</a>
                                 </div>
                               </div>
                           </div>

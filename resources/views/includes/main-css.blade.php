@@ -2,9 +2,9 @@
     <link rel="stylesheet" href="{{ asset('css/app.css?'.time() ) }}" crossorigin="anonymous">
 
 <!-- CSS files -->
-    <link href="{{ asset('assets/dist/css/tabler.min.css?'.time() )}}?()"  rel="stylesheet"/>
-    {{-- <link href="{{ asset('assets/dist/css/tabler-vendors.min.css?'.time() )}}?" rel="stylesheet"/> --}}
-    <link href="{{ asset('/assets/css/style.css?v=123456787652')}}" rel="stylesheet"/>
+    <link href="{{ asset('assets/css/tabler.css?'.time() )}}"  rel="stylesheet"/>
+    {{-- <link href="{{ asset('assets/dist/css/tabler.min.css?'.time() )}}"  rel="stylesheet"/> --}}
+    <link href="{{ asset('assets/css/style.css?'.time() )}}" rel="stylesheet"/>
 
 <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">

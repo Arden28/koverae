@@ -51,16 +51,16 @@
         </style>
     @endsection
 
-    <div class="page-body h-screen m-0">
-      <div class="container-fluid h-screen">
-        <div class="row g-4 h-screen">
+    <div class="h-screen m-0 page-body">
+      <div class="h-screen container-fluid">
+        <div class="h-screen row g-4">
             <!-- Side Bar -->
-            <div class="col-md-2 bg-white app-sidebar flex-grow-0 flex-shrink-0 h-screen mb-5 bg-view overflow-auto position-relative pe-1 ps-3">
+            <div class="flex-grow-0 flex-shrink-0 h-screen mb-5 overflow-auto bg-white col-md-2 app-sidebar bg-view position-relative pe-1 ps-3">
                 <form action="./" method="get" autocomplete="off" novalidate class="sticky-top">
 
                 @foreach ($dashboards as $dash)
                     @if(dashboard_installed($dash->slug)->count() >= 1)
-                    <header class="form-label pt-3 font-weight-bold text-uppercase"> <b><i class="bi bi-folder"></i> {{ $dash->name }}</b></header>
+                    <header class="pt-3 form-label font-weight-bold text-uppercase"> <b><i class="bi bi-folder"></i> {{ $dash->name }}</b></header>
                     <ul class="mb-2 ml-2">
                         @if($dash->appDashboards())
                             @foreach ($dash->appDashboards()->get() as $app)
@@ -78,7 +78,7 @@
                 </form>
             </div>
             <!-- Apps Dashboard -->
-            <div class="col-12 col-md-12 col-lg-10 h-screen">
+            <div class="h-screen col-12 col-md-12 col-lg-10">
                 @if($this->view == 'sales_dashboard')
                 <livewire:dashboards::dashboard-app.sales-dashboard />
                 @elseif ($this->view == 'products_dashboard')
@@ -126,7 +126,7 @@
       </div>
     </div>
     <!-- Loading -->
-    <div class="k-loading cursor-pointer pb-1" wire:loading>
+    <div class="pb-1 cursor-pointer k-loading" wire:loading>
         <p>En cours de chargement ...</p>
     </div>
 </div>

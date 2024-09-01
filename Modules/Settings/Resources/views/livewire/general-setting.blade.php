@@ -28,7 +28,7 @@
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Paramètre Généraux
+                        {{ __('General Setting') }}
                     </span>
                 </div>
 
@@ -41,7 +41,7 @@
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Ventes
+                        {{ __('Sales') }}
                     </span>
                 </div>
                 @endif
@@ -55,7 +55,7 @@
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Achat
+                        {{ __('Purchase') }}
                     </span>
                 </div>
                 @endif
@@ -69,7 +69,7 @@
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Inventaire
+                        {{ __('Inventory') }}
                     </span>
                 </div>
                 @endif
@@ -83,7 +83,7 @@
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Facturation
+                        {{ __('Invoicing') }}
                     </span>
                 </div>
                 @endif
@@ -97,7 +97,7 @@
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        {{ __('Fabrication') }}
+                        {{ __('Manufacturing') }}
                     </span>
                 </div>
                 @endif
@@ -111,7 +111,7 @@
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Personnel
+                        {{ __('Employee') }}
                     </span>
                 </div>
                 @endif
@@ -125,7 +125,7 @@
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Point de vente
+                        {{ __('Point Of Sales') }}
                     </span>
                 </div>
                 @endif

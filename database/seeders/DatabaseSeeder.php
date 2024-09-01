@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Team\Team;
 use Illuminate\Database\Seeder;
+use Modules\App\Database\Seeders\AppDatabaseSeeder;
 use Modules\Dashboards\Database\Seeders\DashboardsDatabaseSeeder;
 use Modules\Employee\Database\Seeders\EmployeeDatabaseSeeder;
 use Modules\User\Database\Seeders\PermissionsTableSeeder;
@@ -19,9 +20,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(ModuleSeeder::class);
         // $this->call(PlanTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
+        $this->call(AppDatabaseSeeder::class);
         $this->call(SuperUserSeeder::class);
         // $this->call(SettingsDatabaseSeeder::class);
         // $this->call(DashboardsDatabaseSeeder::class);

@@ -12,27 +12,35 @@ use Modules\App\Services\AppInstallationService;
 class Overview extends Component
 {
     // #[Url(keep: true)]
+    // #[Url(as: 'cat', keep: true)]
+    
     public $cat = 'all';
-
+    
+    public $industry = 'all';
     public $apps = [];
 
-    public function mount(){
-        $this->apps = Module::all();
 
+    public function changeCat($slug){
+        $this->cat = $slug;
+        if($slug == 'all'){
+            $this->apps = Module::all();
+        }else{
+            $category = ModuleCategory::where('slug', $slug)->first();
+            $this->apps = Module::where('module_category_id', $category->id)->get();
+        }
     }
+
+    public function changeIndustry($slug){
+        $this->industry = $slug;
+    }
+
 
     public function render()
     {
-        // $apps = Module::all();
-        $app_categories = ModuleCategory::all();
-        return view('app::livewire.overview', compact('app_categories'))
+        $industry_categories = ModuleCategory::isIndustry()->get();
+        $app_categories = ModuleCategory::isApp()->get();
+        return view('app::livewire.overview', compact('app_categories', 'industry_categories'))
         ->extends('layouts.master');
-    }
-
-    public function category($slug){
-        $this->cat = $slug;
-        // $category = ModuleCategory::where('slug', $slug)->first();
-        // $this->apps = Module::where('category_id', $category->id)->get();
     }
 
     public function install(Module $module){
@@ -48,9 +56,11 @@ class Overview extends Component
         return redirect()->route('main', ['subdomain' => current_company()->domain_name]);
     }
 
-    public function uninstall($module){
-        $app = InstalledModule::where('module_slug', $module)->first();
-        $app->delete();
+    public function uninstall($moduleSlug){
+        $uninstallationService = new AppInstallationService();
+        $uninstallationService->uninstallModule($moduleSlug);
+        // $app = InstalledModule::where('module_slug', $module)->first();
+        // $app->delete();
 
         return redirect()->route('main', ['subdomain' => current_company()->domain_name]);
     }

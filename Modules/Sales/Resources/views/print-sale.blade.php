@@ -19,7 +19,7 @@
         @endif --}}
         <div class="header">
             <div class="logo">
-                <img src="{{ base_path('public/assets/images/logo/logo-black-gd.png') }}" alt="logo" />
+                <img src="{{ base_path('public/assets/images/logo/logo-black.png') }}" alt="logo" />
             </div>
         </div>
 

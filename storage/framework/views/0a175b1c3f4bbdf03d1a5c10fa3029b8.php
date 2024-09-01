@@ -19,25 +19,42 @@
     <!-- Page body -->
     <section class="page-body">
 
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
+        <!-- My To Dos -->
+        <div class="mb-4 container-xl">
+            <div class="mb-2 row g-2 align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                    <?php echo e(__('My Apps')); ?>
+                    <?php echo e(__('My To Dos')); ?>
 
                     </h2>
                 </div>
             </div>
             <ul class="mb-1 nav nav-bordered">
                 <li class="nav-item">
-                    <a class="nav-link active" id="my-app-tab" data-bs-toggle="tab" data-bs-target="#my-app" type="button" role="tab" aria-controls="my-app" aria-selected="true" ><?php echo e(__('My Apps')); ?></a>
+                    <a class="nav-link active" id="my-task-tab" data-bs-toggle="tab" data-bs-target="#my-task" type="button" role="tab" aria-controls="my-task" aria-selected="true" ><b><?php echo e(__('My Tasks')); ?> (2)</b></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="my-favourite-tab" data-bs-toggle="tab" data-bs-target="#my-favourite" type="button" role="tab" aria-controls="my-favourite" aria-selected="true"><?php echo e(__('My Favourites')); ?></a>
+                    <a class="nav-link" id="my-situation-tab" data-bs-toggle="tab" data-bs-target="#my-situation" type="button" role="tab" aria-controls="my-situation" aria-selected="true"><b><?php echo e(__('My Situations')); ?> (0)</b></a>
                 </li>
             </ul>
             <!-- App -->
-            <?php
+            <div class="tab-content" id="nav-tabContent">
+                <!-- Tasks -->
+                
+                <div class="p-3 mt-2 bg-white shadow app_list tab-pane fade show active" id="my-task" role="tabpanel" aria-labelledby="my-task-tab">
+                    <?php echo e(__("You have no current tasks.")); ?>
+
+                </div>
+                <div class="p-3 mt-3 bg-white rounded shadow app_list tab-pane fade" id="my-situation" role="tabpanel" aria-labelledby="my-situation-tab">
+                    <?php echo e(__("You have no current situation.")); ?>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- My Apps -->
+        <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
@@ -54,13 +71,11 @@ unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
 
-        </div>
-
         <div class="container-xl">
-            <div class="mt-3 mb-3 row g-2 align-items-center">
+            <div class="mb-3 row g-2 align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                    <?php echo e(__('Insights')); ?>
+                    <?php echo e(__('My Insights')); ?>
 
                     </h2>
                 </div>
@@ -72,10 +87,10 @@ if (isset($__slots)) unset($__slots);
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex">
-                        <h2 class="card-title"><?php echo e(__('Commandes clients entrantes')); ?></h2>
+                        <h2 class="card-title"><?php echo e(__('Incoming customer orders')); ?></h2>
                         <div class="ms-auto">
                             <div class="dropdown">
-                            <a class="text-muted" href="#" aria-expanded="false"><?php echo e(__('Par Mois')); ?></a>
+                            <a class="text-muted" href="#" aria-expanded="false"><?php echo e(__('Per Month')); ?></a>
                             </div>
                         </div>
                     </div>
@@ -88,14 +103,14 @@ if (isset($__slots)) unset($__slots);
                   <div class="card">
                   <div class="card-body">
                       <div class="d-flex">
-                          <h2 class="card-title">Flux de trésorie</h2>
+                          <h2 class="card-title"><?php echo e(__('Cashflow')); ?></h2>
                           <div class="ms-auto">
                               <div class="dropdown">
-                                <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cette semaine</a>
+                                <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo e(__('This Week')); ?></a>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item active" href="#">Cette semaine</a>
-                                    <a class="dropdown-item" href="#">Ce mois</a>
-                                    <a class="dropdown-item" href="#">3 derniers mois</a>
+                                    <a class="dropdown-item active" href="#"><?php echo e(__('This Week')); ?></a>
+                                    <a class="dropdown-item" href="#"><?php echo e(__('This Month')); ?></a>
+                                    <a class="dropdown-item" href="#"><?php echo e(__('3 Last Months')); ?></a>
                                 </div>
                               </div>
                           </div>

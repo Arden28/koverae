@@ -1,0 +1,2123 @@
+<?php
+
+namespace Modules\App\Services;
+
+use App\Models\Company\Company;
+use App\Models\Module\InstalledModule as ModuleInstalledModule;
+use App\Models\Module\Module;
+use App\Models\User;
+use Modules\Accounting\Entities\Journal;
+use Modules\App\Entities\Email\EmailTemplate;
+use Modules\Contact\Entities\Contact;
+use Modules\Contact\Entities\HonorificTitle;
+use Modules\Contact\Entities\Industrie;
+use Modules\Dashboards\Entities\AppDashboard;
+use Modules\Dashboards\Entities\Dashboard;
+use Modules\Dashboards\Entities\InstalledDashboard;
+use Modules\Employee\Entities\Department;
+use Modules\Employee\Entities\Employee;
+use Modules\Employee\Entities\JobType;
+use Modules\Employee\Entities\Workplace;
+use Modules\Employee\Entities\WorkSchedule;
+use Modules\Inventory\Entities\Category;
+use Modules\Inventory\Entities\Operation\OperationType;
+use Modules\Inventory\Entities\UoM\UnitOfMeasure;
+use Modules\Inventory\Entities\UoM\UnitOfMeasureCategory;
+use Modules\Inventory\Entities\Warehouse\Location\WarehouseLocation;
+use Modules\Inventory\Entities\Warehouse\Warehouse;
+use Modules\Inventory\Entities\Warehouse\WarehouseRoute;
+use Modules\Inventory\Entities\Warehouse\WarehouseRouteRule;
+use Modules\Invoicing\Entities\Incoterm;
+use Modules\Invoicing\Entities\Tax\Tax;
+use Modules\Pos\Entities\Coin\CoinBill;
+use Modules\Pos\Entities\Payment\PosPaymentMethod;
+use Modules\Pos\Entities\Pos\Pos;
+use Modules\Pos\Entities\Pos\PosSetting;
+use Modules\Sales\Entities\Price\PriceList;
+use Modules\Sales\Entities\SalesPerson;
+use Modules\Sales\Entities\SalesTeam;
+use Modules\Sales\Entities\SalesTeamMember;
+use Modules\Settings\Entities\Currency;
+use Modules\Settings\Entities\Setting;
+use Modules\Settings\Entities\System\SystemParameter;
+use Ramsey\Uuid\Uuid;
+
+class AppInstallationService
+{
+    public function installModule(string $moduleSlug, int $companyId)
+    {
+        $m = Module::where('slug', $moduleSlug)->first();
+        $company = Company::find($companyId);
+
+        if($m->parent_slug){
+            $m_p = Module::where('slug', $m->parent_slug)->first();
+
+            if(!$m_p->isInstalledBy($company)){
+                $parent = ModuleInstalledModule::create([
+                    'company_id' => $companyId,
+                    'module_slug' => $m->parent_slug,
+                ]);
+                $this->installAppData($companyId, $parent->module_slug);
+
+                $parent->save();
+
+                if($parent->parent_slug){
+
+                    $m_p_2 = Module::where('slug', $parent->parent_slug)->first();
+
+                    if(!$m_p_2->isInstalledBy($company)){
+                        $parent_2 = ModuleInstalledModule::create([
+                            'company_id' => $companyId,
+                            'module_slug' => $parent->parent_slug,
+                        ]);
+                        $this->installAppData($companyId, $parent_2->module_slug);
+                    }
+                }
+
+            }
+        }
+
+        if(!$m->isInstalledBy($company)){
+            $module = ModuleInstalledModule::create([
+                'company_id' => $companyId,
+                'module_slug' => $moduleSlug,
+            ]);
+
+            $module->save();
+            $this->installAppData($companyId, $moduleSlug);
+        }
+
+        return $msg = "Top";
+    }
+
+    // Install the data App
+    public function installAppData($companyId, $slug){
+        // Load the app installation process
+        if($slug == 'employee'){
+            $this->installEmployee($companyId);
+        }elseif($slug == 'invoice'){
+            $this->installInvoice($companyId);
+        }elseif($slug == 'sales'){
+            $this->installSales($companyId);
+        }elseif($slug == 'inventory'){
+            $this->installInventory($companyId);
+        }elseif($slug == 'pos'){
+            $this->installPdv($companyId);
+        }elseif($slug == 'purchase'){
+            $this->installPurchase($companyId);
+        }elseif($slug == 'contact'){
+            $this->installContact($companyId);
+        }elseif($slug == 'manufacturing'){
+            $this->installManufacturing($companyId);
+        }
+
+        // Here you can add additional installation logic specific to the module
+        // For example, running module-specific seeders, creating default settings, etc.
+    }
+
+    // Install the basic App: Apps, Tableaux de bord, Paramètres, ToDo, Calendrier
+    public function installBasicApp($company){
+
+        $apps = [
+            [
+                'company_id' => $company,
+                'module_slug' => 'apps',
+            ],
+            [
+                'company_id' => $company,
+                'module_slug' => 'settings',
+            ],
+            [
+                'company_id' => $company,
+                'module_slug' => 'dashboards',
+            ],
+            [
+                'company_id' => $company,
+                'module_slug' => 'task',
+            ],
+            [
+                'company_id' => $company,
+                'module_slug' => 'contact',
+            ],
+            [
+                'company_id' => $company,
+                'module_slug' => 'invoice',
+            ],
+        ];
+
+        foreach($apps as $app){
+            $this->installModule($app['module_slug'], $company);
+        }
+        // Install Dashboards
+        $this->createDashboards($company);
+
+    }
+
+    // Install Basic Data
+    public function installBasicAppData($company){
+
+        $comp = Company::find($company);
+        // Devises
+        $currencies = [
+            // Afrique du Nord
+            ['company_id' => $company, 'currency_name' => 'Dinar Algérien', 'code' => 'DZD', 'symbol' => 'د.ج', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Livre Égyptienne', 'code' => 'EGP', 'symbol' => '£', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Dinar Libyen', 'code' => 'LYD', 'symbol' => 'ل.د', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Dirham Marocain', 'code' => 'MAD', 'symbol' => 'د.م.', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Dinar Tunisien', 'code' => 'TND', 'symbol' => 'د.ت', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+
+            // Afrique de l'Ouest
+            ['company_id' => $company, 'currency_name' => 'Franc CFA d’Afrique de l’Ouest', 'code' => 'XOF', 'symbol' => 'CFA', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Naira Nigérian', 'code' => 'NGN', 'symbol' => '₦', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Cedi Ghanéen', 'code' => 'GHS', 'symbol' => 'GH₵', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+
+            // Afrique Centrale
+            ['company_id' => $company, 'currency_name' => 'Franc CFA d’Afrique Centrale', 'code' => 'XAF', 'symbol' => 'FCFA', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Franc Congolais', 'code' => 'CDF', 'symbol' => 'FC', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Franc Rwandais', 'code' => 'RWF', 'symbol' => 'RF', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+
+            // Afrique de l'Est
+            ['company_id' => $company, 'currency_name' => 'Shilling Kenyan', 'code' => 'KES', 'symbol' => 'KSh', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Shilling Ougandais', 'code' => 'UGX', 'symbol' => 'USh', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Franc Rwandais', 'code' => 'RWF', 'symbol' => 'RF', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+
+            // Afrique Australe
+            ['company_id' => $company, 'currency_name' => 'Pula Botswanais', 'code' => 'BWP', 'symbol' => 'P', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Rand Sud-Africain', 'code' => 'ZAR', 'symbol' => 'R', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Dollar Namibien', 'code' => 'NAD', 'symbol' => '$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+
+            // Zone Euro - Utilisent l'Euro
+            ['company_id' => $company, 'currency_name' => 'Euro', 'code' => 'EUR', 'symbol' => '€', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'prefix'],
+
+            // Europe du Nord
+            ['company_id' => $company, 'currency_name' => 'Couronne Danoise', 'code' => 'DKK', 'symbol' => 'kr.', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Couronne Norvégienne', 'code' => 'NOK', 'symbol' => 'kr', 'thousand_separator' => ' ', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Couronne Suédoise', 'code' => 'SEK', 'symbol' => 'kr', 'thousand_separator' => ' ', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Livre Sterling', 'code' => 'GBP', 'symbol' => '£', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+
+            // Europe de l'Est
+            ['company_id' => $company, 'currency_name' => 'Zloty Polonais', 'code' => 'PLN', 'symbol' => 'zł', 'thousand_separator' => ' ', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Forint Hongrois', 'code' => 'HUF', 'symbol' => 'Ft', 'thousand_separator' => ' ', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Leu Roumain', 'code' => 'RON', 'symbol' => 'lei', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Lev Bulgare', 'code' => 'BGN', 'symbol' => 'лв.', 'thousand_separator' => ' ', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Rouble Russe', 'code' => 'RUB', 'symbol' => '₽', 'thousand_separator' => ' ', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+
+            // Europe du Sud
+            ['company_id' => $company, 'currency_name' => 'Lira Turque', 'code' => 'TRY', 'symbol' => '₺', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Franc Suisse', 'code' => 'CHF', 'symbol' => 'CHF', 'thousand_separator' => '\'', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+
+            // Europe de l'Ouest (hors zone euro)
+            ['company_id' => $company, 'currency_name' => 'Couronne Islandaise', 'code' => 'ISK', 'symbol' => 'kr', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+            ['company_id' => $company, 'currency_name' => 'Kuna Croate', 'code' => 'HRK', 'symbol' => 'kn', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'suffix'],
+
+            // Extrême-Orient
+            ['company_id' => $company, 'currency_name' => 'Yen Japonais', 'code' => 'JPY', 'symbol' => '¥', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Won Sud-Coréen', 'code' => 'KRW', 'symbol' => '₩', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Yuan Chinois', 'code' => 'CNY', 'symbol' => '¥', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Dollar de Hong Kong', 'code' => 'HKD', 'symbol' => '$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Dollar Taïwanais', 'code' => 'TWD', 'symbol' => 'NT$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+
+            // Asie du Sud-Est
+            ['company_id' => $company, 'currency_name' => 'Baht Thaïlandais', 'code' => 'THB', 'symbol' => '฿', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Dollar Singapourien', 'code' => 'SGD', 'symbol' => '$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Ringgit Malaisien', 'code' => 'MYR', 'symbol' => 'RM', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Roupie Indonésienne', 'code' => 'IDR', 'symbol' => 'Rp', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Peso Philippin', 'code' => 'PHP', 'symbol' => '₱', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+
+            // Asie du Sud
+            ['company_id' => $company, 'currency_name' => 'Roupie Indienne', 'code' => 'INR', 'symbol' => '₹', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Roupie Pakistanaise', 'code' => 'PKR', 'symbol' => '₨', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Taka Bangladais', 'code' => 'BDT', 'symbol' => '৳', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Roupie Sri Lankaise', 'code' => 'LKR', 'symbol' => 'Rs', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Afghani Afghan', 'code' => 'AFN', 'symbol' => '؋', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+
+            // Amérique du Nord
+            ['company_id' => $company, 'currency_name' => 'Dollar Américain', 'code' => 'USD', 'symbol' => '$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Dollar Canadien', 'code' => 'CAD', 'symbol' => '$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Peso Mexicain', 'code' => 'MXN', 'symbol' => '$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+
+            // Amérique Centrale
+            ['company_id' => $company, 'currency_name' => 'Quetzal Guatémaltèque', 'code' => 'GTQ', 'symbol' => 'Q', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Lempira Hondurien', 'code' => 'HNL', 'symbol' => 'L', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Córdoba Nicaraguayen', 'code' => 'NIO', 'symbol' => 'C$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Balboa Panaméen', 'code' => 'PAB', 'symbol' => 'B/.', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Dollar de Belize', 'code' => 'BZD', 'symbol' => 'BZ$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+
+            // Amérique du Sud
+            ['company_id' => $company, 'currency_name' => 'Real Brésilien', 'code' => 'BRL', 'symbol' => 'R$', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Peso Argentin', 'code' => 'ARS', 'symbol' => '$', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Peso Colombien', 'code' => 'COP', 'symbol' => '$', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Sol Péruvien', 'code' => 'PEN', 'symbol' => 'S/.', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Bolívar Vénézuélien', 'code' => 'VES', 'symbol' => 'Bs.', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Peso Uruguayen', 'code' => 'UYU', 'symbol' => '$', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Peso Chilien', 'code' => 'CLP', 'symbol' => '$', 'thousand_separator' => '.', 'decimal_separator' => ',', 'symbol_position' => 'prefix'],
+
+            // Caraïbes
+            ['company_id' => $company, 'currency_name' => 'Dollar des Caraïbes Orientales', 'code' => 'XCD', 'symbol' => '$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Gourde Haïtienne', 'code' => 'HTG', 'symbol' => 'G', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix'],
+            ['company_id' => $company, 'currency_name' => 'Dollar Jamaïcain', 'code' => 'JMD', 'symbol' => 'J$', 'thousand_separator' => ',', 'decimal_separator' => '.', 'symbol_position' => 'prefix']
+
+        ];
+        foreach($currencies as $currency){
+            Currency::create($currency);
+        }
+
+        // Pays
+
+        // Paramètres de l'entreprise
+        $system_parameter = SystemParameter::create([
+            'company_id' => $company,
+            'database_create_date' => now(),
+            'database_expiration_date' => now()->addDays(14),
+        ]);
+        $system_parameter->save();
+
+        $default_currency = Currency::where('code', $comp->default_currency)->first();
+        $settings = Setting::create([
+            'company_id' => $company,
+            'default_currency_id' => $default_currency->id,
+            'default_currency_position' => $default_currency->symbol_position
+        ]);
+        $settings->save();
+
+        // Taxes
+        $taxes = [
+            [
+                'company_id' => $company,
+                'name' => "18.9%",
+                'type' => "sales",
+                'scope_tax' => 'goods',
+                'calculation_type' => 'percentage',
+                'amount' => 18.90,
+            ],
+            [
+                'company_id' => $company,
+                'name' => "18.9%",
+                'type' => "purchases",
+                'scope_tax' => 'goods',
+                'calculation_type' => 'percentage',
+                'amount' => 18.90,
+            ],
+        ];
+        foreach($taxes as $tax){
+            Tax::create($tax);
+        }
+        $sales_tax = Tax::isCompany($company)->isType('sales')->first();
+        $purchase_tax = Tax::isCompany($company)->isType('purchases')->first();
+
+        // Définir les taxes par défaut
+        $settings->default_sales_tax_id = $sales_tax->id;
+        $settings->default_purchase_tax_id = $purchase_tax->id;
+        $settings->save();
+
+        // Unités de mesures
+        $uom_cat_1 = UnitOfMeasureCategory::create([
+            'company_id' => $company,
+            'name' => 'Unité'
+        ]);
+        $uom_cat_1->save();
+
+        $uom_cat_2 = UnitOfMeasureCategory::create([
+            'company_id' => $company,
+            'name' => 'Poids'
+        ]);
+        $uom_cat_2->save();
+
+        $uom_cat_3 = UnitOfMeasureCategory::create([
+            'company_id' => $company,
+            'name' => 'Temps de travail'
+        ]);
+        $uom_cat_3->save();
+
+        $uom_cat_4 = UnitOfMeasureCategory::create([
+            'company_id' => $company,
+            'name' => 'Longueur / Distance'
+        ]);
+        $uom_cat_4->save();
+
+        $uom_cat_5 = UnitOfMeasureCategory::create([
+            'company_id' => $company,
+            'name' => 'Superficie'
+        ]);
+        $uom_cat_5->save();
+
+        $uom_cat_6 = UnitOfMeasureCategory::create([
+            'company_id' => $company,
+            'name' => 'Volume'
+        ]);
+        $uom_cat_6->save();
+
+        $uoms = [
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_1->id,
+                'name' => 'Unité(s)',
+                'type' => 'reference',
+                'ratio' => 0.01
+            ],
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_1->id,
+                'name' => 'Douzaine(s)',
+                'type' => 'bigger',
+                'ratio' => 1
+            ],
+            // Poids
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_2->id,
+                'name' => 'g',
+                'type' => 'smaller',
+                'ratio' => 1000
+            ],
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_2->id,
+                'name' => 'kg',
+                'type' => 'reference',
+                'ratio' => 1
+            ],
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_2->id,
+                'name' => 't',
+                'type' => 'bigger',
+                'ratio' => 1000.00
+            ],
+            // Temps de travail
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_3->id,
+                'name' => 'Heure(s)',
+                'type' => 'reference',
+                'ratio' => 8
+            ],
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_3->id,
+                'name' => 'Heure(s)',
+                'type' => 'reference',
+                'ratio' => 1
+            ],
+            // Longueur
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_4->id,
+                'name' => 'cm',
+                'type' => 'smaller',
+                'ratio' => 100.00
+            ],
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_4->id,
+                'name' => 'm',
+                'type' => 'reference',
+                'ratio' => 1
+            ],
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_4->id,
+                'name' => 'km',
+                'type' => 'bigger',
+                'ratio' => 1000
+            ],
+            //Superficie
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_5->id,
+                'name' => 'm²',
+                'type' => 'reference',
+                'ratio' => 1
+            ],
+            //Volume
+            [
+                'company_id' => $company,
+                'uom_category_id' => $uom_cat_5->id,
+                'name' => 'm³',
+                'type' => 'reference',
+                'ratio' => 1
+            ],
+        ];
+        foreach($uoms as $uom){
+            UnitOfMeasure::create($uom);
+        }
+
+        //Catégorie de produits
+
+        $cat_1 = Category::create([
+            'company_id' => $company,
+            'category_name' => 'Tout',
+        ]);
+        $cat_1->save();
+
+        $categories = [
+            // Expense
+            [
+                'company_id' => $company,
+                'parent_id' => $cat_1->id,
+                'category_name' => 'Dépenses',
+            ],
+            // Saleable
+            [
+                'company_id' => $company,
+                'parent_id' => $cat_1->id,
+                'category_name' => 'Vendable',
+            ],
+        ];
+        foreach($categories as $category){
+            Category::create($category);
+        }
+    }
+
+    // Facturation
+    public function installInvoice($company){
+        // Tableaux de bords
+        $dashboards = [
+            [
+                'company_id' => $company,
+                'slug' => 'invoices_dashboard',
+                'parent_slug' => 'finances',
+            ],
+        ];
+        foreach($dashboards as $dashboard){
+            $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
+        }
+
+        //Conditions de paiement
+
+        // Incoterms
+        $incoterms = [
+            [
+                'company_id' => $company,
+                'code' => "EXW",
+                'name' => "À L'USINE"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "FCA",
+                'name' => "FRANCO TRANSPORTEUR"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "FAS",
+                'name' => "FRANCO LE LONG DU NAVIRE"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "FOB",
+                'name' => "FRANCO À BORD DU NAVIRE"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "CFR",
+                'name' => "COÛT ET FRET"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "CIF",
+                'name' => "COÛT, ASSURANCE ET FRET"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "CPT",
+                'name' => "PORT PAYÉ JUSQU'À"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "CIP",
+                'name' => "PORT PAYÉ, ASSURANCE COMPRISE JUSQU'À"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "DPU",
+                'name' => "RENDU AU LIEU DE DESTINATION DÉCHARGÉ"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "DAP",
+                'name' => "RENDU AU LIEU DE DESTINATION"
+            ],
+            [
+                'company_id' => $company,
+                'code' => "DDP",
+                'name' => "RENDU DROITS ACQUITTÉS"
+            ],
+        ];
+        foreach($incoterms as $incoterm){
+            Incoterm::create($incoterm);
+        }
+
+        // Journaux Comptable
+        $journals = [
+            [
+                'company_id' => $company,
+                'name' => 'Factures clients',
+                'type' => 'sale',
+                'short_code' => 'INV'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Factures fournisseurs',
+                'type' => 'purchase',
+                'short_code' => 'BILL'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Opérations diverses',
+                'type' => 'miscellaneous',
+                'short_code' => 'MISC'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Valorisation des stocks',
+                'type' => 'miscellaneous',
+                'short_code' => 'STJ'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Différence de change',
+                'type' => 'miscellaneous',
+                'short_code' => 'EXCH'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'TVA sur encaissements',
+                'type' => 'miscellaneous',
+                'short_code' => 'CABA'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Banque',
+                'type' => 'bank',
+                'short_code' => 'BNK1'
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Espèces',
+                'type' => 'cash',
+                'short_code' => 'CSH1'
+            ],
+        ];
+        foreach($journals as $journal){
+            Journal::create($journal);
+        }
+
+        //
+    }
+
+    // Install Contact
+    public function installContact($company){
+
+        // Civilité
+        $titles = [
+            [
+                'company_id' => $company,
+                'title' => 'Monsieur',
+                'abbreviation' => 'Mr',
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Madame',
+                'abbreviation' => 'Mme',
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Mademoiselle',
+                'abbreviation' => 'Mlle',
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Docteur',
+                'abbreviation' => 'Dr',
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Professeur',
+                'abbreviation' => 'Pr',
+            ],
+        ];
+        foreach($titles as $title){
+            HonorificTitle::create($title);
+        }
+
+        // Secteurs d'activité
+        $industries = [
+            [
+                'company_id' => $company,
+                'name' => 'Agriculture ',
+                'full_name' => "Secteur de l'Agriculture et de l'Agroalimentaire",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Mines',
+                'full_name' => 'Industrie Minière et Extraction de Minéraux',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Énergie',
+                'full_name' => "Secteur de l'Énergie et des Ressources Naturelles",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Finance',
+                'full_name' => 'Services Financiers et Bancaires',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Télécommunications',
+                'full_name' => 'Industrie des Télécommunications et des Réseaux',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Transport',
+                'full_name' => 'Transport et Logistique',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Logistique',
+                'full_name' => "Gestion de la Logistique et de la Chaîne d'Approvisionnement",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Construction',
+                'full_name' => 'Secteur de la Construction et du Génie Civil',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Immobilier',
+                'full_name' => 'Marché Immobilier et Gestion de Propriétés',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Tourisme',
+                'full_name' => "Industrie du Tourisme et de l'Hospitalité",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Éducation',
+                'full_name' => 'Système Éducatif et Formation',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Santé',
+                'full_name' => "Services de Santé et Médicaux",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Commerce',
+                'full_name' => 'Commerce de Détail et de Gros',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Industrie',
+                'full_name' => 'Secteur Manufacturier et Industriel',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Technologie',
+                'full_name' => "Technologie de l'Information et de la Communication (TIC)",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Eau et Assainissement',
+                'full_name' => "Gestion des Ressources en Eau et Services d'Assainissement",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Énergies renouvelables',
+                'full_name' => "Production d'Énergies Renouvelables et Durables",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Forêts',
+                'full_name' => 'Gestion Forestière et Exploitation Durable des Forêts',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Pêche',
+                'full_name' => 'Industrie de la Pêche et Aquaculture',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Agroalimentaire',
+                'full_name' => 'Industrie Agroalimentaire et Transformation Alimentaire',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Services professionnels',
+                'full_name' => 'Services Professionnels, Scientifiques et Techniques',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Environnement',
+                'full_name' => "Protection de l'Environnement et Gestion Durable des Ressources",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Médias',
+                'full_name' => "Secteur des Médias, de l'Information et de la Communication",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Culture',
+                'full_name' => 'Secteur Culturel et Artistique',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Artisanat',
+                'full_name' => "Artisanat et Production de Biens Culturels",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'E-commerce',
+                'full_name' => 'Commerce Électronique et Vente en Ligne',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Services financiers mobiles',
+                'full_name' => 'Services Financiers Mobiles et Banque Digitale',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Énergie solaire',
+                'full_name' => "Industrie de l'Énergie Solaire et Solutions Photovoltaïques",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Aquaculture',
+                'full_name' => "Secteur de l'Aquaculture et de la Production Aquatique",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Biotechnologie',
+                'full_name' => 'Secteur de la Biotechnologie et Recherche Scientifique',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Sécurité',
+                'full_name' => 'Services de Sécurité et Protection',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Gestion des déchets',
+                'full_name' => 'Gestion et Recyclage des Déchets',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Microfinance',
+                'full_name' => 'Services de Microfinance et Soutien aux Petites Entreprises',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Transformation agricole',
+                'full_name' => 'Industrie de Transformation Agricole et Valorisation des Produits Locaux',
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Industrie pharmaceutique',
+                'full_name' => "Production et Distribution de Produits Pharmaceutiques",
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Fintech',
+                'full_name' => 'Technologies Financières et Innovation dans les Services Financiers',
+            ],
+        ];
+        foreach($industries as $industry){
+            Industrie::create($industry);
+        }
+
+        $comp = Company::find($company);
+        $user = $comp->users()->first();
+        //Contacts
+        $contacts = [
+            [
+                'company_id' => $company,
+                'user_id' => null,
+                'name' => $comp->name,
+                'street' => $comp->address,
+                'city' => $comp->city,
+                'phone' => $comp->phone,
+                'mobile' => null,
+                'email' => $comp->email,
+                'website' => $comp->domain_name.'.koverae.com',
+                'reference' => $comp->name,
+                'type' => 'company',
+            ],
+            [
+                'company_id' => $company,
+                'user_id' => $user->id,
+                'name' => $user->name,
+                'street' => $comp->address,
+                'city' => $comp->city,
+                'phone' => $user->phone,
+                'mobile' => null,
+                'email' => $user->email,
+                'website' => null,
+                'reference' => $user->name,
+                'type' => 'individual',
+            ],
+        ];
+        foreach($contacts as $contact){
+            Contact::create($contact);
+        }
+
+    }
+
+    // Install Employee
+    public function installEmployee($company){
+        $comp = Company::find($company);
+
+        // Departments
+        $department = Department::create([
+            'company_id' => $company,
+            'name' => 'Administration',
+        ]);
+
+        // Employees
+        $users = User::isCompany($comp->id)->get();
+        foreach($users as $employee){
+            $employee = Employee::create([
+                'company_id' => $comp->id,
+                'user_id' => $employee->id,
+                'department_id' => $department->id
+            ]);
+            $employee->save();
+        }
+
+        $department->save();
+        //Job Type
+        $jobTypes = [
+            [
+                'company_id' => $company,
+                'title' => 'Permanent'
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Temporaire'
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Saisonnier'
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Temps partiel'
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Temps plein'
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Stage'
+            ],
+        ];
+
+        foreach($jobTypes as $job){
+            JobType::create($job);
+        }
+        // Workplace
+        $worplaces = [
+            [
+                'company_id' => $company,
+                'title' => 'A distance'
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Sur sites'
+            ],
+            [
+                'company_id' => $company,
+                'title' => 'Autres'
+            ],
+        ];
+        foreach($worplaces as $worplace){
+            Workplace::create($worplace);
+        }
+        //Work Schedule
+        $schedule = WorkSchedule::create([
+            'company_id' => $company,
+            'name' => 'Norme 40 heures/semaine',
+            'average_hour_per_day' => 7,
+            'timezone' => 'UTC'
+        ]);
+        $schedule->save();
+    }
+
+    // Install Sales
+    public function installSales($company){
+
+        $slugy = 'sales';
+        // Tableaux de bords
+        $dashboards = [
+            [
+                'company_id' => $company,
+                'slug' => 'sales_dashboard',
+                'parent_slug' => 'sales',
+            ],
+            [
+                'company_id' => $company,
+                'slug' => 'products_dashboard',
+                'parent_slug' => 'sales',
+            ],
+        ];
+        foreach($dashboards as $dashboard){
+            $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
+        }
+
+        $comp = Company::find($company);
+        $user = $comp->users()->first();
+
+
+        // Sales Team
+        $salesTeam = SalesTeam::create([
+            'company_id' => $company,
+            'name' => 'Ventes',
+        ]);
+        $salesTeam->save();
+
+        // Sales Team Members
+        $members = SalesTeamMember::create([
+            'company_id' => $company,
+            'sales_team_id' => $salesTeam->id,
+            'user_id' => $user->id,
+        ]);
+        $members->save();
+
+        // Sellers
+        $seller = SalesPerson::create([
+            'company_id' => $company,
+            'user_id' => $user->id,
+            'sales_team_id' => $salesTeam->id
+        ]);
+        $seller->save();
+
+        // Pricelists
+        $pricelist = PriceList::create([
+            'company_id' => $company,
+            'name' => 'Liste de prix XAF par défaut',
+        ]);
+        $pricelist->save();
+
+        // Modèles d'emails
+        $emails = [
+            // Send Quotation
+            [
+                'company_id' => $company,
+                'apply_to' => 'quotation',
+                'name' => 'Sales: Send Quotation',
+                'model_class' => 'sale_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Hello,
+                            <br>
+                            Your quotation {reference} amounting in <b>{total_amount}</b> is ready for review.
+                            <br>
+                            <br>
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+
+            // Send Order Confirmation
+            [
+                'company_id' => $company,
+                'apply_to' => 'sale_order',
+                'name' => 'Sales: Order Confirmation',
+                'model_class' => 'sale_order',
+                'subject' => '{company_name} Commande (Ref {reference})',
+                'content' => "Hello,
+                            <br>
+                            Your order {reference} amounting in <b>{total_amount}</b> has been confirmed.
+                            <br>
+                            <br>
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+
+            // Send Payment Confirmation
+            [
+                'company_id' => $company,
+                'apply_to' => 'payment-confirmation-sale',
+                'name' => 'Sales: Payment Done',
+                'model_class' => 'sale_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Hello,
+                            <br>
+                            A payment with reference amounting <b>{paid_amount}</b> for your order {reference} has been confirmed.
+                            <br>
+                            {due_amount} remains to be paid.
+                            <br>
+                            <br>
+                            Thank you for your trust!
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+
+            // Send Order Cancelled
+            [
+                'company_id' => $company,
+                'apply_to' => 'cancel-order',
+                'name' => 'Sales: Payment Done',
+                'model_class' => 'sale_order',
+                'subject' => '{company_name} Order Cancelled (Ref {reference})',
+                'content' => "Dear {customer_name} ,
+                            <br>
+                            Please be advised that your Quotation {reference} has been cancelled. Therefore, you should not be charged further for this order. If any refund is necessary, this will be executed at best convenience.
+                            <br>
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+
+            // Send Invoice
+            [
+                'company_id' => $company,
+                'apply_to' => 'journal-entry-invoice',
+                'name' => 'Facture: Envoie',
+                'model_class' => 'account_move',
+                'subject' => '{company_name} Facture Ref ({reference})',
+                'content' => "Dear {customer_name},
+                            <br>
+                            Here is your invoice {reference} (with reference: {sale_reference}) amounting in <b>{total_amount}</b> from {company_name}. Please remit payment at your earliest convenience.
+                            <br>
+                            <br>
+                            Please use the following communication for your payment: {reference}.
+                            <br>
+                            <br>
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+
+            // Send Credit Note
+            [
+                'company_id' => $company,
+                'apply_to' => 'journal-entry-credit',
+                'name' => 'Facture: Envoie',
+                'model_class' => 'account_move',
+                'subject' => '{company_name} Credit Note (Ref {reference})',
+                'content' => "Dear {customer_name},
+                            <br>
+                            Here is your credit note {reference} (with reference: {sale_reference}) amounting in <b>{total_amount}</b> from {company_name}.
+                            <br>
+                            <br>
+                            Do not hesitate to contact us if you have any questions.
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+        ];
+        foreach($emails as $email){
+            EmailTemplate::create($email);
+        }
+
+    }
+
+    // Inventaire
+    public function installInventory($company){
+
+        $comp = Company::find($company);
+
+        // Tableaux de bords
+        $dashboards = [
+            [
+                'company_id' => $company,
+                'slug' => 'inventory_dashboard',
+                'parent_slug' => 'logistics',
+            ],
+            [
+                'company_id' => $company,
+                'slug' => 'stock_flow_dashboard',
+                'parent_slug' => 'logistics',
+            ],
+        ];
+        foreach($dashboards as $dashboard){
+            $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
+        }
+
+        // Warehouse
+        $warehouse = Warehouse::create([
+            'company_id' => $company,
+            'name' => str()->slug($comp->name),
+            'short_name' => 'WH',
+            'address' => $comp->address
+        ]);
+        $warehouse->save();
+
+        // Warehouse Locations
+        $location_1 = WarehouseLocation::create([
+            'company_id' => $company,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Emplacements Physiques',
+            'type' => 'view'
+        ]);
+        $location_1->save();
+
+        $location_2 = WarehouseLocation::create([
+            'company_id' => $company,
+            'parent_id' => $location_1->id,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'WH',
+            'type' => 'view'
+        ]);
+        $location_2->save();
+
+        $location_3 = WarehouseLocation::create([
+            'company_id' => $company,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Partenaires',
+            'type' => 'view'
+        ]);
+        $location_3->save();
+
+        $location_4 = WarehouseLocation::create([
+            'company_id' => $company,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Emplacements Virtuels',
+            'type' => 'view'
+        ]);
+        $location_4->save();
+
+        $location_5 = WarehouseLocation::create([
+            'company_id' => $company,
+            'parent_id' => $location_2->id,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Stock',
+            'type' => 'internal'
+        ]);
+        $location_5->save();
+
+        $location_6 = WarehouseLocation::create([
+            'company_id' => $company,
+            'parent_id' => $location_3->id,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Client',
+            'type' => 'customer'
+        ]);
+        $location_6->save();
+
+        $location_7 = WarehouseLocation::create([
+            'company_id' => $company,
+            'parent_id' => $location_3->id,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Fournisseur',
+            'type' => 'supplier'
+        ]);
+        $location_7->save();
+
+        $location_8 = WarehouseLocation::create([
+            'company_id' => $company,
+            'parent_id' => $location_4->id,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Rebuts',
+            'type' => 'loss_inventory'
+        ]);
+        $location_8->save();
+
+        $location_9 = WarehouseLocation::create([
+            'company_id' => $company,
+            'parent_id' => $location_4->id,
+            'warehouse_id' => $warehouse->id,
+            'name' => "Ajustement de stock",
+            'type' => 'loss_inventory'
+        ]);
+        $location_9->save();
+
+        // Warehouse Route
+        $routes = [
+            [
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => str()->slug($comp->name) .': Recevoir en 1 étape (stock)'
+            ],
+            [
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => str()->slug($comp->name) .': Livrer en 1 étape (expédition)'
+            ],
+        ];
+        foreach($routes as $route){
+            WarehouseRoute::create($route);
+        }
+
+        // Operation Type
+        $operation_type_1 = OperationType::create([
+            'company_id' => $company,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Réceptions',
+            'operation_type' => 'receipt',
+            'prefix' => 'IN',
+            'backorder' => 'ask'
+        ]);
+        $operation_type_1->save();
+
+        $operation_type_2 = OperationType::create([
+            'company_id' => $company,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Bons de livraison',
+            'operation_type' => 'delivery',
+            'prefix' => 'OUT',
+            'backorder' => 'ask'
+        ]);
+        $operation_type_2->save();
+
+        $operation_type_3 = OperationType::create([
+            'company_id' => $company,
+            'warehouse_id' => $warehouse->id,
+            'name' => 'Transferts internes',
+            'operation_type' => 'internal_transfer',
+            'prefix' => 'STK',
+            'backorder' => 'ask'
+        ]);
+        $operation_type_3->save();
+
+        // Warehouse Routes Rules
+        $rules = [
+            [
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => 'WH: Stock → Clients',
+                'operation_type_id' => $operation_type_2->id,
+                'action' => 'pull_from',
+                'source_location_id' => $location_5->id,
+                'destination_location_id' => $location_6->id
+            ],
+            [
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => 'WH: Stock → Clients (Réapprovisionnement sur Commande)',
+                'operation_type_id' => $operation_type_2->id,
+                'action' => 'pull_from',
+                'source_location_id' => $location_5->id,
+                'destination_location_id' => $location_6->id
+            ],
+        ];
+        foreach($rules as $rule){
+            WarehouseRouteRule::create($rule);
+        }
+    }
+
+    // Achat
+    public function installPurchase($company){
+
+        $comp = Company::find($company);
+        // Tableaux de bords
+        $dashboards = [
+            [
+                'company_id' => $company,
+                'slug' => 'purchases_dashboard',
+                'parent_slug' => 'logistics',
+            ],
+            [
+                'company_id' => $company,
+                'slug' => 'suppliers_dashboard',
+                'parent_slug' => 'logistics',
+            ],
+        ];
+        foreach($dashboards as $dashboard){
+            $this->installDashboard($dashboard['slug'], $company, $dashboard['parent_slug']);
+        }
+
+        // Warehouse Route
+        foreach($comp->warehouses() as $warehouse){
+            WarehouseRoute::create([
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => __('Buy')
+            ]);
+        }
+
+        $user = $comp->users()->first();
+        // Email Templates
+        $emails = [
+            [
+                'company_id' => $company,
+                'apply_to' => 'requestion-quotation',
+                'name' => 'Purchase: Request For Quotation',
+                'model_class' => 'purchase_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Dear {supplier_name},
+                            <br>
+                            Here is in attachment a request for quotation <b>{reference}</b> from {company_name}.
+                            <br>
+                            <br>
+                            If you have any questions, please do not hesitate to contact us.
+                            <br>
+                            <br>
+                            Best regards,
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+            [
+                'company_id' => $company,
+                'apply_to' => 'purchase',
+                'name' => 'Purchase: Purchase Order',
+                'model_class' => 'purchase_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Dear {supplier_name},
+                            <br>
+                            Here is in attachment a request for quotation <b>{reference}</b> amounting in <b>{total_amount}</b> from {company_name}.
+                            <br>
+                            <br>
+                            The receipt is expected for {expected_date}.
+                            <br>
+                            <br>
+                            Could you please acknowledge the receipt of this order?
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+            [
+                'company_id' => $company,
+                'apply_to' => 'vendor-reminder',
+                'name' => 'Purchase: Vendor Reminder',
+                'model_class' => 'purchase_order',
+                'subject' => '{company_name} Order (Ref {reference})',
+                'content' => "Dear {supplier_name},
+                            <br>
+                            Here is a reminder that the delivery of the purchase order <b>{reference}</b> is expected for <b>{expected_date}</b>. Could you please confirm it will be delivered on time?
+                            <br>
+                            <br>
+                            --
+                            {sender}",
+                'sender_email' => $user->email,
+
+            ],
+        ];
+        foreach($emails as $email){
+            EmailTemplate::create($email);
+        }
+
+    }
+
+    // Point of Sales
+    public function installPdv($company){
+        // Pièces & Billets
+        $coins = [
+            [
+                'company_id' => $company,
+                'name' => '25',
+                'type' => 'coin',
+                'value' => 25
+            ],
+            [
+                'company_id' => $company,
+                'name' => '50',
+                'type' => 'coin',
+                'value' => 50
+            ],
+            [
+                'company_id' => $company,
+                'name' => '100',
+                'type' => 'coin',
+                'value' => 100
+            ],
+            [
+                'company_id' => $company,
+                'name' => '500',
+                'type' => 'coin',
+                'value' => 500
+            ],
+            [
+                'company_id' => $company,
+                'name' => '500',
+                'type' => 'bill',
+                'value' => 500
+            ],
+            [
+                'company_id' => $company,
+                'name' => '1000',
+                'type' => 'bill',
+                'value' => 1000
+            ],
+            [
+                'company_id' => $company,
+                'name' => '2000',
+                'type' => 'bill',
+                'value' => 2000
+            ],
+            [
+                'company_id' => $company,
+                'name' => '5000',
+                'type' => 'bill',
+                'value' => 5000
+            ],
+            [
+                'company_id' => $company,
+                'name' => '10000',
+                'type' => 'bill',
+                'value' => 10000
+            ],
+        ];
+        foreach($coins as $coin){
+            CoinBill::create($coin);
+        }
+
+        // Point de Vente
+        $pos = Pos::create([
+            'company_id' => $company,
+            'name' => __('Boutique'),
+            'private_key' => Uuid::uuid4(),
+        ]);
+        $pos->save();
+
+        $pos_setting = PosSetting::create([
+            'company_id' => $company,
+            'pos_id' => $pos->id,
+        ]);
+        $pos_setting->save();
+
+        // Pdv Operations logistique
+        $warehouses = Warehouse::isCompany($company)->get();
+        foreach($warehouses as $warehouse){
+            OperationType::create([
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => __('Commande du Pdv'),
+                'operation_type' => 'delivery',
+                'prefix' => 'POS',
+                'backorder' => 'ask'
+            ]);
+        }
+
+        // Mode de paiement
+        $paymentMethods = [
+            [
+                'company_id' => $company,
+                'name' => 'Espèces',
+                'journal_id' => Journal::isCompany($company)->isCode('BNK1')->first()->id,
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Banque',
+                'journal_id' => Journal::isCompany($company)->isCode('CSH1')->first()->id,
+            ],
+            [
+                'company_id' => $company,
+                'name' => 'Compte Kover',
+                // 'journal_id' => ,
+                'should_be_identified' => true,
+            ],
+        ];
+        foreach($paymentMethods as $method){
+            PosPaymentMethod::create($method);
+        }
+
+    }
+
+    // Fabrication
+    public function installManufacturing($company){
+        // Emplacements
+        $comp = Company::find($company);
+        $warehouses = $comp->warehouses;
+
+        // Operation Type
+        foreach($warehouses as $warehouse){
+            OperationType::create([
+                'company_id' => $company,
+                'warehouse_id' => $warehouse->id,
+                'name' => __('Production'),
+                'operation_type' => 'manufacturing',
+                'prefix' => 'MO',
+                'backorder' => 'ask'
+            ]);
+        }
+        // Location
+        foreach($warehouses as $warehouse){
+            WarehouseLocation::create([
+                'company_id' => $company,
+                'parent_id' => WarehouseLocation::isWarehouse($warehouse->id)->isName('Emplacements Virtuels')->first()->id,
+                'warehouse_id' => $warehouse->id,
+                'name' => 'Production',
+                'type' => 'production'
+            ]);
+        }
+
+    }
+
+    // Dashboards
+    public function createDashboards(int $company){
+
+        // Create dashboards for the company
+        $dash1 = Dashboard::create([
+            'name' => 'Ventes',
+            'slug' => 'sales',
+            'company_id' => $company,
+            'is_enable' => true,
+        ]);
+        $dash1->save();
+
+            // Sales Dashboard App
+            $sales_dashboard = AppDashboard::create([
+                'name' => 'Ventes',
+                'company_id' => $company,
+                'parent_slug' => 'sales',
+                'slug' => 'sales_dashboard',
+                'dash_id' => $dash1->id,
+                'app_id' => 6,
+                'is_enable' => true,
+            ]);
+            $sales_dashboard->save();
+
+            // Product Dashboard App
+            $products_dashboard = AppDashboard::create([
+                'name' => 'Produits',
+                'company_id' => $company,
+                'parent_slug' => 'sales',
+                'slug' => 'products_dashboard',
+                'dash_id' => $dash1->id,
+                'app_id' => 6,
+                'is_enable' => true,
+            ]);
+            $products_dashboard->save();
+
+            // POS Dashboard App
+            $pos_dashboard = AppDashboard::create([
+                'name' => 'Point de vente',
+                'company_id' => $company,
+                'parent_slug' => 'sales',
+                'slug' => 'pos_dashboard',
+                'dash_id' => $dash1->id,
+                'app_id' => 8,
+                'is_enable' => true,
+            ]);
+            $pos_dashboard->save();
+
+            // Rental Dashboard App
+            $rental_dashboard = AppDashboard::create([
+                'name' => 'Location',
+                'company_id' => $company,
+                'parent_slug' => 'sales',
+                'slug' => 'rental_dashboard',
+                'dash_id' => $dash1->id,
+                'app_id' => 8,
+                'is_enable' => true,
+            ]);
+            $rental_dashboard->save();
+
+        // Finance
+        $dash2 = Dashboard::create([
+            'name' => 'Finance',
+            'slug' => 'finances',
+            'company_id' => $company,
+            'is_enable' => true,
+        ]);
+        $dash2->save();
+
+            // Comptabilité
+            $accounting = AppDashboard::create([
+                'name' => __('Comptabilité'),
+                'company_id' => $company,
+                'parent_slug' => 'finances',
+                'slug' => 'accounting_dashboard',
+                'dash_id' => $dash2->id,
+                'app_id' => 2,
+                'is_enable' => true,
+            ]);
+            $accounting->save();
+
+            // Facturation
+            $invoices_dashboard = AppDashboard::create([
+                'name' => 'Facturation',
+                'company_id' => $company,
+                'parent_slug' => 'finances',
+                'slug' => 'invoices_dashboard',
+                'dash_id' => $dash2->id,
+                'app_id' => 2,
+                'is_enable' => true,
+            ]);
+            $invoices_dashboard->save();
+
+            // Note de frais
+            $employee_expenses_dashboard = AppDashboard::create([
+                'name' => 'Note de frais',
+                'company_id' => $company,
+                'parent_slug' => 'finances',
+                'slug' => 'employee_expenses_dashboard',
+                'dash_id' => $dash2->id,
+                'app_id' => 2,
+                'is_enable' => true,
+            ]);
+            $employee_expenses_dashboard->save();
+
+
+
+        // Logistiques
+        $dash3 = Dashboard::create([
+            'name' => 'Logistiques',
+            'slug' => 'logistics',
+            'company_id' => $company,
+            'is_enable' => true,
+        ]);
+        $dash3->save();
+
+            // Purchase Dashboard App
+            $purchases_dashboard = AppDashboard::create([
+                'name' => 'Achats',
+                'company_id' => $company,
+                'parent_slug' => 'logistics',
+                'slug' => 'purchases_dashboard',
+                'dash_id' => $dash3->id,
+                'app_id' => 4,
+                'is_enable' => true,
+            ]);
+            $purchases_dashboard->save();
+
+            // Suppliers Dashboard App
+            $vendors_dashboard = AppDashboard::create([
+                'name' => 'Fournisseurs',
+                'company_id' => $company,
+                'parent_slug' => 'logistics',
+                'slug' => 'suppliers_dashboard',
+                'dash_id' => $dash3->id,
+                'app_id' => 4,
+                'is_enable' => true,
+            ]);
+            $vendors_dashboard->save();
+
+            // On hand Inventory Dashboard App
+            $inventory_on_hand_dashboard = AppDashboard::create([
+                'name' => 'Inventaire disponible',
+                'company_id' => $company,
+                'parent_slug' => 'logistics',
+                'slug' => 'inventory_dashboard',
+                'dash_id' => $dash3->id,
+                'app_id' => 3,
+                'is_enable' => true,
+            ]);
+            $inventory_on_hand_dashboard->save();
+
+            //Inventory Flow
+            $inventory_flow = AppDashboard::create([
+                'name' => 'Flux des stocks',
+                'company_id' => $company,
+                'parent_slug' => 'logistics',
+                'slug' => 'stock_flow_dashboard',
+                'dash_id' => $dash3->id,
+                'app_id' => 3,
+                'is_enable' => true,
+            ]);
+            $inventory_flow->save();
+
+            // Manufacturing
+            $manufacturing = AppDashboard::create([
+                'name' => __('Fabrication'),
+                'company_id' => $company,
+                'parent_slug' => 'logistics',
+                'slug' => 'manufacturing_dashboard',
+                'dash_id' => $dash3->id,
+                'app_id' => 3,
+                'is_enable' => true,
+            ]);
+            $manufacturing->save();
+
+
+        // Services
+        $dash4 = Dashboard::create([
+            'name' => 'Services',
+            'slug' => 'field_of_service',
+            'company_id' => $company,
+            'is_enable' => true,
+        ]);
+        $dash4->save();
+            // Project Dashboard App
+            $projects_dashboard = AppDashboard::create([
+                'name' => 'Projets',
+                'company_id' => $company,
+                'parent_slug' => 'field_of_service',
+                'slug' => 'projects_dashboard',
+                'dash_id' => $dash4->id,
+                'app_id' => 15,
+                'is_enable' => true,
+            ]);
+            $projects_dashboard->save();
+
+            // Timesheet Dash App
+            $timesheets_dashboard = AppDashboard::create([
+                'name' => 'Feuille de Temps',
+                'company_id' => $company,
+                'parent_slug' => 'field_of_service',
+                'slug' => 'timesheets_dashboard',
+                'dash_id' => $dash4->id,
+                'app_id' => 16,
+                'is_enable' => true,
+            ]);
+            $timesheets_dashboard->save();
+
+        // CRM
+        $dash5 = Dashboard::create([
+            'name' => 'CRM',
+            'slug' => 'crm',
+            'company_id' => $company,
+            'is_enable' => true,
+        ]);
+        $dash5->save();
+            //Leads
+            $leads_dashboard = AppDashboard::create([
+                'name' => 'Leads',
+                'company_id' => $company,
+                'parent_slug' => 'crm',
+                'slug' => 'leads_dashboard',
+                'dash_id' => $dash5->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $leads_dashboard->save();
+
+            //Pipeline
+            $leads_dashboard = AppDashboard::create([
+                'name' => 'Pipeline',
+                'company_id' => $company,
+                'parent_slug' => 'crm',
+                'slug' => 'pipelines_dashboard',
+                'dash_id' => $dash5->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $leads_dashboard->save();
+
+        // Ressources Humaines
+        $dash6 = Dashboard::create([
+            'name' => 'Ressources Humaines',
+            'slug' => 'human_resources',
+            'company_id' => $company,
+            'is_enable' => true,
+        ]);
+        $dash6->save();
+
+        // Sites Web
+        $dash7 = Dashboard::create([
+            'name' => 'Site Internet',
+            'slug' => 'website',
+            'company_id' => $company,
+            'is_enable' => true,
+        ]);
+        $dash7->save();
+
+        // Abonnements
+        $dash8 = Dashboard::create([
+            'name' => 'Abonnements',
+            'slug' => 'subscriptions',
+            'company_id' => $company,
+            'is_enable' => true,
+        ]);
+        $dash8->save();
+            // Subscriptions App Dash
+            $subscription = AppDashboard::create([
+                'name' => 'Abonnements',
+                'company_id' => $company,
+                'parent_slug' => 'subscriptions',
+                'slug' => 'subscriptions_dashboard',
+                'dash_id' => $dash8->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $subscription->save();
+            // MRR App Dash
+            $mrr = AppDashboard::create([
+                'name' => 'Evolution du MRR',
+                'company_id' => $company,
+                'parent_slug' => 'subscriptions',
+                'slug' => 'mrr_dashboard',
+                'dash_id' => $dash8->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $mrr->save();
+
+            // Retention App Dash
+            $retention = AppDashboard::create([
+                'name' => 'Rétention',
+                'company_id' => $company,
+                'parent_slug' => 'subscriptions',
+                'slug' => 'rentention_dashboard',
+                'dash_id' => $dash8->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $retention->save();
+
+            // SalesPerson App Dash
+            $salesperson = AppDashboard::create([
+                'name' => 'Commerciaux',
+                'company_id' => $company,
+                'parent_slug' => 'subscriptions',
+                'slug' => 'salesperson_dashboard',
+                'dash_id' => $dash8->id,
+                'app_id' => 7,
+                'is_enable' => true,
+            ]);
+            $salesperson->save();
+
+    }
+
+    public function installDashboard(string $slug, int $companyID, string $parent){
+
+        $dashboard = InstalledDashboard::create([
+            'company_id' => $companyID,
+            'slug' => $slug,
+            'parent_slug' => $parent,
+        ]);
+        $dashboard->save();
+    }
+}
+
+//Install Countries
+public function installCountries($comapnyId){
+    $countries = [
+    [
+        'country_name' => 'United States',
+        'iso_code' => 'US',
+        'regions' => [
+            [
+                'region_name' => 'California',
+                'cities' => [
+                    [
+                        'city_name' => 'Los Angeles',
+                        'postal_code' => '90001',
+                        'population' => 3970000,
+                        'area_km2' => 1302,
+                    ],
+                    [
+                        'city_name' => 'San Francisco',
+                        'postal_code' => '94102',
+                        'population' => 883305,
+                        'area_km2' => 121,
+                    ],
+                    // More cities...
+                ],
+            ],
+            // More regions...
+        ],
+        'taxes' => [
+            'vat' => 0,
+            'corporate_tax' => 0.21,
+            'income_tax' => [
+                'brackets' => [
+                    [
+                        'min' => 0,
+                        'max' => 9875,
+                        'rate' => 0.1,
+                    ],
+                    [
+                        'min' => 9876,
+                        'max' => 40125,
+                        'rate' => 0.12,
+                    ],
+                    // More tax brackets...
+                ],
+                'standard_deduction' => 12400,
+            ],
+        ],
+        'languages' => [
+            [
+                'language_name' => 'English',
+                'official' => true,
+                'percentage_spoken' => 0.78,
+            ],
+            [
+                'language_name' => 'Spanish',
+                'official' => false,
+                'percentage_spoken' => 0.13,
+            ],
+            // More languages...
+        ],
+        'currency' => [
+            'currency_name' => 'United States Dollar',
+            'currency_code' => 'USD',
+            'symbol' => '$',
+            'exchange_rate_to_usd' => 1.0,
+        ],
+        'timezones' => [
+            [
+                'timezone_name' => 'Pacific Time',
+                'gmt_offset' => '-08:00',
+            ],
+            [
+                'timezone_name' => 'Eastern Time',
+                'gmt_offset' => '-05:00',
+            ],
+            // More timezones...
+        ],
+        'calling_code' => '+1',
+        'driving_side' => 'right',
+        'emergency_numbers' => [
+            'police' => '911',
+            'fire' => '911',
+            'ambulance' => '911',
+        ],
+        'internet_tld' => '.us',
+        'country_code' => '840',
+        'population' => 331000000,
+        'area_km2' => 9834000,
+        'gdp' => 21433226000000,
+        'gdp_per_capita' => 65000, // Added GDP per capita
+        'major_religions' => [
+            [
+                'religion_name' => 'Christianity',
+                'percentage' => 0.70,
+            ],
+            [
+                'religion_name' => 'Judaism',
+                'percentage' => 0.02,
+            ],
+            // More religions...
+        ],
+        'climate' => 'Varies (mostly temperate)',
+        'major_exports' => [
+            'Machinery',
+            'Electronics',
+            'Vehicles',
+        ],
+        'major_imports' => [
+            'Electronics',
+            'Vehicles',
+            'Pharmaceuticals',
+        ],
+        'political_structure' => 'Federal Republic',
+        'head_of_state' => 'President',
+        'capital' => 'Washington, D.C.',
+        'largest_city' => 'New York City',
+        'national_holiday' => [
+            'holiday_name' => 'Independence Day',
+            'date' => '2024-07-04',
+        ],
+        'transportation' => [
+            'airports' => 19000,
+            'railway_km' => 293564,
+            'roads_km' => 6837556,
+        ],
+        'economy' => [
+            'unemployment_rate' => 3.6, // Unemployment rate in percentage
+            'inflation_rate' => 2.3, // Inflation rate in percentage
+            'public_debt' => 21400000000000, // Public debt in USD
+            'major_industries' => [
+                'Technology',
+                'Healthcare',
+                'Finance',
+            ],
+            'agriculture_products' => [
+                'Corn',
+                'Wheat',
+                'Soybeans',
+            ],
+        ],
+        'education' => [
+            'literacy_rate' => 0.99, // Literacy rate in percentage
+            'school_life_expectancy' => 16, // Average years of schooling
+            'major_universities' => [
+                'Harvard University',
+                'Stanford University',
+                'MIT',
+            ],
+        ],
+        'health' => [
+            'life_expectancy' => 79, // Life expectancy in years
+            'infant_mortality_rate' => 5.6, // Infant mortality rate per 1,000 live births
+            'health_expenditure_gdp' => 0.17, // Health expenditure as a percentage of GDP
+            'hospitals' => 6200, // Number of hospitals
+        ],
+        'environment' => [
+            'protected_areas_km2' => 2250000, // Protected areas in square kilometers
+            'carbon_emissions' => 5000000000, // Annual carbon emissions in metric tons
+            'major_env_issues' => [
+                'Climate Change',
+                'Air Pollution',
+                'Water Scarcity',
+            ],
+        ],
+        'culture' => [
+            'national_dish' => 'Hamburger',
+            'major_sports' => [
+                'American Football',
+                'Basketball',
+                'Baseball',
+            ],
+            'famous_landmarks' => [
+                'Statue of Liberty',
+                'Grand Canyon',
+                'Yellowstone National Park',
+            ],
+            'traditional_music' => 'Country, Jazz, Rock',
+            'cultural_heritage_sites' => [
+                'Independence Hall',
+                'Statue of Liberty',
+            ],
+        ],
+        'government' => [
+            'government_type' => 'Constitutional Federal Republic',
+            'branches' => [
+                'executive' => [
+                    'head' => 'President',
+                    'term_length' => 4, // Term length in years
+                ],
+                'legislative' => [
+                    'upper_house' => 'Senate',
+                    'lower_house' => 'House of Representatives',
+                ],
+                'judicial' => [
+                    'highest_court' => 'Supreme Court',
+                    'number_of_justices' => 9,
+                ],
+            ],
+            'political_parties' => [
+                'Democratic Party',
+                'Republican Party',
+            ],
+            'voting_age' => 18, // Legal voting age
+        ],
+        'international_relations' => [
+            'member_of_un' => true,
+            'member_of_nato' => true,
+            'trade_agreements' => [
+                'NAFTA',
+                'WTO',
+            ],
+            'embassies_worldwide' => 160, // Number of embassies
+        ],
+        'military' => [
+            'active_personnel' => 1400000, // Active military personnel
+            'defense_budget' => 700000000000, // Defense budget in USD
+            'major_military_bases' => [
+                'Fort Bragg',
+                'Naval Station Norfolk',
+            ],
+            'nuclear_weapons' => true,
+        ],
+    ],
+    // More countries...
+];
+}

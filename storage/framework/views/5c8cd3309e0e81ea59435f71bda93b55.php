@@ -25,10 +25,11 @@
 </head>
 <body>
     <main class="page-content">
-        <div class="justify-content-lg-center d-flex">
+        <section class="justify-content-lg-center d-flex">
             <?php echo $__env->yieldContent('content'); ?>
-        </div>
+        </section>
     </main>
+    <?php echo $__env->yieldContent('scripts'); ?>
 </body>
 </html>
 <?php /**PATH D:\My Laravel Startup\koverae\resources\views/layouts/auth.blade.php ENDPATH**/ ?>

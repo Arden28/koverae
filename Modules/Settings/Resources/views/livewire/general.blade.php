@@ -1,12 +1,13 @@
 
 <div>
         <div class="container-xl">
-            <div class="row">
+            <livewire:settings.settings.general />
+            {{-- <div class="row">
 
                 <!-- Utilisateurs -->
                 <div class="settings_box" id="users">
                     <div class="card">
-                        <div class="card-header bg-primary text-white">
+                        <div class="text-white card-header bg-primary">
                             <h3 class="mb-0"><i class="bi bi-people" style="font-size: 15px;"></i> {{ __('Utilisateurs') }}</h3>
                         </div>
                         <div class="card-body">
@@ -21,10 +22,10 @@
                                                 <div class="input-group d-flex">
                                                     <input type="email" class="k_input k_user_email text-truncate" wire:model="email" placeholder="Saisissez une adresse email" required>
                                                     <div class="input-group-prepend">
-                                                        {{-- <button wire:click="inviteUser" wire:loading.attr="disabled" type="button" class="btn btn-primary flex-shrink-1">
+                                                        <button wire:click="inviteUser" wire:loading.attr="disabled" type="button" class="btn btn-primary flex-shrink-1">
                                                             <span wire:loading wire:target="inviteUser" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                             <i class="bi bi-person-add"></i> {{ __('Inviter') }}
-                                                        </button> --}}
+                                                        </button>
                                                         <button wire:click="inviteUser" wire:loading.attr="disabled" type="button" class="btn btn-primary flex-shrink-1">
                                                             <i class="bi bi-person-add"></i> {{ __('Inviter') }}
                                                         </button>
@@ -58,7 +59,7 @@
                 <!-- Langues -->
                 <div class="settings_box" id="languages">
                     <div class="card">
-                        <div class="card-header bg-primary text-white">
+                        <div class="text-white card-header bg-primary">
                             <h3 class="mb-0"><i class="bi bi-translate" style="font-size: 15px;"></i> {{ __('Langues') }}</h3>
                         </div>
                         <div class="card-body">
@@ -85,7 +86,7 @@
                 <!--Companies -->
                 <div class="settings_box" id="companies">
                     <div class="card">
-                        <div class="card-header bg-primary text-white">
+                        <div class="text-white card-header bg-primary">
                             <h3 class="mb-0"><i class="bi bi-building" style="font-size: 15px;"></i> {{ __('Société') }}</h3>
                         </div>
                         <div class="card-body">
@@ -129,7 +130,7 @@
                 <!--Koverae Report -->
                 <div class="settings_box" id="stats">
                     <div class="card">
-                        <div class="card-header bg-primary text-white">
+                        <div class="text-white card-header bg-primary">
                             <h3 class="mb-0"><i class="bi bi-clipboard-data" style="font-size: 15px;"></i> {{ __('Rapports & Analyses') }}</h3>
                         </div>
                         <div class="card-body">
@@ -168,7 +169,7 @@
                     <div class="col-lg-12" style="padding-bottom: 20px;">
                         @include('utils.alerts')
                         <div class="card">
-                            <div class="card-header bg-primary text-white">
+                            <div class="text-white card-header bg-primary">
                                 <h3 class="mb-0"><i class="bi bi-box" style="font-size: 15px;"></i> {{ __('Applications') }} {{ installed_apps(team(Auth::user()->team->id))->count() }} </h3>
                             </div>
                             <div class="card-body">
@@ -211,7 +212,7 @@
                                                     <div class="row">
 
                                                     <div class="col-md">
-                                                        <div class="mt-3 list-inline list-inline-dots mb-0 text-muted d-sm-block d-none">
+                                                        <div class="mt-3 mb-0 list-inline list-inline-dots text-muted d-sm-block d-none">
                                                             <div class="list-inline-item"><!-- Download SVG icon from http://tabler-icons.io/i/building-community -->
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9l5 5v7h-5v-4m0 4h-5v-7l5 -5m1 1v-6a1 1 0 0 1 1 -1h10a1 1 0 0 1 1 1v17h-8" /><line x1="13" y1="7" x2="13" y2="7.01" /><line x1="17" y1="7" x2="17" y2="7.01" /><line x1="17" y1="11" x2="17" y2="11.01" /><line x1="17" y1="15" x2="17" y2="15.01" /></svg>
                                                                 Par <strong>Koverae SARL</strong>
@@ -237,6 +238,6 @@
                     </div>
                 @endcan
 
-            </div>
+            </div> --}}
         </div>
 </div>

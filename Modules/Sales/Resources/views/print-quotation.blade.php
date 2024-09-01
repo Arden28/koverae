@@ -150,14 +150,14 @@
     <body>
         <div class="header">
             <div class="logo">
-                <img src="{{ base_path('public/assets/images/logo/logo-black-gd.png') }}" alt="logo" />
+                <img src="{{ base_path('public/assets/images/logo/logo-black.png') }}" alt="logo" />
             </div>
         </div>
 
         <table class="table mt-5">
             <tbody>
                 <tr>
-                    <td class="border-0 pl-0" width="70%">
+                    <td class="pl-0 border-0" width="70%">
                         <h4 class="text-uppercase">
                             <strong>{{ current_company()->name }}</strong>
                         </h4>
@@ -193,7 +193,7 @@
                         @endif
 
                     </td>
-                    <td class="border-0 pl-0" width="50%">
+                    <td class="pl-0 border-0" width="50%">
                         <h4 class="text-uppercase cool-gray">
                             <strong>{{ __('Devis') }} # {{ $quotation->reference }}</strong>
                         </h4>
@@ -209,7 +209,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="border-0 border-top-1 pl-0 party-header">
+                    <th class="pl-0 border-0 border-top-1 party-header">
                     </th>
                 </tr>
             </thead>
@@ -249,7 +249,7 @@
                 <table class="table table-items">
                     <thead>
                         <tr>
-                            <th scope="col" class="border-0 pl-0">{{ __('Description') }}</th>
+                            <th scope="col" class="pl-0 border-0">{{ __('Description') }}</th>
                             <th scope="col" class="text-center border-0">{{ __('Quantité') }}</th>
                             <th scope="col" class="text-right border-0">{{ __('Prix Unitaire') }}</th>
                             @if($quotation->product_discount_percentage)
@@ -258,7 +258,7 @@
                             @if($quotation->tax_percentage)
                                 <th scope="col" class="text-right border-0">{{ __('Taxe') }}</th>
                             @endif
-                            <th scope="col" class="text-right border-0 pr-0">{{ __('Sub total') }}</th>
+                            <th scope="col" class="pr-0 text-right border-0">{{ __('Sub total') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -286,7 +286,7 @@
                                 {{ format_currency($item->product_tax_amount ?? 0) }}
                             </td>
 
-                            <td class="text-right pr-0">
+                            <td class="pr-0 text-right">
                                 {{ format_currency($item->sub_total) }}
                             </td>
                         </tr>
@@ -295,8 +295,8 @@
                         @if($quotation->discount_amount)
                             <tr>
                                 <td colspan="{{ $quotation->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Réduction') }} ({{ $quotation->discount_percentage }})%</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('Réduction') }} ({{ $quotation->discount_percentage }})%</td>
+                                <td class="pr-0 text-right">
                                     {{ format_currency($quotation->discount_amount) }}
                                 </td>
                             </tr>
@@ -304,8 +304,8 @@
                         @if($quotation->tax_amount)
                             <tr>
                                 <td colspan="{{ $quotation->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Taxe') }}  ({{ $quotation->tax_percentage }}%)</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('Taxe') }}  ({{ $quotation->tax_percentage }}%)</td>
+                                <td class="pr-0 text-right">
                                     {{ format_currency($quotation->tax_amount) }}
                                 </td>
                             </tr>
@@ -313,8 +313,8 @@
                         @if($quotation->tax_rate)
                             <tr>
                                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('invoices::invoice.tax_rate') }}</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('invoices::invoice.tax_rate') }}</td>
+                                <td class="pr-0 text-right">
                                     {{ $quotation->tax_percentage }}%
                                 </td>
                             </tr>
@@ -322,16 +322,16 @@
                         @if($quotation->shipping_amount)
                             <tr>
                                 <td colspan="{{ $quotation->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Livraison') }}</td>
-                                <td class="text-right pr-0">
+                                <td class="pl-0 text-right">{{ __('Livraison') }}</td>
+                                <td class="pr-0 text-right">
                                     {{ format_currency($quotation->shipping_amount) }}
                                 </td>
                             </tr>
                         @endif
                             <tr>
                                 <td colspan="{{ $quotation->table_columns - 2 }}" class="border-0"></td>
-                                <td class="text-right pl-0">{{ __('Grand Total') }}</td>
-                                <td class="text-right pr-0 total-amount">
+                                <td class="pl-0 text-right">{{ __('Grand Total') }}</td>
+                                <td class="pr-0 text-right total-amount">
                                     {{ format_currency($quotation->total_amount) }}
                                 </td>
                             </tr>

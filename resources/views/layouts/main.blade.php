@@ -246,9 +246,6 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="p-0 nav-link d-flex lh-1 text-reset" data-bs-toggle="dropdown" aria-label="Open user menu">
                             <span class="avatar avatar-sm" style="background-image: url(./assets/images/default/fallback_profile_image.png)"></span>
-                            <div class="d-none d-xl-block ps-2">
-                                <div>{{ Auth::user()->name }}</div>
-                            </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <a href="#" class="dropdown-item">{{ __('Documentation') }}</a>

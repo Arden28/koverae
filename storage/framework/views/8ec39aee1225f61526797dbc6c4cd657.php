@@ -43,7 +43,8 @@ if (isset($__slots)) unset($__slots);
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Paramètre Généraux
+                        <?php echo e(__('General Setting')); ?>
+
                     </span>
                 </div>
 
@@ -56,7 +57,8 @@ if (isset($__slots)) unset($__slots);
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Ventes
+                        <?php echo e(__('Sales')); ?>
+
                     </span>
                 </div>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
@@ -70,7 +72,8 @@ if (isset($__slots)) unset($__slots);
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Achat
+                        <?php echo e(__('Purchase')); ?>
+
                     </span>
                 </div>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
@@ -84,7 +87,8 @@ if (isset($__slots)) unset($__slots);
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Inventaire
+                        <?php echo e(__('Inventory')); ?>
+
                     </span>
                 </div>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
@@ -98,7 +102,8 @@ if (isset($__slots)) unset($__slots);
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Facturation
+                        <?php echo e(__('Invoicing')); ?>
+
                     </span>
                 </div>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
@@ -112,7 +117,7 @@ if (isset($__slots)) unset($__slots);
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        <?php echo e(__('Fabrication')); ?>
+                        <?php echo e(__('Manufacturing')); ?>
 
                     </span>
                 </div>
@@ -127,7 +132,8 @@ if (isset($__slots)) unset($__slots);
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Personnel
+                        <?php echo e(__('Employee')); ?>
+
                     </span>
                 </div>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
@@ -141,7 +147,8 @@ if (isset($__slots)) unset($__slots);
                     </div>
                     <!-- App Name -->
                     <span class="app_name">
-                        Point de vente
+                        <?php echo e(__('Point Of Sales')); ?>
+
                     </span>
                 </div>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->

@@ -25,9 +25,10 @@
 </head>
 <body>
     <main class="page-content">
-        <div class="justify-content-lg-center d-flex">
+        <section class="justify-content-lg-center d-flex">
             @yield('content')
-        </div>
+        </section>
     </main>
+    @yield('scripts')
 </body>
 </html>

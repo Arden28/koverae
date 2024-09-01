@@ -24,7 +24,7 @@
 
         <!-- Logo -->
         <div class="text-center centered-logo justify-content-center align-items-center" style="height: 60px;margin: 0 0 8px 0;">
-            <img src="{{ asset('assets/images/logo/logo-black-gd.png') }}" alt="Koverae Logo" class="navbar-brand-image" style="height: 45px">
+            <img src="{{ asset('assets/images/logo/logo-black.png') }}" alt="Koverae Logo" class="navbar-brand-image" style="height: 45px">
         </div>
         <div class="overflow-x-hidden k_home_menu">
             <div class="container mb-2 text-center justify-content-center align-items-center">

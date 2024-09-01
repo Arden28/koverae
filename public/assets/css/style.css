@@ -32,9 +32,10 @@
     text-decoration: none solid rgb(55, 65, 81);
     word-spacing: 0px;
     background-color: #ffffff;
-    height: 58px;
+    height: auto;
+    min-height: 38px;
     width: auto;
-    border-bottom: 1px solid #dad8dd;
+    /* border-bottom: 1px solid #dad8dd; */
     min-width: auto;
     min-height: auto;
     top: 0px;
@@ -1284,6 +1285,9 @@
     margin: 4px 0 0 -21px;
     cursor: pointer;
 }
+.k-radio{
+    background-color: #0E6163;
+}
 .k_radio_item .k_form_label {
     font-size: 14px;
     font-weight: 500;
@@ -2176,15 +2180,63 @@ input[type="text"] {
  *
 ************** */
 
+
+.k_website_register {
+    height: auto;
+    width: 750px;
+    border: 1px solid #ffffff;
+    margin: 48px 0 48px 0;
+    padding: 10px 0 10px 0;
+    min-height: 552px;
+    /* max-width: 350px; */
+}
+
+.k_website_register .card-body {
+    /* height: 451px; */
+    width: auto;
+    padding: 15px 15px 15px 15px;
+    min-height: auto;
+    min-width: auto;
+}
+.k_website_register .card-body .k-alert {
+    font-size: 13px;
+    line-height: 19px;
+    text-decoration: none solid rgb(14, 97, 110);
+    text-align: center;
+    word-spacing: 0px;
+    background-color: #d1ecf1;
+    color: #0e6163;
+    height: auto;
+    width: auto;
+    border: 1px solid #b9e3ea;
+    margin: 0 0 16px 0;
+    padding: 16px 16px 16px 16px;
+    min-height: auto;
+    position: relative;
+}
+
+.k_website_register .card-body .k_register_form {
+    height: auto;
+    width: auto;
+    border-top: 1px solid #e9ecef;
+    margin: 15px 0 0 0;
+    padding: 10px 0 0 0;
+    /* max-width: 400px; */
+    min-height: auto;
+}
+.k_website_register .card-body .k_register_form .btn-primary{
+    width: 100%;
+}
+
 .k_website_login {
-    height: 512px;
+    height: auto;
     /* width: auto; */
     border: 1px solid #ffffff;
-    margin: 48px 457px 0 457px;
+    margin: 48px 457px 48px 457px;
     padding: 0 0 10px 0;
-    max-height: auto;
+    min-height: 512px;
     min-width: 350px;
-    max-width: 350px;
+    max-width: auto;
 }
 
 .k_website_login .k_logo {

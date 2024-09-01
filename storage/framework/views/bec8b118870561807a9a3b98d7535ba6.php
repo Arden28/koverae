@@ -36,20 +36,42 @@
         <!-- Right pane -->
         <div class="k_setting_right_pane">
             <div class="mt12">
-                <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
-                    <span><?php echo e($value->label); ?></span>
+                <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
+                    <!--[if BLOCK]><![endif]--><?php if($value->icon): ?>
+                        <i class="inline-block bi <?php echo e($value->icon); ?>"></i>
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                    <span class="ml-2"><?php echo e($value->label); ?></span>
                     <!--[if BLOCK]><![endif]--><?php if($value->help): ?>
                     <a href="<?php echo e($value->help); ?>" target="__blank" title="documentation" class="k_doc_link">
                         <i class="bi bi-question-circle-fill"></i>
                     </a>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
-                <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                <!--[if BLOCK]><![endif]--><?php if($value->description): ?>
+                <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                     <span>
                         <?php echo e($value->description); ?>
 
                     </span>
                 </div>
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                <!--[if BLOCK]><![endif]--><?php if($value->actions): ?>
+                <div class="mt-2 d-block"   >
+                    <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $value->actions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <a
+                        <?php if($action['is_link'] == true): ?>
+                        wire:navigate href="<?php echo e($action['action']); ?>"
+                        <?php endif; ?>
+                        <?php if($action['is_link'] == false): ?>
+                            wire:click="<?php echo e($action['action']); ?>" wire:target="<?php echo e($action['action']); ?>"
+                        <?php endif; ?>
+                        class="outline-none btn btn-link k_web_settings_access_rights">
+                        <i class="bi <?php echo e($action['icon']); ?> k_button_icon"></i> <span><?php echo e($action['label']); ?></span>
+                    </a>
+                    <br>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
+                </div>
+                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </div>
         </div>
 

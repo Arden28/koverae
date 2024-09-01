@@ -1,11 +1,12 @@
 <div>
     <!-- App Settings block -->
-    <div class="app_settings_block">
+    <livewire:settings::settings.general />
+    {{-- <div class="app_settings_block">
 
 
         <!-- Invite User -->
         <div id="invite-user" class="setting_block">
-            <h2>Utilisateurs</h2>
+            <h2>{{ __('Users') }}</h2>
             <div class="row mt16 k_settings_container">
                 <!-- Box -->
                 <div class="k_settings_box col-12 col-lg-6 k_searchable_setting">
@@ -18,8 +19,8 @@
                                     Inviter un utilisateur
                                 </p>
                                 <div class="d-flex">
-                                    <input type="text" wire:model="friend_email" class="k_input k_user_emails mt-8 text-truncate" placeholder="Entrez l'adresse e-mail">
-                                    <button type="submit" wire:target="sendInvitation" style="background-color: #017E84" class="btn btn-primary k_web_settings_invite flex-shrink-0">
+                                    <input type="text" wire:model="friend_email" class="mt-8 k_input k_user_emails text-truncate" placeholder="Entrez l'adresse e-mail">
+                                    <button type="submit" wire:target="sendInvitation" style="background-color: #017E84" class="flex-shrink-0 btn btn-primary k_web_settings_invite">
                                         <strong wire:loading.remove>Inviter</strong>
                                         <span wire:loading>...</span>
                                     </button>
@@ -32,7 +33,7 @@
                                 </p>
                                 <div class="d-block">
                                     @foreach($pending_invitations as $invitation)
-                                    <a class="badge rounded-pill cursor-pointer k_web_settings_users">
+                                    <a class="cursor-pointer badge rounded-pill k_web_settings_users">
                                         {{ $invitation->email }}
                                         <i wire:click.prevent="deleteInvitation({{ $invitation->id }})" wire:confirm="Êtes-vous sûr de vouloir annuler l'invitation de {{ $invitation->email }} ?" class="bi bi-x cancelled_icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Annuler l'invitation de {{ $invitation->email }}"></i>
                                     </a>
@@ -52,8 +53,8 @@
                     <!-- Right pane -->
                     <div class="k_setting_right_pane">
                         <div class="mt12">
-                            <i class="bi bi-people-fill inline-block"></i>
-                            <div class="k_field_widget k_field_integer inline-block k_read_only modify w-auto ps-3 fw-bold">
+                            <i class="inline-block bi bi-people-fill"></i>
+                            <div class="inline-block w-auto k_field_widget k_field_integer k_read_only modify ps-3 fw-bold">
                                 <span>1</span>
                             </div>
                             <span>Utilisateur actifs</span>
@@ -62,7 +63,7 @@
                                 <i class="bi bi-question-circle-fill"></i>
                             </a>
                             <br>
-                            <a wire:navigate href="{{ route('settings.users', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="btn btn-link k_web_settings_access_rights outline-none">
+                            <a wire:navigate href="{{ route('settings.users', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="outline-none btn btn-link k_web_settings_access_rights">
                                 <i class="bi bi-arrow-right k_button_icon"></i> <span>Gérer les utilisateurs</span>
                             </a>
                         </div>
@@ -83,8 +84,8 @@
                     <div class="k_setting_right_pane">
                         <div class="mt12">
                             <div class="w-50">
-                                <i class="bi bi-translate inline-block"></i>
-                                <div class="k_field_widget k_field_integer inline-block k_read_only modify w-auto ps-3 fw-bold">
+                                <i class="inline-block bi bi-translate"></i>
+                                <div class="inline-block w-auto k_field_widget k_field_integer k_read_only modify ps-3 fw-bold">
                                     <span>1</span>
                                 </div>
                                 <span>Langue(s)</span>
@@ -118,10 +119,10 @@
                     <div class="k_setting_right_pane">
                         <div class="mt12">
                             <div class="w-50">
-                                <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                                <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                     <span>{{ current_company()->name }}</span>
                                 </div>
-                                <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                                <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                                     <span>{{ current_company()->country }}</span>
                                 </div>
                             </div>
@@ -140,12 +141,12 @@
                     <!-- Right pane -->
                     <div class="k_setting_right_pane">
                         <div class="mt12">
-                            <div class="k_field_widget k_field_integer inline-block k_read_only modify w-auto ps-3 fw-bold">
+                            <div class="inline-block w-auto k_field_widget k_field_integer k_read_only modify ps-3 fw-bold">
                                 <span>1</span>
                             </div>
                             <span><b>Entreprise</b></span>
                             <div class="mt8" style="height: 23px;">
-                                <button class="btn btn-link outline-none">
+                                <button class="outline-none btn btn-link">
                                     <i class="bi bi-arrow-right k_button_icon"></i> <span>Gérer les entreprises</span>
                                 </button>
                             </div>
@@ -161,7 +162,7 @@
                     <div class="k_setting_right_pane">
                         <div class="mt12">
                             <div>
-                                <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                                <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                     <span>Mise en page des documents</span>
                                 </div>
                                 <div class="k_field_widget k_field_text k_read_only modify w-100 ps-3 text-muted">
@@ -184,7 +185,7 @@
                     <div class="k_setting_right_pane">
                         <div class="mt12">
                             <div>
-                                <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                                <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                     <span>Modèle E-mail</span>
                                 </div>
                                 <div class="k_field_widget k_field_text k_read_only modify w-100 ps-3 text-muted">
@@ -215,10 +216,10 @@
                     <div class="k_setting_right_pane">
                         <div class="mt12">
                             <div>
-                                <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                                <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                     <span>Poids</span>
                                 </div>
-                                <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                                <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                                     <span>{{ __('Définissez votre unité de mesure du poids.') }}</span>
                                 </div>
                             </div>
@@ -252,10 +253,10 @@
                     <div class="k_setting_right_pane">
                         <div class="mt12">
                             <div>
-                                <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                                <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                     <span>Volume</span>
                                 </div>
-                                <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                                <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                                     <span>{{ __('Définissez votre unité de mesure du volume.') }}</span>
                                 </div>
                             </div>
@@ -303,10 +304,10 @@
                     <!-- Right pane -->
                     <div class="k_setting_right_pane">
                         <div class="mt12">
-                            <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                            <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                 <span>Email de rapport</span>
                             </div>
-                            <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                            <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                                 <span>Ajouter de nouveaux utilisateurs en tant que destinataires d'un e-mail périodique avec des indicateurs clés de performance</span>
                             </div>
                         </div>
@@ -315,7 +316,7 @@
                             <select name="digest" id="">
                                 <option value="koverae_digest">Koverae Digest</option>
                             </select>
-                            <i class="bi bi-arrow-right-short cursor-pointer fw-bold"></i>
+                            <i class="cursor-pointer bi bi-arrow-right-short fw-bold"></i>
                         </div>
                         <div class="mt14">
                             <button class="btn btn-link k_web_settings_access_rights">
@@ -348,10 +349,10 @@
                     <!-- Right pane -->
                     <div class="k_setting_right_pane">
                         <div class="mt12">
-                            <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                            <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                 <span>Compte Client</span>
                             </div>
-                            <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                            <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                                 <span>
                                     Laissez vos clients se connecter pour voir leurs documents
                                 </span>
@@ -398,10 +399,10 @@
                     <!-- Right pane -->
                     <div class="k_setting_right_pane">
                         <div class="mt12">
-                            <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                            <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                 <span>Droits d'accès par défaut</span>
                             </div>
-                            <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Par défaut, les nouveaux utilisateurs auront les droits d'accès les plus élevés pour toutes les apps installées.">
+                            <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Par défaut, les nouveaux utilisateurs auront les droits d'accès les plus élevés pour toutes les apps installées.">
                                 <span>
                                     Définir des droits d'accès personnalisés pour les nouveaux utilisateurs
                                 </span>
@@ -432,10 +433,10 @@
                     <!-- Right pane -->
                     <div class="k_setting_right_pane">
                         <div class="mt12">
-                            <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                            <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                 <span>Réinitialisation du mot de passe</span>
                             </div>
-                            <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Par défaut, les nouveaux utilisateurs auront les droits d'accès les plus élevés pour toutes les apps installées.">
+                            <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Par défaut, les nouveaux utilisateurs auront les droits d'accès les plus élevés pour toutes les apps installées.">
                                 <span>
                                     Activer la réinitialisation du mot de passe depuis la page de connexion
                                 </span>
@@ -459,13 +460,13 @@
                     <!-- Right pane -->
                     <div class="k_setting_right_pane">
                         <div class="mt12">
-                            <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                            <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                                 <span>Importer / Exporter</span>
                                 <a href="" title="documentation" class="k_doc_link">
                                     <i class="bi bi-question-circle-fill"></i>
                                 </a>
                             </div>
-                            <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                            <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                                 <span>
                                     Autoriser les utilisateurs à importer des données à partir de fichiers CSV/XLS/XLSX
                                 </span>
@@ -489,13 +490,13 @@
                     <!-- Right pane -->
                     <div class="k_setting_right_pane">
                         <div class="mt12">
-                            <a href="https://developer.koverae.com" class="d-block cursor-pointer">
+                            <a href="https://developer.koverae.com" class="cursor-pointer d-block">
                                 Activer le mode développeur
                             </a>
-                            <a href="https://developer.koverae.com" class="d-block cursor-pointer">
+                            <a href="https://developer.koverae.com" class="cursor-pointer d-block">
                                 Consulter la documentation
                             </a>
-                            <a href="https://developer.koverae.com" target="_blank" class="d-block cursor-pointer">
+                            <a href="https://developer.koverae.com" target="_blank" class="cursor-pointer d-block">
                                 Créer un compte <strong>développeur</strong>
                             </a>
                         </div>
@@ -506,5 +507,5 @@
             </div>
         </div>
 
-    </div>
+    </div> --}}
 </div>

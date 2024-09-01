@@ -18,19 +18,41 @@
         <!-- Right pane -->
         <div class="k_setting_right_pane">
             <div class="mt12">
-                <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
-                    <span>{{ $value->label }}</span>
+                <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
+                    @if($value->icon)
+                        <i class="inline-block bi {{ $value->icon }}"></i>
+                    @endif
+                    <span class="ml-2">{{ $value->label }}</span>
                     @if($value->help)
                     <a href="{{ $value->help }}" target="__blank" title="documentation" class="k_doc_link">
                         <i class="bi bi-question-circle-fill"></i>
                     </a>
                     @endif
                 </div>
-                <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                @if($value->description)
+                <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                     <span>
                         {{ $value->description }}
                     </span>
                 </div>
+                @endif
+                @if($value->actions)
+                <div class="mt-2 d-block"   >
+                    @foreach($value->actions as $action)
+                    <a
+                        @if($action['is_link'] == true)
+                        wire:navigate href="{{ $action['action'] }}"
+                        @endif
+                        @if($action['is_link'] == false)
+                            wire:click="{{ $action['action'] }}" wire:target="{{ $action['action'] }}"
+                        @endif
+                        class="outline-none btn btn-link k_web_settings_access_rights">
+                        <i class="bi {{ $action['icon'] }} k_button_icon"></i> <span>{{ $action['label'] }}</span>
+                    </a>
+                    <br>
+                    @endforeach
+                </div>
+                @endif
             </div>
         </div>
 

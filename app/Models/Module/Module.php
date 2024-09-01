@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Team\Team;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Dashboards\Entities\AppDashboard;
+use Modules\Dashboards\Entities\InstalledDashboard;
 
 class Module extends Model
 {
@@ -82,6 +83,10 @@ class Module extends Model
     // App Dashboards
     public function dashboards(){
         return $this->hasMany(AppDashboard::class, 'app_id', 'id');
+    }
+
+    public function installed_dashboards(){
+        return $this->hasMany(InstalledDashboard::class, 'module_slug', 'slug');
     }
     // public function isInstalledBy(Team $team)
     // {

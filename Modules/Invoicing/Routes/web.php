@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Modules\Invoicing\Livewire\Overview;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,6 +14,6 @@
 |
 */
 
-Route::prefix('invoicing')->group(function() {
-    // Route::get('/', 'InvoicingController@index');
+Route::middleware(['module:invoice'])->name('invoices.')->group(function () {
+    Route::get('/invoicing', Overview::class)->name('index');
 });

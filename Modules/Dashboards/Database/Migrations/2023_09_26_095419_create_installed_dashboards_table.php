@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('parent_slug')->nullable();
             $table->string('slug')->nullable();
             $table->unsignedBigInteger('app_dashboard_id')->nullable();
+            $table->string('module_slug')->nullable();
             $table->timestamps();
         });
     }

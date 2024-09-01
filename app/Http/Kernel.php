@@ -77,5 +77,6 @@ class Kernel extends HttpKernel
         'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         'module'    => \App\Http\Middleware\CheckIfModuleInstalled::class,
         'page.menu'    => \App\Http\Middleware\AddMenuVariable::class,
+        'valid.invitation' => \App\Http\Middleware\ValidInvitationToken::class,
     ];
 }

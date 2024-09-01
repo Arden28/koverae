@@ -12,6 +12,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Str;
+use Modules\App\Handlers\AppManagerHandler;
 use Modules\App\Services\AppInstallationService;
 use Modules\Settings\Entities\Setting;
 
@@ -33,18 +34,17 @@ class SuperUserSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Arden BOUET',
-            'email' => 'laudbouetoumoussa@koverae.com',
-            'phone' => '+242064074926',
+            'email' => 'laudbouetoumoussa@gmail.com',
+            'phone' => '+2540745908026',
             'password' => Hash::make('koverae'),
             'is_active' => 1,
             'current_company_id' => 1,
-            // 'email_verified_at' => now(),
-            // 'phone_verified_at' => now(),
         ]);
 
         $superAdmin = 'Super Admin';
 
         $user->assignRole($superAdmin);
+
 
         // Update user's team
         $user->team_id = $team->id;
@@ -58,22 +58,23 @@ class SuperUserSeeder extends Seeder
 
         $name = 'Koverae';
         $company_1 = Company::create([
-            'user_id' => $user->id,
+            'team_id' => $team->id,
+            'owner_id' => $user->id,
             'name' => $name,
             'reference' => 'KOV',
             'personal_company' => true,
-            'domain_name' => "admin",
-            'website_url' => "admin.".env('APP_DOMAIN'),
+            'domain_name' => "central",
+            'website_url' => "central.".env('APP_DOMAIN'),
             'enabled' => 1,
             'email' => 'contact@koverae.com',
             'phone' => +242065996406,
-            'address' => '18 rue Ampères, Bacongo',
-            'city' => 'Brazzaville',
-            'country' => 'Republique du Congo',
-            'domain' => 'other',
+            'address' => 'Parklands Rd',
+            'city' => 'Nairobi',
+            'country' => 'Republic of Kenya',
+            'industry' => 'software',
             'size' => 'small',
             'primary_interest' => 'manage_my_business',
-            'default_currency' => 'XAF',
+            'default_currency' => 'KES',
         ]);
         $company_1->save();
 
@@ -83,8 +84,12 @@ class SuperUserSeeder extends Seeder
         ]);
         $user->save();
 
-        $installationService->installBasicAppData($company_1->id);
+
+        // Install Modules
         $installationService->installBasicApp($company_1->id);
+        $installationService->installBasicAppData($company_1->id);
+        // $installApp = new AppManagerHandler;
+        // $installApp->install($company_1->id, $user->id);
 
     }
 }
