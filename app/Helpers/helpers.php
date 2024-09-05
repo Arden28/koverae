@@ -321,7 +321,7 @@ if (!function_exists('toSelectOptions')) {
      * @param  string $textField The attribute or key to use for option text
      * @return array
      */
-    function toSelectOptions($data, $valueField = 'id', $textField = 'name')
+    function toSelectOptions($data, $valueField = 'id', $textField = 'name', $selectedValue = null)
     {
         if (is_array($data)) {
             // If it's an array, transform it assuming it's an array of arrays or objects

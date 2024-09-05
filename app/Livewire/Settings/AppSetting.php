@@ -6,6 +6,8 @@ use Livewire\Component;
 
 abstract class AppSetting extends Component
 {
+    public $blocked = false;
+    
     public function render()
     {
         return view('livewire.settings.app-setting');

@@ -147,7 +147,7 @@
                 @elseif($view == 'manufacturing')
                 <livewire:manufacturing::settings.manufacturing-setting :company="current_company()->id" />
                 @elseif($view == 'invoicing')
-
+                <livewire:invoicing::settings.invoicing-setting :setting="settings()" />
                 @elseif($view == 'employee')
                     <livewire:settings::module.employee />
                 @elseif($view == 'pos')

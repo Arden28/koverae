@@ -119,12 +119,19 @@ return new class extends Migration
             // Currencies
             $table->integer('default_currency_id')->nullable();
             $table->string('default_currency_position')->default('suffix');
+            $table->boolean('has_automatic_currency_rate')->default(false);
+            $table->unsignedBigInteger('currency_converter_id')->nullable();
+            $table->enum('currency_conversion_interval',['manually', 'daily', 'weekly', 'monthly'])->default('manually');
+            $table->date('currency_conversion_next_run')->nullable();
             // Customer Invoice
             $table->string('default_sending_options')->nullable();
             $table->boolean('has_customer_address')->default(false);
+            $table->boolean('has_taxes_in_company_currency')->default(true);
             $table->boolean('has_customer_invoice_warnings')->default(false);
             $table->boolean('has_cash_rounding')->default(false);
             $table->boolean('has_sale_receipt')->default(false);
+            $table->boolean('has_invoice_amount_in_letter')->default(false);
+            $table->boolean('has_invoice_authorized_signer')->default(false);
             $table->unsignedBigInteger('default_incoterm_id')->nullable();
             $table->boolean('has_default_terms')->default(false);
             $table->enum('default_terms', ['note', 'link'])->default('note');
@@ -139,6 +146,9 @@ return new class extends Migration
             $table->boolean('has_purchase_receipt')->default(false);
             // Vendor Payments
             // Digitalization
+            $table->boolean('has_digitize_document')->default(true);
+            $table->enum('digitize_vendor_bills', ['not_digitize', 'digitize_on_demand', 'digitize_automatically'])->default('digitize_automatically');
+            $table->enum('digitize_customer_invoices', ['not_digitize', 'digitize_on_demand', 'digitize_automatically'])->default('digitize_on_demand');
             // Analytics
             $table->boolean('has_margin_analysis')->default(false);
             $table->boolean('has_customer_rating')->default(false);

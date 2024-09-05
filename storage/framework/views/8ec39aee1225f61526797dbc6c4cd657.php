@@ -245,7 +245,22 @@ unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
                 <?php elseif($view == 'invoicing'): ?>
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('invoicing::settings.invoicing-setting', ['setting' => settings()]);
 
+$__html = app('livewire')->mount($__name, $__params, 'lw-673188745-6', $__slots ?? [], get_defined_vars());
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
                 <?php elseif($view == 'employee'): ?>
                     <?php
 $__split = function ($name, $params = []) {
@@ -253,7 +268,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('settings::module.employee', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'lw-673188745-6', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-673188745-7', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -270,7 +285,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('settings::settings.general', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'lw-673188745-7', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-673188745-8', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 
@@ -287,7 +302,7 @@ $__split = function ($name, $params = []) {
 };
 [$__name, $__params] = $__split('settings::settings.general', []);
 
-$__html = app('livewire')->mount($__name, $__params, 'lw-673188745-8', $__slots ?? [], get_defined_vars());
+$__html = app('livewire')->mount($__name, $__params, 'lw-673188745-9', $__slots ?? [], get_defined_vars());
 
 echo $__html;
 

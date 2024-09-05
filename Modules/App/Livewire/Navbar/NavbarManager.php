@@ -46,6 +46,12 @@ class NavbarManager extends Component
                 'id' => 5,
                 'slug' => 'invoice'
             ],
+            6 => [
+                'name' => 'Invoicing',
+                'path' => 'sales::layouts.navbar-menu',
+                'id' => 6,
+                'slug' => 'invoice'
+            ],
         ];
 
         // Set the navbar based on the menu variable

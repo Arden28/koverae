@@ -194,10 +194,29 @@ class ModuleSeeder extends Seeder
                 'version'  => 'beta',
                 'author'    => 'Koverae',
                 'icon'  => 'invoice',
-                'is_default'    => 0,
+                'is_default'    => 1,
                 'link'  => 'invoices.index',
                 'path'  => "invoicing::layouts.navbar-menu",
                 'navbar_id' => 5,
+                'enabled'   => 1
+            ],
+
+            //Sales
+            [
+                'name' => 'Sales',
+                'category_id' => 2,
+                'parent_slug' => 'invoice',
+                'slug' => 'sales',
+                'short_name'    =>  'Sales',
+                'description'  =>  'Efficiently manage the sales process from generating quotations to issuing invoices, enhancing customer relationships and accelerating revenue generation.',
+                'app_group' => 'sales',
+                'version'  => 'beta',
+                'author'    => 'Koverae',
+                'icon'  => 'sales',
+                'is_default'    => 0,
+                'link'  => 'sales.quotations.index',
+                'path'  => 'sales::layouts.navbar-menu',
+                'navbar_id' => 6,
                 'enabled'   => 1
             ],
 
