@@ -52,6 +52,36 @@ class NavbarManager extends Component
                 'id' => 6,
                 'slug' => 'invoice'
             ],
+            7 => [
+                'name' => 'CRM',
+                'path' => 'crm::layouts.navbar-menu',
+                'id' => 7,
+                'slug' => 'crm'
+            ],
+            8 => [
+                'name' => 'Calendar',
+                'path' => 'calendar::layouts.navbar-menu',
+                'id' => 8,
+                'slug' => 'calendar'
+            ],
+            9 => [
+                'name' => 'Inventory',
+                'path' => 'inventory::layouts.navbar-menu',
+                'id' => 9,
+                'slug' => 'inventory'
+            ],
+            10 => [
+                'name' => 'Barcodes',
+                'path' => 'barcode::layouts.navbar-menu',
+                'id' => 10,
+                'slug' => 'barcode'
+            ],
+            11 => [
+                'name' => 'Purchases',
+                'path' => 'purchase::layouts.navbar-menu',
+                'id' => 11,
+                'slug' => 'purchase'
+            ],
         ];
 
         // Set the navbar based on the menu variable
@@ -68,7 +98,7 @@ class NavbarManager extends Component
         // Check if the view exists before rendering it
         $viewPath = $this->navbar['path'];
         if (!view()->exists($viewPath)) {
-            $viewPath = 'livewire.navbar.default';
+            $viewPath = 'layouts.navbar-menu';
         }
 
         return view($viewPath);

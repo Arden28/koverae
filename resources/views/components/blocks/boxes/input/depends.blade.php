@@ -1,7 +1,7 @@
 @props([
     'value'
 ])
-@if($value->parent)
+@if($value->data['parent'])
 <div class="mt-3 ps-3">
     @if($value->label)
     <span>
@@ -11,7 +11,7 @@
 
     @if($value->type == 'select')
     <select wire:model="{{ $value->model }}" id="">
-        @foreach($value->data as $value => $text)
+        @foreach($value->data['data'] as $value => $text)
             <option value="{{ $value }}">{{ $text }}</option>
         @endforeach
     </select>

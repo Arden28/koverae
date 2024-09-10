@@ -424,7 +424,7 @@
     border-right: 0px solid #cccccc;
     border-left: 0px solid #cccccc;
     /* margin: 8px 0 0 0; */
-    padding: 1px 0 0 0;
+    /* padding: 1px 0 0 0; */
     min-width: auto;
     min-height: auto;
 }

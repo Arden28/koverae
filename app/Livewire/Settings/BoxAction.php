@@ -15,8 +15,9 @@ class BoxAction
 
     public $icon;
     public $action;
+    public $data = [];
 
-    public function __construct($key, $box, $label, $type, $icon = null, $action = null)
+    public function __construct($key, $box, $label, $type, $icon = null, $action = null, $data = [])
     {
         $this->key = $key;
         $this->box = $box;
@@ -24,16 +25,18 @@ class BoxAction
         $this->type = $type;
         $this->icon = $icon;
         $this->action = $action;
+        $this->data = $data;
     }
 
-    public static function make($key, $box, $label, $type, $icon = null, $action = null)
+    public static function make($key, $box, $label, $type, $icon = null, $action = null, $data = [])
     {
-        return new static($key, $box, $label, $type, $icon, $action);
+        return new static($key, $box, $label, $type, $icon, $action, $data);
     }
 
-    public function component($component)
+    public function component($component, $data = [])
     {
         $this->component = $component;
+        // $this->data = $data;
 
         return $this;
     }

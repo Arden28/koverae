@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/barcode",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Barcode\\": "",
+            "Modules\\Barcode\\App\\": "app/",
+            "Modules\\Barcode\\Database\\Factories\\": "database/factories/",
+            "Modules\\Barcode\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Barcode\\Tests\\": "tests/"
+        }
+    }
+}

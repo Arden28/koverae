@@ -352,7 +352,7 @@ class AppInstallationService
         // Create sales teams
         $salesTeam = SalesTeam::create([
             'company_id' => $companyId,
-            'name' => 'Ventes',
+            'name' => 'Barakuda',
         ]);
 
         $company = Company::findOrFail($companyId);

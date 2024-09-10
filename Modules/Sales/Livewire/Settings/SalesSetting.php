@@ -5,18 +5,20 @@ namespace Modules\Sales\Livewire\Settings;
 use App\Livewire\Settings\AppSetting;
 use App\Livewire\Settings\Block;
 use App\Livewire\Settings\Box;
+use App\Livewire\Settings\BoxAction;
+use App\Livewire\Settings\BoxInput;
 use Livewire\Attributes\On;
 use Modules\Settings\Entities\Setting;
 
 class SalesSetting extends AppSetting
 {
     public $setting, $company;
-    public bool $variant, $uom, $package, $email_delivery, $discount, $sale_program, $margin, $sale_warnings, $lock_confirmed_sales, $has_pro_format_invoice, $has_shipping_cost, $has_pricelist;
+    public bool $variant, $uom, $package, $email_delivery, $discount, $sale_program, $margin, $sale_warnings, $lock_confirmed_sales, $has_pro_format_invoice, $has_shipping_cost, $has_pricelist, $has_online_signature, $has_online_payment, $has_automatic_invoice;
     public $customer_account, $pricelist, $invoice_policy, $down_payment;
+    public array $customerAccountOptions = [], $invoicingPolicyOptions = [];
 
     public function mount($company){
         $setting = Setting::isCompany($company)->first();
-        // $setting = SettingSalesSetting::isCompany(current_company()->id)->first();
         $this->setting = $setting;
         $this->variant = $setting->has_variant;
         $this->uom = $setting->has_uom;
@@ -33,17 +35,30 @@ class SalesSetting extends AppSetting
         $this->has_pro_format_invoice = $setting->has_pro_format_invoice;
         $this->has_shipping_cost = $setting->has_shipping_cost;
         $this->invoice_policy = $setting->has_invoice_policy;
+        $this->has_automatic_invoice = $setting->has_automatic_invoice;
         $this->down_payment = $setting->down_payment;
+        $this->has_online_signature = $setting->has_online_signature;
+        $this->has_online_payment = $setting->has_online_payment;
+        $customerAccount = [
+            ['id' => 'on_invitation', 'label' => __('On Invitation')],
+            ['id' => 'free_signup', 'label' => __('Free Signup')],
+        ];
+        $this->customerAccountOptions = toRadioOptions($customerAccount, 'id', 'label', 'free_signup');
+        $invoicingPolicies = [
+            ['id' => 'ordered', 'label' => __('Invoice what is ordered')],
+            ['id' => 'delivered', 'label' => __('Invoice what is delivered')],
+        ];
+        $this->invoicingPolicyOptions = toRadioOptions($invoicingPolicies, 'id', 'label', 'ordered');
     }
 
     public function blocks() : array
     {
         return [
-            Block::make('product_catalog', 'Catalogue Produits'),
-            Block::make('pricing', 'Tarification'),
-            Block::make('quotation', 'Devis & Commandes'),
-            Block::make('delivery', 'Livraison'),
-            Block::make('invoicing', 'Facturation'),
+            Block::make('product_catalog', 'Products Catalog'),
+            Block::make('pricing', 'Pricing'),
+            Block::make('quotation', 'Orders & Quotations'),
+            Block::make('delivery', 'Shipping'),
+            Block::make('invoicing', 'Invoicing'),
             // Add more buttons as needed
         ];
     }
@@ -54,26 +69,46 @@ class SalesSetting extends AppSetting
             // $key, $label, $model, $description, $block, $checkbox, $help
 
             // Catalog
-            Box::make('variant', 'Variantes', 'variant', "Vendre des variantes d'un produit en utilisant des attributs (taille, couleur, etc.)", 'product_catalog', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
-            Box::make('uom', 'Unités de mesure', 'uom', "Vendre et acheter des produits dans différentes unités de mesure", 'product_catalog', true),
-            Box::make('package', 'Emballage produit', 'package', "Vendre des produits par multiple du nombre d'unités par paquet", 'product_catalog', true),
-            Box::make('email_delivery', 'Livrer du contenus par e-mail', 'email_delivery', "Envoyer un email spécifique au produit une fois la facture validée", 'product_catalog', true),
+            Box::make('variant', 'Products Variants', 'variant', "Sell ​​variants of a product using attributes (size, color, etc.)", 'product_catalog', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
+            Box::make('uom', 'Units of Measure', 'uom', "Sell and purchase products in different units of measure", 'product_catalog', true),
+            Box::make('package', 'Product Packagings', 'package', "Sell products by multiple of unit # per package", 'product_catalog', true),
+            Box::make('email_delivery', 'Deliver Content by Email', 'email_delivery', "Send a product-specific email once the invoice is validated", 'product_catalog', true),
             // Pricing
-            Box::make('discount', 'Réductions', 'discount', "Accorder des remises sur les lignes de commande client", 'pricing', true),
-            Box::make('sale_program', 'Réductions, Fidélité & Carte Cadeau', 'sale_program', "Gérer les promotions, les coupons, les cartes de fidélité, les cartes cadeaux & K-Wallet", 'pricing', true),
-            Box::make('margin', 'Marges', 'margin', "Afficher les marges sur les commandes", 'pricing', true),
-            Box::make('customer_account', 'Compte Client', 'customer_account', "Laissez vos clients se connecter pour voir leurs documents", 'pricing', false)->component('blocks.boxes.ratio.customer-account'),
-            Box::make('pricelist', 'Listes de prix', 'pricelist', "Définissez plusieurs prix par produit, des remises automatisées, etc.", 'pricing', false)->component('blocks.boxes.ratio.pricelist'),
+            Box::make('discount', 'Discounts', 'discount', "Granting discounts on sales order lines", 'pricing', true),
+            Box::make('sale_program', 'Discounts, Loyalty and Gift Card', 'sale_program', "Manage Promotions, Coupons, Loyalty cards, Gift cards & eWallet", 'pricing', true),
+            Box::make('margin', 'Margins', 'margin', "Show margins on orders", 'pricing', true),
+            Box::make('customer_account', 'Customer Account', 'customer_account', "Let your customers log in to see their documents", 'pricing', false),
+            Box::make('pricelists', 'Pricelists', 'has_pricelist', "Set multiple prices per product, automated discounts, etc.", 'pricing', true, "https://koverae.com/docs/"),
             // Quotation
-            Box::make('sale_warnings', 'Avertissements de vente', 'sale_warnings', "Recevez des avertissements dans les commandes de produits ou de clients", 'quotation', true),
-            Box::make('lock_confirmed_sales', 'Verrouiller les ventes confirmées', 'lock_confirmed_sales', "Ne plus modifier les commandes une fois confirmées", 'quotation', true),
-            Box::make('has_pro_format_invoice', 'Facture pro forma', 'has_pro_format_invoice', "Vous permet d'envoyer une facture pro-forma à vos clients", 'quotation', true),
+            Box::make('online-signature', 'Online Signature', 'has_online_signature', "Request customers to sign quotations to validate orders. The default can be changed per order or template.", 'quotation', true, "https://koverae.com/docs/"),
+            Box::make('online-payment', 'Online Payment', 'has_online_payment', "Request a payment to confirm orders, in full (100%) or partial. The default can be changed per order or template.", 'quotation', true, "https://koverae.com/docs/"),
+            Box::make('sale_warnings', 'Sale Warnings', 'sale_warnings', "Get warnings in orders for products or customers", 'quotation', true),
+            Box::make('lock_confirmed_sales', 'Lock Confirmed Sales', 'lock_confirmed_sales', "No longer edit orders once confirmed", 'quotation', true),
+            Box::make('has_pro_format_invoice', 'Pro-Forma Invoice', 'has_pro_format_invoice', "Allows you to send Pro-Forma Invoice to your customers", 'quotation', true),
             // Delivery
-            Box::make('has_shipping_cost', 'Modes de livraison', 'has_shipping_cost', "Calculer les frais d'expédition des commandes", 'delivery', true),
+            Box::make('has_shipping_cost', 'Delivery Methods', 'has_shipping_cost', "Compute shipping costs on orders", 'delivery', true),
             // Invoicing
-            Box::make('invoice_policy', 'Politique de facturation', 'invoice_policy', "Quantités à facturer à partir des commandes clients", 'invoicing', false)->component('blocks.boxes.ratio.invoice-policy'),
-            Box::make('down_payment', 'Accomptes', 'down_payment', "Produit utilisé pour les acomptes", 'invoicing', false)->component('blocks.boxes.input.simple'),
+            Box::make('invoicing-policy', 'Invoicing Policy', 'invoice_policy', "Quantities to invoice from sales orders", 'invoicing', false),
+            Box::make('automatic-invoice', 'Automatic Invoice', 'has_automatic_invoice', "Generate the invoice automatically when the online payment is confirmed", 'invoicing', false),
+            // Box::make('down_payment', 'Accomptes', 'down_payment', "Produit utilisé pour les acomptes", 'invoicing', false)->component('blocks.boxes.input.simple'),
             // Add more buttons as needed
+        ];
+    }
+
+    public function inputs() : array
+    {
+        return [
+            BoxInput::make('customer-account',null, 'radio', 'customer_account', 'customer_account', '', false, $this->customerAccountOptions)->component('blocks.boxes.input.radio'),
+            BoxInput::make('invoicing-policy',null, 'radio', 'invoice_policy', 'invoicing-policy', '', false, $this->invoicingPolicyOptions)->component('blocks.boxes.input.radio'),
+        ];
+    }
+
+    public function actions() : array
+    {
+        return [
+            BoxAction::make('attributes', 'variant', __('Attributes'), 'link', 'bi-arrow-right'),
+            BoxAction::make('uom', 'uom', __('Units of Measure'), 'link', 'bi-arrow-right'),
+            BoxAction::make('pricelists', 'pricelists', __('Pricelists'), 'link', 'bi-arrow-right'),
         ];
     }
 
@@ -96,13 +131,13 @@ class SalesSetting extends AppSetting
             'lock_confirmed_sales' => $this->lock_confirmed_sales,
             'has_pro_format_invoice' => $this->has_pro_format_invoice,
             'has_shipping_cost' => $this->has_shipping_cost,
-            'invoice_policy' => $this->invoice_policy,
+            // 'invoice_policy' => $this->invoice_policy,
             'down_payment' => $this->down_payment,
         ]);
         $setting->save();
 
         cache()->forget('settings');
 
-        notify()->success('Modifications sauvegardées');
+        notify()->success('Changes saved successfully');
     }
 }

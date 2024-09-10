@@ -63,6 +63,9 @@ return new class extends Migration
             $table->boolean('has_pricelist_check')->default(true);
             $table->enum('pricelist', ['multiple', 'advanced'])->default('multiple');
             // Quotation & Order
+            $table->boolean('has_online_signature')->default(true);
+            $table->boolean('has_online_payment')->default(false);
+            $table->string('minimum_payment_requested')->default(100);
             $table->boolean('has_sale_warnings')->default(false);
             $table->boolean('lock_confirmed_sales')->default(false);
             $table->boolean('has_pro_format_invoice')->default(false);
@@ -73,6 +76,7 @@ return new class extends Migration
             $table->unsignedBigInteger('down_payment')->nullable();
             $table->enum('bill_policy', ['ordered', 'delivered'])->default('delivered');
             $table->boolean('has_way_matching')->default(false);
+            $table->boolean('has_automatic_invoice')->default(false);
             // Orders
             $table->boolean('has_order_approval')->default(false);
             $table->decimal('minimum_order_ammount', $precision = 12, $scale = 2)->default(0);
@@ -89,6 +93,9 @@ return new class extends Migration
             $table->boolean('has_receipt_report')->default(false);
             // Barcode
             $table->boolean('has_barcode_scanner')->default(false);
+            $table->boolean('has_show_qty_to_count')->default(true);
+            $table->boolean('has_stock_barcode_database')->default(true);
+            $table->unsignedBigInteger('barcode_nomenclature_id')->nullable();
             // Shipping
             $table->boolean('has_shipping_email_confirmation')->default(false);
             $table->boolean('has_shipping_sms_confirmation')->default(false);
@@ -171,7 +178,11 @@ return new class extends Migration
             $table->boolean('has_leads')->default(false);
             $table->boolean('has_multi_teams')->default(false);
             $table->boolean('has_rule_based_assignment')->default(false);
+            $table->boolean('has_lead_enrichment')->default(true);
+            $table->boolean('has_lead_mining')->default(true);
+            $table->boolean('has_visit_to_leads')->default(true);
             $table->enum('running', ['manually', 'repeatedly'])->default('manually');
+            $table->enum('lead_enrichment', ['on_demand', 'automatically'])->default('automatically');
             // Tasks Management
             $table->boolean('has_recurring_tasks')->default(false);
             $table->boolean('has_task_dependencies')->default(false);

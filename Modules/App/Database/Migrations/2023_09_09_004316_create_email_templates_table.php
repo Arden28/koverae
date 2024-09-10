@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable();
             $table->string('apply_to')->nullable();
             $table->string('name');
-            $table->string('model_class');
+            $table->string('model_class')->nullable();
             $table->string('subject')->nullable(); // Add this column
             $table->text('content');
 

@@ -1,0 +1,11 @@
+{
+    "name": "Barcode",
+    "alias": "barcode",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Barcode\\Providers\\BarcodeServiceProvider"
+    ],
+    "files": []
+}

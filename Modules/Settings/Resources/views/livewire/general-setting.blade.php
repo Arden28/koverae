@@ -46,6 +46,34 @@
                 </div>
                 @endif
 
+                <!-- Sales -->
+                @if(module('crm'))
+                <div class="tab cursor-pointer {{ $view == 'crm' ? 'selected' : '' }}" wire:click.prevent="changePanel('crm')" wire:target="changePanel('crm')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="{{ asset('assets/images/apps/crm.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        {{ __('CRM') }}
+                    </span>
+                </div>
+                @endif
+
+                <!-- Calendar -->
+                @if(module('calendar'))
+                <div class="tab cursor-pointer {{ $view == 'calendar' ? 'selected' : '' }}" wire:click.prevent="changePanel('calendar')" wire:target="changePanel('calendar')">
+                    <!-- App Icon -->
+                    <div class="icon d-none d-md-block" >
+                        <img src="{{ asset('assets/images/apps/calendar.png') }}" alt="">
+                    </div>
+                    <!-- App Name -->
+                    <span class="app_name">
+                        {{ __('Calendar') }}
+                    </span>
+                </div>
+                @endif
+
                 <!-- Purchase -->
                 @if(module('purchase'))
                 <div class="tab cursor-pointer {{ $view == 'purchase' ? 'selected' : '' }}" wire:click.prevent="changePanel('purchase')">
@@ -140,6 +168,12 @@
                     <livewire:settings::module.general />
                 @elseif($view == 'sales')
                 <livewire:sales::settings.sales-setting :company="current_company()->id" />
+                @elseif($view == 'crm' AND module('crm'))
+                <livewire:crm::settings.crm-setting :setting="settings()" />
+                @elseif($view == 'calendar' AND module('calendar'))
+                <livewire:calendar::settings.calendar-setting :setting="settings()" />
+                @elseif($view == 'calendar' AND module('calendar'))
+                <livewire:calendar::settings.crm-setting :setting="settings()" />
                 @elseif($view == 'purchase')
                 <livewire:purchase::settings.purchase-setting :company="current_company()->id" />
                 @elseif($view == 'inventory')

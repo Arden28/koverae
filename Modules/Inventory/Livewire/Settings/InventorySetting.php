@@ -5,14 +5,17 @@ namespace Modules\Inventory\Livewire\Settings;
 use App\Livewire\Settings\AppSetting;
 use App\Livewire\Settings\Block;
 use App\Livewire\Settings\Box;
+use App\Livewire\Settings\BoxAction;
+use App\Livewire\Settings\BoxInput;
 use Livewire\Attributes\On;
 use Modules\Settings\Entities\Setting;
 
 class InventorySetting extends AppSetting
 {
     public $setting, $company;
-    public bool $has_packaging, $has_batch_tranfer, $has_warnings, $has_quality, $has_receipt_report, $has_barcode_scanner, $has_shipping_email_confirmation, $has_shipping_sms_confirmation, $has_shipping_signature, $has_delivery_method, $has_variant, $has_uom, $has_package, $has_serial_number, $has_consignment, $has_landed_cost, $has_storage_locations, $has_storage_categories, $has_multistep_routes;
-    public $picking_policy, $annual_inventory_day = 31, $annual_inventory_month = 'december';
+    public bool $has_packaging, $has_batch_tranfer, $has_warnings, $has_quality, $has_receipt_report, $has_barcode_scanner, $has_show_qty_to_count, $has_stock_barcode_database, $has_shipping_email_confirmation, $has_shipping_sms_confirmation, $has_shipping_signature, $has_delivery_method, $has_variant, $has_uom, $has_package, $has_serial_number, $has_consignment, $has_landed_cost, $has_storage_locations, $has_storage_categories, $has_multistep_routes;
+    public $picking_policy, $annual_inventory_day = 31, $annual_inventory_month = 'december', $policiesOptions, $smsConfirmation, $barcode_nomenclature, $nomenclatures;
+    public $pickingPoliciesOptions = [], $smsConfirmationOptions = [], $nomenclatureOptions = [];
 
     public function mount($company){
         $setting = Setting::isCompany($company)->first();
@@ -25,6 +28,9 @@ class InventorySetting extends AppSetting
         $this->has_quality = $setting->has_quality;
         $this->has_receipt_report = $setting->has_receipt_report;
         $this->has_barcode_scanner = $setting->has_barcode_scanner;
+        $this->has_show_qty_to_count = $setting->has_show_qty_to_count;
+        $this->has_stock_barcode_database = $setting->has_stock_barcode_database;
+        $this->barcode_nomenclature = $setting->barcode_nomenclature_id;
         $this->has_shipping_email_confirmation = $setting->has_shipping_email_confirmation;
         $this->has_shipping_sms_confirmation = $setting->has_shipping_sms_confirmation;
         $this->has_shipping_signature = $setting->has_shipping_signature;
@@ -40,18 +46,32 @@ class InventorySetting extends AppSetting
         $this->picking_policy = $setting->picking_policy;
         $this->annual_inventory_day = $setting->annual_inventory_day;
         $this->annual_inventory_month = $setting->annual_inventory_month;
+        
+        $pickingPoliciesOptions = [
+            ['id' => 'as_soon_as_possible', 'label' => __('Ship products as soon as they are available')],
+            ['id' => 'after_done', 'label' => __('Ship all products at the same time')],
+        ];
+        $this->policiesOptions = toSelectOptions($pickingPoliciesOptions, 'id', 'label');
+        $smsConfirmationOptions = [
+            ['id' => 1, 'label' => __('Delivery: Sent by SMS')],
+        ];
+        $this->smsConfirmation = toSelectOptions($smsConfirmationOptions, 'id', 'label');
+        $nomenclatureOptions = [
+            ['id' => 1, 'label' => __('Default Nomenclature')],
+        ];
+        $this->nomenclatures = toSelectOptions($nomenclatureOptions, 'id', 'label');
     }
 
     public function blocks() : array
     {
         return [
-            Block::make('operation', 'Opérations'),
-            Block::make('barcode', 'Code à barres'),
-            Block::make('product', 'Produits'),
-            Block::make('shipping', 'Livraison'),
-            Block::make('traceability', 'Traçabilité'),
-            // Block::make('valuation', 'Estimations'),
-            Block::make('warehouse', 'Entrepôt'),
+            Block::make('operation', 'Operations'),
+            Block::make('barcode', 'Barcode'),
+            Block::make('product', 'Products'),
+            Block::make('shipping', 'Shipping'),
+            Block::make('traceability', 'Traceability'),
+            Block::make('warehouse', 'Warehouses'),
+            Block::make('valuation', 'Products Valuation'),
             // Add more buttons as needed
         ];
     }
@@ -60,32 +80,59 @@ class InventorySetting extends AppSetting
     {
         return [
             // $key, $label, $model, $description, $block, $checkbox, $help
-
+        
             // Catalog
-            Box::make('has_package', 'Paquets', 'has_package', "Mettez vos produits dans des packs (par exemple des colis, des cartons) et tracez-les", 'operation', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
-            Box::make('has_batch_tranfer', 'Transfers par lots', 'has_batch_tranfer', "Traiter les transferts par lots par travailleur", 'operation', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
-            Box::make('has_warnings', 'Avertissements', 'has_warnings', "Recevoir des avertissements informatifs ou bloquants sur les partenaires", 'operation', true),
-            Box::make('picking_policy', 'Politique de Picking', 'picking_policy', "Quand commencer à expédier", 'operation', true)->component('blocks.boxes.inventory.picking-policy'),
-            Box::make('has_quality', 'Contrôle qualité', 'has_quality', "Ajoutez des contrôles qualité à vos opérations de transfert", 'operation', true),
-            Box::make('annual_inventory', "Jour et mois de l'inventaire annuel", 'has_quality', "Jour et mois où les inventaires annuels doivent avoir lieu", 'operation', false)->component('blocks.boxes.inventory.annual-inventory'),
-            Box::make('has_receipt_report', 'Rapport de réception', 'has_receipt_report', "Visualiser et allouer les quantités reçues", 'operation', true),
+            Box::make('has_package', __('Packages'), 'has_package', __("Put your products into packs (e.g., parcels, cartons) and track them"), 'operation', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
+            Box::make('has_batch_tranfer', __('Batch Transfers'), 'has_batch_tranfer', __("Process batch transfers by worker"), 'operation', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
+            Box::make('has_warnings', __('Warnings'), 'has_warnings', __("Receive informative or blocking warnings on partners"), 'operation', true),
+            Box::make('picking-policy', __('Picking Policy'), 'picking_policy', __("When to start shipping"), 'operation', true),
+            Box::make('has_quality', __('Quality Control'), 'has_quality', __("Add quality controls to your transfer operations"), 'operation', true),
+            Box::make('annual-inventory', __("Annual Inventory Day and Month"), 'has_quality', __("Day and month when annual inventories should take place"), 'operation', false),
+            Box::make('has_receipt_report', __('Reception Report'), 'has_receipt_report', __("View and allocate received quantities"), 'operation', true),
             // Barcode
-            Box::make('has_barcode_scanner', 'Code à barres', 'has_barcode_scanner', "Traitez les opérations plus rapidement grâce aux codes-barres", 'barcode', true),
+            Box::make('barcode-scanner', __('Barcode Reader'), 'has_barcode_scanner', __("Speed up operations using barcodes"), 'barcode', true),
+            Box::make('show-qty', __('Display Countable Quantity'), 'has_show_qty_to_count', __("Permit users to view the projected quantity of a product at a given location."), 'barcode', true),
+            Box::make('show-qty', __('Inventory Barcode Repository'), 'has_stock_barcode_database', __("Easily create products by scanning barcodes with barcodelookup.com."), 'barcode', true),
             //Shipping
-            Box::make('has_shipping_email_confirmation', 'Confirmation par e-mail', 'has_shipping_email_confirmation', "Envoyer un e-mail de confirmation automatique lorsque les commandes de livraison sont effectuées", 'shipping', true),
-            Box::make('has_shipping_sms_confirmation', 'Confirmation par SMS', 'has_shipping_sms_confirmation', "Envoyer un message texte SMS de confirmation automatique lorsque les commandes de livraison sont effectuées", 'shipping', true)->component('blocks.boxes.shipping.sms-confirmation'),
-            Box::make('has_shipping_signature', 'Signature', 'has_shipping_signature', "Exiger une signature sur le bon de livraison", 'shipping', true),
+            Box::make('has_shipping_email_confirmation', __('Email Confirmation'), 'has_shipping_email_confirmation', __("Send an automatic confirmation email when delivery orders are completed"), 'shipping', true),
+            Box::make('shipping-sms-confirmation', __('SMS Confirmation'), 'has_shipping_sms_confirmation', __("Send an automatic SMS text message confirmation when delivery orders are completed"), 'shipping', true),
+            Box::make('has_shipping_signature', __('Signature'), 'has_shipping_signature', __("Require a signature on the delivery slip"), 'shipping', true),
             // Product
-            Box::make('has_variant', 'Variantes', 'has_variant', "Vendre des variantes d'un produit en utilisant des attributs (taille, couleur, etc.)", 'product', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
-            Box::make('has_uom', 'Unités de mesure', 'has_uom', "Vendre et acheter des produits dans différentes unités de mesure", 'product', true),
-            Box::make('has_packaging', 'Conditionnements produit', 'has_packaging', "Gérer les conditionnements de produits (exemples: pack de 12 bouteilles, boîte de 10 pièces)", 'product', true),
+            Box::make('product-variant', __('Variants'), 'has_variant', __("Sell product variants using attributes (size, color, etc.)"), 'product', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
+            Box::make('product-uom', __('Units of Measure'), 'has_uom', __("Sell and purchase products in different units of measure"), 'product', true),
+            Box::make('product-packaging', __('Product Packaging'), 'has_packaging', __("Manage product packaging (examples: pack of 12 bottles, box of 10 pieces)"), 'product', true),
             //Traceability
-            Box::make('has_serial_number', 'Lots et numéros de série', 'has_serial_number', "Obtenez une traçabilité complète des fournisseurs aux clients", 'traceability', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
-            Box::make('has_consignment', 'Consignation', 'has_consignment', "Définir le propriétaire des produits stockés", 'traceability', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
+            Box::make('product-serial-number', __('Lots and Serial Numbers'), 'has_serial_number', __("Get complete traceability from suppliers to customers"), 'traceability', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
+            Box::make('product-consignment', __('Consignment'), 'has_consignment', __("Define the owner of stored products"), 'traceability', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
             // Warehouse
-            Box::make('has_storage_locations', 'Emplacements de stockage', 'has_storage_locations', "Suivez l'emplacement des produits dans votre entrepôt", 'warehouse', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html')->component('blocks.boxes.inventory.storage-location'),
-
+            Box::make('locations', __('Storage Locations'), 'has_storage_locations', __("Track the location of products in your warehouse"), 'warehouse', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
+            // Product Valuation
+            Box::make('delivered-costs', __('Delivered Costs'), 'has_landed_cost', __("Incorporate supplementary expenses (transport, customs, etc.) into the product value."), 'valuation', true, 'https://koverae.com/docs/v1/apps/sales/products_prices/products/products/variant.html'),
+        
             // Add more buttons as needed
+        ];
+    }
+
+    public function inputs() : array
+    {
+        return [
+            BoxInput::make('picking-policy',null, 'select', 'picking_policy', 'picking-policy', '', false, $this->policiesOptions),
+            BoxInput::make('annual-inventory',null, 'select', 'picking_policy', 'annual-inventory', '', false, ['day' => 'annual_inventory_day', 'month' => 'annual_inventory_month'])->component('blocks.boxes.input.day-month-input'),
+            BoxInput::make('sms-confirmation',__('SMS Template'), 'select', 'has_shipping_sms_confirmation', 'shipping-sms-confirmation', '', false, ['parent' => $this->has_shipping_sms_confirmation, 'data' => $this->smsConfirmation])->component('blocks.boxes.input.depends'),
+            BoxInput::make('barcode-nomenclature',__('Nomenclature'), 'select', 'barcode_nomenclature', 'barcode-scanner', '', false, ['parent' => $this->has_barcode_scanner, 'data' => $this->nomenclatures])->component('blocks.boxes.input.depends'),
+        ];
+    }
+    
+    public function actions() : array
+    {
+        return [
+            BoxAction::make('warehouse-location', 'locations', __('Locations'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_storage_locations])->component('blocks.boxes.action.depends'),
+            BoxAction::make('attributes', 'product-variant', __('Attributes'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_variant])->component('blocks.boxes.action.depends'),
+            BoxAction::make('uom', 'product-uom', __('Units of Measure'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_uom])->component('blocks.boxes.action.depends'),
+            BoxAction::make('product-packaging', 'product-packaging', __('Product Packaging'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_packaging])->component('blocks.boxes.action.depends'),
+            BoxAction::make('serial-number', 'product-serial-number', __('Serial Numbers'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_serial_number])->component('blocks.boxes.action.depends'),
+            BoxAction::make('configure-barcode', 'barcode-scanner', __('Configure Product Barcode'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_barcode_scanner])->component('blocks.boxes.action.depends'),
+            // BoxAction::make('warehouse-location', 'product-', __('Locations'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_storage_locations])->component('blocks.boxes.action.depends'),
         ];
     }
 
@@ -99,6 +146,9 @@ class InventorySetting extends AppSetting
             'has_quality' => $this->has_quality,
             'has_receipt_report' => $this->has_receipt_report,
             'has_barcode_scanner' => $this->has_barcode_scanner,
+            'has_show_qty_to_count' => $this->has_show_qty_to_count,
+            'has_stock_barcode_database' => $this->has_stock_barcode_database,
+            'barcode_nomenclature_id' => $this->barcode_nomenclature,
             'has_shipping_email_confirmation' => $this->has_shipping_email_confirmation,
             'has_shipping_sms_confirmation' => $this->has_shipping_sms_confirmation,
             'has_shipping_signature' => $this->has_shipping_signature,

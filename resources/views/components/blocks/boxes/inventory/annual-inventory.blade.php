@@ -28,18 +28,18 @@
                         <input id="annual_inventory_day_0 " type="text" class="w-5 k_input" wire:model="annual_inventory_day">
                         <select class="k_input w-50" id="" wire:model="annual_inventory_month">
                             <option value=""></option>
-                            <option value="january">Janvier</option>
-                            <option value="february">Février</option>
-                            <option value="march">Mars</option>
-                            <option value="april">Avril</option>
-                            <option value="may">Mai</option>
-                            <option value="june">Juin</option>
-                            <option value="jully">Juilet</option>
-                            <option value="august">Août</option>
-                            <option value="september">Septembre</option>
-                            <option value="october">Octobre</option>
-                            <option value="november">Novembre</option>
-                            <option value="december">Décembre</option>
+                            <option value="january">{{ __('January') }}</option>
+                            <option value="february">{{ __('February') }}</option>
+                            <option value="march">{{ __('March') }}</option>
+                            <option value="april">{{ __('April') }}</option>
+                            <option value="may">{{ __('May') }}</option>
+                            <option value="june">{{ __('June') }}</option>
+                            <option value="july">{{ __('July') }}</option>
+                            <option value="august">{{ __('August') }}</option>
+                            <option value="september">{{ __('September') }}</option>
+                            <option value="october">{{ __('October') }}</option>
+                            <option value="november">{{ __('November') }}</option>
+                            <option value="december">{{ __('December') }}</option>
                         </select>
 
                     </div>

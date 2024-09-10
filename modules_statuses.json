@@ -14,5 +14,8 @@
     "Manufacutring": true,
     "Manufacturing": true,
     "Pos": true,
-    "Translator": true
+    "Translator": true,
+    "Crm": true,
+    "Calendar": true,
+    "Barcode": true
 }

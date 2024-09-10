@@ -18,7 +18,7 @@
         <!-- Right pane -->
         <div class="k_setting_right_pane">
             <div class="mt12">
-                <div class="k_field_widget k_field_chat k_read_only modify w-auto ps-3 fw-bold">
+                <div class="w-auto k_field_widget k_field_chat k_read_only modify ps-3 fw-bold">
                     <span>{{ $value->label }}</span>
                     @if($value->help)
                     <a href="{{ $value->help }}" target="__blank" title="documentation" class="k_doc_link">
@@ -26,7 +26,7 @@
                     </a>
                     @endif
                 </div>
-                <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3 text-muted">
+                <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3 text-muted">
                     <span>
                         {{ $value->description }}
                     </span>
@@ -34,7 +34,7 @@
             </div>
             @if($this->has_shipping_sms_confirmation)
             <div class="mt16">
-                <div class="k_field_widget k_field_text k_read_only modify w-auto ps-3">
+                <div class="w-auto k_field_widget k_field_text k_read_only modify ps-3">
                     <span class=" w-">
                         Modèle de SMS
                     </span>
