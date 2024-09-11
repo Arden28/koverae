@@ -710,6 +710,17 @@
     min-height: auto;
     min-width: auto;
 }
+.setting_block_pos{
+    background-color: #cfb1aa;
+    display: flex;
+    /* font-size: 15px; */
+    /* line-height: 18px; */
+    /* font-weight: 500; */
+    height: auto;
+    max-height: 100px;
+    /* padding: 11px 16px 1px 32px; */
+    display: block;
+}
 .setting_block h2 {
     background-color: #e7e9ed;
     font-size: 15px;

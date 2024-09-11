@@ -138,7 +138,8 @@ class AppInstallationService
     public function installBasicApp(int $companyId): void
     {
         $apps = [
-            'apps', 'settings', 'dashboards', 'contact', 'invoice'
+            'apps', 'settings', 'dashboards', 'invoice'
+            // 'contact', 'invoice'
         ];
 
         foreach ($apps as $appSlug) {

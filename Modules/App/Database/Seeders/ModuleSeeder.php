@@ -313,6 +313,24 @@ class ModuleSeeder extends Seeder
                 'enabled'   => 1
             ],
 
+            //Point Of Sales
+            [
+                'name' => 'Point Of Sales',
+                'module_category_id' => 2,
+                'parent_slug' => 'inventory',
+                'slug' => 'pos',
+                'short_name'    =>  'POS',
+                'description'  =>  'A tailored interface for stores and restaurants.',
+                'app_group' => 'sales',
+                'version'  => 'v1.0',
+                'author'    => 'Koverae',
+                'icon'  => 'pos',
+                'is_default'    => 0,
+                'link'  => 'pos.index',
+                'path'  => 'pos::layouts.navbar-menu',
+                'navbar_id' => 12,
+                'enabled'   => 1
+            ],
         ];
 
         foreach ($modules as $module) {

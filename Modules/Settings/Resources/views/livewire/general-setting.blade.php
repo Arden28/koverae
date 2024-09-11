@@ -185,7 +185,7 @@
                 @elseif($view == 'employee')
                     <livewire:settings::module.employee />
                 @elseif($view == 'pos')
-                <livewire:settings::settings.general />
+                <livewire:pos::settings.pos-setting :setting="settings()" />
                 @else
                 <livewire:settings::settings.general />
                 @endif

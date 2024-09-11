@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('pos_id')->nullable();
+            // Is bar / restaurant
+            $table->boolean('is_restaurant_bar')->default(false);
             // Mobile self-order & Kiosk
             $table->enum('self_ordering', ['disable', 'qr_menu', 'qr_menu_ordering', 'kiosk'])->default('qr_menu');
             // If self-order is qr_menu, qr_menu_ordering or kiosk
@@ -22,10 +24,14 @@ return new class extends Migration
             $table->unsignedBigInteger('available_language_id')->nullable();
             // Payment
             $table->unsignedBigInteger('default_payment_method_id')->nullable();
-            $table->boolean('automatically_validate_order')->default(true); //On termainal payment
-            $table->boolean('has_maximum_difference_at_closing')->default(false); //On termainal payment
-            $table->decimal('maximum_difference_at_closing', $precision = 12, $scale = 2)->default(0.00); //On termainal payment
+            $table->boolean('has_automatically_validate_order')->default(true); //On terminal payment
+            $table->boolean('has_maximum_difference_at_closing')->default(false); //On terminal payment
+            $table->boolean('has_product_specific_closing_entry')->default(false); //On terminal payment
+            $table->decimal('maximum_difference_at_closing', $precision = 12, $scale = 2)->default(0.00); //On terminal payment
             $table->boolean('has_tips')->default(false); //Accept customer tips or convert their change to a tip
+            // Payment Terminal
+            $table->boolean('has_stripe_payment_terminal')->default(false);
+            $table->boolean('has_paytm_payment_terminal')->default(false);
             // POS Interface
             $table->boolean('has_start_category')->default(false);
             $table->unsignedBigInteger('start_category_id')->nullable();
@@ -33,8 +39,11 @@ return new class extends Migration
             $table->string('restricted_categories')->nullable();
             $table->boolean('has_large_scrollbar')->default(false);
             $table->boolean('has_margin_cost')->default(false);
+            $table->boolean('show_product_images')->default(true);
+            $table->boolean('show_category_images')->default(true);
+            $table->boolean('has_share_orders')->default(false);
             // Accounting
-            $table->unsignedBigInteger('defaulft_sales_tax_id')->nullable();
+            $table->unsignedBigInteger('default_sales_tax_id')->nullable();
             $table->unsignedBigInteger('defaulft_temporary_account_id')->nullable();
             $table->boolean('has_flexible_taxes')->default(false);
             $table->unsignedBigInteger('defaulft_fiscal_position_id')->nullable();
@@ -55,7 +64,6 @@ return new class extends Migration
             $table->boolean('has_automatic_receipt_printer')->default(false);
             $table->boolean('has_qr_code_on_ticket')->default(false);
             $table->boolean('has_unique_code_on_ticket')->default(false); //Add a 6-digit code on the receipt to allow the user to request the invoice for an order on the portal.
-            // Payment Terminals
             // Connected Devices
             $table->boolean('has_preparation_display')->default(false); //Display orders on the preparation display
             // Inventory

@@ -5,6 +5,8 @@ namespace Modules\Purchase\Livewire\Settings;
 use App\Livewire\Settings\AppSetting;
 use App\Livewire\Settings\Block;
 use App\Livewire\Settings\Box;
+use App\Livewire\Settings\BoxAction;
+use App\Livewire\Settings\BoxInput;
 use Livewire\Attributes\On;
 use Modules\Settings\Entities\Setting;
 
@@ -12,15 +14,16 @@ class PurchaseSetting extends AppSetting
 {
     public $setting, $company;
 
-    public $has_approval_order,  $has_lock_confirm_order, $has_purchase_warnings, $has_receipt_reminder, $has_purchase_agreements, $has_variant, $has_uom, $has_packaging, $has_way_matching;
+    public bool $has_order_approval,  $has_lock_confirm_order, $has_warnings, $has_receipt_reminder, $has_purchase_agreements, $has_variant, $has_uom, $has_packaging, $has_way_matching;
     public $min_amount = 100000, $bill_policy;
 
     public function mount($company){
         $setting = Setting::isCompany($company)->first();
         $this->setting = $setting;
-        $this->has_approval_order = $setting->has_approval_order;
+        $this->has_order_approval = $setting->has_order_approval;
+        $this->min_amount = $setting->minimum_order_ammount;
         $this->has_lock_confirm_order = $setting->has_lock_confirm_order;
-        $this->has_purchase_warnings = $setting->has_purchase_warnings;
+        $this->has_warnings = $setting->has_warnings;
         $this->has_receipt_reminder = $setting->has_receipt_reminder;
         $this->has_purchase_agreements = $setting->has_purchase_agreements;
         $this->has_variant = $setting->has_variant;
@@ -33,10 +36,10 @@ class PurchaseSetting extends AppSetting
     public function blocks() : array
     {
         return [
-            Block::make('order', 'Commandes'),
-            Block::make('product', 'Produits'),
-            Block::make('invoicing', 'Facturation'),
-            // Block::make('logistics', 'Logistique'),
+            Block::make('orders', __('Orders')),
+            Block::make('product', __('Products')),
+            Block::make('invoicing', __('Invoicing')),
+            // Block::make('logistics', __('Logistics')),
             // Add more buttons as needed
         ];
     }
@@ -45,18 +48,34 @@ class PurchaseSetting extends AppSetting
     {
         return [
             // Order
-            Box::make('has_approval_order', 'Approbation du bon de commande', 'has_approval_order', "Demander aux gestionnaires d'approuver les commandes supérieures à un montant minimum", 'order', true)->component('blocks.boxes.minimum-amount'),
-            Box::make('has_lock_confirm_order', 'Verrouiller les commandes confirmées', 'has_lock_confirm_order', "Verrouillez automatiquement les commandes confirmées pour empêcher toute modification", 'order', true),
-            Box::make('has_purchase_warnings', 'Avertissements', 'has_purchase_warnings', "Recevez des avertissements dans les commandes de produits ou de fournisseurs", 'order', true),
-            Box::make('has_receipt_reminder', 'Rappels de réception', 'has_receipt_reminder', "Rappelez automatiquement la date de réception à vos fournisseurs", 'order', true),
-            Box::make('has_purchase_agreements', "Contrats d'approvisionement", 'has_purchase_agreements', "Gérez vos contrats d'achat (appels d'offres, commandes provisionnelles)", 'order', true),
+            Box::make('approval-order', __('Purchase Order Approval'), 'has_order_approval', __("Require managers to approve orders exceeding a minimum amount"), 'orders', true),
+            Box::make('lock-confirm-order', __('Lock Confirmed Orders'), 'has_lock_confirm_order', __("Automatically lock confirmed orders to prevent any modifications"), 'orders', true),
+            Box::make('purchase-warnings', __('Warnings'), 'has_warnings', __("Receive warnings in product or supplier orders"), 'orders', true),
+            Box::make('receipt-reminder', __('Receipt Reminders'), 'has_receipt_reminder', __("Automatically remind suppliers of the receipt date"), 'orders', true),
+            Box::make('purchase-agreements', __("Purchase Agreements"), 'has_purchase_agreements', __("Manage your purchase contracts (tenders, provisional orders)"), 'orders', true),
             // Products
-            Box::make('has_variant', 'Variantes', 'has_variant', "Vendre des variantes d'un produit en utilisant des attributs (taille, couleur, etc.)", 'product', true),
-            Box::make('has_uom', 'Unités de mesure', 'has_uom', "Vendre et acheter des produits dans différentes unités de mesure", 'product', true),
-            Box::make('has_packaging', 'Emballage produit', 'has_packaging', "Vendre des produits par multiple du nombre d'unités par paquet", 'product', true),
+            Box::make('product-variant', __('Variants'), 'has_variant', __("Sell product variants using attributes (size, color, etc.)"), 'product', true),
+            Box::make('product-uom', __('Units of Measure'), 'has_uom', __("Sell and buy products in various units of measure"), 'product', true),
+            Box::make('product-packaging', __('Product Packaging'), 'has_packaging', __("Sell products in multiples of the number of units per package"), 'product', true),
             // Invoicing
-            Box::make('bill_policy', 'Politique de facturation', 'bill_policy', "Quantités facturées par les fournisseurs", 'invoicing', false)->component('blocks.boxes.ratio.bill-policy'),
-            Box::make('has_way_matching', 'Correspondance à trois voies', 'has_way_matching', "Assurez-vous de payer uniquement les factures pour lesquelles vous avez reçu les marchandises que vous avez commandées", 'invoicing', true),
+            Box::make('bill-policy', __('Billing Policy'), 'bill_policy', __("Quantities billed by suppliers"), 'invoicing', false)->component('blocks.boxes.ratio.bill-policy'),
+            Box::make('way-matching', __('Three-Way Matching'), 'has_way_matching', __("Ensure you only pay for invoices for which you have received the goods you ordered"), 'invoicing', true),
+        ];
+    }
+
+    public function inputs() : array
+    {
+        return [
+            BoxInput::make('minimum-amount',__('Mininmum Amount'), 'text', 'min_amount', 'approval-order', '', false, ['parent' => $this->has_order_approval])->component('blocks.boxes.input.minimum-amount'),
+        ];
+    }
+    
+    public function actions() : array
+    {
+        return [
+            BoxAction::make('attributes', 'product-variant', __('Attributes'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_variant])->component('blocks.boxes.action.depends'),
+            BoxAction::make('uom', 'product-uom', __('Units of Measure'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_uom])->component('blocks.boxes.action.depends'),
+            BoxAction::make('product-packaging', 'product-packaging', __('Product Packaging'), 'link', 'bi-arrow-right', "",  ['parent' => $this->has_packaging])->component('blocks.boxes.action.depends'),
         ];
     }
 
@@ -65,9 +84,10 @@ class PurchaseSetting extends AppSetting
         $setting = $this->setting;
 
         $setting->update([
-            'has_variants' => $this->has_variants,
+            'has_order_approval' => $this->has_order_approval,
+            'minimum_order_ammount' => $this->min_amount,
             'has_lock_confirm_order' => $this->has_lock_confirm_order,
-            'has_purchase_warnings' => $this->has_purchase_warnings,
+            'has_warnings' => $this->has_warnings,
             'has_receipt_reminder' => $this->has_receipt_reminder,
             'has_purchase_agreements' => $this->has_purchase_agreements,
             'has_variant' => $this->has_variant,
@@ -80,7 +100,8 @@ class PurchaseSetting extends AppSetting
 
         cache()->forget('settings');
 
-        notify()->success('Modifications sauvegardées');
+        notify()->success('Changes have been saved');
+        return redirect()->route('settings.general', ['subdomain' => current_company()->domain_name, 'view' => 'purchase', 'menu' => current_menu()]);
     }
 
 }

@@ -82,6 +82,12 @@ class NavbarManager extends Component
                 'id' => 11,
                 'slug' => 'purchase'
             ],
+            12 => [
+                'name' => 'Point Of Sales',
+                'path' => 'pos::layouts.navbar-menu',
+                'id' => 12,
+                'slug' => 'pos'
+            ],
         ];
 
         // Set the navbar based on the menu variable
