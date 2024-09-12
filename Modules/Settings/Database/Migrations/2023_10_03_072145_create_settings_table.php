@@ -162,12 +162,13 @@ return new class extends Migration
             // Employees
             $table->string('presence_control')->default('on_system');
             $table->boolean('presence_based_on_system')->default(false);
+            $table->boolean('has_remote_work')->default(false);
             $table->boolean('presence_based_on_attendance')->default(false);
             $table->boolean('has_advanced_presence_control')->default(false);
             $table->boolean('control_based_on_email_sent')->default(false);
             $table->integer('minimum_email_to_send')->default(0);
             $table->boolean('control_based_on_ip_address')->default(false);
-            $table->integer('ip_addresses')->nullable();
+            $table->string('ip_addresses')->nullable();
             $table->boolean('has_skills_management')->default(false);
             // Work Organization
             $table->unsignedBigInteger('default_working_hour_id')->default(false);

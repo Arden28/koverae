@@ -183,7 +183,7 @@
                 @elseif($view == 'invoicing')
                 <livewire:invoicing::settings.invoicing-setting :setting="settings()" />
                 @elseif($view == 'employee')
-                    <livewire:settings::module.employee />
+                    <livewire:employee::seetings.employee-setting :setting="settings()"/>
                 @elseif($view == 'pos')
                 <livewire:pos::settings.pos-setting :setting="settings()" />
                 @else
