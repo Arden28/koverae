@@ -1,4 +1,4 @@
-<p align="center"><a href="https://koverae.com" target="_blank"><img src="https://koverae.com/assets/images/logo/logo-1.png" width="500" alt="Koverae Logo"></a></p>
+<p><a href="https://koverae.com" target="_blank"><img src="https://koverae.com/assets/images/logo/logo-1.png" height="60px" alt="Koverae Logo"></a></p>
 
 ## Koverae
 
