@@ -25,11 +25,17 @@
     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
     <!--[if BLOCK]><![endif]--><?php if($value->type == 'select'): ?>
-    <select wire:model="<?php echo e($value->model); ?>" id="">
+    <select wire:model="<?php echo e($value->model); ?>" id="<?php echo e($value->model); ?>" class="k_input">
+        <option value=""></option>
         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $value->data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $text): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <option value="<?php echo e($value); ?>"><?php echo e($text); ?></option>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
     </select>
+    <?php elseif($value->type == 'textarea'): ?>
+    <textarea wire:model="<?php echo e($value->model); ?>" class="border textearea k_input" placeholder="<?php echo e($value->placeholder); ?>" id="description" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
+        <?php echo $value->model; ?>
+
+    </textarea>
     <?php else: ?>
     <input type="<?php echo e($value->type); ?>" wire:model="<?php echo e($value->model); ?>" class="w-auto k_input" placeholder="<?php echo e($value->placeholder); ?>" id="<?php echo e($value->model); ?>">
     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->

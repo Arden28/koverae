@@ -57,15 +57,21 @@ return new class extends Migration
             $table->boolean('has_price_control')->default(false);
             $table->boolean('has_line_discounts')->default(false);
             $table->boolean('has_sales_program')->default(false);
+            $table->boolean('has_global_discount')->default(false);
             $table->boolean('has_pricer')->default(false);
-            $table->enum('product_prices', ['tax-excluded', 'tax-included'])->default('tax-excluded');
+            $table->enum('product_prices', ['tax-excluded', 'tax-included'])->default('tax-included');
             // Bills & Receipts
             $table->boolean('has_customer_header_footer')->default(false);
+            $table->tinyText('custom_header')->nullable();
+            $table->tinyText('custom_footer')->nullable();
             $table->boolean('has_automatic_receipt_printer')->default(false);
+            $table->boolean('has_self_service_invoicing')->default(false);
+            $table->enum('self_invoicing_print', ['qr-code', 'url', 'qr-code-url'])->default('qr-code');
             $table->boolean('has_qr_code_on_ticket')->default(false);
             $table->boolean('has_unique_code_on_ticket')->default(false); //Add a 6-digit code on the receipt to allow the user to request the invoice for an order on the portal.
             // Connected Devices
             $table->boolean('has_preparation_display')->default(false); //Display orders on the preparation display
+            $table->string('internal_notes')->nullable(); //Display orders on the preparation display
             // Inventory
             $table->unsignedBigInteger('operation_type_id')->nullable(); //Used to record product pickings. Products are consumed from its default source location.
             $table->boolean('has_allow_ship_later')->default(false);

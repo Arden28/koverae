@@ -31,6 +31,11 @@
             <option value="<?php echo e($value); ?>"><?php echo e($text); ?></option>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
     </select>
+    <?php elseif($value->type == 'textarea'): ?>
+    <textarea wire:model="<?php echo e($value->model); ?>" class="border textearea k_input" placeholder="<?php echo e($value->placeholder); ?>" id="description" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
+        <?php echo $value->model; ?>
+
+    </textarea>
     <?php else: ?>
     <input type="<?php echo e($value->type); ?>" wire:model="<?php echo e($value->model); ?>" class="k_input" placeholder="<?php echo e($value->placeholder); ?>" id="<?php echo e($value->model); ?>">
     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->

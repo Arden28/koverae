@@ -15,6 +15,10 @@
             <option value="{{ $value }}">{{ $text }}</option>
         @endforeach
     </select>
+    @elseif($value->type == 'textarea')
+    <textarea wire:model="{{ $value->model }}" class="border textearea k_input" placeholder="{{ $value->placeholder }}" id="description" {{ $this->blocked ? 'disabled' : '' }}>
+        {!! $value->model !!}
+    </textarea>
     @else
     <input type="{{ $value->type }}" wire:model="{{ $value->model }}" class="k_input" placeholder="{{ $value->placeholder }}" id="{{ $value->model }}">
     @endif
