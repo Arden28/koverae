@@ -138,7 +138,7 @@ class AppInstallationService
     public function installBasicApp(int $companyId): void
     {
         $apps = [
-            'apps', 'settings', 'dashboards', 'invoice'
+            'apps', 'settings', 'dashboards', 'invoicing'
             // 'contact', 'invoice'
         ];
 
@@ -337,7 +337,7 @@ class AppInstallationService
         // Install work schedule
         WorkSchedule::create([
             'company_id' => $companyId,
-            'name' => 'Norme 40 heures/semaine',
+            'name' => 'Standard 40 hours/week',
             'average_hour_per_day' => 7,
             'timezone' => 'UTC',
         ]);

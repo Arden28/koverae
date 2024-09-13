@@ -57,49 +57,49 @@ class ModuleSeeder extends Seeder
         // }
 
         $categories = [
-            // Accounting
+            // 1- Accounting
             [
                 'name' => 'Accounting',
                 'slug' => 'accounting',
                 'parent_id' => null,
                 'type' => 'app_category',
             ],
-            // Sales
+            // 2- Sales
             [
                 'name' => 'Sales',
                 'slug' => 'sales',
                 'parent_id' => null,
                 'type' => 'app_category',
             ],
-            // Inventory
+            // 3- Inventory
             [
                 'name' => 'Inventory',
                 'slug' => 'inventory',
                 'parent_id' => null,
                 'type' => 'app_category',
             ],
-            // Manufacturing
+            // 4- Manufacturing
             [
                 'name' => 'Manufacturing',
                 'slug' => 'manufacturing',
                 'parent_id' => null,
                 'type' => 'app_category',
             ],
-            // Human Resources
+            // 5- Human Resources
             [
                 'name' => 'Human Resources',
                 'slug' => 'human_resources',
                 'parent_id' => null,
                 'type' => 'app_category',
             ],
-            // Operations
+            // 6- Operations
             [
                 'name' => 'Operations',
                 'slug' => 'operations',
                 'parent_id' => null,
                 'type' => 'app_category',
             ],
-            // Productivity
+            // 7- Productivity
             [
                 'name' => 'Productivity',
                 'slug' => 'productivity',
@@ -187,14 +187,14 @@ class ModuleSeeder extends Seeder
             [
                 'name' => 'Invoicing',
                 'module_category_id' => 1,
-                'slug' => 'invoice',
+                'slug' => 'invoicing',
                 'short_name'    =>  'Invoicing',
                 'description'  =>  'Manage your finances with ease by generating and tracking invoices seamlessly.',
                 'app_group' => 'finance',
                 'version'  => 'v1.0',
                 'author'    => 'Koverae Ltd',
                 'icon'  => 'invoice',
-                'is_default'    => 1,
+                'is_default'    => 0,
                 'link'  => 'invoices.index',
                 'path'  => "invoicing::layouts.navbar-menu",
                 'navbar_id' => 5,
@@ -205,7 +205,7 @@ class ModuleSeeder extends Seeder
             [
                 'name' => 'Sales',
                 'module_category_id' => 2,
-                // 'parent_slug' => 'invoice',
+                'parent_slug' => 'invoicing',
                 'slug' => 'sales',
                 'short_name'    =>  'Sales',
                 'description'  =>  'Efficiently manage the sales process from generating quotations to issuing invoices.',
@@ -329,6 +329,24 @@ class ModuleSeeder extends Seeder
                 'link'  => 'pos.index',
                 'path'  => 'pos::layouts.navbar-menu',
                 'navbar_id' => 12,
+                'enabled'   => 1
+            ],
+            
+            //Employees
+            [
+                'name' => 'Employee',
+                'module_category_id' => 5,
+                'slug' => 'employee',
+                'short_name'    =>  'Employee',
+                'description'  =>  'Centralize information about your employees.',
+                'app_group' => 'human_resource',
+                'version'  => 'v1.0',
+                'author'    => 'Koverae',
+                'icon'  => 'employee',
+                'is_default'    => 0,
+                'link'  => 'employee.index',
+                'path'  => 'employee::layouts.navbar-menu',
+                'navbar_id' => 13,
                 'enabled'   => 1
             ],
         ];

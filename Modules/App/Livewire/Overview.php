@@ -5,6 +5,9 @@ namespace Modules\App\Livewire;
 use App\Models\Module\InstalledModule;
 use App\Models\Module\Module;
 use App\Models\Module\ModuleCategory;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Modules\App\Services\AppInstallationService;
@@ -18,7 +21,13 @@ class Overview extends Component
     
     public $industry = 'all';
     public $apps = [];
+    public $test;
 
+    public function mount(){
+        $this->apps = Module::all();
+        // Carbon::setLocale('es');
+        // $this->test = Carbon::now();
+    }
 
     public function changeCat($slug){
         $this->cat = $slug;
@@ -45,23 +54,36 @@ class Overview extends Component
 
     public function install(Module $module){
 
-        $installationService = new AppInstallationService();
-        if($module->parent_slug){
-            $installationService->installModule($module->parent_slug, current_company()->id);
+        $className = getModuleHandlerClass($module->slug);
+        if (class_exists($className)) {
+            $moduleInstance = new $className();
+            // Now you can call any method you need on the instance
+            $moduleInstance->install(current_company()->id, Auth::user()->id);
+            // Here we'll handle the response of the installation
+
+            return redirect()->route('main', ['subdomain' => current_company()->domain_name]);
+        
+        } else {
+            // Handle the error, perhaps log it or display a message
+            Log::error("Module handler class does not exist: " . $className);
         }
-
-        // Install Apps
-        $installationService->installModule($module->slug, current_company()->id);
-
-        return redirect()->route('main', ['subdomain' => current_company()->domain_name]);
     }
 
-    public function uninstall($moduleSlug){
-        $uninstallationService = new AppInstallationService();
-        $uninstallationService->uninstallModule($moduleSlug);
-        // $app = InstalledModule::where('module_slug', $module)->first();
-        // $app->delete();
+    public function uninstall(Module $module){
 
-        return redirect()->route('main', ['subdomain' => current_company()->domain_name]);
+        $className = getModuleHandlerClass($module->slug);
+        if (class_exists($className)) {
+            $moduleInstance = new $className();
+            // Now you can call any method you need on the instance
+            $moduleInstance->uninstall(current_company()->id, Auth::user()->id);
+            // Here we'll handle the response of the installation
+
+            return redirect()->route('main', ['subdomain' => current_company()->domain_name]);
+        
+        } else {
+            // Handle the error, perhaps log it or display a message
+            Log::error("Module handler class does not exist: " . $className);
+        }
     }
+
 }

@@ -165,15 +165,13 @@
                 <!-- General Settings -->
 
                 @if($view == 'general')
-                    <livewire:settings::module.general />
+                <livewire:settings::settings.general :setting="settings()" />
                 @elseif($view == 'sales')
                 <livewire:sales::settings.sales-setting :company="current_company()->id" />
-                @elseif($view == 'crm' AND module('crm'))
+                @elseif($view == 'crm')
                 <livewire:crm::settings.crm-setting :setting="settings()" />
-                @elseif($view == 'calendar' AND module('calendar'))
+                @elseif($view == 'calendar')
                 <livewire:calendar::settings.calendar-setting :setting="settings()" />
-                @elseif($view == 'calendar' AND module('calendar'))
-                <livewire:calendar::settings.crm-setting :setting="settings()" />
                 @elseif($view == 'purchase')
                 <livewire:purchase::settings.purchase-setting :company="current_company()->id" />
                 @elseif($view == 'inventory')
@@ -187,7 +185,7 @@
                 @elseif($view == 'pos')
                 <livewire:pos::settings.pos-setting :setting="settings()" />
                 @else
-                <livewire:settings::settings.general />
+                <livewire:settings::settings.general :setting="settings()" />
                 @endif
             </div>
         </div>

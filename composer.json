@@ -55,6 +55,7 @@
         "files": [
             "app/Helpers/helpers.php",
             "Modules/Dashboards/Helpers/helpers.php",
+            "Modules/App/Helpers/helpers.php",
             "Modules/Inventory/Helpers/helpers.php",
             "Modules/Invoicing/Helpers/helpers.php",
             "Modules/Sales/Helpers/settings.php",

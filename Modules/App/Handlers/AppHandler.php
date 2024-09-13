@@ -5,13 +5,14 @@ use App\Models\Module\InstalledModule;
 use Illuminate\Support\Facades\Log;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Modules\Dashboards\Entities\InstalledDashboard;
 
 abstract  class AppHandler
 {
     /**
      * Each module should define its own specific installation logic.
      */
-    abstract protected function handleInstallation();
+    abstract protected function handleInstallation(int $company);
     /**
      * Each module should define its own specific uninstallation logic.
      */
@@ -33,7 +34,7 @@ abstract  class AppHandler
             // DB::beginTransaction();
 
             // Perform the installation steps
-            $this->handleInstallation();
+            $this->handleInstallation($company);
 
             // Load configurations if installation is successful
             $this->loadConfiguration();
@@ -90,7 +91,7 @@ abstract  class AppHandler
     /**
      * Record the successful installation of a module in the database.
      */
-    private function recordInstallation($company, $user)
+    protected function recordInstallation($company, $user)
     {
         InstalledModule::create([
             'module_slug' => $this->getModuleSlug(),
@@ -107,5 +108,20 @@ abstract  class AppHandler
     }
 
 
+    /**
+     * Install a specific dashboard.
+     *
+     * @param string $slug
+     * @param int $companyId
+     * @param string $parentSlug
+     */
+    protected function installDashboard(string $slug, int $companyId, string $parentSlug): void
+    {
+        InstalledDashboard::create([
+            'company_id' => $companyId,
+            'slug' => $slug,
+            'parent_slug' => $parentSlug,
+        ]);
+    }
 
 }

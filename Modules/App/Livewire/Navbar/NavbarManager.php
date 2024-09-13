@@ -88,6 +88,12 @@ class NavbarManager extends Component
                 'id' => 12,
                 'slug' => 'pos'
             ],
+            13 => [
+                'name' => 'Employee',
+                'path' => 'employee::layouts.navbar-menu',
+                'id' => 13,
+                'slug' => 'employee'
+            ],
         ];
 
         // Set the navbar based on the menu variable

@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Str;
 use Modules\App\Handlers\AppManagerHandler;
 use Modules\App\Services\AppInstallationService;
+use Modules\AppManager\Handlers\AppHandler;
 use Modules\Settings\Entities\Setting;
 
 class SuperUserSeeder extends Seeder
@@ -86,8 +87,10 @@ class SuperUserSeeder extends Seeder
 
 
         // Install Modules
-        $installationService->installBasicApp($company_1->id);
-        $installationService->installBasicAppData($company_1->id);
+        $appManager = new AppManagerHandler;
+        $appManager->installModules($company_1->id, $user->id);
+        // $installationService->installBasicApp($company_1->id);
+        // $installationService->installBasicAppData($company_1->id);
         // $installApp = new AppManagerHandler;
         // $installApp->install($company_1->id, $user->id);
 

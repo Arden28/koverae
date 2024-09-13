@@ -107,7 +107,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <a href="#" class="dropdown-item"><?php echo e(__("Info sur l'app")); ?></a>
-                                    <?php if(module($app->slug)): ?>
+                                    <?php if(module($app->slug) AND !$app->is_default): ?>
                                     <li wire:loading.attr="disabled" wire:target="uninstall('<?php echo e($app->slug); ?>')" wire:click="uninstall('<?php echo e($app->slug); ?>')" class="cursor-pointer dropdown-item">
                                         <?php echo e(__('Désintaller')); ?>
 

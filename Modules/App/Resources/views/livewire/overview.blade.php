@@ -115,7 +115,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <a href="#" class="dropdown-item">{{ __("Info sur l'app") }}</a>
-                                    @if(module($app->slug))
+                                    @if(module($app->slug) AND !$app->is_default)
                                     <li wire:loading.attr="disabled" wire:target="uninstall('{{ $app->slug }}')" wire:click="uninstall('{{ $app->slug }}')" class="cursor-pointer dropdown-item">
                                         {{ __('Désintaller') }}
                                     </li>

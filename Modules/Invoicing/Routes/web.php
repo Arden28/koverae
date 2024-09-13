@@ -14,6 +14,6 @@ use Modules\Invoicing\Livewire\Overview;
 |
 */
 
-Route::middleware(['module:invoice'])->name('invoices.')->group(function () {
+Route::middleware(['module:invoicing'])->name('invoices.')->group(function () {
     Route::get('/invoicing', Overview::class)->name('index');
 });

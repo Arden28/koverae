@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->enum('type', ['bigger', 'reference', 'smaller']); //bigger: bigger than the reference uom, refenrence: is the reference uom, smaller: smaller than the reference
             $table->decimal('ratio', $precision = 12, $scale = 2)->default(1);
-            $table->decimal('rounding_position', $precision = 12, $scale = 2)->default(1);
+            $table->decimal('rounding_precision', $precision = 12, $scale = 2)->default(1);
 
             $table->foreign('company_id')->references('id')->on('companies')->nullOnDelete();
             $table->foreign('uom_category_id')->references('id')->on('unit_of_measure_categories')->nullOnDelete();
