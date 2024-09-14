@@ -28,6 +28,11 @@ class Module extends Model
         return $query->where('slug', $slug);
     }
 
+    public function scopeIsNotDefault(Builder $query)
+    {
+        return $query->where('is_default', false);
+    }
+
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'installed_modules', 'module_slug', 'team_id');

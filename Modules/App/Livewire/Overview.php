@@ -24,7 +24,7 @@ class Overview extends Component
     public $test;
 
     public function mount(){
-        $this->apps = Module::all();
+        $this->apps = Module::isNotDefault()->get();
         // Carbon::setLocale('es');
         // $this->test = Carbon::now();
     }
@@ -32,10 +32,10 @@ class Overview extends Component
     public function changeCat($slug){
         $this->cat = $slug;
         if($slug == 'all'){
-            $this->apps = Module::all();
+            $this->apps = Module::isNotDefault()->get();
         }else{
             $category = ModuleCategory::where('slug', $slug)->first();
-            $this->apps = Module::where('module_category_id', $category->id)->get();
+            $this->apps = Module::where('module_category_id', $category->id)->isNotDefault()->get();
         }
     }
 

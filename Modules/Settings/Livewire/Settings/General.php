@@ -2,11 +2,11 @@
 
 namespace Modules\Settings\Livewire\Settings;
 
-use App\Livewire\Settings\AppSetting;
-use App\Livewire\Settings\Block;
-use App\Livewire\Settings\Box;
-use App\Livewire\Settings\BoxAction;
-use App\Livewire\Settings\BoxInput;
+use Modules\App\Livewire\Components\Settings\AppSetting;
+use Modules\App\Livewire\Components\Settings\Block;
+use Modules\App\Livewire\Components\Settings\Box;
+use Modules\App\Livewire\Components\Settings\BoxAction;
+use Modules\App\Livewire\Components\Settings\BoxInput;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Company\CompanyInvitation;
