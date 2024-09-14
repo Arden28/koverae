@@ -21,5 +21,9 @@ class Language extends Model
         return $query->where('company_id', $company_id);
     }
 
+    public function scopeNotInstalled(Builder $query)
+    {
+        return $query->where('is_active', false);
+    }
     
 }
