@@ -2,8 +2,8 @@
 
 namespace Modules\Contact\Livewire\Navbar\ControlPanel;
 
-use App\Livewire\Navbar\ControlPanel;
-use App\Livewire\Navbar\Button\ActionButton;
+use Modules\App\Livewire\Components\Navbar\ControlPanel;
+use Modules\App\Livewire\Components\Navbar\Button\ActionButton;
 
 class ContactFormPanel extends ControlPanel
 {

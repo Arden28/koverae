@@ -25,5 +25,10 @@ class Language extends Model
     {
         return $query->where('is_active', false);
     }
-    
+
+    public function scopeInstalled(Builder $query)
+    {
+        return $query->where('is_active', true);
+    }
+
 }

@@ -28,7 +28,7 @@
 /* Navbar */
 .k_control_panel {
     font-size: 14px;
-    line-height: 21px;
+    line-height: 18px;
     text-decoration: none solid rgb(55, 65, 81);
     word-spacing: 0px;
     background-color: #ffffff;
@@ -63,7 +63,7 @@
     height: 34px;
     width: auto;
     min-width: auto;
-    margin: 8px 16px 16px 16px;
+    margin: 4px 8px 8px 8px;
 }
 .k_control_panel .k_control_panel_main .k_control_panel_breadcrumbs {
     height: 34px;
@@ -1298,6 +1298,9 @@
     margin: 4px 0 0 -21px;
     cursor: pointer;
 }
+.k_radio_item .k_radio_input:checked {
+    background-color: #0E6163;
+}
 .k-radio{
     background-color: #0E6163;
 }
@@ -1409,6 +1412,7 @@
 .k_kanban_renderer {
     font-size: 15px;
     line-height: 18px;
+    /* height: 500px; */
     text-decoration: none solid rgb(55, 65, 81);
     word-spacing: 0px;
     width: 100%;
@@ -1486,10 +1490,10 @@
     display: flex;
 }
 .k_kanban_view .k_kanban_renderer {
-    height: 95px;
+    height: auto;
     min-width: auto;
     border-top: 1px solid #ffffff;
-    min-height: 100%;
+    min-height: 95px;
     display: flex;
 }
 .k_kanban_renderer .k_kanban_card {

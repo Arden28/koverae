@@ -83,7 +83,7 @@
                         @elseif($this->image_path)
                         <img src="{{ Storage::disk('public')->url($this->image_path) }}" alt="image" class="img img-fluid">
                         @else
-                        <img src="{{ asset('assets/images/people/default_avatar.png') }}" alt="image" class="img img-fluid">
+                        <img src="{{ asset('assets/images/default/user.png') }}" alt="image" class="img img-fluid">
                         @endif
                         <!-- <small class="k_button_icon">
                             <i class="align-middle bi bi-circle text-success"></i>

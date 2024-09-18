@@ -101,7 +101,7 @@
                                 @if(module($app->slug) == false)
                                 <button class="rounded btn btn-primary" wire:loading.attr="disabled" wire:target="install({{ $app->id }})" wire:click="install({{ $app->id }})"><i class="bi bi-download font-weight-bold" style="margin-right: 4px;"></i> <span>{{ __('Install') }}</span></button>
                                 @endif
-                                
+
                                 {{-- @if(module($app->slug))
                                 <span class="btn btn-danger rounded-circle" title="{{ __('Uninstall') }}" style="height: 30px; width: 30px;" wire:loading.attr="disabled" wire:target="uninstall({{ $app->slug }})" wire:click="uninstall({{ $app->slug }})"><i class="bi bi-trash"></i></span>
                                 @endif --}}

@@ -7,6 +7,7 @@ use App\Models\Module\Module;
 use App\Models\Module\ModuleCategory;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -16,9 +17,9 @@ class Overview extends Component
 {
     // #[Url(keep: true)]
     // #[Url(as: 'cat', keep: true)]
-    
+
     public $cat = 'all';
-    
+
     public $industry = 'all';
     public $apps = [];
     public $test;
@@ -48,6 +49,7 @@ class Overview extends Component
     {
         $industry_categories = ModuleCategory::isIndustry()->get();
         $app_categories = ModuleCategory::isApp()->get();
+
         return view('app::livewire.overview', compact('app_categories', 'industry_categories'))
         ->extends('layouts.master');
     }
@@ -62,7 +64,7 @@ class Overview extends Component
             // Here we'll handle the response of the installation
 
             return redirect()->route('main', ['subdomain' => current_company()->domain_name]);
-        
+
         } else {
             // Handle the error, perhaps log it or display a message
             Log::error("Module handler class does not exist: " . $className);
@@ -79,7 +81,7 @@ class Overview extends Component
             // Here we'll handle the response of the installation
 
             return redirect()->route('main', ['subdomain' => current_company()->domain_name]);
-        
+
         } else {
             // Handle the error, perhaps log it or display a message
             Log::error("Module handler class does not exist: " . $className);

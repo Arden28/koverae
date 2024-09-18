@@ -87,7 +87,7 @@ class PosSetting extends AppSetting
             ['id' => 3, 'label' => __('Card')],
         ];
         $this->paymentMethodOptions = toSelectOptions($payments, 'id', 'label');
-        
+
         $productCategories = Category::isCompany(current_company()->id)->get();
         $this->productCategoriesOptions = toSelectOptions($productCategories, 'id', 'category_name');
 
@@ -96,22 +96,22 @@ class PosSetting extends AppSetting
 
         $products = Product::isCompany(current_company()->id)->get();
         $this->productOptions = toSelectOptions($products, 'id', 'product_name');
-        
+
         $productPrices = [
             ['id' => 'tax-excluded', 'label' => __('Tax Excluded')],
             ['id' => 'tax-included', 'label' => __('Tax Included')],
         ];
         $this->productPricesOptions = toRadioOptions($productPrices, 'id', 'label', 'free_signup');
-    
+
         $printOptions = [
             ['id' => 'qr-code', 'label' => __('Qr Code')],
             ['id' => 'url', 'label' => __('URL')],
             ['id' => 'qr-code-url', 'label' => __('Qr Code + URL')],
         ];
         $this->seflInvoicingOptions = toSelectOptions($printOptions, 'id', 'label');
-        
+
         $this->noteModels = toSelectOptions($this->internal_notes, 'id', 'label');
-        
+
         $nomenclatureOptions = [
             ['id' => 1, 'label' => __('Default Nomenclature')],
         ];
@@ -226,7 +226,7 @@ class PosSetting extends AppSetting
             BoxAction::make('notes', 'internal-note', __('Notes'), 'link', 'bi-arrow-right', ""),
         ];
     }
-    
+
     #[On('save')]
     public function save(){
         $setting = $this->pos->setting;

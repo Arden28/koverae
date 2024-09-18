@@ -2,26 +2,29 @@
 
 namespace Modules\App\Livewire\Components\Form;
 
+use Illuminate\Database\Eloquent\Builder;
 class Table{
 
-    public string $component = 'tables.simple';
+    public string $component = 'form.tab.table.simple';
 
     public string $key;
     public $type;
     public $tab;
     public $group;
+    public $data;
 
-    public function __construct($key, $type, $tab = null, $group = null)
+    public function __construct($key, $type, $tab = null, $group = null, $data = [])
     {
         $this->key = $key;
         $this->type = $type;
         $this->tab = $tab;
         $this->group = $group;
+        $this->data = $data;
     }
 
-    public static function make($key, $type, $tab = null, $group = null)
+    public static function make($key, $type, $tab = null, $group = null, $data = [])
     {
-        return new static($key, $type, $tab, $group);
+        return new static($key, $type, $tab, $group, $data);
     }
 
 
@@ -32,9 +35,4 @@ class Table{
         return $this;
     }
 
-    public function data()
-    {
-        // return $this->query()->isCompany(current_company()->id)
-        //     ->get();
-    }
 }

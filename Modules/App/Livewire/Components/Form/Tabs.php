@@ -4,22 +4,23 @@ namespace Modules\App\Livewire\Components\Form;
 
 class Tabs{
 
-    public string $component = 'tabs.tab';
+    public string $component = 'form.tab.simple';
 
     public string $key;
 
     public string $label;
 
     public $condition;
+    public bool $active = false;
 
-    public function __construct($key, $label, $condition = null)
+    public function __construct($key, $label, $condition = null, $active = null)
     {
         $this->key = $key;
         $this->label = $label;
         $this->condition = $condition;
     }
 
-    public static function make($key, $label, $condition = null)
+    public static function make($key, $label, $condition = null, $active = null)
     {
         return new static($key, $label, $condition);
     }

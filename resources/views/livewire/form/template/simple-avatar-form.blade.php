@@ -173,7 +173,7 @@
 
                 <!-- Tab Link -->
                 @if($this->tabs())
-                <div class="k_notebokk_headers">
+                <div class="k_notebokk_headers" wire:ignore>
                     <ul class="overflow-x-auto overflow-y-hidden nav nav-tabs d-flex" data-bs-toggle="tabs">
                         @foreach ($this->tabs() as $tab)
                         <li class="nav-item {{ $tab->condition == true ? 'd-none' : '' }}">

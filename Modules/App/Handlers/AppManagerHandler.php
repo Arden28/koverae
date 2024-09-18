@@ -1,5 +1,6 @@
 <?php
 namespace Modules\App\Handlers;
+
 use Illuminate\Support\Facades\Log;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,7 @@ class AppManagerHandler extends AppHandler
 
     protected function handleInstallation($company)
     {
-        // Example: Create blog-related tables and initial configuration
+        // Example: Create app-manager related data and initial configuration
         $this->installCurrencies($company);
         $this->installUnitsOfMeasure($company);
         $this->installLanguages($company);

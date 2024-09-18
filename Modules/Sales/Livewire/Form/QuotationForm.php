@@ -3,14 +3,14 @@
 namespace Modules\Sales\Livewire\Form;
 
 use Livewire\Component;
-use App\Livewire\Form\BaseForm;
-use App\Livewire\Form\Input;
-use App\Livewire\Form\Tabs;
-use App\Livewire\Form\Group;
-use App\Livewire\Form\Button\ActionBarButton;
-use App\Livewire\Form\Button\StatusBarButton;
-use App\Livewire\Form\Button\ActionButton;
-use App\Livewire\Form\Capsule;
+use Modules\App\Livewire\Components\Form\BaseForm;
+use Modules\App\Livewire\Components\Form\Input;
+use Modules\App\Livewire\Components\Form\Tabs;
+use Modules\App\Livewire\Components\Form\Group;
+use Modules\App\Livewire\Components\Form\Button\ActionBarButton;
+use Modules\App\Livewire\Components\Form\Button\StatusBarButton;
+use Modules\App\Livewire\Components\Form\Button\ActionButton;
+use Modules\App\Livewire\Components\Form\Capsule;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Modules\Sales\Services\QuotationService;

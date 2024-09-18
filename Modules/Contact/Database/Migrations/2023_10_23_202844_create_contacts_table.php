@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('street2')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
-            $table->foreignId('country_id')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
             $table->string('zip')->nullable();
             // Accounting
             $table->string('tax_id')->nullable();
@@ -37,29 +37,32 @@ return new class extends Migration
             $table->string('tags')->nullable();
             // Individual
             $table->string('job')->nullable();
-            $table->string('title')->nullable();
+            $table->unsignedBigInteger('title_id')->nullable();
             // Sales & Purchase
             $table->unsignedBigInteger('seller_id')->nullable(); //seller in charge of this contact
-            $table->string('sale_payment_term')->nullable(); //this payment term will be used instead of the defzult payment term
-            $table->string('pricelist')->nullable(); //this price list will be used instead of the defzult price list
+            $table->unsignedBigInteger('sale_payment_term_id')->nullable(); //this payment term will be used instead of the defzult payment term
+            $table->unsignedBigInteger('pricelist_id')->nullable(); //this price list will be used instead of the defzult price list
             $table->unsignedBigInteger('buyer_id')->nullable(); //buyer in charge of this contact
-            $table->string('purchase_payment_term')->nullable();//this payment term will be used instead of the defzult payment term
+            $table->unsignedBigInteger('purchase_payment_term_id')->nullable();//this payment term will be used instead of the defzult payment term
+            $table->boolean('has_receipt_reminder')->default(false);
+            $table->integer('days_before')->default(0);
             // Fiscal
             $table->string('fiscal_position')->nullable();
             // MISC
             $table->string('companyID')->nullable();
             $table->string('reference')->nullable();
             // Accounting Entries
-            $table->string('account_receivable')->nullable(); //this payment term will be used instead of the defzult payment term
-            $table->string('account_payable')->nullable(); //this payment term will be used instead of the defzult payment term
+            $table->unsignedBigInteger('account_receivable')->nullable(); //this payment term will be used instead of the defzult payment term
+            $table->unsignedBigInteger('account_payable')->nullable(); //this payment term will be used instead of the defzult payment term
 
             $table->string('note')->nullable();
             // Type Bool
             $table->boolean('is_supplier')->default(false);
             $table->boolean('is_customer')->default(false);
-            $table->enum('type', ['individual', 'company'])->default('individual');
+            $table->enum('type', ['individual', 'company'])->default('company');
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
+            // $table->foreign('title_id')->references('id')->on('honorific_titles')->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

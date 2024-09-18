@@ -16,6 +16,8 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Employee\Entities\Employee;
 use Modules\Sales\Entities\SalesTeam;
 use Modules\Sales\Entities\SalesPerson;
@@ -92,6 +94,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     public function companies()
     {
         return $this->hasMany(Company::class, 'user_id', 'id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
     /**

@@ -3,16 +3,16 @@
 namespace Modules\Inventory\Livewire\Form;
 
 use Livewire\Attributes\On;
-use App\Livewire\Form\Template\SimpleAvatarForm;
-use App\Livewire\Form\Input;
-use App\Livewire\Form\Tabs;
-use App\Livewire\Form\Group;
-use App\Livewire\Form\Button\ActionBarButton;
-use App\Livewire\Form\Button\StatusBarButton;
-use App\Livewire\Form\Button\ActionButton;
-use App\Livewire\Form\Capsule;
-use App\Livewire\Form\Table;
-use App\Livewire\Table\Column;
+use Modules\App\Livewire\Components\Form\Template\SimpleAvatarForm;
+use Modules\App\Livewire\Components\Form\Input;
+use Modules\App\Livewire\Components\Form\Tabs;
+use Modules\App\Livewire\Components\Form\Group;
+use Modules\App\Livewire\Components\Form\Button\ActionBarButton;
+use Modules\App\Livewire\Components\Form\Button\StatusBarButton;
+use Modules\App\Livewire\Components\Form\Button\ActionButton;
+use Modules\App\Livewire\Components\Form\Capsule;
+use Modules\App\Livewire\Components\Form\Table;
+use Modules\App\Livewire\Components\Table\Column;
 use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Form\Button\ActionBarButton as ActionBarButtonTrait;
 use Livewire\WithFileUploads;

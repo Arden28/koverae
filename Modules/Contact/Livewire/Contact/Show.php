@@ -11,8 +11,6 @@ class Show extends Component
 
     public $is_company;
 
-    public $name, $company_name, $street, $street2, $city, $department, $country, $zip, $tax_id, $job, $title, $phone, $mobile,
-    $email, $website, $tags= [];
 
     public $seller, $sale_payment_term, $buyer, $purchase_payment_term, $note;
 

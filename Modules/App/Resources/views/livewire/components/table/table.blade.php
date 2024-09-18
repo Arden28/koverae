@@ -1,11 +1,11 @@
 <div>
 
     <!-- Table -->
-    <div class="table-responsive mb-2">
+    <div class="mb-2 table-responsive">
         <table class="table card-table table-vcenter text-nowrap datatable">
             <thead class="list-table">
             <tr class="list-tr">
-                <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all invoices"></th>
+                <th class="w-1"><input class="m-0 align-middle form-check-input" type="checkbox" aria-label="Select all invoices"></th>
                 @foreach($this->columns() as $column)
                     <th wire:click="sort('{{ $column->key }}')" class="cursor-pointer">
                         {{ $column->label }}
@@ -21,11 +21,11 @@
                 @endforeach
             </tr>
             </thead>
-            <tbody class=" bg-white">
+            <tbody class="bg-white ">
                 @foreach($this->data() as $row)
                 <tr class="cursor-pointer">
                     <td>
-                        <input class="form-check-input m-0 align-middle" type="checkbox" wire:model.defer="ids.{{ $row->id }}" wire:click="toggleCheckbox({{ $row->id }})" wire:loading.attr="disabled" defer>
+                        <input class="m-0 align-middle form-check-input" type="checkbox" wire:model.defer="ids.{{ $row->id }}" wire:click="toggleCheckbox({{ $row->id }})" wire:loading.attr="disabled" defer>
                     </td>
                     @foreach($this->columns() as $column)
                     <td>
@@ -42,7 +42,7 @@
                     </div>
                     {{-- <td class="text-end">
                         <span class="dropdown">
-                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
+                        <button class="align-text-top btn dropdown-toggle" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item" href="#">
                             {{ __('Exporter') }}
@@ -63,8 +63,8 @@
         </div>
     </div>
     @if($this->data()->count() == 0)
-    <div class="empty k_nocontent_help bg-white">
-        <img src="{{ asset('assets/images/16.svg') }}"style="height: 350px" alt="">
+    <div class="bg-white empty k_nocontent_help">
+        <img src="{{ asset('assets/images/illustrations/errors/missing-element.svg') }}"style="height: 350px" alt="">
         <p class="empty-title">{{ $this->emptyTitle() }}</p>
         <p class="empty-subtitle">{{ $this->emptyText() }}</p>
     </div>

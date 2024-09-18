@@ -10,6 +10,8 @@ use App\Abstracts\Company as CompanyModel;
 use App\Models\Module\Module;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\App\Entities\Languages\Language;
+use Modules\Contact\Entities\Localization\Country;
 use Modules\Dashboards\Entities\Dashboard;
 use Modules\Employee\Entities\Department;
 use Modules\Employee\Entities\Employee;
@@ -106,6 +108,22 @@ class Company extends CompanyModel implements HasMedia
     public function warehouses()
     {
         return $this->hasMany(Warehouse::class, 'company_id', 'id');
+    }
+
+    /**
+     * Get Countries.
+     */
+    public function countries()
+    {
+        return $this->hasMany(Country::class, 'company_id', 'id');
+    }
+
+    /**
+     * Get Languages.
+     */
+    public function languages()
+    {
+        return $this->hasMany(Language::class, 'company_id', 'id');
     }
 
 }

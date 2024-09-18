@@ -29,7 +29,7 @@ return [
             // Empty
             'empty' => [
                 'title' => 'Create a new contact in your address book.',
-                'text' => "Koverae vous aide à facilement suivre toutes les activités liées à un client."
+                'text' => "Koverae helps you easily track all activities related to a customer."
             ]
         ],
 

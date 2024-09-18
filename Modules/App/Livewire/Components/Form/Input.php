@@ -4,10 +4,10 @@ namespace Modules\App\Livewire\Components\Form;
 
 class Input{
 
-    public string $component = 'inputs.input';
+    public string $component = 'form.input.simple';
     public string $key;
 
-    public string $label;
+    public $label;
 
     public string $type;
 
@@ -22,8 +22,9 @@ class Input{
     public $placeholder;
 
     public $help;
+    public array $data = [];
 
-    public function __construct($key, $label, $type, $model, $position, $tab, $group, $placeholder = null, $help = null)
+    public function __construct($key, $label, $type, $model, $position, $tab, $group, $placeholder = null, $help = null, $data = [])
     {
         $this->key = $key;
         $this->label = $label;
@@ -34,11 +35,12 @@ class Input{
         $this->group = $group;
         $this->placeholder = $placeholder;
         $this->help = $help;
+        $this->data = $data;
     }
 
-    public static function make($key, $label, $type, $model, $position, $tab, $group, $placeholder = null, $help = null)
+    public static function make($key, $label, $type, $model, $position, $tab, $group, $placeholder = null, $help = null, $data = [])
     {
-        return new static($key, $label, $type, $model, $position, $tab, $group, $placeholder, $help);
+        return new static($key, $label, $type, $model, $position, $tab, $group, $placeholder, $help, $data);
     }
 
 
