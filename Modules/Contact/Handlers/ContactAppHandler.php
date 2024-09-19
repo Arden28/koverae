@@ -232,7 +232,7 @@ class ContactAppHandler extends AppHandler
      */
     private function createCountries(int $companyId){
 
-        $response = Http::get('https://restcountries.com/v3.1/all');
+        $response = Http::retry(3, 100)->get('https://restcountries.com/v3.1/all');
         $countries = $response->json();
 
         foreach($countries as $country){

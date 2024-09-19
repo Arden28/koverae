@@ -79,7 +79,7 @@
             <div class="k_form_sheet position-relative">
                 <!-- Capsule -->
                 <!--[if BLOCK]><![endif]--><?php if(count($this->capsules()) >= 1): ?>
-                <div class="overflow-x-auto overflow-y-hidden k_horizontal_asset mb-md-4" id="k_horizontal_capsule">
+                <div class="overflow-x-auto overflow-y-hidden k_horizontal_asset mb-md-3" id="k_horizontal_capsule">
                     <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->capsules(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $capsule): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <?php if (isset($component)) { $__componentOriginal511d4862ff04963c3c16115c05a86a9d = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal511d4862ff04963c3c16115c05a86a9d = $attributes; } ?>

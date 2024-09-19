@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Modules\Contact\Entities\Bank\BankAccount;
 use Modules\Contact\Entities\Localization\Country;
+use Modules\Invoicing\Entities\Customer\Invoice;
+use Modules\Invoicing\Entities\Vendor\Bill;
+use Modules\Purchase\Entities\Purchase;
+use Modules\Sales\Entities\Sale;
 
 class Contact extends Model
 {
@@ -35,13 +39,13 @@ class Contact extends Model
         'tags' => 'array',
     ];
 
-    public static function boot() {
-        parent::boot();
+    // public static function boot() {
+    //     parent::boot();
 
-        static::created(function ($model) {
-            $model->generateAvatar();
-        });
-    }
+    //     static::created(function ($model) {
+    //         $model->generateAvatar();
+    //     });
+    // }
 
     // Use Default Avatar
     public function avatar(){
@@ -162,6 +166,27 @@ class Contact extends Model
     public function bankAccounts() {
         return $this->hasMany(BankAccount::class, 'contact_id', 'id');
     }
+
+    // Get Sales
+    public function sales() {
+        return $this->hasMany(Sale::class, 'customer_id', 'id');
+    }
+
+    // Get Purchase
+    public function purchases() {
+        return $this->hasMany(Purchase::class, 'supplier_id', 'id');
+    }
+
+    // Get Invoices
+    public function invoices() {
+        return $this->hasMany(Invoice::class, 'customer_id', 'id');
+    }
+
+    // Get Bills
+    public function bills() {
+        return $this->hasMany(Bill::class, 'supplier_id', 'id');
+    }
+
 
     // protected static function newFactory()
     // {

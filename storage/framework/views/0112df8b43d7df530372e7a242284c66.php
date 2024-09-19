@@ -27,24 +27,24 @@
     <div class="k_address_format">
         <div class="row">
             <div class="col-12" style="margin-bottom: 10px;">
-                <input type="text" wire:model="street" id="street" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> placeholder="<?php echo e(__('Street 1 ....')); ?>">
+                <input type="text" wire:model.blur="street" id="street" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> placeholder="<?php echo e(__('Street 1 ....')); ?>">
             </div>
             <div class="col-12" style="margin-bottom: 10px;">
-                <input type="text" wire:model="street2" id="street2_0" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> placeholder="<?php echo e(__('Street 2 ....')); ?>">
+                <input type="text" wire:model.blur="street2" id="street2_0" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> placeholder="<?php echo e(__('Street 2 ....')); ?>">
             </div>
             <div class="col-4 d-flex align-items-center" style="margin-bottom: 10px;">
-                <input type="text" wire:model="city" id="city_0" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> placeholder="<?php echo e(__('City')); ?>">
+                <input type="text" wire:model.blur="city" id="city_0" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> placeholder="<?php echo e(__('City')); ?>">
             </div>
             <div class="col-4 d-flex align-items-center" style="margin-bottom: 10px;">
-                <select name="" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> id="state_id_0">
+                <select wire:model="state" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> id="state_id_0">
                     <option value=""><?php echo e(__('State')); ?></option>
                 </select>
             </div>
             <div class="col-4 d-flex align-items-center" style="margin-bottom: 10px;">
-                <input type="text" wire:model="zip" id="zip_0" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> placeholder="<?php echo e(__('ZIP')); ?>">
+                <input type="text" wire:model.blur="zip" id="zip_0" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> placeholder="<?php echo e(__('ZIP')); ?>">
             </div>
             <div class="col-12" style="margin-bottom: 10px;">
-                <select name="" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> id="country_id_0">
+                <select wire:model.blur="country" class="k_input" <?php echo e($this->blocked ? 'disabled' : ''); ?> id="country_id_0">
                     <option value=""><?php echo e(__('Country')); ?></option>
                     <!--[if BLOCK]><![endif]--><?php $__currentLoopData = current_company()->countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <option value="<?php echo e($country->id); ?>"><?php echo e($country->common_name); ?></option>

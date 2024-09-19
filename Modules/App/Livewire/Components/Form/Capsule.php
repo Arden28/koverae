@@ -4,7 +4,7 @@ namespace Modules\App\Livewire\Components\Form;
 
 class Capsule{
 
-    public string $component = 'capsules.simple';
+    public string $component = 'form.capsule.simple';
 
     public string $key;
 
@@ -12,16 +12,26 @@ class Capsule{
 
     public string $help;
 
-    public function __construct($key, $label, $help)
+    public $type;
+
+    public $icon;
+    public $action;
+    public $data = [];
+
+    public function __construct($key, $label, $help, $type = null, $icon = null, $action = null, $data = [])
     {
         $this->key = $key;
         $this->label = $label;
         $this->help = $help;
+        $this->type = $type;
+        $this->icon = $icon;
+        $this->action = $action;
+        $this->data = $data;
     }
 
-    public static function make($key, $label, $help)
+    public static function make($key, $label, $help, $type = null, $icon = null, $action = null, $data = [])
     {
-        return new static($key, $label, $help);
+        return new static($key, $label, $help, $type, $icon, $action, $data);
     }
 
     public function component($component)

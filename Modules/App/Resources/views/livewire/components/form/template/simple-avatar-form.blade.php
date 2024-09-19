@@ -51,7 +51,7 @@
             <div class="k_form_sheet position-relative">
                 <!-- Capsule -->
                 @if(count($this->capsules()) >= 1)
-                <div class="overflow-x-auto overflow-y-hidden k_horizontal_asset mb-md-4" id="k_horizontal_capsule">
+                <div class="overflow-x-auto overflow-y-hidden k_horizontal_asset mb-md-3" id="k_horizontal_capsule">
                     @foreach($this->capsules() as $capsule)
                     <x-dynamic-component
                         :component="$capsule->component"
