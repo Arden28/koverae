@@ -17,6 +17,7 @@ use Modules\Employee\Entities\Department;
 use Modules\Employee\Entities\Employee;
 use Modules\Employee\Entities\Job;
 use Modules\Inventory\Entities\Warehouse\Warehouse;
+use Modules\Sales\Entities\SalesPerson;
 use Modules\Settings\Entities\Setting;
 // use Modules\Pos\Traits\HasPos;
 use Spatie\MediaLibrary\HasMedia;
@@ -124,6 +125,14 @@ class Company extends CompanyModel implements HasMedia
     public function languages()
     {
         return $this->hasMany(Language::class, 'company_id', 'id');
+    }
+
+    /**
+     * Get Languages.
+     */
+    public function sellers()
+    {
+        return $this->hasMany(SalesPerson::class, 'company_id', 'id');
     }
 
 }

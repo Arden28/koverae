@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 use Modules\Contact\Entities\Bank\BankAccount;
 use Modules\Contact\Entities\Localization\Country;
 
@@ -33,6 +34,90 @@ class Contact extends Model
     protected $casts = [
         'tags' => 'array',
     ];
+
+    public static function boot() {
+        parent::boot();
+
+        static::created(function ($model) {
+            $model->generateAvatar();
+        });
+    }
+
+    // Use Default Avatar
+    public function avatar(){
+        return $this->id.'_avatar';
+    }
+
+    // Generate User Avatar
+    public function generateAvatar()
+    {
+        // Define the avatar directory and ensure it exists
+        $avatarDir = 'storage/avatars';
+        $publicAvatarDir = public_path($avatarDir);
+
+        if (!file_exists($publicAvatarDir)) {
+            mkdir($publicAvatarDir, 0777, true); // Create the directory with the correct permissions
+        }
+
+        // Use the first and second parts of the name for initials
+        $nameParts = explode(' ', trim($this->name));
+
+        // Get the first letter of the first word in the name
+        $firstInitial = strtoupper(substr($nameParts[0], 0, 1));
+
+        // If there's a second part, use its first letter; otherwise, use the first letter again
+        $secondInitial = isset($nameParts[1]) ? strtoupper(substr($nameParts[1], 0, 1)) : $firstInitial;
+
+        // Combine initials
+        $initials = $firstInitial . $secondInitial;
+
+        // Generate background color based on the name
+        $bgColor = '#' . substr(md5($this->name), 0, 6);
+        $textColor = '#ffffff'; // White text color
+
+        // Create the image
+        $image = imagecreate(200, 200);
+        $bg = imagecolorallocate($image, hexdec(substr($bgColor, 1, 2)), hexdec(substr($bgColor, 3, 2)), hexdec(substr($bgColor, 5, 2)));
+        $text = imagecolorallocate($image, hexdec(substr($textColor, 1, 2)), hexdec(substr($textColor, 3, 2)), hexdec(substr($textColor, 5, 2)));
+        imagefill($image, 0, 0, $bg);
+
+        // Path to font file
+        $fontPath = public_path('assets/fonts/arial/ARIAL.ttf');
+        if (!file_exists($fontPath)) {
+            die('Font file does not exist: ' . $fontPath);
+        }
+
+        $fontSize = 75;
+        $angle = 0;
+        $x = 50; // Adjust the X coordinate
+        $y = 150; // Adjust the Y coordinate
+
+        // Add initials to the image
+        imagettftext($image, $fontSize, $angle, $x, $y, $text, $fontPath, $initials);
+
+        // Save the image to a file
+        // $avatarFilename = $this->id . '_avatar.png';
+        // imagepng($image, public_path($avatarPath));
+        // imagedestroy($image);
+        $avatarFilename = $this->id . '_avatar.png';
+        $avatarPath = $avatarDir . '/' . $avatarFilename;
+
+        // Generate the image in memory
+        ob_start(); // Start output buffering
+        imagepng($image); // Output the image to the buffer
+        $imageData = ob_get_clean(); // Get the image data from the buffer
+
+        // Save the image to the storage (in 'public/avatars' directory)
+        Storage::disk('public')->put('avatars/' . $avatarFilename, $imageData);
+
+        imagedestroy($image); // Destroy the image resource to free up memory
+        // Update the user record with the avatar path
+        $this->avatar = $avatarFilename;
+        $this->save();
+
+        // Provide feedback
+        echo "Avatar created successfully: " . $avatarPath;
+    }
 
     // If the contacts belong to the company
     public function scopeIsCompany(Builder $query, $company_id)

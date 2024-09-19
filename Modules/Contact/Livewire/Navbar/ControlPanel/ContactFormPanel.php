@@ -13,7 +13,7 @@ class ContactFormPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->showIndicators === true;
+        $this->showIndicators = true;
 
         if($contact){
             $this->contact = $contact;

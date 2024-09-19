@@ -99,7 +99,13 @@
                             </span>
                             <div class="flex-wrap app_action d-flex justify-content-between">
                                 @if(module($app->slug) == false)
-                                <button class="rounded btn btn-primary" wire:loading.attr="disabled" wire:target="install({{ $app->id }})" wire:click="install({{ $app->id }})"><i class="bi bi-download font-weight-bold" style="margin-right: 4px;"></i> <span>{{ __('Install') }}</span></button>
+                                <button class="rounded btn btn-primary" wire:loading.class="d-none" wire:target="install({{ $app->id }})" wire:click="install({{ $app->id }})">
+                                    <i  class="bi bi-download font-weight-bold" style="margin-right: 4px;"></i>
+                                    <span>{{ __('Install') }}</span>
+                                </button>
+                                <div class="spinner-grow spinner-grow-sm" style="color: #0E6163;" wire:loading role="status">
+                                    <span class="sr-only"></span>
+                                </div>
                                 @endif
 
                                 {{-- @if(module($app->slug))

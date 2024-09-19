@@ -4,7 +4,7 @@
 
     <!-- Control Panel -->
     @section('control-panel')
-    <livewire:contact::navbar.control-panel.contact-form-panel :contact="$contact" />
+    <livewire:contact::navbar.control-panel.contact-form-panel :contact="$contact"  :event="'update-contact'" />
     @endsection
 
     <!-- Form -->

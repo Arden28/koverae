@@ -18,8 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('user_id')->nullable();
             // $table->boolean('is_company')->default(1);
+            $table->string('avatar')->nullable();
+            $table->string('first_name')->nullable();
             $table->string('name')->nullable();
             $table->string('company_name')->nullable();
+            $table->unsignedBigInteger('language_id')->nullable();
             // Address
             $table->string('street')->nullable();
             $table->string('street2')->nullable();
@@ -55,7 +58,7 @@ return new class extends Migration
             $table->unsignedBigInteger('account_receivable')->nullable(); //this payment term will be used instead of the defzult payment term
             $table->unsignedBigInteger('account_payable')->nullable(); //this payment term will be used instead of the defzult payment term
 
-            $table->string('note')->nullable();
+            $table->mediumText('note')->nullable();
             // Type Bool
             $table->boolean('is_supplier')->default(false);
             $table->boolean('is_customer')->default(false);

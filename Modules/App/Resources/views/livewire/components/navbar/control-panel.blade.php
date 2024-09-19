@@ -45,11 +45,9 @@
                         <div class="gap-1 k_cp_action_menus d-flex align-items-center pe-2">
                             <div class="k_dropdown dropdown lh-1 dropdown-no-caret" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-gear" wire:loading.remove></i>
-                                <div class="spinner-grow spinner-grow-sm" style="color: #0E6163;" wire:loading role="status">
-                                    <span class="sr-only"></span>
-                                </div>
+                                <span wire:loading>...</span>
                             </div>
-                            <ul class="k_dropdown_menu dropdown-menu">
+                            <ul class="k_dropdown_menu dropdown-menu lh-base">
 
                                 @foreach($this->actionButtons() as $action_button)
                                 <x-dynamic-component
@@ -84,9 +82,9 @@
           <!-- Navigations -->
           <div class="flex-wrap order-1 k_control_panel_navigation d-flex flex-md-wrap align-items-center justify-content-end gap-l-1 gap-xl-5 order-lg-2 flex-grow-1">
             <!-- Pagination -->
-            @if($showPagination)
+            {{-- @if($showPagination)
                 {{ $this->data()->links() }}
-            @endif
+            @endif --}}
             <!-- End Pagination -->
 
             <!-- Display panel buttons -->

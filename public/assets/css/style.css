@@ -1407,6 +1407,9 @@
         font-size: 12px;
         line-height: 18px;
     }
+    .k_notebokk_headers .nav .k-link.active {
+        border-bottom: 0px solid #ffffff;
+    }
 }
 /* Kanban Card */
 .k_kanban_renderer {
@@ -2305,7 +2308,12 @@ input[type="text"] {
     margin: 0 0 2px 0;
     padding: 0 0 0 21px;
     /* min-height: 21px; */
-    background-color: #b9e3ea;
+}
+.k-checkbox:checked{
+    background-color: #0E6163;
+}
+.koverae-checkbox:checked{
+    background-color: #0E6163;
 }
 
 .k_login_form .field-password {

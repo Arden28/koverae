@@ -80,10 +80,8 @@
                         <!-- Image Uploader -->
                         @if($this->photo != null)
                         <img src="{{ $this->photo->temporaryUrl() }}" alt="image" class="img img-fluid">
-                        @elseif($this->image_path)
-                        <img src="{{ Storage::disk('public')->url($this->image_path) }}" alt="image" class="img img-fluid">
                         @else
-                        <img src="{{ asset('assets/images/default/user.png') }}" alt="image" class="img img-fluid">
+                        <img src="{{ $this->image_path ? Storage::url('avatars/' . $this->image_path) . '?v=' . time() : asset('assets/images/default/user.png') }}" alt="image" class="img img-fluid">
                         @endif
                         <!-- <small class="k_button_icon">
                             <i class="align-middle bi bi-circle text-success"></i>
@@ -92,7 +90,7 @@
                         <div class="bottom-0 select-file d-flex position-absolute justify-content-between w100">
                             <span class="p-1 m-1 border-0 k_select_file_button btn btn-light rounded-circle" onclick="document.getElementById('photo').click();">
                                 <i class="bi bi-pencil"></i>
-                                <input type="file" wire:model="photo" id="photo" style="display: none;" />
+                                <input type="file" wire:model.blur="photo" id="photo" style="display: none;" />
                             </span>
                             @if($this->photo || $this->image_path)
                             <span class="p-1 m-1 border-0 k_select_file_button btn btn-light rounded-circle" wire:click="$cancelUpload('photo')" wire:target="$cancelUpload('photo')">
@@ -173,7 +171,7 @@
 
                 <!-- Tab Link -->
                 @if($this->tabs())
-                <div class="k_notebokk_headers">
+                <div class="k_notebokk_headers" wire:ignore>
                     <ul class="overflow-x-auto overflow-y-hidden nav nav-tabs d-flex" data-bs-toggle="tabs">
                         @foreach ($this->tabs() as $tab)
                         <li class="nav-item {{ $tab->condition == true ? 'd-none' : '' }}">
