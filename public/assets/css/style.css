@@ -14,6 +14,15 @@
 .kover-navlink:focus {
     background-color: #e7e9ed;
 }
+/* Link */
+.koverae-link{
+    text-decoration: none;
+    color: #000000;
+}
+.koverae-link:hover {
+    text-decoration: none;
+    color: #0E6163;
+}
 
 .page-module a span i {
     display: none;
@@ -1264,6 +1273,7 @@
     min-height: 28px;
     min-width: auto;
 }
+
 .form-check i {
     height: 14px;
     width: 14px;
@@ -1278,19 +1288,19 @@
 }
 /* Contact */
 .k_horizontal {
-    height: 23px;
-    width: 185px;
-    min-height: auto;
-    min-width: auto;
+    height: auto;
+    width: auto;
+    min-height: 23px;
+    min-width: 185px;
     display: flex;
 }
 .k_horizontal .k_radio_item {
-    height: 21px;
-    width: 81px;
+    height: auto;
+    width: auto;
     margin: 0 10px 2px 0;
     padding: 0 0 0 22px;
     min-height: 21px;
-    min-width: auto;
+    max-width: 208px;
 }
 .k_radio_item .k_radio_input {
     height: 14px;
@@ -1421,18 +1431,19 @@
 .k_kanban_renderer {
     font-size: 15px;
     line-height: 18px;
-    /* height: 500px; */
+    height: auto;
+    min-height: 102px;
     text-decoration: none solid rgb(55, 65, 81);
     word-spacing: 0px;
     width: 100%;
-    padding: 4px 4px 4px 4px;
+    /* padding: 4px 4px 4px 4px; */
 }
 .k_kanban_card {
     background-color: #ffffff;
     border: 1px solid #d8dadd;
     padding: 8px 16px 8px 16px;
     height: auto;
-    min-height: auto;
+    min-height: 81px;
     min-width: auto;
     position: relative;
 }
@@ -1466,7 +1477,7 @@
     height: auto;
     display: flex;
     /* margin: 16px 0 0 0; */
-    min-height: 80px;
+    min-height: 81px;
     min-width: auto;
 }
 .k_kanban_card .k_kanban_card_content .k_kanban_primary_left {
@@ -1478,7 +1489,7 @@
 }
 .k_kanban_card .k_kanban_card_content .k_kanban_primary_right {
     height: auto;
-    padding: 0 16px 0 16px;
+    /* padding: 0 16px 0 16px; */
     min-height: auto;
     max-width: 100%;
     min-height: auto;
@@ -1506,19 +1517,20 @@
     display: flex;
 }
 .k_kanban_renderer .k_kanban_card {
-    height: 81px;
+    height: auto;
     width: 380px;
     border: 1px solid #d8dadd;
     padding: 8px 8px 8px 8px;
     margin-right: 5px;
-    min-height: auto;
+    min-height: 81px;
     min-width: auto;
     cursor: pointer;
 }
 .k_kanban_card .k_kanban_card_content {
-    height: 31px;
+    height: auto;
     width: 372px;
     display: flex;
+    max-height: 110px;
 }
 .k_kanban_card_content .k_kanban_image {
     height: 64px;
@@ -1599,7 +1611,7 @@
 .k_wrap_input {
     height: 28px;
     /* width: 512px; */
-    margin: -1px 0 0 0;
+    /* margin: -1px 0 0 0; */
     min-height: auto;
     min-width: auto;
     display: flex;
@@ -1817,7 +1829,7 @@ input[type="text"] {
     height: 529px;
     max-height: auto;
     min-height: auto;
-    padding: 8px 8px 8px 8px;
+    /* padding: 8px 8px 8px 8px; */
 }
 .k_kanban_renderer .ke_kanban_color_0 {
     height: 137px;
@@ -1850,8 +1862,8 @@ input[type="text"] {
 .k_form_nosheet {
     height: auto;
     width: 100%;
-    padding: 24px 16px 0 16px;
-    max-width: 2600px;
+    /* padding: 24px 16px 0 16px; */
+    max-width: 100%;
     display: block;
 }
 .modal-footer {

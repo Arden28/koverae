@@ -99,7 +99,7 @@
                 </div>
             </div>
           </div>
-          <div class="modal-footer justify-content-around justify-content-sm-start flex-wrap gap-1 w-100">
+          <div class="flex-wrap gap-1 modal-footer justify-content-around justify-content-sm-start w-100">
                 <button type="submit" wire:taget="proceedPayment({{ $invoice['id'] }})"  style="background-color: black;" class="btn btn-dark">
                     {{ __('Créer un paiement') }} <span wire:loading>...</span>
                 </button>

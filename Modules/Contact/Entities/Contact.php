@@ -43,7 +43,7 @@ class Contact extends Model
     //     parent::boot();
 
     //     static::created(function ($model) {
-    //         $model->generateAvatar();
+    //         // $model->generateAvatar();
     //     });
     // }
 
@@ -158,8 +158,8 @@ class Contact extends Model
     }
 
     // Get Contact Adress
-    public function contactAddress() {
-        return $this->hasMany(ContactAdress::class, 'contact_id', 'id');
+    public function contactAddresses() {
+        return $this->hasMany(ContactAddress::class, 'contact_id', 'id');
     }
 
     // Get Bank Accounts

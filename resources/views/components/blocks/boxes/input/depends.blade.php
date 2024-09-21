@@ -1,7 +1,7 @@
 @props([
     'value'
 ])
-@if($value->data['parent'])
+@if(!$value->data['parent'])
 <div class="mt-3 ps-3">
     @if($value->label)
     <span>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Employee\Livewire\Seetings;
+namespace Modules\Employee\Livewire\Settings;
 
 use App\Livewire\Settings\AppSetting;
 use App\Livewire\Settings\Block;

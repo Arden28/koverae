@@ -18,6 +18,7 @@
             </tr>
         </thead>
         <tbody>
+            @if($value->data)
             @foreach($value->data as $model)
             <tr class="k_field_list_row">
                 @foreach($this->columns() as $column)
@@ -32,6 +33,7 @@
                 @endforeach
             </tr>
             @endforeach
+            @endif
             <tr class="k_field_list_row">
                 <td class="k_field_list" style="height: 35px;">
                     <span class="cursor-pointer" href="avoid:js">

@@ -178,11 +178,13 @@ return new class extends Migration
             $table->softDeletes();
         });
         // Contact Addresses
-        Schema::create('contact_adresses', function (Blueprint $table) {
+        Schema::create('contact_addresses', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('contact_id');
-            $table->string('contact_type');
+            $table->enum('contact_type', ['contact', 'invoice-address', 'delivery-address', 'other-address'])->default('invoice-address');
             // Contact Info
+            $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
@@ -194,12 +196,12 @@ return new class extends Migration
             $table->string('street2')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
-            $table->string('country')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
             $table->string('zip')->nullable();
 
             $table->text('note')->nullable();
 
-            // $table->foreign('contact_id')->references('id')->on('contacts')->cascadeOnDelete();
+            $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

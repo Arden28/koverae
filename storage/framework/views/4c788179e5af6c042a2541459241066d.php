@@ -24,8 +24,8 @@
 <div class="k_horizontal">
     <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $value->data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
     <div class="form-check k_radio_item">
-        <input type="<?php echo e($value->type); ?>" class="form-check-input k_radio_input" name="<?php echo e($value->model); ?>" wire:model.blur="<?php echo e($value->model); ?>" id="<?php echo e($option['value']); ?>" value="<?php echo e($option['value']); ?>"/>
-        <label class="form-check-label k_form_label" for="<?php echo e($option['value']); ?>">
+        <input type="<?php echo e($value->type); ?>" class="form-check-input k_radio_input" name="<?php echo e($value->model); ?>" wire:model.live="<?php echo e($value->model); ?>" id="<?php echo e($option['value']); ?>" value="<?php echo e($option['value']); ?>"/>
+        <label class="k_form_label" for="<?php echo e($option['value']); ?>">
                 <?php echo e($option['label']); ?>
 
         </label>

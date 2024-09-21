@@ -1,11 +1,11 @@
 <div>
-    <div class="k_form_sheet_bg h-auto">
+    <div class="h-auto k_form_sheet_bg">
         <!-- Status bar -->
-        <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 mt-md-2 pb-2 pb-md-0">
+        <div class="pb-2 mb-0 k_form_statusbar position-relative d-flex justify-content-between mb-md-2 mt-md-2 pb-md-0">
 
             <!-- Action Bar -->
             @if($this->actionBarButtons())
-            <div id="action-bar" class="k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around flex-wrap gap-1">
+            <div id="action-bar" class="flex-wrap gap-1 k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around">
 
                 @foreach($this->actionBarButtons() as $action)
                 <x-dynamic-component
@@ -72,7 +72,7 @@
 
                 @include('sales::livewire.sale.invoice.partials.payment-status-ribbon')
 
-                <div class="row justify-content-between position-relative w-100 m-0 mb-2">
+                <div class="m-0 mb-2 row justify-content-between position-relative w-100">
                     {{-- <span class="k_form_label">
                         Demande de prix
                     </span> --}}
@@ -92,7 +92,7 @@
                     @if(isset($this->reference) && $this->reference)
                     <div class="ke_title mw-75 pe-2 ps-0" id="new-title">
                         <!-- Name -->
-                        <h1 class="d-flex flex-row align-items-center">
+                        <h1 class="flex-row d-flex align-items-center">
                             {{ $this->reference }}
                         </h1>
                     </div>
@@ -145,7 +145,7 @@
                 @if($this->tabs())
                 <div class="k_notebokk_headers">
                     <!-- Tab Link -->
-                    <ul class="nav nav-tabs flex-row flex-nowrap" data-bs-toggle="tabs">
+                    <ul class="flex-row nav nav-tabs flex-nowrap" data-bs-toggle="tabs">
                         @foreach ($this->tabs() as $tab)
                         <li class="nav-item">
                             <a class="nav-link {{ $tab->key == 'order' || $tab->key == 'purchase' || $tab->key == 'invoice' ? 'active' : '' }}" data-bs-toggle="tab" href="#{{ $tab->key }}">{{ $tab->label }}</a>
@@ -172,7 +172,7 @@
 
     </div>
     <!-- Loading -->
-    <div class="k-loading cursor-pointer pb-1" wire:loading>
+    <div class="pb-1 cursor-pointer k-loading" wire:loading>
         <p>En cours de chargement ...</p>
     </div>
 </div>

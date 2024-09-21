@@ -20,8 +20,8 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-
-<div class="d-flex" style="margin-bottom: 8px;">
+<!--[if BLOCK]><![endif]--><?php if($value->data['parent']): ?>
+<div class="d-flex" style="margin-bottom: 8px;" wire:transition.duration.300ms>
     <!-- Input Label -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         <!--[if BLOCK]><![endif]--><?php if($value->label): ?>
@@ -50,7 +50,7 @@
 
         </textarea>
         <?php else: ?>
-        <input type="<?php echo e($value->type); ?>" wire:model.blur="<?php echo e($value->model); ?>" class="p-0 k_input" placeholder="<?php echo e($value->placeholder); ?>" id="date_0" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
+        <input type="<?php echo e($value->type); ?>" wire:model.blur="<?php echo e($value->model); ?>" class="p-0 k_input" placeholder="<?php echo e($value->placeholder); ?>" id="<?php echo e($value->key); ?>" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
         <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -63,5 +63,6 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
 
     </div>
 </div>
+<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
-<?php /**PATH D:\My Laravel Startup\koverae\resources\views/components/form/input/simple.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\My Laravel Startup\koverae\resources\views/components/form/input/depends.blade.php ENDPATH**/ ?>

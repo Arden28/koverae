@@ -20,14 +20,14 @@
     if (array_key_exists($__key, $__defined_vars)) unset($$__key);
 } ?>
 <?php unset($__defined_vars); ?>
-<!--[if BLOCK]><![endif]--><?php if($this->type == 'individual'): ?>
-<div wire:transition.duration.300ms>
-        <!--[if BLOCK]><![endif]--><?php if($value->label): ?>
-        <span for="" class="k_form_label font-weight-bold"><?php echo e($value->label); ?></span>
-        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-        <h1 class="flex-row mb-3 d-flex align-items-center">
-            <input type="<?php echo e($value->type); ?>" wire:model.blur="<?php echo e($value->model); ?>" class="k_input" id="name_k_normal" placeholder="<?php echo e($value->placeholder); ?>" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
-            <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];
+
+<div class="d-flex" style="margin-bottom: 8px;">
+    <!-- Input Form -->
+    <textarea wire:model="<?php echo e($value->model); ?>" class="k_input textearea w-100" placeholder="<?php echo e($value->placeholder); ?>" id="description" <?php echo e($this->blocked ? 'disabled' : ''); ?>>
+        <?php echo $value->model; ?>
+
+    </textarea>
+    <!--[if BLOCK]><![endif]--><?php $__errorArgs = [$value->model];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -35,7 +35,5 @@ $message = $__bag->first($__errorArgs[0]); ?> <span class="text-danger"><?php ec
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
-        </h1>
 </div>
-<?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-<?php /**PATH D:\My Laravel Startup\koverae\resources\views/components/form/input/subtitle.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\My Laravel Startup\koverae\resources\views/components/form/input/textarea/note.blade.php ENDPATH**/ ?>

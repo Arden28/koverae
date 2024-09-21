@@ -37,6 +37,7 @@
             </tr>
         </thead>
         <tbody>
+            <!--[if BLOCK]><![endif]--><?php if($value->data): ?>
             <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $value->data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <tr class="k_field_list_row">
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $this->columns(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $column): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -65,6 +66,7 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
             </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
+            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             <tr class="k_field_list_row">
                 <td class="k_field_list" style="height: 35px;">
                     <span class="cursor-pointer" href="avoid:js">

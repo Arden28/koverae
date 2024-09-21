@@ -26,8 +26,8 @@ class ContactForm extends SimpleAvatarForm
     public $contact;
 
     public $name, $company_name, $street, $street2, $city, $department, $country, $zip, $tax, $job, $title, $phone, $mobile,
-    $email, $website, $tags= [], $image_path,  $photo = null, $type = 'company', $language, $account_receivable, $account_payable, $seller, $buyer, $sale_payment_term, $purchase_payment_term, $days_before, $companyID, $reference, $note, $bankAccount;
-    public bool $receipt_reminder;
+    $email, $website, $tags= [], $image_path,  $photo = null, $type = 'company', $language, $account_receivable, $account_payable, $seller, $buyer, $sale_payment_term, $purchase_payment_term, $days_before = 1, $companyID, $reference, $note, $bankAccount, $addresses;
+    public bool $receipt_reminder = false;
 
     public array $contactTypeOptions = [], $languageOptions = [], $sellerOptions = [], $paymentTermOptions = [], $pricelistOptions = [], $fiscalPositionOptions = [], $buyerOptions = [], $accountingEntriesOptions = [];
 
@@ -56,6 +56,7 @@ class ContactForm extends SimpleAvatarForm
 
     public function mount($contact = null){
         $this->contact = $contact;
+        $this->days_before = 1;
         if($contact){
             $this->image_path = $this->contact->avatar;
             $this->type = $contact->type;
@@ -89,6 +90,7 @@ class ContactForm extends SimpleAvatarForm
             $this->language = $contact->language_id;
 
             $this->bankAccount = BankAccount::isCompany(current_company()->id)->get();
+            $this->addresses = $contact->contactAddresses;
         }
 
         $types = [
@@ -114,12 +116,12 @@ class ContactForm extends SimpleAvatarForm
     public function capsules() : array
     {
         return [
-            Capsule::make('sales', __('Sales'), __(''), 'link', 'bi-currency-dollar', "", ['amount' => $this->contact->sales->count()]),
-            Capsule::make('purchases', __('Purchases'), __(''), 'link', 'bi-credit-card', "", ['amount' => $this->contact->sales->count()]),
-            Capsule::make('punctuality', __('Punctuality rate'), __(''), 'link', 'bi-truck'),
-            Capsule::make('invoiced', __('Invoiced'), __(''), 'link', 'bi-pencil-square', "", ['amount' => $this->contact->invoices->count()]),
-            Capsule::make('supplier', __('Supplier Bills'), __(''), 'link', 'bi-pencil-square', "", ['amount' => $this->contact->bills->count()]),
-            Capsule::make('employee', __('Employee'), __(''), 'link', 'bi-person-badge'),
+            Capsule::make('sales', __('Sales'), __(''), 'link', 'bi-currency-dollar', "", ['parent' => module('sales'), 'amount' => 0])->component('form.capsule.depends'),
+            Capsule::make('purchases', __('Purchases'), __(''), 'link', 'bi-credit-card', "", ['parent' => module('purchase'),'amount' => 0])->component('form.capsule.depends'),
+            Capsule::make('punctuality', __('Punctuality rate'), __(''), 'link', 'bi-truck', "", ['parent' => module('purchase')])->component('form.capsule.depends'),
+            Capsule::make('invoiced', __('Invoiced'), __(''), 'link', 'bi-pencil-square', "", ['parent' => module('invoicing'), 'amount' => 0])->component('form.capsule.depends'),
+            Capsule::make('supplier', __('Supplier Bills'), __(''), 'link', 'bi-pencil-square', "", ['parent' => module('invoicing'), 'amount' => 0])->component('form.capsule.depends'),
+            Capsule::make('employee', __('Employee'), __(''), 'link', 'bi-person-badge', "", ['parent' => module('employee'), 'amount' => 1])->component('form.capsule.depends'),
         ];
     }
 
@@ -173,6 +175,7 @@ class ContactForm extends SimpleAvatarForm
             Input::make('company-name', null, 'text', 'company_name', 'top-title', 'none', 'none', __('Enterprise Name ....'))->component('form.input.subtitle'),
             Input::make('name', __('Address'), 'select', 'address', 'left', 'none', 'none', __('e.g. Arden BOUET'))->component('form.input.select.address'),
             Input::make('tax-id', __('Tax ID'), 'text', 'tax', 'left', 'none', 'none', __('e.g. KE0466566704')),
+            Input::make('job', __('Job'), 'text', 'job', 'right', 'none', 'none', null, null, ['parent' => $this->type == 'individual'])->component('form.input.depends'),
             Input::make('email', __('Email'), 'email', 'email', 'right', 'none', 'none', null),
             Input::make('phone', __('Phone'), 'tel', 'phone', 'right', 'none', 'none', null),
             Input::make('mobile', __('Mobile'), 'tel', 'modbile', 'right', 'none', 'none', null),
@@ -199,25 +202,32 @@ class ContactForm extends SimpleAvatarForm
         ];
     }
 
+    #[On('charge-addresses')]
+    public function chargeAddresses(){
+        $this->addresses = $this->contact->contactAddresses;
+    }
+
     public function updatedPhoto(){
         // Validate the uploaded file
         $this->validate();
-        $contact = Contact::find($this->contact->id);
-
-        if(!$this->image_path){
-            $this->image_path = $contact->id . '_avatar.png';
-
-            // $this->photo->storeAs('avatars', $this->image_path, 'public');
-            $contact->update([
-                'avatar' => $this->image_path,
-            ]);
+        if($this->contact){
+            $contact = Contact::find($this->contact->id);
+    
+            if(!$this->image_path){
+                $this->image_path = $contact->id . '_avatar.png';
+    
+                // $this->photo->storeAs('avatars', $this->image_path, 'public');
+                $contact->update([
+                    'avatar' => $this->image_path,
+                ]);
+            }
+    
+            $this->photo->storeAs('avatars', $this->image_path, 'public');
+    
+    
+            // Send success message
+            session()->flash('message', 'Avatar updated successfully!');
         }
-
-        $this->photo->storeAs('avatars', $this->image_path, 'public');
-
-
-        // Send success message
-        session()->flash('message', 'Avatar updated successfully!');
     }
 
     #[On('update-contact')]
@@ -264,6 +274,59 @@ class ContactForm extends SimpleAvatarForm
             'language_id' => $this->language,
         ]);
         $contact->save();
+        return redirect()->route('contacts.show', ['subdomain' => current_company()->domain_name, 'contact' => $contact->id, 'menu' => current_menu()]);
+    }
+    
+
+    #[On('create-contact')]
+    public function createContact(){
+
+        $this->validate();
+        // if(!$this->image_path){
+        //     $this->image_path = $contact->id . '_avatar.png';
+        // }
+        $contact =  Contact::create([
+            'company_id' => current_company()->id,
+            // 'avatar' => $this->image_path,
+            'type' => $this->type,
+            'name' => $this->name,
+            'company_name' => $this->company_name,
+            'street' => $this->street,
+            'street2' => $this->street2,
+            'city' => $this->city,
+            'country_id' => $this->country,
+            'zip' => $this->zip,
+            'tax_id' => $this->tax,
+            'job' => $this->job,
+            'title_id' => $this->title,
+            'phone' => $this->phone,
+            'mobile' => $this->mobile,
+            'email' => $this->email,
+            'website' => $this->website,
+            'tags' => $this->tags,
+            'account_receivable' => $this->account_receivable,
+            'account_payable' => $this->account_payable,
+            'seller_id' => $this->seller,
+            'buyer_id' => $this->buyer,
+            'sale_payment_term_id' => $this->sale_payment_term,
+            'purchase_payment_term_id' => $this->purchase_payment_term,
+            'has_receipt_reminder' => $this->receipt_reminder,
+            'days_before' => 0,
+            'companyID' => $this->companyID,
+            'reference' => $this->reference,
+            'note' => $this->note,
+            'language_id' => $this->language,
+        ]);
+        $contact->save();
+        
+        $avatar = $contact->id.'_avatar.png';
+        if($this->photo){
+            $this->photo->storeAs('avatars', $avatar, 'public');
+        }
+        $contact->update([
+            'avatar' => $avatar,
+        ]);
+
         return redirect()->route('contacts.show', ['subdomain' => current_company()->domain_name, 'contact' => $contact->id, 'menu' => current_menu()]);
     }
 }

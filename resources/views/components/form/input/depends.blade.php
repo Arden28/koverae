@@ -2,8 +2,8 @@
     'value',
     'data'
 ])
-
-<div class="d-flex" style="margin-bottom: 8px;">
+@if($value->data['parent'])
+<div class="d-flex" style="margin-bottom: 8px;" wire:transition.duration.300ms>
     <!-- Input Label -->
     <div class="k_cell k_wrap_label flex-grow-1 flex-sm-grow-0 text-break text-900">
         @if($value->label)
@@ -30,10 +30,11 @@
             {!! $value->model !!}
         </textarea>
         @else
-        <input type="{{ $value->type }}" wire:model.blur="{{ $value->model }}" class="p-0 k_input" placeholder="{{ $value->placeholder }}" id="date_0" {{ $this->blocked ? 'disabled' : '' }}>
+        <input type="{{ $value->type }}" wire:model.blur="{{ $value->model }}" class="p-0 k_input" placeholder="{{ $value->placeholder }}" id="{{ $value->key }}" {{ $this->blocked ? 'disabled' : '' }}>
         @error($value->model) <span class="text-danger">{{ $message }}</span> @enderror
         @endif
 
     </div>
 </div>
+@endif
 
