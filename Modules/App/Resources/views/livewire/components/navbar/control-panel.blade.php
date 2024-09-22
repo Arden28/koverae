@@ -1,12 +1,11 @@
 <div>
-    <div class="gap-3 px-3 pt-2 pb-3 k_control_panel d-flex flex-column gap-lg-1 sticky-top">
+    <div class="gap-3 px-3 k_control_panel d-flex flex-column gap-lg-1 sticky-top">
       <div class="flex-wrap gap-5 k_control_panel_main d-flex flex-nowrap justify-content-between align-items-lg-start flex-grow-1">
           <!-- Breadcrumbs -->
           <div class="gap-1 k_control_panel_breadcrumbs d-flex align-items-center order-0 h-lg-100">
               <!-- Create Button -->
               @if($this->new)
               <a href="{{ $new }}" wire:navigate class="btn btn-outline-primary k_form_button_create">
-                  {{-- {{ $createButtonLabel }} --}}
                   {{ __('translator::components.control-panel.new') }}
               </a>
               @endif
@@ -38,8 +37,8 @@
                         </span>
                         @endif
                     @endif
-                    <div class="gap-1 d-flex text-truncate">
-                        <span class="min-w-0 text-truncate">
+                    <div class="gap-1 d-flex">
+                        <span class="min-w-0 text-truncate " style="height: 19px;">
                             {{ $this->currentPage }}
                         </span>
                         <div class="gap-1 k_cp_action_menus d-flex align-items-center pe-2">

@@ -12,13 +12,13 @@ class TagFormPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->showIndicators === true;
+        $this->showIndicators = true;
 
         if($tag){
             $this->tag = $tag;
             $this->currentPage = $tag->name;
         }else{
-            $this->currentPage = 'Nouveau';
+            $this->currentPage = __('translator::contacts.control.tag.current_page_new');
         }
         $this->new = route('contacts.tags.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';

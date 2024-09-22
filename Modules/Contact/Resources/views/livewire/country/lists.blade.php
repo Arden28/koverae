@@ -1,5 +1,5 @@
 <div>
-    @section('title', __('Pays'))
+    @section('title', __('Countries'))
 
     <!-- Control Panel -->
     @section('control-panel')

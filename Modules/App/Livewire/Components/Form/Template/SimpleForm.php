@@ -10,7 +10,7 @@ abstract class SimpleForm extends Component
     
     public function render()
     {
-        return view('livewire.form.template.simple-form');
+        return view('app::livewire.components.form.template.simple-form');
     }
 
     public function form(){

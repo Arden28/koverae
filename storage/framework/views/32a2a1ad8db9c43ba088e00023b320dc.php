@@ -48,8 +48,6 @@ if (isset($__slots)) unset($__slots);
       <!-- Navbar -->
       <?php echo $__env->make('layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
       <!-- Navbar -->
-
-
         <div class="page-wrapper">
 
             <!-- Page header -->

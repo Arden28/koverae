@@ -2,9 +2,8 @@
 
 namespace Modules\Contact\Livewire\Table;
 
-use App\Livewire\Table\Column;
-use App\Livewire\Table\Table;
-use Livewire\Component;
+use Modules\App\Livewire\Components\Table\Column;
+use Modules\App\Livewire\Components\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Contact\Entities\Bank\Bank;
 use Modules\Contact\Entities\Bank\BankAccount;
@@ -21,13 +20,17 @@ class BanksAccountTable extends Table
     public function showRoute($id) : string
     {
 
-        return route('contacts.banks.accounts.show', ['bank' => $id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
+        return route('contacts.banks.accounts.show', ['account' => $id, 'subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
     }
 
-    public function headerName() : string
+    public function emptyTitle() : string
     {
+        return __("translator::contacts.table.bank-account.empty.title");
+    }
 
-        return 'Comptes Bancaires';
+    public function emptyText() : string
+    {
+        return __('translator::contacts.table.bank-account.empty.text');
     }
 
     public function query() : Builder
@@ -38,9 +41,9 @@ class BanksAccountTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('account_number', 'Numéro du compte'),
-            Column::make('bank_accounts.name', "Banque"),
-            Column::make('account_holder_name', 'Titulaire du compte'),
+            Column::make('account_number', __('translator::contacts.table.bank-account.no'))->component('table.column.special.show-title-link'),
+            Column::make('bank_id', __('translator::contacts.table.bank-account.bank'))->component('table.column.special.bank.simple'),
+            Column::make('account_holder_name', __('translator::contacts.table.bank-account.holder'))->component('table.column.special.contact.simple'),
         ];
     }
 }

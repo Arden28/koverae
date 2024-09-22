@@ -2,8 +2,8 @@
 
 namespace Modules\Contact\Livewire\Table;
 
-use App\Livewire\Table\Column;
-use App\Livewire\Table\Table;
+use Modules\App\Livewire\Components\Table\Column;
+use Modules\App\Livewire\Components\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Contact\Entities\HonorificTitle;
 
@@ -22,11 +22,16 @@ class HonorificTitleTable extends Table
         return "#";
     }
 
-    public function headerName() : string
+    public function emptyTitle() : string
     {
-
-        return 'Titres honorifiques';
+        return __("translator::contacts.table.honorific.empty.title");
     }
+
+    public function emptyText() : string
+    {
+        return __('translator::contacts.table.honorific.empty.text');
+    }
+
 
     public function query() : Builder
     {
@@ -35,8 +40,8 @@ class HonorificTitleTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('title', 'Titre'),
-            Column::make('abbreviation', "Abréviation"),
+            Column::make('title', __('translator::contacts.table.honorific.title')),
+            Column::make('abbreviation', __('translator::contacts.table.honorific.abbreviation')),
         ];
     }
 }

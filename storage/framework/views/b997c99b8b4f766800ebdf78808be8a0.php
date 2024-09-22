@@ -50,8 +50,7 @@
         </style>
     <?php $__env->stopSection(); ?>
 
-    <div class="">
-      <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row g-3">
             <!-- Side Bar -->
           <div class="flex-grow-0 flex-shrink-0 mb-5 overflow-auto bg-white d-none d-lg-block col-md-2 app-sidebar bg-view position-relative pe-1 ps-3">
@@ -75,8 +74,8 @@
             </form>
           </div>
           <!-- Apps List -->
-          <div class="p-2 overflow-auto col-12 col-md-12 col-lg-10" style="height: 100vh;">
-            <div class="row">
+          <div class="overflow-auto col-12 col-md-12 col-lg-10" style="height: 100vh;">
+            <div class="pb-4 row">
                 <!-- App -->
                 <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $apps; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $app): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="mt-2 col-sm-6 col-md-4 col-lg-4">
@@ -130,6 +129,5 @@
           </div>
         </div>
       </div>
-    </div>
 </div>
 <?php /**PATH D:\My Laravel Startup\koverae\Modules/App\Resources/views/livewire/overview.blade.php ENDPATH**/ ?>

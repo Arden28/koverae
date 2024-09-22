@@ -1,12 +1,17 @@
 <div>
-    @section('title', __('Comptes bancaires'))
+    @section('title', __('Bank Accounts'))
 
-    <div class="page-body d-print-none">
-        <div class="container-fluid">
-            <!-- Notify -->
-            @include('notify::components.notify')
-            <!-- Table -->
-            <livewire:contact::table.banks-account-table />
-        </div>
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:contact::navbar.control-panel.bank-account-panel />
+    @endsection
+
+    <div class="w-100 d-print-none">
+        <!-- Notify -->
+        @include('notify::components.notify')
+        <!-- Table -->
+        <livewire:contact::table.banks-account-table />
     </div>
+
 </div>
+

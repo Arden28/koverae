@@ -1,5 +1,4 @@
-
-    <header class="navbar navbar-expand-md navbar-light d-block d-print-none">
+    <header class="navbar navbar-expand-md w-100 navbar-light d-block d-print-none k-sticky">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -16,7 +15,6 @@
                         <a href="#" class="px-0 nav-link" data-bs-toggle="dropdown" id="dropdownMenuButton" title="<?php echo e(__('Translate')); ?>" data-bs-toggle="tooltip" data-bs-placement="bottom">
                             <i class="bi bi-translate" style="font-size: 16px;"></i>
                         </a>
-                        
                     </div>
                     <!-- Chats & Notifications -->
                     <div class="nav-item dropdown d-none d-md-flex me-3">
@@ -167,7 +165,6 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-                    
                     <!-- Navbar Menu -->
                 </ul>
                 </div>

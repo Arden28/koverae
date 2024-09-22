@@ -2,8 +2,8 @@
 
 namespace Modules\Contact\Livewire\Navbar\ControlPanel;
 
-use App\Livewire\Navbar\ControlPanel;
-use App\Livewire\Navbar\SwitchButton;
+use Modules\App\Livewire\Components\Navbar\ControlPanel;
+use Modules\App\Livewire\Components\Navbar\SwitchButton;
 
 class TagPanel extends ControlPanel
 {
@@ -12,7 +12,7 @@ class TagPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Etiquettes";
+        $this->currentPage =  __('translator::contacts.control.tag.current_page_list');
         $this->new = route('contacts.tags.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]);
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }

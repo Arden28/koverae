@@ -2,8 +2,8 @@
 
 namespace Modules\Contact\Livewire\Navbar\ControlPanel;
 
-use App\Livewire\Navbar\ControlPanel;
-use App\Livewire\Navbar\SwitchButton;
+use Modules\App\Livewire\Components\Navbar\ControlPanel;
+use Modules\App\Livewire\Components\Navbar\SwitchButton;
 
 class CountryPanel extends ControlPanel
 {
@@ -12,7 +12,7 @@ class CountryPanel extends ControlPanel
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Pays";
+        $this->currentPage = __('translator::contacts.control.country.current_page_list');
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }
 

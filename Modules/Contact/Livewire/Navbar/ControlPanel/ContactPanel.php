@@ -2,8 +2,8 @@
 
 namespace Modules\Contact\Livewire\Navbar\ControlPanel;
 
-use App\Livewire\Navbar\ControlPanel;
-use App\Livewire\Navbar\SwitchButton;
+use Modules\App\Livewire\Components\Navbar\ControlPanel;
+use Modules\App\Livewire\Components\Navbar\SwitchButton;
 
 class ContactPanel extends ControlPanel
 {

@@ -1,12 +1,18 @@
 <div>
-    @section('title', __('Nouvelle Banque'))
+    @section('title', __('New Bank'))
 
-    <div class="k_form_sheet_bg">
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:contact::navbar.control-panel.bank-form-panel :event="'create-bank'" />
+    @endsection
+    
+    <livewire:contact::form.bank-form />
+    {{-- <div class="k_form_sheet_bg">
         <form wire:submit.prevent="storeBank()">
             <!-- Status bar -->
-            <div class="k_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
+            <div class="pb-2 mb-0 k_form_statusbar position-relative d-flex justify-content-between mb-md-2 pb-md-0">
 
-                <div id="statusbar" class="k_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
+                <div id="statusbar" class="flex-wrap gap-1 k_statusbar_buttons d-flex align-items-center align-content-around">
                     <button type="button" id="top-button" class="btn btn-secondary">
                         <span>
                             {{ __('Nouveau') }}
@@ -41,7 +47,7 @@
             </div>
             <!-- Sheet Card -->
             <div class="k_form_sheet position-relative">
-                <div class="row align-items-start position-relative w-100 m-0 mb-2">
+                <div class="m-0 mb-2 row align-items-start position-relative w-100">
                     <!-- Left Side -->
                     <div class="k_inner_group col-md-6 col-lg-6">
 
@@ -61,7 +67,7 @@
                         
                         <div class="d-flex" style="margin-bottom: 8px;">
                             <!-- BIC / SWIFT -->
-                            <div class="k_cell k_wrap_label flex-grow-1 flex-grow-1 text-break text-900">
+                            <div class="k_cell k_wrap_label flex-grow-1 text-break text-900">
                                 <label class="k_form_label">
                                     {{ __("Code d'identification bancaire") }} :
                                 </label>
@@ -161,5 +167,5 @@
             </div>
         </form>
 
-    </div>
+    </div> --}}
 </div>

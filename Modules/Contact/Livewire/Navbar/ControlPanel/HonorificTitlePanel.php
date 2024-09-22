@@ -2,17 +2,18 @@
 
 namespace Modules\Contact\Livewire\Navbar\ControlPanel;
 
-use App\Livewire\Navbar\ControlPanel;
-use App\Livewire\Navbar\SwitchButton;
+use Modules\App\Livewire\Components\Navbar\ControlPanel;
+use Modules\App\Livewire\Components\Navbar\SwitchButton;
 
 class HonorificTitlePanel extends ControlPanel
 {
 
     public function mount()
+
     {
         $this->generateBreadcrumbs();
         $this->showBreadcrumbs = true;
-        $this->currentPage = "Titres honorifiques";
+        $this->currentPage = __('translator::contacts.control.honorific.current_page_list');
         // $this->new = "#";
         // $this->currentPage = Arr::last($this->breadcrumbs)['label'] ?? '';
     }

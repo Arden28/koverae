@@ -64,6 +64,7 @@ return new class extends Migration
         Schema::create('banks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
+            $table->string('avatar')->nullable();
             $table->string('name');
             $table->string('bic')->nullable(); // Also called Swift
             // Contact
@@ -75,7 +76,7 @@ return new class extends Migration
             $table->string('street2')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
-            $table->string('country')->nullable();
+            $table->string('country_id')->nullable();
             $table->string('zip')->nullable();
 
             $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
@@ -89,7 +90,7 @@ return new class extends Migration
             $table->unsignedBigInteger('bank_id');
             $table->unsignedBigInteger('contact_id');
             $table->string('account_number');
-            $table->string('account_holder_name');
+            $table->string('account_holder_name')->nullable();
             $table->boolean('can_send_money')->default(false);
 
             // $table->foreign('contact_id')->references('id')->on('contacts')->cascadeOnDelete();

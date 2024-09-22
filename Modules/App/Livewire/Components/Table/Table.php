@@ -12,7 +12,7 @@ abstract class Table extends Component
 
     public $view = 'lists';
 
-    public $perPage = 10;
+    public $perPage = 50;
 
     public $page = 1;
 

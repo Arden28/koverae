@@ -32,13 +32,6 @@ class ContactsTable extends Table
     {
         return __('translator::contacts.table.customer.empty.text');
     }
-
-    public function headerName() : string
-    {
-
-        return 'Contacts';
-    }
-
     public function query() : Builder
     {
         return Contact::query();
@@ -51,7 +44,7 @@ class ContactsTable extends Table
             Column::make('phone', __('translator::contacts.table.customer.phone')),
             Column::make('email', __('translator::contacts.table.customer.email')),
             Column::make('city', __('translator::contacts.table.customer.city')),
-            Column::make('country', __('translator::contacts.table.customer.country')),
+            Column::make('country_id', __('translator::contacts.table.customer.country'))->component('table.column.special.country.simple'),
             // Column::make('created_at', 'Rejoinds depuis')->component('columns.common.human-diff'),
         ];
     }

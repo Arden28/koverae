@@ -2,8 +2,8 @@
 
 namespace Modules\Contact\Livewire\Table;
 
-use App\Livewire\Table\Column;
-use App\Livewire\Table\Table;
+use Modules\App\Livewire\Components\Table\Column;
+use Modules\App\Livewire\Components\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Contact\Entities\Localization\Country;
 
@@ -22,21 +22,25 @@ class CountryTable extends Table
         return "#";
     }
 
-    public function headerName() : string
+    public function emptyTitle() : string
     {
+        return __("translator::contacts.table.country.empty.title");
+    }
 
-        return 'Titres honorifiques';
+    public function emptyText() : string
+    {
+        return __('translator::contacts.table.country.empty.text');
     }
 
     public function query() : Builder
     {
-        return Country::query();
+        return Country::query()->orderBy('common_name', 'asc')->take(50);
     }
     public function columns() : array
     {
         return [
-            Column::make('name', 'Nom'),
-            Column::make('country_code', "Code"),
+            Column::make('common_name', __('translator::contacts.table.country.name')),
+            Column::make('country_code', __('translator::contacts.table.country.code')),
         ];
     }
 }

@@ -1,12 +1,16 @@
 <div>
-    @section('title', __('Banques'))
+    @section('title', __('Banks'))
 
-    <div class="page-body d-print-none">
-        <div class="container-fluid">
-            <!-- Notify -->
-            @include('notify::components.notify')
-            <!-- Table -->
-            <livewire:contact::table.banks-table />
-        </div>
+    <!-- Control Panel -->
+    @section('control-panel')
+    <livewire:contact::navbar.control-panel.bank-panel />
+    @endsection
+
+    <div class="w-100 d-print-none">
+        <!-- Notify -->
+        @include('notify::components.notify')
+        <!-- Table -->
+        <livewire:contact::table.banks-table />
     </div>
+
 </div>

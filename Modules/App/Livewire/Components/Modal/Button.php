@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\App\Livewire\Components\Modal\Button;
+namespace Modules\App\Livewire\Components\Modal;
 
 class Button{
 

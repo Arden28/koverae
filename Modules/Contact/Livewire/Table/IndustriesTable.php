@@ -2,8 +2,8 @@
 
 namespace Modules\Contact\Livewire\Table;
 
-use App\Livewire\Table\Column;
-use App\Livewire\Table\Table;
+use Modules\App\Livewire\Components\Table\Column;
+use Modules\App\Livewire\Components\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Contact\Entities\Industrie;
 
@@ -22,10 +22,14 @@ class IndustriesTable extends Table
         return "#";
     }
 
-    public function headerName() : string
+    public function emptyTitle() : string
     {
+        return __("translator::contacts.table.industry.empty.title");
+    }
 
-        return 'Titres honorifiques';
+    public function emptyText() : string
+    {
+        return __('translator::contacts.table.industry.empty.text');
     }
 
     public function query() : Builder
@@ -35,8 +39,8 @@ class IndustriesTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('name', 'Industrie'),
-            Column::make('full_name', "Nom complet"),
+            Column::make('name', __('translator::contacts.table.industry.name')),
+            Column::make('full_name', __('translator::contacts.table.industry.full-name')),
         ];
     }
 }

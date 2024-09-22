@@ -35,8 +35,14 @@
     background-image: url("../images/people/person_2.png");
 }
 /* Navbar */
+.k-sticky{
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure it stays above other content */
+    /*background-color: #fff; Optional: give it a background */
+}
 .k_control_panel {
-    font-size: 14px;
+    font-size: 18px;
     line-height: 18px;
     text-decoration: none solid rgb(55, 65, 81);
     word-spacing: 0px;
@@ -69,6 +75,8 @@
     width: auto;
 }
 .k_control_panel .k_control_panel_main {
+    font-size: 17px;
+    line-height: 21px;
     height: 34px;
     width: auto;
     min-width: auto;

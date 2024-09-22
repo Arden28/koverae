@@ -31,8 +31,6 @@
       <!-- Navbar -->
       @include('layouts.navbar')
       <!-- Navbar -->
-
-
         <div class="page-wrapper">
 
             <!-- Page header -->

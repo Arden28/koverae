@@ -2,8 +2,8 @@
 
 namespace Modules\Contact\Livewire\Table;
 
-use App\Livewire\Table\Column;
-use App\Livewire\Table\Table;
+use Modules\App\Livewire\Components\Table\Column;
+use Modules\App\Livewire\Components\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Contact\Entities\ContactTag;
 
@@ -22,10 +22,14 @@ class TagTable extends Table
         return route('contacts.tags.show' , ['subdomain' => current_company()->domain_name, 'tag' => $id, 'menu' => current_menu() ]);
     }
 
-    public function headerName() : string
+    public function emptyTitle() : string
     {
+        return __("translator::contacts.table.tag.empty.title");
+    }
 
-        return 'Etiquettes';
+    public function emptyText() : string
+    {
+        return __('translator::contacts.table.tag.empty.text');
     }
 
     public function query() : Builder
@@ -36,8 +40,8 @@ class TagTable extends Table
     public function columns() : array
     {
         return [
-            Column::make('name', 'Nom')->component('columns.common.show-title-link'),
-            Column::make('color', 'Couleur')->component('columns.common.color.simple'),
+            Column::make('name', __('translator::contacts.table.tag.name'))->component('columns.common.show-title-link'),
+            Column::make('color', __('translator::contacts.table.tag.color'))->component('columns.common.color.simple'),
         ];
     }
 }
