@@ -146,11 +146,11 @@
                               <?php echo e(__('translator::invoicing.navbar.configuration.invoicing.payment-terms')); ?>
 
                             </a>
-                            <a wire:navigate href="<?php echo e(route('contacts.countries.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
+                            <a wire:navigate href="<?php echo e(route('invoices.reminder-levels.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
                                 <?php echo e(__('translator::invoicing.navbar.configuration.invoicing.follow-ups')); ?>
 
                             </a>
-                            <a wire:navigate href="<?php echo e(route('contacts.countries.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
+                            <a wire:navigate href="<?php echo e(route('invoices.incoterms.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()])); ?>" class="dropdown-item">
                                 <?php echo e(__('translator::invoicing.navbar.configuration.invoicing.incoterms')); ?>
 
                             </a>

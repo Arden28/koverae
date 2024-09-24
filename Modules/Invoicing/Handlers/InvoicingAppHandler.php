@@ -9,6 +9,7 @@ use Modules\App\Handlers\AppHandler;
 use Modules\Invoicing\Entities\Incoterm;
 use Modules\Invoicing\Entities\Payment\PaymentDueTerm;
 use Modules\Invoicing\Entities\Payment\PaymentTerm;
+use Modules\Invoicing\Entities\Reminder\ReminderLevel;
 use Ramsey\Uuid\Uuid;
 
 class InvoicingAppHandler extends AppHandler
@@ -22,6 +23,7 @@ class InvoicingAppHandler extends AppHandler
     {
         // Example: Create invoicing-related data and initial configuration
         $this->createInvoicingDashboards($company);
+        $this->createFollowUpLevels($company);
         $this->createPaymentTerms($company);
         $this->createIncoterms($company);
         $this->createAccountingJournals($company);
@@ -65,8 +67,8 @@ class InvoicingAppHandler extends AppHandler
                 'after_date' => 'after_invoice_date',
             ],
             [
-                'name' => '15 Days',
-                'after' => 15,
+                'name' => '14 Days',
+                'after' => 14,
                 'after_date' => 'after_invoice_date',
             ],
             [
@@ -170,6 +172,25 @@ class InvoicingAppHandler extends AppHandler
     
     }
     
+    /**
+     * Install Follow-up Levels.
+     *
+     * @param int $companyId
+     */
+    public function createFollowUpLevels($companyId) : void
+    {
+        $followUpLevels = [
+            [
+                'description' => '14 Days',
+                'days_after_due' => 14,
+            ],
+        ];
+
+        foreach($followUpLevels as $level){
+            ReminderLevel::create(array_merge(['company_id' => $companyId], $level));
+        }
+    }
+
     /**
      * Install incoterms.
      *

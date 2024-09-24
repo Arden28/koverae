@@ -75,6 +75,16 @@ return [
                 'current_page' => ' :refence',
                 'current_page_new' => 'New',
             ],
+            'reminder-level' => [
+                'current_page_list' => 'Follow-up Levels',
+                'current_page' => ' :refence',
+                'current_page_new' => 'New',
+            ],
+            'incoterm' => [
+                'current_page_list' => 'Incoterms',
+                'current_page' => ' :refence',
+                'current_page_new' => 'New',
+            ],
     ],
     // Tables
     'table' => [
@@ -85,6 +95,24 @@ return [
                 'title' => 'Create a new Payment Term',
                 'text' => "Payment terms define the conditions under which you will complete a sale or a purchase."
             ]
+        ],
+        'reminder-level' => [
+            'name' => 'Name',
+            'days' => 'Due Days',
+            // Empty
+            'empty' => [
+                'title' => 'Create a new Payment Term',
+                'text' => "Payment terms define the conditions under which you will complete a sale or a purchase."
+            ],
+        ],
+        'incoterm' => [
+            'code' => 'Code',
+            'name' => 'Name',
+            // Empty
+            'empty' => [
+                'title' => 'Create a new incoterm',
+                'text' => "Incoterms are used to divide transaction costs and responsibilities between buyer and seller."
+            ],
         ],
     ],
 ];

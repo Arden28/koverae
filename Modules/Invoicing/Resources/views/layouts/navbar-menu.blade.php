@@ -125,10 +125,10 @@
                             <a wire:navigate href="{{ route('invoices.payment-terms.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                               {{ __('translator::invoicing.navbar.configuration.invoicing.payment-terms') }}
                             </a>
-                            <a wire:navigate href="{{ route('contacts.countries.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
+                            <a wire:navigate href="{{ route('invoices.reminder-levels.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                                 {{ __('translator::invoicing.navbar.configuration.invoicing.follow-ups') }}
                             </a>
-                            <a wire:navigate href="{{ route('contacts.countries.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
+                            <a wire:navigate href="{{ route('invoices.incoterms.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                                 {{ __('translator::invoicing.navbar.configuration.invoicing.incoterms') }}
                             </a>
                         </div>

@@ -40,6 +40,31 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+        // Reminder Levels
+        Schema::create('reminder_levels', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->string('description')->nullable();
+            $table->integer('days_after_due')->default(0);
+            // Actions
+            $table->boolean('has_send_email')->default(true);
+            $table->boolean('has_send_sms')->default(false);
+            $table->unsignedBigInteger('email_template_id')->nullable();
+            $table->unsignedBigInteger('sms_template_id')->nullable();
+            // Options
+            $table->boolean('has_automatic')->default(false);
+            $table->boolean('has_attached_invoices')->default(true);
+            $table->string('reminder_followers')->nullable();
+            // Activity
+            $table->boolean('has_scheduled_activity')->default(false);
+            $table->unsignedBigInteger('activity_type_id')->nullable();
+            $table->enum('responsible',['follow-up responsible', 'salesperson', 'account-manager'])->default('follow-up responsible');
+            $table->tinyText('activity_note')->nullable();
+
+            $table->foreign('company_id')->references('id')->on('companies')->cascadeOnDelete();
+            $table->softDeletes();
+            $table->timestamps();
+        });
         // Taxes
         Schema::create('taxes', function (Blueprint $table) {
             $table->id();
@@ -260,6 +285,9 @@ return new class extends Migration
             $table->dropSoftDeletes();
         });
         Schema::table('payment_due_terms', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+        Schema::table('reminder_levels', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
         Schema::table('taxes', function (Blueprint $table) {

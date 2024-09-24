@@ -5,6 +5,13 @@ use Modules\Invoicing\Livewire\Overview;
 use Modules\Invoicing\Livewire\PaymentTerm\Create;
 use Modules\Invoicing\Livewire\PaymentTerm\Lists;
 use Modules\Invoicing\Livewire\PaymentTerm\Show;
+// use Modules\Invoicing\Livewire\ReminderLevel\Create;
+use Modules\Invoicing\Livewire\Incoterm\Lists as IncotermList;
+
+use Modules\Invoicing\Livewire\ReminderLevel\Lists as ReminderLevelList;
+use Modules\Invoicing\Livewire\ReminderLevel\Create as ReminderLevelCreate;
+use Modules\Invoicing\Livewire\ReminderLevel\Show as ReminderLevelShow;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +32,11 @@ Route::middleware(['module:invoicing'])->name('invoices.')->group(function () {
         Route::get('/create', Create::class)->name('create');
         Route::get('/{term}', Show::class)->name('show');
     });
+    // Reminder Levels
+    Route::prefix('follow-up-levels')->name('reminder-levels.')->group(function(){
+        Route::get('/', ReminderLevelList::class)->name('index');
+        Route::get('/create', ReminderLevelCreate::class)->name('create');
+        Route::get('/{level}', ReminderLevelShow::class)->name('show');
+    });
+    Route::get('/incoterms', IncotermList::class)->name('incoterms.index');
 });
