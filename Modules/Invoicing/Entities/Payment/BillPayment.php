@@ -35,9 +35,4 @@ class BillPayment extends Model
     }
 
 
-
-    // protected static function newFactory(): BillPaymentFactory
-    // {
-    //     //return BillPaymentFactory::new();
-    // }
 }

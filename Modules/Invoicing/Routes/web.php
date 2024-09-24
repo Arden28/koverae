@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Invoicing\Livewire\Overview;
+use Modules\Invoicing\Livewire\PaymentTerm\Create;
+use Modules\Invoicing\Livewire\PaymentTerm\Lists;
+use Modules\Invoicing\Livewire\PaymentTerm\Show;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +19,10 @@ use Modules\Invoicing\Livewire\Overview;
 
 Route::middleware(['module:invoicing'])->name('invoices.')->group(function () {
     Route::get('/invoicing', Overview::class)->name('index');
+    // Payment Terms
+    Route::prefix('payment-terms')->name('payment-terms.')->group(function(){
+        Route::get('/', Lists::class)->name('index');
+        Route::get('/create', Create::class)->name('create');
+        Route::get('/{term}', Show::class)->name('show');
+    });
 });

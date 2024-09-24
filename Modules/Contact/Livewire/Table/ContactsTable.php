@@ -4,7 +4,6 @@ namespace Modules\Contact\Livewire\Table;
 
 use Modules\App\Livewire\Components\Table\Column;
 use Modules\App\Livewire\Components\Table\Table;
-use Livewire\Component;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Contact\Entities\Contact;
 

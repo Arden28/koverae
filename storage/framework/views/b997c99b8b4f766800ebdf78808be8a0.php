@@ -100,8 +100,6 @@
                                     <span class="sr-only"></span>
                                 </div>
                                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-
-                                
                             </div>
                         </div>
                         <div class="" style="position: absolute; top: 10px; right: 10px;">
@@ -128,6 +126,6 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 </div>
 <?php /**PATH D:\My Laravel Startup\koverae\Modules/App\Resources/views/livewire/overview.blade.php ENDPATH**/ ?>

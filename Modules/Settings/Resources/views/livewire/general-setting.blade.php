@@ -103,7 +103,7 @@
                 @endif
 
                 <!-- Invoicing -->
-                @if(module('invoice'))
+                @if(module('invoicing'))
                 <div class="tab cursor-pointer {{ $view == 'invoicing' ? 'selected' : '' }}" wire:click.prevent="changePanel('invoicing')">
                     <!-- App Icon -->
                     <div class="icon d-none d-md-block" >

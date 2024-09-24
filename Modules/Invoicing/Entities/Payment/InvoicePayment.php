@@ -37,10 +37,4 @@ class InvoicePayment extends Model
     {
         return $query->where('company_id', $company_id);
     }
-
-
-    // protected static function newFactory()
-    // {
-    //     return \Modules\Invoicing\Database\factories\InvoicePaymentFactory::new();
-    // }
 }

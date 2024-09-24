@@ -106,10 +106,6 @@
                                     <span class="sr-only"></span>
                                 </div>
                                 @endif
-
-                                {{-- @if(module($app->slug))
-                                <span class="btn btn-danger rounded-circle" title="{{ __('Uninstall') }}" style="height: 30px; width: 30px;" wire:loading.attr="disabled" wire:target="uninstall({{ $app->slug }})" wire:click="uninstall({{ $app->slug }})"><i class="bi bi-trash"></i></span>
-                                @endif --}}
                             </div>
                         </div>
                         <div class="" style="position: absolute; top: 10px; right: 10px;">
@@ -135,5 +131,5 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 </div>

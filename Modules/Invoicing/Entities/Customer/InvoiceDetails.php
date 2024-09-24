@@ -19,9 +19,9 @@ class InvoiceDetails extends Model
     public function sales() {
         return $this->belongsTo(Invoice::class, 'customer_invoice_id', 'id');
     }
+    
+    public function invoice() {
+        return $this->belongsTo(Invoice::class, 'customer_invoice_id', 'id');
+    }
 
-    // protected static function newFactory()
-    // {
-    //     return \Modules\Invoicing\Database\factories\InvoiceDetailsFactory::new();
-    // }
 }

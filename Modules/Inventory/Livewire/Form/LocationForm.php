@@ -21,6 +21,9 @@ class LocationForm extends LightWeightForm
 
     public function mount($location = null){
 
+        $this->type = 'internal';
+        $this->frequency = 0;
+
         if($location){
             $this->name = $location->name;
             $this->type = $location->type;
@@ -32,9 +35,6 @@ class LocationForm extends LightWeightForm
             $this->is_backorder = $location->is_backorder;
             $this->is_replenish = $location->is_replenish;
             $this->updateMode = true;
-        }else{
-            $this->type = 'internal';
-            $this->frequency = 0;
         }
 
     }
