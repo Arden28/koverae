@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('owner_id');
             $table->unsignedBigInteger('default_currency_id')->nullable();
-            $table->string('default_currency');
+            $table->string('fiscal_country')->default('KE'); // Default is Kenya
+            $table->string('default_currency')->nullable();
             $table->string('name');
             $table->string('reference')->nullable();
             $table->boolean('personal_company')->default(true);
@@ -32,7 +33,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('website')->unique()->nullable();
             $table->text('city')->nullable();
-            $table->text('country')->nullable();
+            $table->string('country')->nullable();
             $table->text('industry')->nullable();
             $table->string('size')->nullable();
             $table->string('primary_interest')->nullable();

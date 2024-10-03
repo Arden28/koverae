@@ -25,7 +25,7 @@
                         </x-dynamic-component>
                     </td>
                     @endforeach
-                    <td class="k_field_list cursor-pointer">
+                    <td class="cursor-pointer k_field_list">
                         <span wire:click.prevent="remove({{$index}})">
                             <i class="bi bi-trash"></i>
                         </span>
@@ -34,7 +34,7 @@
                 @endforeach
                 <tr class="k_field_list_row">
                     <td class="k_field_list">
-                        <span wire:click.prevent="add()" class=" cursor-pointer" style="color: #017E84;" href="avoid:js">
+                        <span wire:click.prevent="add()" class="cursor-pointer " style="color: #017E84;" href="avoid:js">
                             <i class="bi bi-plus-circle"></i> Ajouter une ligne
                         </span>
                     </td>

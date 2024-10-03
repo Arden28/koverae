@@ -6,8 +6,7 @@ use Livewire\Component;
 
 abstract class SimpleAvatarForm extends Component
 {
-    public bool $checkboxes = false;
-    public bool $blocked = false;
+    public bool $checkboxes = false, $blocked = false, $has_avatar = false;
 
     public function render()
     {

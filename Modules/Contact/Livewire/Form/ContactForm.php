@@ -116,6 +116,7 @@ class ContactForm extends SimpleAvatarForm
     public function capsules() : array
     {
         return [
+            // key, label, help, type, icon, action, data
             Capsule::make('sales', __('Sales'), __(''), 'link', 'bi-currency-dollar', "", ['parent' => module('sales'), 'amount' => 0])->component('form.capsule.depends'),
             Capsule::make('purchases', __('Purchases'), __(''), 'link', 'bi-credit-card', "", ['parent' => module('purchase'),'amount' => 0])->component('form.capsule.depends'),
             Capsule::make('punctuality', __('Punctuality rate'), __(''), 'link', 'bi-truck', "", ['parent' => module('purchase')])->component('form.capsule.depends'),

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b337a8472e9e8d347ba2255cb12a889",
+    "content-hash": "f38d24d42562a7c58299963730eb782b",
     "packages": [
         {
             "name": "asantibanez/livewire-charts",
@@ -2057,6 +2057,74 @@
                 "source": "https://github.com/kdion4891/laravel-livewire-tables/tree/1.6.1"
             },
             "time": "2020-03-04T03:13:42+00:00"
+        },
+        {
+            "name": "koverae/koverae-ui-builder",
+            "version": "v0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Koverae/koverae-ui-builder.git",
+                "reference": "2e9b3b04d02689f699ea925b969887a27aad4563"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Koverae/koverae-ui-builder/zipball/2e9b3b04d02689f699ea925b969887a27aad4563",
+                "reference": "2e9b3b04d02689f699ea925b969887a27aad4563",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "livewire/livewire": "^3.0",
+                "nwidart/laravel-modules": "^10.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Koverae\\KoveraeUiBuilder\\KoveraeUiBuilderServiceProvider"
+                    ],
+                    "aliases": {
+                        "KoveraeUiBuilder": "Koverae\\KoveraeUiBuilder\\KoveraeUiBuilderFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Koverae\\KoveraeUiBuilder\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arden BOUET",
+                    "email": "laudbouetoumoussa@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Koverae UI Builder is a flexible and intuitive interface builder package designed specifically for Laravel. Built with the power of Koverae’s ecosystem in mind, it allows developers to easily create, customize, and manage UI components like navigation bars, forms, buttons, and more—without the hassle of manual coding.",
+            "homepage": "https://github.com/koverae/koverae-ui-builder",
+            "keywords": [
+                "form",
+                "form-builder",
+                "koverae",
+                "koverae-ui-builder",
+                "laravel",
+                "laravel-modules",
+                "livewire",
+                "ui-builder"
+            ],
+            "support": {
+                "issues": "https://github.com/Koverae/koverae-ui-builder/issues",
+                "source": "https://github.com/Koverae/koverae-ui-builder/tree/v0.2.1"
+            },
+            "time": "2024-10-03T18:26:20+00:00"
         },
         {
             "name": "laravel/framework",

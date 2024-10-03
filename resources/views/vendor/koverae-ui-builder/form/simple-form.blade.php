@@ -1,51 +1,56 @@
 <div>
     <div class="k_form_sheet_bg">
-
-        @if (session()->has('message'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <div class="alert-body">
-                    <span>{{ session('message') }}</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div>
-        @endif
-
+        <!-- Notify -->
+        <!-- Status bar -->
+        @if(count($this->actionBarButtons()) >= 1 || count($this->statusBarButtons()) >= 1)
         <div class="pb-2 mb-0 k_form_statusbar position-relative d-flex justify-content-between mb-md-2 pb-md-0">
-            <!-- Action Bar -->
-            @if($this->actionBarButtons())
-                <div id="action-bar" class="flex-wrap gap-1 k_statusbar_buttons d-none d-lg-flex align-items-center align-content-around">
 
-                    @foreach($this->actionBarButtons() as $action)
+            <!-- Status Bar -->
+            @if($this->statusBarButtons())
+                <div id="status-bar" class="k_statusbar_buttons_arrow d-none d-md-flex align-items-center align-content-around ">
+
+                    @foreach($this->statusBarButtons() as $status_button)
                     <x-dynamic-component
-                        :component="$action->component"
-                        :value="$action"
+                        :component="$status_button->component"
+                        :value="$status_button"
                         :status="$status"
                     >
                     </x-dynamic-component>
                     @endforeach
-
                 </div>
-                <!-- Dropdown button -->
-                <div class="btn-group d-lg-none">
-                    <span class="btn btn-dark buttons dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Action
-                    </span>
-                    <ul class="dropdown-menu">
-                        @foreach($this->actionBarButtons() as $action)
+                <div id="status-bar" class="k_statusbar_buttons_arrow d-flex d-md-none align-items-center align-content-around ">
+
+                    @foreach($this->statusBarButtons() as $status_button)
+                        @if($this->status == $status_button->primary)
                         <x-dynamic-component
-                            :component="$action->component"
-                            :value="$action"
+                            :component="$status_button->component"
+                            :value="$status_button"
                             :status="$status"
                         >
                         </x-dynamic-component>
-                        @endforeach
-                        <!--<li><hr class="dropdown-divider"></li>-->
-                    </ul>
+                        @endif
+                    @endforeach
                 </div>
             @endif
 
+            <!-- Status Bar -->
+            @if($this->statusBarButtons())
+            <div id="status-bar" class="k_statusbar_buttons_arrow d-flex align-items-center align-content-around ">
+
+                @foreach($this->statusBarButtons() as $status_button)
+                <x-dynamic-component
+                    :component="$status_button->component"
+                    :value="$status_button"
+                    :status="$status"
+                >
+                </x-dynamic-component>
+                @endforeach
+            </div>
+            @endif
+
         </div>
-        <form wire:submit.prepend="{{ $this->form() }}">
+        @endif
+        <form wire:submit.prevent="{{ $this->form() }}">
             @csrf
             <!-- Sheet Card -->
             <div class="k_form_sheet position-relative">
@@ -61,6 +66,7 @@
                     @endforeach
                 </div>
                 @endif
+                
                 <!-- title-->
                 <div class="m-0 mb-2 row justify-content-between position-relative w-100">
                     <div class="ke_title mw-75 pe-2 ps-0">
@@ -74,7 +80,9 @@
                             @endif
                         @endforeach
                     </div>
-                    <!-- Employee Avatar -->
+    
+                    <!-- Avatar -->
+                    @if($this->has_avatar)
                     <div class="p-0 m-0 k_employee_avatar">
                         <!-- Image Uploader -->
                         @if($this->photo != null)
@@ -99,6 +107,7 @@
                         </div>
                         @error('photo') <span class="error">{{ $message }}</span> @enderror
                     </div>
+                    @endif
 
                     <!-- checkboxes -->
                     @if($this->checkboxes)
@@ -136,7 +145,7 @@
                     </div>
                     @endif
                 </div>
-
+                
                 <!-- Top Form -->
                 <div class="row">
                     <!-- Left Side -->
@@ -168,54 +177,35 @@
                     </div>
                 </div>
 
-                <!-- Tab Link -->
                 @if($this->tabs())
-                <div class="k_notebokk_headers" wire:ignore>
-                    <ul class="overflow-x-auto overflow-y-hidden nav nav-tabs d-flex" data-bs-toggle="tabs">
+                <div class="k_notebokk_headers">
+                    <!-- Tab Link -->
+                    <ul class="flex-row nav nav-tabs flex-nowrap" data-bs-toggle="tabs">
                         @foreach ($this->tabs() as $tab)
-                        <li class="nav-item {{ $tab->condition == true ? 'd-none' : '' }}">
-                            <a class="nav-link {{ $tab->key == 'work_info' || $tab->key == 'general' ? 'active' : '' }}" data-bs-toggle="tab" href="#{{ $tab->key }}">{{ $tab->label }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link {{ $tab->key == 'order' || $tab->key == 'purchase' || $tab->key == 'general' ? 'active' : '' }}" data-bs-toggle="tab" href="#{{ $tab->key }}">{{ $tab->label }}</a>
                         </li>
                         @endforeach
-                      </ul>
+                    </ul>
                 </div>
-
                 @endif
 
-                <!-- Tabs content -->
-                @if($this->tabs())
-                    @foreach ($this->tabs() as $tab)
-                    <x-dynamic-component
-                        :component="$tab->component"
-                        :value="$tab"
-                    >
-                    </x-dynamic-component>
-                    @endforeach
-                @endif
-
+                <!-- Tab Content -->
+                @foreach ($this->tabs() as $tab)
+                <x-dynamic-component
+                    :component="$tab->component"
+                    :value="$tab"
+                >
+                </x-dynamic-component>
+                @endforeach
 
             </div>
         </form>
-    </div>
-    {{-- <div class="px-1 py-1 mt-2 k-chatter">
-        <div class="top-0 gap-2 k-chatter-top position-sticky">
-            <!-- Topbar -->
-            <div class="flex-grow-0 flex-shrink-0 px-3 overflow-x-auto k-chatter-topbar d-flex">
-                <button class="btn btn-primary">Envoyer un message</button>
-                <span class="btn btn-secondary" style="margin-left: 5px;">
-                    Prendre des notes
-                </span>
-                <div class="k-chatter-topbar-grow w-50 flex-grow-1 pe-2">
 
-                </div>
-                <div class="d-flex flex-grow-1 right">
-                    <button class="btn btn-link"><i class="bi bi-paperclip" style="font-size: 18px;"></i></button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
+    </div>
     <!-- Loading -->
     <div class="pb-1 cursor-pointer k-loading" wire:loading>
         <p>En cours de chargement ...</p>
     </div>
+
 </div>

@@ -166,6 +166,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        // Koverae\KoveraeUiBuilder\KoveraeUiBuilderServiceProvider::class,
         // LaravelFrontendPresets\Tall\TallServiceProvider::class,
 
         /*

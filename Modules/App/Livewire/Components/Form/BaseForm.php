@@ -8,6 +8,7 @@ abstract class BaseForm extends Component
 {
     public bool $blocked = false;
 
+
     public function render()
     {
         return view('app::livewire.components.form.base-form');

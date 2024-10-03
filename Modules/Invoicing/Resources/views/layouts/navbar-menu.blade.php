@@ -17,7 +17,7 @@
           </span>
         </a>
     </li>
-    
+
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
           <span class="nav-link-title">
@@ -47,7 +47,7 @@
             </div>
         </div>
     </li>
-    
+
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
           <span class="nav-link-title">
@@ -74,7 +74,7 @@
             </div>
         </div>
     </li>
-    
+
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
           <span class="nav-link-title">
@@ -102,7 +102,7 @@
             </div>
         </div>
     </li>
-    
+
 
     <li class="nav-item dropdown" data-turbolinks>
         <a class="nav-link kover-navlink" href="#navbar-base" style="margin-right: 5px;" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
@@ -139,7 +139,7 @@
                           {{ __('translator::invoicing.navbar.configuration.bank.name') }}
                         </a>
                         <div class="dropdown-menu">
-                          <a wire:navigate href="{{ route('contacts.banks.accounts.index', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
+                          <a wire:navigate href="{{ route('contacts.banks.accounts.create', ['subdomain' => current_company()->domain_name, 'menu' => current_menu()]) }}" class="dropdown-item">
                             {{ __('translator::invoicing.navbar.configuration.bank.bank-accounts') }}
                           </a>
                         </div>
@@ -194,5 +194,5 @@
             </div>
         </div>
     </li>
-    
+
 </div>

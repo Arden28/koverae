@@ -15,6 +15,7 @@
         "hallindavid/manny": "^1.02",
         "hardevine/shoppingcart": "^3.2",
         "kdion4891/laravel-livewire-tables": "^1.6",
+        "koverae/koverae-ui-builder": "^0.2.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/scout": "^10.4",

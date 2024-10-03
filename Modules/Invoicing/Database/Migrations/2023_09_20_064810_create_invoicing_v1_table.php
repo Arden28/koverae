@@ -68,16 +68,20 @@ return new class extends Migration
         // Taxes
         Schema::create('taxes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->string('country_code')->nullable(); // e.g., 'KE' for Kenya
+            $table->unsignedBigInteger('tax_group_id')->nullable();
             $table->string('name');
-            $table->mediumText('description')->nullable();
-            $table->enum('type', ['sales', 'purchases', 'misc', 'none'])->default('none');
-            $table->enum('scope_tax', ['goods', 'interventions'])->nullable();
-            $table->enum('calculation_type', ['fixed', 'percentage'])->default('fixed');
-            $table->enum('application_type', ['inclusive', 'exclusive'])->default('exclusive');
-            $table->decimal('amount', $precision = 12, $scale = 2)->default(0);
             $table->string('wording_on_invoice')->nullable();
-            $table->unsignedBigInteger('country_id')->nullable();
+            $table->mediumText('description')->nullable();
+            $table->mediumText('legal_note')->nullable();
+            $table->enum('computation_type', ['fixed', 'percentage', 'percentage_tax_included', 'group'])->default('percentage');
+            $table->enum('type', ['sales', 'purchases', 'misc', 'none'])->default('none');
+            $table->enum('tax_scope', ['goods', 'interventions'])->nullable();
+            $table->decimal('rate', 5, 2)->default(0); // e.g., 16%, 5%, etc.
+            $table->decimal('amount', $precision = 12, $scale = 2)->default(0);
+            $table->enum('application_type', ['inclusive', 'exclusive'])->default('exclusive');
+            $table->json('applicable_to')->nullable(); // Categories for tax application
             $table->boolean('is_active')->default(true);
 
             $table->timestamps();

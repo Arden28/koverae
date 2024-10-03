@@ -1,0 +1,1 @@
+Hello<?php /**PATH D:\My Laravel Startup\koverae\storage\framework\views/1bfd09d1a433fb78117b4c7b1583d16d.blade.php ENDPATH**/ ?>
